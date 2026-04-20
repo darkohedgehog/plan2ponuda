@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  projects     Project[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([createdAt])
+}
+
+model Project {
+  id          String       @id @default(cuid())
+  name        String
+  status      ProjectStatus @default(DRAFT)
+  planFileKey String?
+  ownerId     String
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  rooms       Room[]
+  suggestions Suggestion[]
+  quote       Quote?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([ownerId, createdAt])
+}
+
+model Room {
+  id               String   @id @default(cuid())
+  name             String
+  areaSquareMeters Float?
+  projectId        String
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([projectId])
+}
+
+model Suggestion {
+  id        String   @id @default(cuid())
+  label     String
+  quantity  Int      @default(1)
+  projectId String
+  roomId    String?
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([roomId])
+}
+
+model Quote {
+  id          String          @id @default(cuid())
+  projectId   String          @unique
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  lineItems   QuoteLineItem[]
+  totalCents  Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model QuoteLineItem {
+  id             String   @id @default(cuid())
+  quoteId        String
+  quote          Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  name           String
+  quantity       Int      @default(1)
+  unit           String
+  unitPriceCents Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([quoteId])
+}
+
+enum ProjectStatus {
+  DRAFT
+  ANALYZING
+  REVIEW
+  QUOTED
+}
