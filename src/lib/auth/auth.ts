@@ -7,6 +7,7 @@ import { getPrismaClient } from "@/lib/db/prisma";
 import { credentialsSchema } from "@/lib/validations/auth.schema";
 
 export const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
@@ -49,7 +50,7 @@ export const authOptions = {
         return {
           id: user.id,
           email: user.email,
-          name: user.name,
+          name: user.fullName,
         };
       },
     }),

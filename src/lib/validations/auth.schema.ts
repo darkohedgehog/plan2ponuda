@@ -6,7 +6,7 @@ export const credentialsSchema = z.object({
 });
 
 export const signUpSchema = credentialsSchema.extend({
-  name: z.string().trim().min(1).max(120).optional(),
+  fullName: z.string().trim().min(1).max(120).optional(),
 });
 
 export type CredentialsInput = z.infer<typeof credentialsSchema>;

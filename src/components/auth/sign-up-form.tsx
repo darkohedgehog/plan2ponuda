@@ -5,14 +5,11 @@ import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-
-type SignUpResponse = {
-  error?: string;
-};
+import type { SignUpResponse } from "@/types/auth";
 
 export function SignUpForm() {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -29,15 +26,17 @@ export function SignUpForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: name.trim() || undefined,
+        fullName: fullName.trim() || undefined,
         email,
         password,
       }),
     });
     const payload = (await response.json()) as SignUpResponse;
 
-    if (!response.ok) {
-      setError(payload.error ?? "Unable to create account.");
+    if (!response.ok || !payload.ok) {
+      const message =
+        "error" in payload ? payload.error.message : "Unable to create account.";
+      setError(message);
       setIsSubmitting(false);
       return;
     }
@@ -65,11 +64,11 @@ export function SignUpForm() {
       <input
         autoComplete="name"
         className="rounded-md border border-border px-3 py-2"
-        name="name"
-        onChange={(event) => setName(event.target.value)}
-        placeholder="Name"
+        name="fullName"
+        onChange={(event) => setFullName(event.target.value)}
+        placeholder="Full name"
         type="text"
-        value={name}
+        value={fullName}
       />
       <input
         autoComplete="email"

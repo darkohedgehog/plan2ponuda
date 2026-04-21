@@ -1,37 +1,36 @@
-import { ProjectStatus as PrismaProjectStatus, type Project as DbProject } from "@prisma/client";
+import type { Project as DbProject } from "../../../generated/prisma/client";
 
-import { getPrismaClient } from "@/lib/db/prisma";
-import type { CreateProjectInput } from "@/lib/validations/project.schema";
-import type { Project, ProjectStatus } from "@/types/project";
+import { prisma } from "@/lib/db/prisma";
+import { createSupabaseServerClient } from "@/lib/supabase/server-client";
+import {
+  getFloorPlanFileExtension,
+  isAllowedFloorPlanMimeType,
+  validateFloorPlanFile,
+  type CreateProjectInput,
+} from "@/lib/validations/project.schema";
+import type { Project, UploadFloorPlanResponse } from "@/types/project";
 
-function mapProjectStatus(status: PrismaProjectStatus): ProjectStatus {
-  switch (status) {
-    case PrismaProjectStatus.DRAFT:
-      return "draft";
-    case PrismaProjectStatus.ANALYZING:
-      return "analyzing";
-    case PrismaProjectStatus.REVIEW:
-      return "review";
-    case PrismaProjectStatus.QUOTED:
-      return "quoted";
-  }
-}
+const PROJECT_FILES_BUCKET = "project-files";
 
 function mapProject(project: DbProject): Project {
   return {
     id: project.id,
+    userId: project.userId,
     name: project.name,
-    status: mapProjectStatus(project.status),
-    planFileKey: project.planFileKey ?? undefined,
+    clientName: project.clientName ?? undefined,
+    objectType: project.objectType,
+    areaM2: project.areaM2,
+    status: project.status,
+    sourceFilePath: project.sourceFilePath ?? undefined,
+    previewPath: project.previewPath ?? undefined,
     createdAt: project.createdAt,
     updatedAt: project.updatedAt,
   };
 }
 
-export async function listProjects(ownerId: string): Promise<Project[]> {
-  const prisma = getPrismaClient();
+export async function getUserProjects(userId: string): Promise<Project[]> {
   const projects = await prisma.project.findMany({
-    where: { ownerId },
+    where: { userId },
     orderBy: { createdAt: "desc" },
   });
 
@@ -40,14 +39,17 @@ export async function listProjects(ownerId: string): Promise<Project[]> {
 
 export async function createProject(
   input: CreateProjectInput,
-  ownerId: string,
+  userId: string,
 ): Promise<Project> {
-  const prisma = getPrismaClient();
   const project = await prisma.project.create({
     data: {
+      userId,
       name: input.name,
-      ownerId,
-      planFileKey: input.planFileKey,
+      clientName: input.clientName,
+      objectType: input.objectType,
+      areaM2: input.areaM2,
+      sourceFilePath: input.sourceFilePath,
+      previewPath: input.previewPath,
     },
   });
 
@@ -56,15 +58,107 @@ export async function createProject(
 
 export async function getProjectById(
   projectId: string,
-  ownerId: string,
+  userId: string,
 ): Promise<Project | null> {
-  const prisma = getPrismaClient();
   const project = await prisma.project.findFirst({
     where: {
       id: projectId,
-      ownerId,
+      userId,
     },
   });
 
   return project ? mapProject(project) : null;
 }
+
+type UploadFloorPlanInput = {
+  projectId: string;
+  userId: string;
+  file: File;
+};
+
+export async function uploadFloorPlan({
+  projectId,
+  userId,
+  file,
+}: UploadFloorPlanInput): Promise<UploadFloorPlanResponse> {
+  const fileValidationError = validateFloorPlanFile(file);
+
+  if (fileValidationError) {
+    return {
+      ok: false,
+      error: fileValidationError,
+    };
+  }
+
+  if (!isAllowedFloorPlanMimeType(file.type)) {
+    return {
+      ok: false,
+      error: {
+        code: "unsupported_file_type",
+        message: "Upload a PDF, PNG, JPG, or JPEG floor plan.",
+      },
+    };
+  }
+
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!project) {
+    return {
+      ok: false,
+      error: {
+        code: "not_found",
+        message: "Project not found.",
+      },
+    };
+  }
+
+  const extension = getFloorPlanFileExtension(file.type);
+  const filePath = `projects/${projectId}/floor-plan.${extension}`;
+  const supabase = createSupabaseServerClient();
+  const { error: uploadError } = await supabase.storage
+    .from(PROJECT_FILES_BUCKET)
+    .upload(filePath, file, {
+      contentType: file.type,
+      upsert: true,
+    });
+
+  if (uploadError) {
+    console.error("Floor plan upload failed", uploadError);
+
+    return {
+      ok: false,
+      error: {
+        code: "upload_failed",
+        message: "Unable to upload floor plan.",
+      },
+    };
+  }
+
+  const updatedProject = await prisma.project.update({
+    where: {
+      id: project.id,
+    },
+    data: {
+      sourceFilePath: filePath,
+      previewPath: null,
+      status: "uploaded",
+    },
+  });
+
+  return {
+    ok: true,
+    success: true,
+    filePath,
+    project: mapProject(updatedProject),
+  };
+}
+
+export const listProjects = getUserProjects;

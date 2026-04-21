@@ -1,66 +1,42 @@
-import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { normalizeEmail } from "@/lib/auth/email";
-import { hashPassword } from "@/lib/auth/password";
-import { getPrismaClient } from "@/lib/db/prisma";
 import { signUpSchema } from "@/lib/validations/auth.schema";
+import { createUserWithPassword } from "@/server/services/auth-service";
+import type { SignUpResponse } from "@/types/auth";
+
+const invalidInputResponse: SignUpResponse = {
+  ok: false,
+  error: {
+    code: "invalid_input",
+    message: "Enter a valid email and a password with at least 8 characters.",
+  },
+};
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as unknown;
+    const body = await request.json().catch((): unknown => null);
     const input = signUpSchema.parse(body);
-    const email = normalizeEmail(input.email);
-    const prisma = getPrismaClient();
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-      select: { id: true },
-    });
+    const result = await createUserWithPassword(input);
 
-    if (existingUser) {
-      return NextResponse.json(
-        { error: "An account with this email already exists." },
-        { status: 409 },
-      );
+    if (!result.ok) {
+      return NextResponse.json(result, { status: 409 });
     }
 
-    const passwordHash = await hashPassword(input.password);
-    const user = await prisma.user.create({
-      data: {
-        email,
-        name: input.name,
-        passwordHash,
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-      },
-    });
-
-    return NextResponse.json({ user }, { status: 201 });
+    return NextResponse.json(result, { status: 201 });
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Invalid sign up payload." },
-        { status: 400 },
-      );
+      return NextResponse.json(invalidInputResponse, { status: 400 });
     }
 
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2002"
-    ) {
-      return NextResponse.json(
-        { error: "An account with this email already exists." },
-        { status: 409 },
-      );
-    }
+    const response: SignUpResponse = {
+      ok: false,
+      error: {
+        code: "server_error",
+        message: "Unable to create account.",
+      },
+    };
 
-    return NextResponse.json(
-      { error: "Unable to create account." },
-      { status: 500 },
-    );
+    return NextResponse.json(response, { status: 500 });
   }
 }

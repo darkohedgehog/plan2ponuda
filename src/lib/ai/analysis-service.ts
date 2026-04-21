@@ -1,8 +1,8 @@
-import type { Analysis } from "@/types/analysis";
+import type { AnalysisResult } from "@/types/analysis";
 
 export async function runFloorPlanAnalysis(
   projectId: string,
-): Promise<Analysis> {
+): Promise<AnalysisResult> {
   return {
     projectId,
     rooms: [],

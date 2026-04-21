@@ -1,13 +1,18 @@
 import { z } from "zod";
 
+import { roomSchema, roomSuggestionSchema } from "@/lib/validations/room.schema";
+
+export const analysisStatusSchema = z.enum(["pending", "success", "failed"]);
+
 export const analysisRequestSchema = z.object({
   projectId: z.string().min(1),
 });
 
 export const analysisResultSchema = z.object({
-  rooms: z.array(z.string()).default([]),
-  suggestions: z.array(z.string()).default([]),
+  projectId: z.string().min(1),
+  rooms: z.array(roomSchema).default([]),
+  suggestions: z.array(roomSuggestionSchema).default([]),
 });
 
 export type AnalysisRequestInput = z.infer<typeof analysisRequestSchema>;
-export type AnalysisResult = z.infer<typeof analysisResultSchema>;
+export type AnalysisResultInput = z.infer<typeof analysisResultSchema>;

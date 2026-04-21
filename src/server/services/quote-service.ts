@@ -1,34 +1,54 @@
-import type { QuoteLineItem as DbQuoteLineItem } from "@prisma/client";
+import type { Quote as DbQuote } from "../../../generated/prisma/client";
 
-import { getPrismaClient } from "@/lib/db/prisma";
+import { prisma } from "@/lib/db/prisma";
 import type { Quote } from "@/types/quote";
 
-function mapLineItem(lineItem: DbQuoteLineItem) {
+function mapQuote(quote: DbQuote): Quote {
   return {
-    id: lineItem.id,
-    name: lineItem.name,
-    quantity: lineItem.quantity,
-    unit: lineItem.unit,
-    unitPriceCents: lineItem.unitPriceCents,
+    id: quote.id,
+    projectId: quote.projectId,
+    laborCost: quote.laborCost.toString(),
+    materialCost: quote.materialCost.toString(),
+    subtotal: quote.subtotal.toString(),
+    total: quote.total.toString(),
+    pdfPath: quote.pdfPath ?? undefined,
+    createdAt: quote.createdAt,
+    updatedAt: quote.updatedAt,
   };
 }
 
 export async function getQuoteForProject(
   projectId: string,
-  ownerId: string,
+  userId: string,
 ): Promise<Quote | null> {
-  const prisma = getPrismaClient();
   const project = await prisma.project.findFirst({
     where: {
       id: projectId,
-      ownerId,
+      userId,
     },
     include: {
-      quote: {
-        include: {
-          lineItems: true,
-        },
-      },
+      quote: true,
+    },
+  });
+
+  if (!project?.quote) {
+    return null;
+  }
+
+  return mapQuote(project.quote);
+}
+
+export async function createQuotePlaceholder(
+  projectId: string,
+  userId: string,
+): Promise<Quote | null> {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    select: {
+      id: true,
     },
   });
 
@@ -36,19 +56,5 @@ export async function getQuoteForProject(
     return null;
   }
 
-  if (!project.quote) {
-    return {
-      id: "placeholder-quote-id",
-      projectId,
-      lineItems: [],
-      totalCents: 0,
-    };
-  }
-
-  return {
-    id: project.quote.id,
-    projectId,
-    lineItems: project.quote.lineItems.map(mapLineItem),
-    totalCents: project.quote.totalCents,
-  };
+  return null;
 }
