@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { formControlClassName } from "@/components/ui/form-control";
 import type { CreateProjectResponse, ObjectType } from "@/types/project";
 
 type CreateProjectFormState = {
@@ -54,7 +55,7 @@ export function CreateProjectForm() {
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <input
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         minLength={3}
         name="name"
         placeholder="Project name"
@@ -62,13 +63,13 @@ export function CreateProjectForm() {
         type="text"
       />
       <input
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         name="clientName"
         placeholder="Client name"
         type="text"
       />
       <select
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         defaultValue="apartment"
         name="objectType"
       >
@@ -77,7 +78,7 @@ export function CreateProjectForm() {
         <option value="office">Office</option>
       </select>
       <input
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         min="1"
         name="areaM2"
         placeholder="Area in m2"

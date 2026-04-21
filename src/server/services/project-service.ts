@@ -37,6 +37,58 @@ export async function getUserProjects(userId: string): Promise<Project[]> {
   return projects.map(mapProject);
 }
 
+export type ProjectDashboardStats = {
+  totalProjects: number;
+  draftProjects: number;
+  reviewedProjects: number;
+  quotedProjects: number;
+};
+
+export type ProjectDashboardOverview = {
+  stats: ProjectDashboardStats;
+  recentProjects: Project[];
+};
+
+export async function getUserProjectDashboardOverview(
+  userId: string,
+): Promise<ProjectDashboardOverview> {
+  const [
+    recentProjects,
+    totalProjects,
+    draftProjects,
+    reviewedProjects,
+    quotedProjects,
+  ] = await Promise.all([
+    prisma.project.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    }),
+    prisma.project.count({
+      where: { userId },
+    }),
+    prisma.project.count({
+      where: { userId, status: "draft" },
+    }),
+    prisma.project.count({
+      where: { userId, status: "reviewed" },
+    }),
+    prisma.project.count({
+      where: { userId, status: "quoted" },
+    }),
+  ]);
+
+  return {
+    stats: {
+      totalProjects,
+      draftProjects,
+      reviewedProjects,
+      quotedProjects,
+    },
+    recentProjects: recentProjects.map(mapProject),
+  };
+}
+
 export async function createProject(
   input: CreateProjectInput,
   userId: string,

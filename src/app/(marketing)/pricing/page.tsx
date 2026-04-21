@@ -1,10 +1,15 @@
+import { PublicPageShell } from "@/components/marketing/public-page-shell";
+
 export default function PricingPage() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-6 px-6 py-16">
-      <h1 className="text-3xl font-semibold">Pricing</h1>
-      <p className="max-w-2xl text-slate-600">
-        Placeholder pricing page for Plan2Ponuda subscription plans.
+    <PublicPageShell
+      subtitle="Simple subscription packaging for electrical contractors and small estimating teams."
+      title="Pricing"
+    >
+      <p className="max-w-2xl text-sm leading-6 text-slate-600">
+        Pricing details will be added as the quoting workflow moves closer to
+        production billing.
       </p>
-    </main>
+    </PublicPageShell>
   );
 }

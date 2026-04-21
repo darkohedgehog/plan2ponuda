@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { formControlClassName } from "@/components/ui/form-control";
 import type { SignUpResponse } from "@/types/auth";
 
 export function SignUpForm() {
@@ -63,7 +64,7 @@ export function SignUpForm() {
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <input
         autoComplete="name"
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         name="fullName"
         onChange={(event) => setFullName(event.target.value)}
         placeholder="Full name"
@@ -72,7 +73,7 @@ export function SignUpForm() {
       />
       <input
         autoComplete="email"
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         name="email"
         onChange={(event) => setEmail(event.target.value)}
         placeholder="Email"
@@ -82,7 +83,7 @@ export function SignUpForm() {
       />
       <input
         autoComplete="new-password"
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         minLength={8}
         name="password"
         onChange={(event) => setPassword(event.target.value)}

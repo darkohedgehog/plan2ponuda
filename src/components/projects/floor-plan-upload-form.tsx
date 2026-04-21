@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { fileControlClassName } from "@/components/ui/form-control";
 import {
   MAX_FLOOR_PLAN_FILE_SIZE_BYTES,
   isAllowedFloorPlanMimeType,
@@ -125,7 +126,7 @@ export function FloorPlanUploadForm({ projectId }: FloorPlanUploadFormProps) {
     <form className="mt-4 flex flex-col gap-3" onSubmit={handleSubmit}>
       <input
         accept="application/pdf,image/png,image/jpeg"
-        className="rounded-md border border-border p-3"
+        className={fileControlClassName}
         name="file"
         onChange={handleFileChange}
         type="file"

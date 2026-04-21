@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { formControlClassName } from "@/components/ui/form-control";
 
 function getSafeCallbackUrl(value: string | null): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
@@ -50,7 +51,7 @@ export function SignInForm() {
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <input
         autoComplete="email"
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         name="email"
         onChange={(event) => setEmail(event.target.value)}
         placeholder="Email"
@@ -60,7 +61,7 @@ export function SignInForm() {
       />
       <input
         autoComplete="current-password"
-        className="rounded-md border border-border px-3 py-2"
+        className={formControlClassName}
         name="password"
         onChange={(event) => setPassword(event.target.value)}
         placeholder="Password"

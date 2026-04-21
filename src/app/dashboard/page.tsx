@@ -1,10 +1,17 @@
-export default function DashboardPage() {
-  return (
-    <main className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold">Dashboard</h1>
-      <p className="text-slate-600">
-        Overview placeholder for recent projects and quote activity.
-      </p>
-    </main>
-  );
+import { redirect } from "next/navigation";
+
+import { DashboardOverview } from "@/components/dashboard/dashboard-overview";
+import { getCurrentUser } from "@/lib/auth/session";
+import { getUserProjectDashboardOverview } from "@/server/services/project-service";
+
+export default async function DashboardPage() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  const overview = await getUserProjectDashboardOverview(user.id);
+
+  return <DashboardOverview overview={overview} userName={user.name} />;
 }

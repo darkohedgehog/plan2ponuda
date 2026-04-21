@@ -4,8 +4,10 @@ type QuoteSummaryProps = {
 
 export function QuoteSummary({ projectName }: QuoteSummaryProps) {
   return (
-    <section className="rounded-lg border border-border bg-white p-4">
-      <h2 className="text-lg font-semibold">Quote for {projectName}</h2>
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-lg font-semibold text-slate-950">
+        Quote for {projectName}
+      </h2>
       <p className="mt-2 text-sm text-slate-600">
         Material list and PDF export summary placeholder.
       </p>
