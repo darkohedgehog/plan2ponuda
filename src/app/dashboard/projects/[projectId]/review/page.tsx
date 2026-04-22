@@ -39,6 +39,7 @@ export default async function ProjectReviewPage({
     <RoomReview
       floorPlanPreview={floorPlanPreview}
       project={{
+        id: project.id,
         name: project.name,
         status: project.status,
       }}

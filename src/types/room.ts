@@ -19,6 +19,32 @@ export type Room = {
   updatedAt: Date;
 };
 
+export type RoomReviewItem = Pick<
+  Room,
+  "confidence" | "estimatedAreaM2" | "id" | "name" | "type"
+>;
+
+export type RoomErrorCode =
+  | "invalid_input"
+  | "invalid_room_reference"
+  | "not_found"
+  | "server_error";
+
+export type RoomError = {
+  code: RoomErrorCode;
+  message: string;
+};
+
+export type SaveProjectRoomsResponse =
+  | {
+      ok: true;
+      rooms: RoomReviewItem[];
+    }
+  | {
+      ok: false;
+      error: RoomError;
+    };
+
 export type RoomSuggestion = {
   id: string;
   roomId: string;
