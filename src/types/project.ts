@@ -22,6 +22,25 @@ export type Project = {
   updatedAt: Date;
 };
 
+export type FloorPlanPreview =
+  | {
+      expiresInSeconds: number;
+      fileName: string;
+      kind: "image";
+      url: string;
+    }
+  | {
+      expiresInSeconds: number;
+      fileName: string;
+      kind: "pdf";
+      url: string;
+    }
+  | {
+      fileName?: string;
+      kind: "unavailable";
+      reason: "missing_file" | "signing_failed" | "unsupported_file_type";
+    };
+
 export type ProjectErrorCode =
   | "file_too_large"
   | "invalid_input"

@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { Project as DbProject } from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/db/prisma";
@@ -8,9 +10,14 @@ import {
   validateFloorPlanFile,
   type CreateProjectInput,
 } from "@/lib/validations/project.schema";
-import type { Project, UploadFloorPlanResponse } from "@/types/project";
+import type {
+  FloorPlanPreview,
+  Project,
+  UploadFloorPlanResponse,
+} from "@/types/project";
 
 const PROJECT_FILES_BUCKET = "project-files";
+const FLOOR_PLAN_PREVIEW_URL_TTL_SECONDS = 5 * 60;
 
 function mapProject(project: DbProject): Project {
   return {
@@ -120,6 +127,80 @@ export async function getProjectById(
   });
 
   return project ? mapProject(project) : null;
+}
+
+function getStoredFileName(filePath: string): string {
+  return filePath.split("/").filter(Boolean).at(-1) ?? "floor plan";
+}
+
+function getFloorPlanPreviewKind(
+  filePath: string,
+): "image" | "pdf" | "unsupported_file_type" {
+  const extension = filePath.split(".").at(-1)?.toLowerCase();
+
+  if (extension === "pdf") {
+    return "pdf";
+  }
+
+  if (extension === "jpg" || extension === "jpeg" || extension === "png") {
+    return "image";
+  }
+
+  return "unsupported_file_type";
+}
+
+export async function createSignedFloorPlanUrl(
+  sourceFilePath?: string,
+): Promise<FloorPlanPreview> {
+  if (!sourceFilePath) {
+    return {
+      kind: "unavailable",
+      reason: "missing_file",
+    };
+  }
+
+  const fileName = getStoredFileName(sourceFilePath);
+  const previewKind = getFloorPlanPreviewKind(sourceFilePath);
+
+  if (previewKind === "unsupported_file_type") {
+    return {
+      fileName,
+      kind: "unavailable",
+      reason: "unsupported_file_type",
+    };
+  }
+
+  try {
+    const supabase = createSupabaseServerClient();
+    const { data, error } = await supabase.storage
+      .from(PROJECT_FILES_BUCKET)
+      .createSignedUrl(sourceFilePath, FLOOR_PLAN_PREVIEW_URL_TTL_SECONDS);
+
+    if (error || !data?.signedUrl) {
+      console.error("Floor plan preview signing failed", error);
+
+      return {
+        fileName,
+        kind: "unavailable",
+        reason: "signing_failed",
+      };
+    }
+
+    return {
+      expiresInSeconds: FLOOR_PLAN_PREVIEW_URL_TTL_SECONDS,
+      fileName,
+      kind: previewKind,
+      url: data.signedUrl,
+    };
+  } catch (error) {
+    console.error("Floor plan preview signing failed", error);
+
+    return {
+      fileName,
+      kind: "unavailable",
+      reason: "signing_failed",
+    };
+  }
 }
 
 type UploadFloorPlanInput = {
