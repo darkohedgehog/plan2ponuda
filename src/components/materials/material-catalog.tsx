@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { MaterialPriceEditor } from "@/components/materials/material-price-editor";
 import type { Material, MaterialCategory } from "@/types/quote";
 
 type MaterialCatalogProps = {
@@ -34,7 +35,7 @@ export function MaterialCatalog({ materials }: MaterialCatalogProps) {
         </div>
       </div>
 
-      <div className="hidden border-b border-slate-200 bg-slate-50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_8rem_9rem] lg:gap-5">
+      <div className="hidden border-b border-slate-200 bg-slate-50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_13rem_9rem] lg:gap-5">
         <span>Material</span>
         <span>Category</span>
         <span>Unit</span>
@@ -57,7 +58,7 @@ type MaterialCatalogRowProps = {
 
 function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
   return (
-    <article className="grid gap-4 bg-white p-5 transition-colors hover:bg-slate-50/70 lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_8rem_9rem] lg:items-center lg:gap-5">
+    <article className="grid gap-4 bg-white p-5 transition-colors hover:bg-slate-50/70 lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_13rem_9rem] lg:items-center lg:gap-5">
       <div className="min-w-0">
         <h3 className="truncate text-base font-semibold text-slate-950">
           {material.name}
@@ -78,9 +79,10 @@ function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
         </span>
       </MaterialMobileField>
       <MaterialMobileField align="right" label="Default price">
-        <span className="text-sm font-semibold text-slate-950">
-          {formatMoney(Number(material.defaultPrice))}
-        </span>
+        <MaterialPriceEditor
+          defaultPrice={material.defaultPrice}
+          materialId={material.id}
+        />
       </MaterialMobileField>
       <MaterialMobileField align="right" label="Updated">
         <span className="text-sm font-medium text-slate-600">
@@ -155,13 +157,6 @@ function EmptyMaterialCatalog() {
       </p>
     </section>
   );
-}
-
-function formatMoney(value: number): string {
-  return new Intl.NumberFormat("hr-HR", {
-    currency: "EUR",
-    style: "currency",
-  }).format(value);
 }
 
 function formatDate(date: Date): string {
