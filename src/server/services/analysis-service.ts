@@ -1,21 +1,36 @@
-import type { Room as DbRoom } from "../../../generated/prisma/client";
+import type {
+  Room as DbRoom,
+  RoomSuggestion as DbRoomSuggestion,
+} from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/db/prisma";
 import { runFloorPlanAnalysis } from "@/lib/ai/analysis-service";
+import {
+  generateRoomSuggestions,
+  resolveRoomSuggestion,
+} from "@/lib/rules/room-rules";
 import type { SaveProjectRoomsInput } from "@/lib/validations/room.schema";
 import { getProjectById } from "@/server/services/project-service";
 import type { AnalysisResult } from "@/types/analysis";
-import type { Room } from "@/types/room";
+import type {
+  Room,
+  RoomReviewItem,
+  RoomSuggestionReviewItem,
+} from "@/types/room";
 
 type SaveProjectRoomsResult =
   | {
       ok: true;
-      rooms: Room[];
+      rooms: RoomReviewItem[];
     }
   | {
       ok: false;
       reason: "invalid_room_reference" | "not_found";
     };
+
+type DbRoomWithSuggestion = DbRoom & {
+  suggestion: DbRoomSuggestion | null;
+};
 
 function mapRoom(room: DbRoom): Room {
   return {
@@ -31,6 +46,53 @@ function mapRoom(room: DbRoom): Room {
   };
 }
 
+function mapRoomSuggestion(
+  room: Room,
+  suggestion: DbRoomSuggestion | null,
+): RoomSuggestionReviewItem {
+  const generatedSuggestion = suggestion
+    ? {
+        suggestedSockets: suggestion.suggestedSockets,
+        suggestedSwitches: suggestion.suggestedSwitches,
+        suggestedLights: suggestion.suggestedLights,
+      }
+    : generateRoomSuggestions(room);
+  const resolvedSuggestion = resolveRoomSuggestion(generatedSuggestion, {
+    userSockets: suggestion?.userSockets ?? undefined,
+    userSwitches: suggestion?.userSwitches ?? undefined,
+    userLights: suggestion?.userLights ?? undefined,
+  });
+
+  return {
+    id: suggestion?.id,
+    ...resolvedSuggestion,
+  };
+}
+
+function mapRoomReviewItem(room: DbRoomWithSuggestion): RoomReviewItem {
+  const mappedRoom = mapRoom(room);
+
+  return {
+    id: mappedRoom.id,
+    name: mappedRoom.name,
+    type: mappedRoom.type,
+    estimatedAreaM2: mappedRoom.estimatedAreaM2,
+    confidence: mappedRoom.confidence,
+    suggestion: mapRoomSuggestion(mappedRoom, room.suggestion),
+  };
+}
+
+function hasStaleGeneratedSuggestion(
+  suggestion: DbRoomSuggestion,
+  generatedSuggestion: ReturnType<typeof generateRoomSuggestions>,
+): boolean {
+  return (
+    suggestion.suggestedSockets !== generatedSuggestion.suggestedSockets ||
+    suggestion.suggestedSwitches !== generatedSuggestion.suggestedSwitches ||
+    suggestion.suggestedLights !== generatedSuggestion.suggestedLights
+  );
+}
+
 export async function analyzeProject(
   projectId: string,
   userId: string,
@@ -44,10 +106,10 @@ export async function analyzeProject(
   return runFloorPlanAnalysis(projectId);
 }
 
-export async function getProjectRooms(
+export async function getProjectRoomsForReview(
   projectId: string,
   userId: string,
-): Promise<Room[]> {
+): Promise<RoomReviewItem[]> {
   const rooms = await prisma.room.findMany({
     where: {
       projectId,
@@ -63,9 +125,41 @@ export async function getProjectRooms(
         createdAt: "asc",
       },
     ],
+    include: {
+      suggestion: true,
+    },
   });
+  const hydratedRooms: DbRoomWithSuggestion[] = [];
 
-  return rooms.map(mapRoom);
+  for (const room of rooms) {
+    const mappedRoom = mapRoom(room);
+    const generatedSuggestion = generateRoomSuggestions(mappedRoom);
+
+    if (
+      !room.suggestion ||
+      hasStaleGeneratedSuggestion(room.suggestion, generatedSuggestion)
+    ) {
+      const suggestion = await prisma.roomSuggestion.upsert({
+        where: {
+          roomId: room.id,
+        },
+        update: generatedSuggestion,
+        create: {
+          roomId: room.id,
+          ...generatedSuggestion,
+        },
+      });
+
+      hydratedRooms.push({
+        ...room,
+        suggestion,
+      });
+    } else {
+      hydratedRooms.push(room);
+    }
+  }
+
+  return hydratedRooms.map(mapRoomReviewItem);
 }
 
 export async function saveProjectRooms(
@@ -99,9 +193,7 @@ export async function saveProjectRooms(
         id: true,
       },
     });
-    const existingRoomIds = new Set(
-      existingRooms.map((room) => room.id),
-    );
+    const existingRoomIds = new Set(existingRooms.map((room) => room.id));
     const roomIdsToKeep = input.rooms
       .map((room) => room.id)
       .filter((roomId): roomId is string => roomId !== undefined);
@@ -128,32 +220,40 @@ export async function saveProjectRooms(
         sortOrder: index,
         type: room.type,
       };
+      const savedRoom = room.id
+        ? await transaction.room.update({
+            where: {
+              id: room.id,
+            },
+            data,
+          })
+        : await transaction.room.create({
+            data: {
+              ...data,
+              projectId,
+            },
+          });
+      const generatedSuggestion = generateRoomSuggestions(mapRoom(savedRoom));
 
-      if (room.id) {
-        await transaction.room.update({
-          where: {
-            id: room.id,
-          },
-          data,
-        });
-      } else {
-        await transaction.room.create({
-          data: {
-            ...data,
-            projectId,
-          },
-        });
-      }
+      await transaction.roomSuggestion.upsert({
+        where: {
+          roomId: savedRoom.id,
+        },
+        update: {
+          ...generatedSuggestion,
+          userSockets: room.suggestion.userSockets ?? null,
+          userSwitches: room.suggestion.userSwitches ?? null,
+          userLights: room.suggestion.userLights ?? null,
+        },
+        create: {
+          roomId: savedRoom.id,
+          ...generatedSuggestion,
+          userSockets: room.suggestion.userSockets ?? null,
+          userSwitches: room.suggestion.userSwitches ?? null,
+          userLights: room.suggestion.userLights ?? null,
+        },
+      });
     }
-
-    await transaction.project.update({
-      where: {
-        id: project.id,
-      },
-      data: {
-        status: "reviewed",
-      },
-    });
 
     const rooms = await transaction.room.findMany({
       where: {
@@ -167,11 +267,23 @@ export async function saveProjectRooms(
           createdAt: "asc",
         },
       ],
+      include: {
+        suggestion: true,
+      },
+    });
+
+    await transaction.project.update({
+      where: {
+        id: project.id,
+      },
+      data: {
+        status: "reviewed",
+      },
     });
 
     return {
       ok: true,
-      rooms: rooms.map(mapRoom),
+      rooms: rooms.map(mapRoomReviewItem),
     };
   });
 }

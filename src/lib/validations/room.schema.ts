@@ -23,6 +23,11 @@ export const roomSchema = z.object({
 export const saveProjectRoomSchema = z.object({
   id: z.string().min(1).optional(),
   name: z.string().trim().min(1).max(100),
+  suggestion: z.object({
+    userSockets: z.number().int().min(0).nullable().optional(),
+    userSwitches: z.number().int().min(0).nullable().optional(),
+    userLights: z.number().int().min(0).nullable().optional(),
+  }),
   type: roomTypeSchema,
 });
 

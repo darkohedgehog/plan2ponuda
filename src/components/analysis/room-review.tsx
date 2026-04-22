@@ -1,13 +1,13 @@
 import { RoomReviewEditor } from "@/components/analysis/room-review-editor";
 import type { FloorPlanPreview, Project } from "@/types/project";
-import type { Room, RoomReviewItem } from "@/types/room";
+import type { RoomReviewItem } from "@/types/room";
 
 type ReviewProject = Pick<Project, "id" | "name" | "status">;
 
 type RoomReviewProps = {
   floorPlanPreview: FloorPlanPreview;
   project: ReviewProject;
-  rooms: Room[];
+  rooms: RoomReviewItem[];
 };
 
 export function RoomReview({
@@ -30,23 +30,10 @@ export function RoomReview({
 
       <section className="grid gap-4 xl:grid-cols-[1fr_0.9fr]">
         <FloorPlanCard preview={floorPlanPreview} project={project} />
-        <RoomReviewEditor
-          initialRooms={rooms.map(toRoomReviewItem)}
-          projectId={project.id}
-        />
+        <RoomReviewEditor initialRooms={rooms} projectId={project.id} />
       </section>
     </main>
   );
-}
-
-function toRoomReviewItem(room: Room): RoomReviewItem {
-  return {
-    id: room.id,
-    name: room.name,
-    type: room.type,
-    estimatedAreaM2: room.estimatedAreaM2,
-    confidence: room.confidence,
-  };
 }
 
 type FloorPlanCardProps = {

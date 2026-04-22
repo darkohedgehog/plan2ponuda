@@ -4,11 +4,7 @@ import { requireApiUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import { saveProjectRoomsSchema } from "@/lib/validations/room.schema";
 import { saveProjectRooms } from "@/server/services/analysis-service";
-import type {
-  Room,
-  RoomReviewItem,
-  SaveProjectRoomsResponse,
-} from "@/types/room";
+import type { SaveProjectRoomsResponse } from "@/types/room";
 
 type SaveRoomsRouteResult =
   | Awaited<ReturnType<typeof saveProjectRooms>>
@@ -27,19 +23,10 @@ const invalidInputResponse: SaveProjectRoomsResponse = {
   ok: false,
   error: {
     code: "invalid_input",
-    message: "Enter at least a room name and valid room type for each room.",
+    message:
+      "Enter room names, valid room types, and non-negative suggestion values.",
   },
 };
-
-function toRoomReviewItem(room: Room): RoomReviewItem {
-  return {
-    id: room.id,
-    name: room.name,
-    type: room.type,
-    estimatedAreaM2: room.estimatedAreaM2,
-    confidence: room.confidence,
-  };
-}
 
 export async function PUT(
   request: Request,
@@ -103,7 +90,7 @@ export async function PUT(
 
   const response: SaveProjectRoomsResponse = {
     ok: true,
-    rooms: result.rooms.map(toRoomReviewItem),
+    rooms: result.rooms,
   };
 
   return NextResponse.json(response);

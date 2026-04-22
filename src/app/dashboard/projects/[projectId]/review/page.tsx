@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { RoomReview } from "@/components/analysis/room-review";
 import { getCurrentUser } from "@/lib/auth/session";
-import { getProjectRooms } from "@/server/services/analysis-service";
+import { getProjectRoomsForReview } from "@/server/services/analysis-service";
 import {
   createSignedFloorPlanUrl,
   getProjectById,
@@ -32,7 +32,7 @@ export default async function ProjectReviewPage({
 
   const [floorPlanPreview, rooms] = await Promise.all([
     createSignedFloorPlanUrl(project.sourceFilePath),
-    getProjectRooms(project.id, user.id),
+    getProjectRoomsForReview(project.id, user.id),
   ]);
 
   return (

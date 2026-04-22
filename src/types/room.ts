@@ -22,7 +22,22 @@ export type Room = {
 export type RoomReviewItem = Pick<
   Room,
   "confidence" | "estimatedAreaM2" | "id" | "name" | "type"
->;
+> & {
+  suggestion: RoomSuggestionReviewItem;
+};
+
+export type RoomSuggestionReviewItem = {
+  id?: string;
+  suggestedSockets: number;
+  suggestedSwitches: number;
+  suggestedLights: number;
+  userSockets?: number;
+  userSwitches?: number;
+  userLights?: number;
+  resolvedSockets: number;
+  resolvedSwitches: number;
+  resolvedLights: number;
+};
 
 export type RoomErrorCode =
   | "invalid_input"

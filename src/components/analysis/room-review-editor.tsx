@@ -3,8 +3,13 @@
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, useState } from "react";
 
+import {
+  generateRoomSuggestions,
+  resolveRoomSuggestion,
+} from "@/lib/rules/room-rules";
 import type {
   RoomReviewItem,
+  RoomSuggestionReviewItem,
   RoomType,
   SaveProjectRoomsResponse,
 } from "@/types/room";
@@ -17,6 +22,15 @@ type RoomReviewEditorProps = {
 type DraftRoom = Omit<RoomReviewItem, "id"> & {
   clientId: string;
   id?: string;
+};
+
+type SuggestionOverrideKey = "userSockets" | "userSwitches" | "userLights";
+
+type SuggestionInputConfig = {
+  label: string;
+  overrideKey: SuggestionOverrideKey;
+  resolvedKey: "resolvedSockets" | "resolvedSwitches" | "resolvedLights";
+  suggestedKey: "suggestedSockets" | "suggestedSwitches" | "suggestedLights";
 };
 
 const roomTypeOptions: Array<{
@@ -32,23 +46,83 @@ const roomTypeOptions: Array<{
   { label: "Unknown", value: "unknown" },
 ];
 
+const suggestionInputConfigs: SuggestionInputConfig[] = [
+  {
+    label: "Sockets",
+    overrideKey: "userSockets",
+    resolvedKey: "resolvedSockets",
+    suggestedKey: "suggestedSockets",
+  },
+  {
+    label: "Switches",
+    overrideKey: "userSwitches",
+    resolvedKey: "resolvedSwitches",
+    suggestedKey: "suggestedSwitches",
+  },
+  {
+    label: "Lights",
+    overrideKey: "userLights",
+    resolvedKey: "resolvedLights",
+    suggestedKey: "suggestedLights",
+  },
+];
+
 function createClientId(): string {
   return `room-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
 function toDraftRoom(room: RoomReviewItem): DraftRoom {
-  return {
+  return applyGeneratedSuggestion({
     ...room,
     clientId: room.id,
-  };
+  });
 }
 
 function createBlankDraftRoom(): DraftRoom {
-  return {
+  return applyGeneratedSuggestion({
     clientId: createClientId(),
     name: "",
+    suggestion: createGeneratedSuggestion("unknown"),
     type: "unknown",
+  });
+}
+
+function createGeneratedSuggestion(
+  type: RoomType,
+  estimatedAreaM2?: number,
+): RoomSuggestionReviewItem {
+  return resolveRoomSuggestion(
+    generateRoomSuggestions({
+      estimatedAreaM2,
+      type,
+    }),
+  );
+}
+
+function applyGeneratedSuggestion(room: DraftRoom): DraftRoom {
+  const generatedSuggestion = generateRoomSuggestions(room);
+
+  return {
+    ...room,
+    suggestion: {
+      id: room.suggestion.id,
+      ...resolveRoomSuggestion(generatedSuggestion, {
+        userSockets: room.suggestion.userSockets,
+        userSwitches: room.suggestion.userSwitches,
+        userLights: room.suggestion.userLights,
+      }),
+    },
   };
+}
+
+function parseSuggestionInputValue(value: string): number {
+  const parsedValue = Number.parseInt(value, 10);
+
+  if (Number.isNaN(parsedValue)) {
+    return 0;
+  }
+
+  return Math.max(0, parsedValue);
 }
 
 export function RoomReviewEditor({
@@ -85,13 +159,50 @@ export function RoomReviewEditor({
     setSuccessMessage(null);
     setRooms((currentRooms) =>
       currentRooms.map((room) =>
-        room.clientId === clientId ? { ...room, ...updates } : room,
+        room.clientId === clientId
+          ? applyGeneratedSuggestion({ ...room, ...updates })
+          : room,
       ),
     );
   }
 
+  function updateSuggestion(
+    clientId: string,
+    overrideKey: SuggestionOverrideKey,
+    nextValue: number,
+  ) {
+    setError(null);
+    setSuccessMessage(null);
+    setRooms((currentRooms) =>
+      currentRooms.map((room) => {
+        if (room.clientId !== clientId) {
+          return room;
+        }
+
+        const generatedSuggestion = generateRoomSuggestions(room);
+        const generatedValue =
+          overrideKey === "userSockets"
+            ? generatedSuggestion.suggestedSockets
+            : overrideKey === "userSwitches"
+              ? generatedSuggestion.suggestedSwitches
+              : generatedSuggestion.suggestedLights;
+
+        return applyGeneratedSuggestion({
+          ...room,
+          suggestion: {
+            ...room.suggestion,
+            [overrideKey]:
+              nextValue === generatedValue ? undefined : nextValue,
+          },
+        });
+      }),
+    );
+  }
+
   async function saveRooms() {
-    const hasInvalidRoomName = rooms.some((room) => room.name.trim().length === 0);
+    const hasInvalidRoomName = rooms.some(
+      (room) => room.name.trim().length === 0,
+    );
 
     if (hasInvalidRoomName) {
       setError("Every room needs a name before saving.");
@@ -112,6 +223,11 @@ export function RoomReviewEditor({
         rooms: rooms.map((room) => ({
           id: room.id,
           name: room.name.trim(),
+          suggestion: {
+            userSockets: room.suggestion.userSockets ?? null,
+            userSwitches: room.suggestion.userSwitches ?? null,
+            userLights: room.suggestion.userLights ?? null,
+          },
           type: room.type,
         })),
       }),
@@ -166,6 +282,9 @@ export function RoomReviewEditor({
               key={room.clientId}
               onDelete={() => deleteRoom(room.clientId)}
               onNameChange={(name) => updateRoom(room.clientId, { name })}
+              onSuggestionChange={(overrideKey, value) =>
+                updateSuggestion(room.clientId, overrideKey, value)
+              }
               onTypeChange={(type) => updateRoom(room.clientId, { type })}
               room={room}
             />
@@ -213,6 +332,10 @@ type RoomEditorRowProps = {
   index: number;
   onDelete: () => void;
   onNameChange: (name: string) => void;
+  onSuggestionChange: (
+    overrideKey: SuggestionOverrideKey,
+    value: number,
+  ) => void;
   onTypeChange: (type: RoomType) => void;
   room: DraftRoom;
 };
@@ -221,6 +344,7 @@ function RoomEditorRow({
   index,
   onDelete,
   onNameChange,
+  onSuggestionChange,
   onTypeChange,
   room,
 }: RoomEditorRowProps) {
@@ -287,7 +411,63 @@ function RoomEditorRow({
           Delete
         </button>
       </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        {suggestionInputConfigs.map((config) => (
+          <SuggestionInput
+            config={config}
+            key={config.overrideKey}
+            onChange={(value) =>
+              onSuggestionChange(config.overrideKey, value)
+            }
+            suggestion={room.suggestion}
+          />
+        ))}
+      </div>
     </article>
+  );
+}
+
+type SuggestionInputProps = {
+  config: SuggestionInputConfig;
+  onChange: (value: number) => void;
+  suggestion: RoomSuggestionReviewItem;
+};
+
+function SuggestionInput({
+  config,
+  onChange,
+  suggestion,
+}: SuggestionInputProps) {
+  const isOverride = suggestion[config.overrideKey] !== undefined;
+
+  return (
+    <label className="grid gap-1.5">
+      <span className="flex items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-slate-400">
+        {config.label}
+        <span
+          className={`rounded-md px-2 py-0.5 text-[11px] font-semibold normal-case tracking-normal ${
+            isOverride
+              ? "bg-blue-50 text-blue-700"
+              : "bg-white text-slate-500 ring-1 ring-inset ring-slate-200"
+          }`}
+        >
+          {isOverride ? "Override" : "Suggested"}
+        </span>
+      </span>
+      <input
+        className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        min={0}
+        onChange={(event) =>
+          onChange(parseSuggestionInputValue(event.target.value))
+        }
+        type="number"
+        value={suggestion[config.resolvedKey]}
+      />
+      <span className="text-xs text-slate-500">
+        Suggested: {suggestion[config.suggestedKey]}
+      </span>
+    </label>
   );
 }
 
