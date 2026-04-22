@@ -1,5 +1,6 @@
 import type {
   Material as DbMaterial,
+  Project as DbProject,
   ProjectMaterial as DbProjectMaterial,
   Quote as DbQuote,
 } from "../../../generated/prisma/client";
@@ -24,12 +25,17 @@ import type {
   Quote,
   QuoteExportData,
   QuoteExportRoom,
+  QuoteIndexItem,
 } from "@/types/quote";
 
 const MVP_LABOR_FACTOR = 12;
 
 type DbProjectMaterialWithMaterial = DbProjectMaterial & {
   material: DbMaterial;
+};
+
+type DbQuoteWithProject = DbQuote & {
+  project: Pick<DbProject, "clientName" | "id" | "name" | "objectType">;
 };
 
 type ProjectMaterialGenerationResult =
@@ -78,6 +84,18 @@ function mapQuote(quote: DbQuote): Quote {
     pdfPath: quote.pdfPath ?? undefined,
     createdAt: quote.createdAt,
     updatedAt: quote.updatedAt,
+  };
+}
+
+function mapQuoteIndexItem(quote: DbQuoteWithProject): QuoteIndexItem {
+  return {
+    ...mapQuote(quote),
+    project: {
+      id: quote.project.id,
+      name: quote.project.name,
+      clientName: quote.project.clientName ?? undefined,
+      objectType: quote.project.objectType,
+    },
   };
 }
 
@@ -312,6 +330,31 @@ export async function getQuoteForProject(
   }
 
   return mapQuote(project.quote);
+}
+
+export async function getUserQuotes(userId: string): Promise<QuoteIndexItem[]> {
+  const quotes = await prisma.quote.findMany({
+    where: {
+      project: {
+        userId,
+      },
+    },
+    include: {
+      project: {
+        select: {
+          clientName: true,
+          id: true,
+          name: true,
+          objectType: true,
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
+  return quotes.map(mapQuoteIndexItem);
 }
 
 export async function createQuotePlaceholder(

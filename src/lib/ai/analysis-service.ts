@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { AnalysisResult } from "@/types/analysis";
 
 export async function runFloorPlanAnalysis(

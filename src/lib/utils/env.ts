@@ -40,3 +40,9 @@ export function getSupabaseServerEnv() {
     supabaseSecretKey: requiredEnv("SUPABASE_SECRET_KEY"),
   };
 }
+
+export function getAiServerEnv() {
+  return {
+    openAiApiKey: process.env.OPENAI_API_KEY ?? null,
+  };
+}

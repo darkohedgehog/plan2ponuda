@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { SignInForm } from "@/components/auth/sign-in-form";
 
 export default function SignInPage() {
@@ -9,7 +11,19 @@ export default function SignInPage() {
           Access your Plan2Ponuda workspace.
         </p>
       </div>
-      <SignInForm />
+      <Suspense fallback={<SignInFormFallback />}>
+        <SignInForm />
+      </Suspense>
     </main>
+  );
+}
+
+function SignInFormFallback() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="h-10 rounded-md border border-slate-200 bg-slate-100" />
+      <div className="h-10 rounded-md border border-slate-200 bg-slate-100" />
+      <div className="h-10 rounded-md bg-slate-200" />
+    </div>
   );
 }

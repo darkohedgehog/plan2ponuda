@@ -45,6 +45,15 @@ export type Quote = {
   updatedAt: Date;
 };
 
+export type QuoteIndexItem = Quote & {
+  project: {
+    id: string;
+    name: string;
+    clientName?: string;
+    objectType: string;
+  };
+};
+
 export type QuoteExportRoom = {
   id: string;
   name: string;
