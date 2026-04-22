@@ -19,6 +19,8 @@ import {
 } from "@/lib/rules/room-rules";
 import type { Material, ProjectMaterial, Quote } from "@/types/quote";
 
+const MVP_LABOR_FACTOR = 12;
+
 type DbProjectMaterialWithMaterial = DbProjectMaterial & {
   material: DbMaterial;
 };
@@ -27,6 +29,17 @@ type ProjectMaterialGenerationResult =
   | {
       materials: ProjectMaterial[];
       ok: true;
+    }
+  | {
+      ok: false;
+      reason: "not_found";
+    };
+
+type QuoteGenerationResult =
+  | {
+      materials: ProjectMaterial[];
+      ok: true;
+      quote: Quote;
     }
   | {
       ok: false;
@@ -81,6 +94,19 @@ function toMoneyDecimal(
   value: number | string | Prisma.Decimal,
 ): Prisma.Decimal {
   return new Prisma.Decimal(value).toDecimalPlaces(2);
+}
+
+export function calculateLaborCost(areaM2: number): Prisma.Decimal {
+  return toMoneyDecimal(new Prisma.Decimal(areaM2).mul(MVP_LABOR_FACTOR));
+}
+
+function calculateMaterialCost(
+  materials: Pick<DbProjectMaterial, "totalPrice">[],
+): Prisma.Decimal {
+  return materials.reduce(
+    (total, material) => total.add(material.totalPrice),
+    toMoneyDecimal(0),
+  );
 }
 
 function getResolvedRoomPoints(
@@ -340,5 +366,71 @@ export async function generateProjectMaterialList(
   return {
     ok: true,
     materials: materials.map(mapProjectMaterial),
+  };
+}
+
+export async function generateQuote(
+  projectId: string,
+  userId: string,
+): Promise<QuoteGenerationResult> {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    select: {
+      areaM2: true,
+      id: true,
+    },
+  });
+
+  if (!project) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
+
+  const materialResult = await generateProjectMaterialList(project.id, userId);
+
+  if (!materialResult.ok) {
+    return materialResult;
+  }
+
+  const persistedMaterials = await prisma.projectMaterial.findMany({
+    where: {
+      projectId: project.id,
+    },
+    select: {
+      totalPrice: true,
+    },
+  });
+  const materialCost = calculateMaterialCost(persistedMaterials);
+  const laborCost = calculateLaborCost(project.areaM2);
+  const subtotal = materialCost.add(laborCost);
+  const total = subtotal;
+  const quote = await prisma.quote.upsert({
+    where: {
+      projectId: project.id,
+    },
+    update: {
+      laborCost,
+      materialCost,
+      subtotal,
+      total,
+    },
+    create: {
+      laborCost,
+      materialCost,
+      projectId: project.id,
+      subtotal,
+      total,
+    },
+  });
+
+  return {
+    ok: true,
+    materials: materialResult.materials,
+    quote: mapQuote(quote),
   };
 }

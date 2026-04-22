@@ -4,7 +4,7 @@ import { QuoteSummary } from "@/components/quote/quote-summary";
 import { getCurrentUser } from "@/lib/auth/session";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import { getProjectById } from "@/server/services/project-service";
-import { generateProjectMaterialList } from "@/server/services/quote-service";
+import { generateQuote } from "@/server/services/quote-service";
 
 type ProjectQuotePageProps = {
   params: Promise<{
@@ -33,17 +33,19 @@ export default async function ProjectQuotePage({
     notFound();
   }
 
-  const materialsResult = await generateProjectMaterialList(project.id, user.id);
+  const quoteResult = await generateQuote(project.id, user.id);
 
-  if (!materialsResult.ok) {
+  if (!quoteResult.ok) {
     notFound();
   }
 
   return (
     <main className="flex flex-col gap-4">
       <QuoteSummary
-        materials={materialsResult.materials}
+        areaM2={project.areaM2}
+        materials={quoteResult.materials}
         projectName={project.name}
+        quote={quoteResult.quote}
       />
     </main>
   );

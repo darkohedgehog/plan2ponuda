@@ -1,18 +1,20 @@
 import type { ReactNode } from "react";
 
-import type { ProjectMaterial } from "@/types/quote";
+import type { ProjectMaterial, Quote } from "@/types/quote";
 
 type QuoteSummaryProps = {
+  areaM2: number;
   materials: ProjectMaterial[];
   projectName: string;
+  quote: Quote;
 };
 
-export function QuoteSummary({ materials, projectName }: QuoteSummaryProps) {
-  const materialTotal = materials.reduce(
-    (total, material) => total + Number(material.totalPrice),
-    0,
-  );
-
+export function QuoteSummary({
+  areaM2,
+  materials,
+  projectName,
+  quote,
+}: QuoteSummaryProps) {
   return (
     <div className="flex flex-col gap-4">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
@@ -25,16 +27,39 @@ export function QuoteSummary({ materials, projectName }: QuoteSummaryProps) {
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Review the rule-generated material list before quote generation.
             </p>
+            <p className="mt-2 text-sm font-medium text-slate-500">
+              Project area: {formatArea(areaM2)}
+            </p>
           </div>
           <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Material total
+              Quote total
             </p>
             <p className="mt-1 text-lg font-semibold text-slate-950">
-              {formatMoney(materialTotal)}
+              {formatMoney(Number(quote.total))}
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <QuoteMetricCard
+          label="Material cost"
+          value={formatMoney(Number(quote.materialCost))}
+        />
+        <QuoteMetricCard
+          label="Labor cost"
+          value={formatMoney(Number(quote.laborCost))}
+        />
+        <QuoteMetricCard
+          label="Subtotal"
+          value={formatMoney(Number(quote.subtotal))}
+        />
+        <QuoteMetricCard
+          emphasize
+          label="Total"
+          value={formatMoney(Number(quote.total))}
+        />
       </section>
 
       <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -61,6 +86,37 @@ export function QuoteSummary({ materials, projectName }: QuoteSummaryProps) {
         )}
       </section>
     </div>
+  );
+}
+
+type QuoteMetricCardProps = {
+  emphasize?: boolean;
+  label: string;
+  value: string;
+};
+
+function QuoteMetricCard({
+  emphasize = false,
+  label,
+  value,
+}: QuoteMetricCardProps) {
+  return (
+    <article
+      className={`rounded-lg border p-4 shadow-sm ${
+        emphasize
+          ? "border-blue-200 bg-blue-50"
+          : "border-slate-200 bg-white"
+      }`}
+    >
+      <p
+        className={`text-xs font-medium uppercase tracking-wide ${
+          emphasize ? "text-blue-700" : "text-slate-400"
+        }`}
+      >
+        {label}
+      </p>
+      <p className="mt-2 text-xl font-semibold text-slate-950">{value}</p>
+    </article>
   );
 }
 
@@ -163,6 +219,12 @@ function formatMoney(value: number): string {
     currency: "EUR",
     style: "currency",
   }).format(value);
+}
+
+function formatArea(value: number): string {
+  return `${new Intl.NumberFormat("hr-HR", {
+    maximumFractionDigits: 2,
+  }).format(value)} m2`;
 }
 
 function formatQuantity(value: string): string {
