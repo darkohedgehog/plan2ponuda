@@ -255,9 +255,9 @@ export function RoomReviewEditor({
   }
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
+        <div className="min-w-0">
           <h2 className="text-lg font-semibold text-slate-950">
             Detected rooms
           </h2>
@@ -266,7 +266,7 @@ export function RoomReviewEditor({
           </p>
         </div>
         <button
-          className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+          className="inline-flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
           onClick={addRoom}
           type="button"
         >
@@ -300,7 +300,7 @@ export function RoomReviewEditor({
             yet. Add rooms manually to continue the review workflow.
           </p>
           <button
-            className="mt-5 inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+            className="mt-5 inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             onClick={addRoom}
             type="button"
           >
@@ -314,9 +314,9 @@ export function RoomReviewEditor({
         <p className="mt-4 text-sm text-emerald-700">{successMessage}</p>
       ) : null}
 
-      <div className="mt-5 flex justify-end">
+      <div className="mt-5 flex sm:justify-end">
         <button
-          className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           disabled={isSubmitting}
           onClick={saveRooms}
           type="button"
@@ -353,76 +353,82 @@ function RoomEditorRow({
   }
 
   return (
-    <article className="rounded-md border border-slate-200 bg-slate-50 p-4">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)_auto_auto_auto] lg:items-end">
-        <label className="grid gap-1.5">
-          <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
-            Room {index + 1}
-          </span>
-          <input
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            maxLength={100}
-            onChange={(event) => onNameChange(event.target.value)}
-            placeholder="Room name"
-            type="text"
-            value={room.name}
-          />
-        </label>
+    <article className="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-4">
+      <div className="grid gap-4">
+        <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)] xl:grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)]">
+          <label className="grid min-w-0 gap-1.5">
+            <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              Room {index + 1}
+            </span>
+            <input
+              className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              maxLength={100}
+              onChange={(event) => onNameChange(event.target.value)}
+              placeholder="Room name"
+              type="text"
+              value={room.name}
+            />
+          </label>
 
-        <label className="grid gap-1.5">
-          <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
-            Room type
-          </span>
-          <select
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            onChange={handleTypeChange}
-            value={room.type}
-          >
-            {roomTypeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
+          <label className="grid min-w-0 gap-1.5">
+            <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              Room type
+            </span>
+            <select
+              className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              onChange={handleTypeChange}
+              value={room.type}
+            >
+              {roomTypeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-        <ReadOnlyMetric
-          label="Area"
-          value={
-            room.estimatedAreaM2 !== undefined
-              ? `${room.estimatedAreaM2} m2`
-              : "Not set"
-          }
-        />
-        <ReadOnlyMetric
-          label="Confidence"
-          value={
-            room.confidence !== undefined
-              ? `${Math.round(room.confidence * 100)}%`
-              : "Not set"
-          }
-        />
-
-        <button
-          className="inline-flex h-10 items-center justify-center rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 shadow-sm outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2"
-          onClick={onDelete}
-          type="button"
-        >
-          Delete
-        </button>
-      </div>
-
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
-        {suggestionInputConfigs.map((config) => (
-          <SuggestionInput
-            config={config}
-            key={config.overrideKey}
-            onChange={(value) =>
-              onSuggestionChange(config.overrideKey, value)
+        <div className="grid gap-3 sm:grid-cols-2">
+          <ReadOnlyMetric
+            label="Area"
+            value={
+              room.estimatedAreaM2 !== undefined
+                ? `${room.estimatedAreaM2} m2`
+                : "Not set"
             }
-            suggestion={room.suggestion}
           />
-        ))}
+          <ReadOnlyMetric
+            label="Confidence"
+            value={
+              room.confidence !== undefined
+                ? `${Math.round(room.confidence * 100)}%`
+                : "Not set"
+            }
+          />
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
+          {suggestionInputConfigs.map((config) => (
+            <SuggestionInput
+              config={config}
+              key={config.overrideKey}
+              onChange={(value) =>
+                onSuggestionChange(config.overrideKey, value)
+              }
+              suggestion={room.suggestion}
+            />
+          ))}
+        </div>
+
+        <div className="flex border-t border-slate-200 pt-4 sm:justify-end">
+          <button
+            className="inline-flex h-10 w-full items-center justify-center rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 shadow-sm outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2 sm:w-auto"
+            onClick={onDelete}
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -442,11 +448,11 @@ function SuggestionInput({
   const isOverride = suggestion[config.overrideKey] !== undefined;
 
   return (
-    <label className="grid gap-1.5">
-      <span className="flex items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-slate-400">
+    <label className="grid min-w-0 gap-1.5">
+      <span className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-slate-400">
         {config.label}
         <span
-          className={`rounded-md px-2 py-0.5 text-[11px] font-semibold normal-case tracking-normal ${
+          className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold normal-case tracking-normal ${
             isOverride
               ? "bg-blue-50 text-blue-700"
               : "bg-white text-slate-500 ring-1 ring-inset ring-slate-200"
@@ -456,7 +462,7 @@ function SuggestionInput({
         </span>
       </span>
       <input
-        className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
         min={0}
         onChange={(event) =>
           onChange(parseSuggestionInputValue(event.target.value))
@@ -478,11 +484,11 @@ type ReadOnlyMetricProps = {
 
 function ReadOnlyMetric({ label, value }: ReadOnlyMetricProps) {
   return (
-    <div>
+    <div className="min-w-0">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
         {label}
       </p>
-      <p className="mt-1 flex h-10 items-center rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-600">
+      <p className="mt-1 flex h-10 min-w-0 items-center truncate rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-600">
         {value}
       </p>
     </div>

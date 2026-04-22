@@ -17,9 +17,9 @@ export function RoomReview({
 }: RoomReviewProps) {
   return (
     <main className="flex flex-col gap-6">
-      <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <p className="text-sm font-semibold text-blue-700">Room review</p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
           {project.name}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
@@ -28,7 +28,7 @@ export function RoomReview({
         </p>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1fr_0.9fr]">
+      <section className="grid min-w-0 gap-4 2xl:grid-cols-[minmax(0,1fr)_minmax(28rem,0.9fr)]">
         <FloorPlanCard preview={floorPlanPreview} project={project} />
         <RoomReviewEditor initialRooms={rooms} projectId={project.id} />
       </section>
@@ -46,7 +46,7 @@ function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
     preview.kind !== "unavailable" || preview.reason !== "missing_file";
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
       <div>
         <h2 className="text-lg font-semibold text-slate-950">Floor plan</h2>
         <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -93,7 +93,7 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt={`Floor plan preview for ${preview.fileName}`}
-          className="max-h-[560px] w-full rounded-md border border-slate-200 object-contain"
+          className="max-h-140 w-full rounded-md border border-slate-200 object-contain"
           src={preview.url}
         />
         <figcaption className="mt-3 text-xs text-slate-500">
@@ -116,7 +116,7 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
             {formatExpiry(preview.expiresInSeconds)}.
           </p>
           <a
-            className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+            className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             href={preview.url}
             rel="noreferrer"
             target="_blank"
