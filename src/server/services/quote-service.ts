@@ -19,6 +19,10 @@ import {
   resolveRoomSuggestion,
 } from "@/lib/rules/room-rules";
 import type { UpdateProjectMaterialsInput } from "@/lib/validations/quote.schema";
+import {
+  DEFAULT_LABOR_FACTOR,
+  getUserLaborFactor,
+} from "@/server/services/settings-service";
 import type {
   Material,
   ProjectMaterial,
@@ -27,8 +31,6 @@ import type {
   QuoteExportRoom,
   QuoteIndexItem,
 } from "@/types/quote";
-
-const MVP_LABOR_FACTOR = 12;
 
 type DbProjectMaterialWithMaterial = DbProjectMaterial & {
   material: DbMaterial;
@@ -135,8 +137,11 @@ function toMoneyDecimal(
   return new Prisma.Decimal(value).toDecimalPlaces(2);
 }
 
-export function calculateLaborCost(areaM2: number): Prisma.Decimal {
-  return toMoneyDecimal(new Prisma.Decimal(areaM2).mul(MVP_LABOR_FACTOR));
+export function calculateLaborCost(
+  areaM2: number,
+  laborFactor: number | string | Prisma.Decimal = DEFAULT_LABOR_FACTOR,
+): Prisma.Decimal {
+  return toMoneyDecimal(new Prisma.Decimal(areaM2).mul(laborFactor));
 }
 
 function calculateMaterialCost(
@@ -276,6 +281,7 @@ async function getProjectMaterials(
 async function recalculateQuoteFromPersistedMaterials(
   projectId: string,
   areaM2: number,
+  laborFactor: number | string | Prisma.Decimal,
   db: QuoteWriteClient = prisma,
 ): Promise<DbQuote> {
   const persistedMaterials = await db.projectMaterial.findMany({
@@ -287,7 +293,7 @@ async function recalculateQuoteFromPersistedMaterials(
     },
   });
   const materialCost = calculateMaterialCost(persistedMaterials);
-  const laborCost = calculateLaborCost(areaM2);
+  const laborCost = calculateLaborCost(areaM2, laborFactor);
   const subtotal = materialCost.add(laborCost);
   const total = subtotal;
 
@@ -538,9 +544,11 @@ export async function generateQuote(
     return materialResult;
   }
 
+  const laborFactor = await getUserLaborFactor(userId);
   const quote = await recalculateQuoteFromPersistedMaterials(
     project.id,
     project.areaM2,
+    laborFactor,
   );
 
   return {
@@ -577,9 +585,11 @@ export async function getQuoteWorkspace(
     return generateQuote(project.id, userId);
   }
 
+  const laborFactor = await getUserLaborFactor(userId);
   const quote = await recalculateQuoteFromPersistedMaterials(
     project.id,
     project.areaM2,
+    laborFactor,
   );
   const materials = await getProjectMaterials(project.id);
 
@@ -712,9 +722,11 @@ export async function updateProjectMaterials(
       });
     }
 
+    const laborFactor = await getUserLaborFactor(userId, transaction);
     const quote = await recalculateQuoteFromPersistedMaterials(
       project.id,
       project.areaM2,
+      laborFactor,
       transaction,
     );
     const materials = await getProjectMaterials(project.id, transaction);
