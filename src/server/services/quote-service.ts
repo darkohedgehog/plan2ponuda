@@ -17,7 +17,13 @@ import {
   generateRoomSuggestions,
   resolveRoomSuggestion,
 } from "@/lib/rules/room-rules";
-import type { Material, ProjectMaterial, Quote } from "@/types/quote";
+import type {
+  Material,
+  ProjectMaterial,
+  Quote,
+  QuoteExportData,
+  QuoteExportRoom,
+} from "@/types/quote";
 
 const MVP_LABOR_FACTOR = 12;
 
@@ -143,6 +149,30 @@ function getResolvedRoomPoints(
     resolvedLights: resolvedSuggestion.resolvedLights,
     resolvedSockets: resolvedSuggestion.resolvedSockets,
     resolvedSwitches: resolvedSuggestion.resolvedSwitches,
+  };
+}
+
+function mapQuoteExportRoom(room: {
+  id: string;
+  name: string;
+  suggestion: {
+    suggestedLights: number;
+    suggestedSockets: number;
+    suggestedSwitches: number;
+    userLights: number | null;
+    userSockets: number | null;
+    userSwitches: number | null;
+  } | null;
+  type: Parameters<typeof generateRoomSuggestions>[0]["type"];
+  estimatedAreaM2: number | null;
+}): QuoteExportRoom {
+  const resolvedPoints = getResolvedRoomPoints(room);
+
+  return {
+    id: room.id,
+    name: room.name,
+    type: room.type,
+    ...resolvedPoints,
   };
 }
 
@@ -432,5 +462,68 @@ export async function generateQuote(
     ok: true,
     materials: materialResult.materials,
     quote: mapQuote(quote),
+  };
+}
+
+export async function getQuoteExportData(
+  projectId: string,
+  userId: string,
+): Promise<QuoteExportData | null> {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    include: {
+      materials: {
+        include: {
+          material: true,
+        },
+        orderBy: [
+          {
+            material: {
+              category: "asc",
+            },
+          },
+          {
+            material: {
+              name: "asc",
+            },
+          },
+        ],
+      },
+      quote: true,
+      rooms: {
+        include: {
+          suggestion: true,
+        },
+        orderBy: [
+          {
+            sortOrder: "asc",
+          },
+          {
+            createdAt: "asc",
+          },
+        ],
+      },
+    },
+  });
+
+  if (!project?.quote) {
+    return null;
+  }
+
+  return {
+    generatedAt: new Date(),
+    materials: project.materials.map(mapProjectMaterial),
+    project: {
+      id: project.id,
+      name: project.name,
+      clientName: project.clientName ?? undefined,
+      objectType: project.objectType,
+      areaM2: project.areaM2,
+    },
+    quote: mapQuote(project.quote),
+    rooms: project.rooms.map(mapQuoteExportRoom),
   };
 }

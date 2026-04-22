@@ -4,6 +4,7 @@ import type { ProjectMaterial, Quote } from "@/types/quote";
 
 type QuoteSummaryProps = {
   areaM2: number;
+  exportHref: string;
   materials: ProjectMaterial[];
   projectName: string;
   quote: Quote;
@@ -11,6 +12,7 @@ type QuoteSummaryProps = {
 
 export function QuoteSummary({
   areaM2,
+  exportHref,
   materials,
   projectName,
   quote,
@@ -19,7 +21,7 @@ export function QuoteSummary({
     <div className="flex flex-col gap-4">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <p className="text-sm font-semibold text-blue-700">Quote workspace</p>
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
               {projectName}
@@ -31,13 +33,21 @@ export function QuoteSummary({
               Project area: {formatArea(areaM2)}
             </p>
           </div>
-          <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Quote total
-            </p>
-            <p className="mt-1 text-lg font-semibold text-slate-950">
-              {formatMoney(Number(quote.total))}
-            </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+            <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                Quote total
+              </p>
+              <p className="mt-1 text-lg font-semibold text-slate-950">
+                {formatMoney(Number(quote.total))}
+              </p>
+            </div>
+            <a
+              className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+              href={exportHref}
+            >
+              Export PDF
+            </a>
           </div>
         </div>
       </section>

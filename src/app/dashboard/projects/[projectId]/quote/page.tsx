@@ -43,6 +43,7 @@ export default async function ProjectQuotePage({
     <main className="flex flex-col gap-4">
       <QuoteSummary
         areaM2={project.areaM2}
+        exportHref={`/api/pdf/${project.id}`}
         materials={quoteResult.materials}
         projectName={project.name}
         quote={quoteResult.quote}

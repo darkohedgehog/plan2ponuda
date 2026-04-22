@@ -44,3 +44,26 @@ export type Quote = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type QuoteExportRoom = {
+  id: string;
+  name: string;
+  type: string;
+  resolvedSockets: number;
+  resolvedSwitches: number;
+  resolvedLights: number;
+};
+
+export type QuoteExportData = {
+  generatedAt: Date;
+  materials: ProjectMaterial[];
+  project: {
+    id: string;
+    name: string;
+    clientName?: string;
+    objectType: string;
+    areaM2: number;
+  };
+  quote: Quote;
+  rooms: QuoteExportRoom[];
+};
