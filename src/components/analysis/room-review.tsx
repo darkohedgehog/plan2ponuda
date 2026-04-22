@@ -92,7 +92,7 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt={`Floor plan preview for ${preview.fileName}`}
-          className="max-h-[560px] w-full rounded-md border border-slate-200 object-contain"
+          className="max-h-140 w-full rounded-md border border-slate-200 object-contain"
           src={preview.url}
         />
         <figcaption className="mt-3 text-xs text-slate-500">
