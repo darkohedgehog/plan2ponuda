@@ -1,5 +1,7 @@
-import type { ReactNode } from "react";
-
+import {
+  QuoteMaterialEditor,
+  type QuoteMaterialEditorMaterial,
+} from "@/components/quote/quote-material-editor";
 import type { ProjectMaterial, Quote } from "@/types/quote";
 
 type QuoteSummaryProps = {
@@ -27,7 +29,7 @@ export function QuoteSummary({
               {projectName}
             </h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Review the rule-generated material list before quote generation.
+              Review the material list and totals before final export.
             </p>
             <p className="mt-2 text-sm font-medium text-slate-500">
               Project area: {formatArea(areaM2)}
@@ -78,25 +80,43 @@ export function QuoteSummary({
             Material list
           </h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">
-            Quantities are generated from resolved room suggestions.
+            Quantities are generated from resolved room suggestions and can be
+            adjusted before export.
           </p>
         </div>
 
-        {materials.length > 0 ? (
-          <MaterialList materials={materials} />
-        ) : (
-          <div className="mt-5 rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-            <h3 className="text-base font-semibold text-slate-950">
-              No materials generated yet
-            </h3>
-            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
-              Review and save project rooms before generating a material list.
-            </p>
-          </div>
-        )}
+        <QuoteMaterialEditor
+          initialMaterials={materials.map(toEditorMaterial)}
+          projectId={quote.projectId}
+        />
       </section>
     </div>
   );
+}
+
+function toEditorMaterial(
+  projectMaterial: ProjectMaterial,
+): QuoteMaterialEditorMaterial {
+  const editorMaterial: QuoteMaterialEditorMaterial = {
+    category: projectMaterial.material?.category ?? "other",
+    id: projectMaterial.id,
+    materialId: projectMaterial.materialId,
+    name: projectMaterial.material?.name ?? "Material",
+    quantity: projectMaterial.quantity,
+    source: projectMaterial.source,
+    totalPrice: projectMaterial.totalPrice,
+    unit: projectMaterial.material?.unit ?? "pcs",
+    unitPrice: projectMaterial.unitPrice,
+  };
+
+  if (projectMaterial.material?.code) {
+    return {
+      ...editorMaterial,
+      code: projectMaterial.material.code,
+    };
+  }
+
+  return editorMaterial;
 }
 
 type QuoteMetricCardProps = {
@@ -130,100 +150,6 @@ function QuoteMetricCard({
   );
 }
 
-type MaterialListProps = {
-  materials: ProjectMaterial[];
-};
-
-function MaterialList({ materials }: MaterialListProps) {
-  return (
-    <div className="mt-5 overflow-hidden rounded-md border border-slate-200">
-      <div className="hidden bg-slate-50 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.7fr)_7rem_7rem_7rem] lg:gap-4">
-        <span>Material</span>
-        <span>Category</span>
-        <span className="text-right">Quantity</span>
-        <span className="text-right">Unit price</span>
-        <span className="text-right">Total</span>
-      </div>
-
-      <div className="divide-y divide-slate-200">
-        {materials.map((projectMaterial) => (
-          <MaterialRow
-            key={projectMaterial.id}
-            projectMaterial={projectMaterial}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-type MaterialRowProps = {
-  projectMaterial: ProjectMaterial;
-};
-
-function MaterialRow({ projectMaterial }: MaterialRowProps) {
-  const materialName = projectMaterial.material?.name ?? "Material";
-  const category = projectMaterial.material?.category ?? "other";
-  const unit = projectMaterial.material?.unit ?? "";
-
-  return (
-    <article className="grid gap-3 px-4 py-4 text-sm lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.7fr)_7rem_7rem_7rem] lg:items-center lg:gap-4">
-      <div className="min-w-0">
-        <p className="font-semibold text-slate-950">{materialName}</p>
-        {projectMaterial.material?.code ? (
-          <p className="mt-1 text-xs text-slate-500">
-            {projectMaterial.material.code}
-          </p>
-        ) : null}
-      </div>
-
-      <MaterialMobileField label="Category">
-        <span className="capitalize text-slate-700">{category}</span>
-      </MaterialMobileField>
-      <MaterialMobileField label="Quantity" align="right">
-        <span className="font-medium text-slate-800">
-          {formatQuantity(projectMaterial.quantity)} {unit}
-        </span>
-      </MaterialMobileField>
-      <MaterialMobileField label="Unit price" align="right">
-        <span className="font-medium text-slate-800">
-          {formatMoney(Number(projectMaterial.unitPrice))}
-        </span>
-      </MaterialMobileField>
-      <MaterialMobileField label="Total" align="right">
-        <span className="font-semibold text-slate-950">
-          {formatMoney(Number(projectMaterial.totalPrice))}
-        </span>
-      </MaterialMobileField>
-    </article>
-  );
-}
-
-type MaterialMobileFieldProps = {
-  align?: "left" | "right";
-  children: ReactNode;
-  label: string;
-};
-
-function MaterialMobileField({
-  align = "left",
-  children,
-  label,
-}: MaterialMobileFieldProps) {
-  return (
-    <div
-      className={`flex items-center justify-between gap-4 lg:block ${
-        align === "right" ? "lg:text-right" : ""
-      }`}
-    >
-      <span className="text-xs font-medium uppercase tracking-wide text-slate-400 lg:hidden">
-        {label}
-      </span>
-      {children}
-    </div>
-  );
-}
-
 function formatMoney(value: number): string {
   return new Intl.NumberFormat("hr-HR", {
     currency: "EUR",
@@ -235,14 +161,4 @@ function formatArea(value: number): string {
   return `${new Intl.NumberFormat("hr-HR", {
     maximumFractionDigits: 2,
   }).format(value)} m2`;
-}
-
-function formatQuantity(value: string): string {
-  const numericValue = Number(value);
-
-  if (Number.isInteger(numericValue)) {
-    return numericValue.toString();
-  }
-
-  return numericValue.toFixed(2);
 }

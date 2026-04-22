@@ -4,7 +4,7 @@ import { QuoteSummary } from "@/components/quote/quote-summary";
 import { getCurrentUser } from "@/lib/auth/session";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import { getProjectById } from "@/server/services/project-service";
-import { generateQuote } from "@/server/services/quote-service";
+import { getQuoteWorkspace } from "@/server/services/quote-service";
 
 type ProjectQuotePageProps = {
   params: Promise<{
@@ -33,7 +33,7 @@ export default async function ProjectQuotePage({
     notFound();
   }
 
-  const quoteResult = await generateQuote(project.id, user.id);
+  const quoteResult = await getQuoteWorkspace(project.id, user.id);
 
   if (!quoteResult.ok) {
     notFound();

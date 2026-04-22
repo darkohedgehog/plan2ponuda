@@ -17,6 +17,7 @@ import {
   generateRoomSuggestions,
   resolveRoomSuggestion,
 } from "@/lib/rules/room-rules";
+import type { UpdateProjectMaterialsInput } from "@/lib/validations/quote.schema";
 import type {
   Material,
   ProjectMaterial,
@@ -51,6 +52,20 @@ type QuoteGenerationResult =
       ok: false;
       reason: "not_found";
     };
+
+type ProjectMaterialUpdateResult =
+  | {
+      materials: ProjectMaterial[];
+      ok: true;
+      quote: Quote;
+    }
+  | {
+      ok: false;
+      reason: "invalid_material_reference" | "not_found";
+    };
+
+type ProjectMaterialReadClient = Pick<typeof prisma, "projectMaterial">;
+type QuoteWriteClient = Pick<typeof prisma, "projectMaterial" | "quote">;
 
 function mapQuote(quote: DbQuote): Quote {
   return {
@@ -113,6 +128,14 @@ function calculateMaterialCost(
     (total, material) => total.add(material.totalPrice),
     toMoneyDecimal(0),
   );
+}
+
+function calculateLineTotal(quantity: number, unitPrice: number): Prisma.Decimal {
+  return toMoneyDecimal(new Prisma.Decimal(quantity).mul(unitPrice));
+}
+
+function hasDuplicateIds(ids: string[]): boolean {
+  return new Set(ids).size !== ids.length;
 }
 
 function getResolvedRoomPoints(
@@ -204,6 +227,70 @@ async function getOrCreateMaterialCatalog(
   }
 
   return materials;
+}
+
+async function getProjectMaterials(
+  projectId: string,
+  db: ProjectMaterialReadClient = prisma,
+): Promise<DbProjectMaterialWithMaterial[]> {
+  return db.projectMaterial.findMany({
+    where: {
+      projectId,
+    },
+    include: {
+      material: true,
+    },
+    orderBy: [
+      {
+        material: {
+          category: "asc",
+        },
+      },
+      {
+        material: {
+          name: "asc",
+        },
+      },
+    ],
+  });
+}
+
+async function recalculateQuoteFromPersistedMaterials(
+  projectId: string,
+  areaM2: number,
+  db: QuoteWriteClient = prisma,
+): Promise<DbQuote> {
+  const persistedMaterials = await db.projectMaterial.findMany({
+    where: {
+      projectId,
+    },
+    select: {
+      totalPrice: true,
+    },
+  });
+  const materialCost = calculateMaterialCost(persistedMaterials);
+  const laborCost = calculateLaborCost(areaM2);
+  const subtotal = materialCost.add(laborCost);
+  const total = subtotal;
+
+  return db.quote.upsert({
+    where: {
+      projectId,
+    },
+    update: {
+      laborCost,
+      materialCost,
+      subtotal,
+      total,
+    },
+    create: {
+      laborCost,
+      materialCost,
+      projectId,
+      subtotal,
+      total,
+    },
+  });
 }
 
 export async function getQuoteForProject(
@@ -372,26 +459,7 @@ export async function generateProjectMaterialList(
     },
   });
 
-  const materials = await prisma.projectMaterial.findMany({
-    where: {
-      projectId: project.id,
-    },
-    include: {
-      material: true,
-    },
-    orderBy: [
-      {
-        material: {
-          category: "asc",
-        },
-      },
-      {
-        material: {
-          name: "asc",
-        },
-      },
-    ],
-  });
+  const materials = await getProjectMaterials(project.id);
 
   return {
     ok: true,
@@ -427,42 +495,193 @@ export async function generateQuote(
     return materialResult;
   }
 
-  const persistedMaterials = await prisma.projectMaterial.findMany({
-    where: {
-      projectId: project.id,
-    },
-    select: {
-      totalPrice: true,
-    },
-  });
-  const materialCost = calculateMaterialCost(persistedMaterials);
-  const laborCost = calculateLaborCost(project.areaM2);
-  const subtotal = materialCost.add(laborCost);
-  const total = subtotal;
-  const quote = await prisma.quote.upsert({
-    where: {
-      projectId: project.id,
-    },
-    update: {
-      laborCost,
-      materialCost,
-      subtotal,
-      total,
-    },
-    create: {
-      laborCost,
-      materialCost,
-      projectId: project.id,
-      subtotal,
-      total,
-    },
-  });
+  const quote = await recalculateQuoteFromPersistedMaterials(
+    project.id,
+    project.areaM2,
+  );
 
   return {
     ok: true,
     materials: materialResult.materials,
     quote: mapQuote(quote),
   };
+}
+
+export async function getQuoteWorkspace(
+  projectId: string,
+  userId: string,
+): Promise<QuoteGenerationResult> {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    select: {
+      areaM2: true,
+      id: true,
+      quote: true,
+    },
+  });
+
+  if (!project) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
+
+  if (!project.quote) {
+    return generateQuote(project.id, userId);
+  }
+
+  const quote = await recalculateQuoteFromPersistedMaterials(
+    project.id,
+    project.areaM2,
+  );
+  const materials = await getProjectMaterials(project.id);
+
+  return {
+    ok: true,
+    materials: materials.map(mapProjectMaterial),
+    quote: mapQuote(quote),
+  };
+}
+
+export async function updateProjectMaterials(
+  projectId: string,
+  userId: string,
+  input: UpdateProjectMaterialsInput,
+): Promise<ProjectMaterialUpdateResult> {
+  return prisma.$transaction(async (transaction) => {
+    const project = await transaction.project.findFirst({
+      where: {
+        id: projectId,
+        userId,
+      },
+      select: {
+        areaM2: true,
+        id: true,
+      },
+    });
+
+    if (!project) {
+      return {
+        ok: false,
+        reason: "not_found",
+      };
+    }
+
+    const existingMaterialIds = input.existingMaterials.map(
+      (material) => material.id,
+    );
+    const referencedMaterialIds = [
+      ...existingMaterialIds,
+      ...input.deletedMaterialIds,
+    ];
+
+    if (
+      hasDuplicateIds(existingMaterialIds) ||
+      hasDuplicateIds(input.deletedMaterialIds)
+    ) {
+      return {
+        ok: false,
+        reason: "invalid_material_reference",
+      };
+    }
+
+    if (referencedMaterialIds.length > 0) {
+      const referencedMaterials = await transaction.projectMaterial.findMany({
+        where: {
+          id: {
+            in: referencedMaterialIds,
+          },
+          projectId: project.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+      const validMaterialIds = new Set(
+        referencedMaterials.map((material) => material.id),
+      );
+
+      if (
+        referencedMaterialIds.some(
+          (materialId) => !validMaterialIds.has(materialId),
+        )
+      ) {
+        return {
+          ok: false,
+          reason: "invalid_material_reference",
+        };
+      }
+    }
+
+    if (input.deletedMaterialIds.length > 0) {
+      await transaction.projectMaterial.deleteMany({
+        where: {
+          id: {
+            in: input.deletedMaterialIds,
+          },
+          projectId: project.id,
+        },
+      });
+    }
+
+    const deletedMaterialIds = new Set(input.deletedMaterialIds);
+
+    for (const material of input.existingMaterials) {
+      if (deletedMaterialIds.has(material.id)) {
+        continue;
+      }
+
+      await transaction.projectMaterial.update({
+        where: {
+          id: material.id,
+        },
+        data: {
+          quantity: toMoneyDecimal(material.quantity),
+          totalPrice: calculateLineTotal(material.quantity, material.unitPrice),
+          unitPrice: toMoneyDecimal(material.unitPrice),
+        },
+      });
+    }
+
+    for (const material of input.manualMaterials) {
+      const catalogMaterial = await transaction.material.create({
+        data: {
+          category: material.category,
+          defaultPrice: toMoneyDecimal(material.unitPrice),
+          name: material.name,
+          unit: material.unit,
+        },
+      });
+
+      await transaction.projectMaterial.create({
+        data: {
+          materialId: catalogMaterial.id,
+          projectId: project.id,
+          quantity: toMoneyDecimal(material.quantity),
+          source: "manual",
+          totalPrice: calculateLineTotal(material.quantity, material.unitPrice),
+          unitPrice: toMoneyDecimal(material.unitPrice),
+        },
+      });
+    }
+
+    const quote = await recalculateQuoteFromPersistedMaterials(
+      project.id,
+      project.areaM2,
+      transaction,
+    );
+    const materials = await getProjectMaterials(project.id, transaction);
+
+    return {
+      ok: true,
+      materials: materials.map(mapProjectMaterial),
+      quote: mapQuote(quote),
+    };
+  });
 }
 
 export async function getQuoteExportData(
