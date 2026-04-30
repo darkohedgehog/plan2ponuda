@@ -73,7 +73,10 @@ type ProjectMaterialUpdateResult =
     };
 
 type ProjectMaterialReadClient = Pick<typeof prisma, "projectMaterial">;
-type QuoteWriteClient = Pick<typeof prisma, "projectMaterial" | "quote">;
+type QuoteWriteClient = Pick<
+  typeof prisma,
+  "project" | "projectMaterial" | "quote"
+>;
 
 function mapQuote(quote: DbQuote): Quote {
   return {
@@ -297,7 +300,7 @@ async function recalculateQuoteFromPersistedMaterials(
   const subtotal = materialCost.add(laborCost);
   const total = subtotal;
 
-  return db.quote.upsert({
+  const quote = await db.quote.upsert({
     where: {
       projectId,
     },
@@ -315,6 +318,17 @@ async function recalculateQuoteFromPersistedMaterials(
       total,
     },
   });
+
+  await db.project.update({
+    where: {
+      id: projectId,
+    },
+    data: {
+      status: "quoted",
+    },
+  });
+
+  return quote;
 }
 
 export async function getQuoteForProject(

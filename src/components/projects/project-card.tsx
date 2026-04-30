@@ -3,16 +3,21 @@ import Link from "next/link";
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import type { Project } from "@/types/project";
 
-type ProjectCardProps = {
-  project: Project;
+export type ProjectCardProject = Omit<Project, "createdAt" | "updatedAt"> & {
+  createdAt: Date | string;
+  updatedAt: Date | string;
 };
 
-function formatDate(date: Date): string {
+type ProjectCardProps = {
+  project: ProjectCardProject;
+};
+
+function formatDate(date: Date | string): string {
   return new Intl.DateTimeFormat("en", {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  }).format(date);
+  }).format(new Date(date));
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {

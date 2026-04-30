@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { ProjectWorkspace } from "@/components/projects/project-workspace";
 import { getCurrentUser } from "@/lib/auth/session";
-import { getProjectById } from "@/server/services/project-service";
+import { getProjectWorkspaceData } from "@/server/services/project-service";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -18,7 +18,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     redirect("/sign-in");
   }
 
-  const project = await getProjectById(projectId, user.id);
+  const project = await getProjectWorkspaceData(projectId, user.id);
 
   if (!project) {
     notFound();

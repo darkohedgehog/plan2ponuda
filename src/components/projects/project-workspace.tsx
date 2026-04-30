@@ -5,7 +5,13 @@ import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import type { Project, ProjectStatus } from "@/types/project";
 
 type ProjectWorkspaceProps = {
-  project: Project;
+  project: ProjectWorkspaceProject;
+};
+
+type ProjectWorkspaceProject = Project & {
+  hasMaterials: boolean;
+  hasQuote: boolean;
+  hasRooms: boolean;
 };
 
 type WorkflowStepState = "not started" | "in progress" | "ready";
@@ -212,7 +218,16 @@ type NextStep = {
   label: string;
 };
 
-function getNextStep(project: Project): NextStep {
+function getNextStep(project: ProjectWorkspaceProject): NextStep {
+  if (project.hasQuote) {
+    return {
+      description:
+        "A quote is available for this project. Review quote details or continue refining the estimate.",
+      href: `/dashboard/projects/${project.id}/quote`,
+      label: "Open Quote",
+    };
+  }
+
   if (!project.sourceFilePath) {
     return {
       description:
@@ -266,10 +281,11 @@ function getNextStep(project: Project): NextStep {
   };
 }
 
-function getWorkflowSteps(project: Project): WorkflowStep[] {
+function getWorkflowSteps(project: ProjectWorkspaceProject): WorkflowStep[] {
   const hasFloorPlan = Boolean(project.sourceFilePath);
   const roomsReviewed = isAtLeastStatus(project.status, "reviewed");
-  const quoteReady = project.status === "quoted";
+  const hasPersistedMaterials = project.hasMaterials;
+  const quoteReady = project.hasQuote;
 
   return [
     {
@@ -307,7 +323,11 @@ function getWorkflowSteps(project: Project): WorkflowStep[] {
       actionLabel: roomsReviewed ? "Open quote" : "Waiting",
       description:
         "Convert reviewed suggestions into material quantities and pricing inputs.",
-      state: quoteReady ? "ready" : roomsReviewed ? "in progress" : "not started",
+      state: hasPersistedMaterials
+        ? "ready"
+        : roomsReviewed
+          ? "in progress"
+          : "not started",
       title: "Materials",
     },
     {

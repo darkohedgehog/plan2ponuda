@@ -129,6 +129,48 @@ export async function getProjectById(
   return project ? mapProject(project) : null;
 }
 
+export type ProjectWorkspaceData = Project & {
+  hasMaterials: boolean;
+  hasQuote: boolean;
+  hasRooms: boolean;
+};
+
+export async function getProjectWorkspaceData(
+  projectId: string,
+  userId: string,
+): Promise<ProjectWorkspaceData | null> {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    include: {
+      _count: {
+        select: {
+          materials: true,
+          rooms: true,
+        },
+      },
+      quote: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  if (!project) {
+    return null;
+  }
+
+  return {
+    ...mapProject(project),
+    hasMaterials: project._count.materials > 0,
+    hasQuote: Boolean(project.quote),
+    hasRooms: project._count.rooms > 0,
+  };
+}
+
 function getStoredFileName(filePath: string): string {
   return filePath.split("/").filter(Boolean).at(-1) ?? "floor plan";
 }

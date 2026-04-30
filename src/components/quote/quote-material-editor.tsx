@@ -7,6 +7,7 @@ import type {
   MaterialCategory,
   MaterialUnit,
   ProjectMaterial,
+  Quote,
 } from "@/types/quote";
 
 export type QuoteMaterialEditorMaterial = {
@@ -24,6 +25,10 @@ export type QuoteMaterialEditorMaterial = {
 
 type QuoteMaterialEditorProps = {
   initialMaterials: QuoteMaterialEditorMaterial[];
+  onSaved?: (result: {
+    materials: ProjectMaterial[];
+    quote: Quote;
+  }) => void;
   projectId: string;
 };
 
@@ -35,7 +40,7 @@ type DraftMaterial = QuoteMaterialEditorMaterial & {
 type SaveMaterialsResponse =
   | {
       materials: ProjectMaterial[];
-      quote: unknown;
+      quote: Quote;
     }
   | {
       error: string;
@@ -133,6 +138,7 @@ function calculateTotal(material: DraftMaterial): number {
 
 export function QuoteMaterialEditor({
   initialMaterials,
+  onSaved,
   projectId,
 }: QuoteMaterialEditorProps) {
   const router = useRouter();
@@ -258,6 +264,10 @@ export function QuoteMaterialEditor({
     setMaterials(payload.materials.map(toEditorMaterial).map(toDraftMaterial));
     setDeletedMaterialIds([]);
     setSuccessMessage("Materials saved.");
+    onSaved?.({
+      materials: payload.materials,
+      quote: payload.quote,
+    });
     router.refresh();
   }
 

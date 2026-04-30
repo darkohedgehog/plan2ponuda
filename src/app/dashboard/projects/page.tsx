@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { ProjectCard } from "@/components/projects/project-card";
+import { ProjectsList } from "@/components/projects/projects-list";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getUserProjects } from "@/server/services/project-service";
 
@@ -41,31 +41,13 @@ export default async function ProjectsPage() {
       </section>
 
       {hasProjects ? (
-        <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-          <div className="flex flex-col gap-4 border-b border-slate-200 p-5 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-950">
-                All projects
-              </h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Newest projects are shown first.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500">
-                Search coming soon
-              </div>
-              <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-500">
-                Status filters coming soon
-              </div>
-            </div>
-          </div>
-          <div>
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        </section>
+        <ProjectsList
+          projects={projects.map((project) => ({
+            ...project,
+            createdAt: project.createdAt.toISOString(),
+            updatedAt: project.updatedAt.toISOString(),
+          }))}
+        />
       ) : (
         <EmptyProjectsState />
       )}
