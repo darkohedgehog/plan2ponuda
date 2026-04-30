@@ -1,8 +1,11 @@
 export type UserSettingsProfile = {
   companyAddress?: string;
+  companyCity?: string;
+  companyCountry?: string;
   companyEmail?: string;
   companyName?: string;
   companyPhone?: string;
+  companyTaxId?: string;
   currency: string;
   email: string;
   fullName?: string;

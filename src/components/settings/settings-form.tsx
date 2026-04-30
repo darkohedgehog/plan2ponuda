@@ -18,9 +18,12 @@ type SettingsFormProps = {
 
 type SettingsFormState = {
   companyAddress: string;
+  companyCity: string;
+  companyCountry: string;
   companyEmail: string;
   companyName: string;
   companyPhone: string;
+  companyTaxId: string;
   currency: string;
   fullName: string;
   laborFactor: string;
@@ -29,9 +32,12 @@ type SettingsFormState = {
 function toFormState(settings: UserSettingsProfile): SettingsFormState {
   return {
     companyAddress: settings.companyAddress ?? "",
+    companyCity: settings.companyCity ?? "",
+    companyCountry: settings.companyCountry ?? "",
     companyEmail: settings.companyEmail ?? "",
     companyName: settings.companyName ?? "",
     companyPhone: settings.companyPhone ?? "",
+    companyTaxId: settings.companyTaxId ?? "",
     currency: settings.currency,
     fullName: settings.fullName ?? "",
     laborFactor: settings.laborFactor,
@@ -151,18 +157,36 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyAddress", event)}
-            placeholder="Street, city"
+            placeholder="Street and number"
             type="text"
             value={formState.companyAddress}
           />
         </SettingsField>
-        <SettingsField label="Company phone">
+        <SettingsField label="City">
           <input
             className={formControlClassName}
-            onChange={(event) => updateField("companyPhone", event)}
-            placeholder="+385..."
-            type="tel"
-            value={formState.companyPhone}
+            onChange={(event) => updateField("companyCity", event)}
+            placeholder="City"
+            type="text"
+            value={formState.companyCity}
+          />
+        </SettingsField>
+        <SettingsField label="Country">
+          <input
+            className={formControlClassName}
+            onChange={(event) => updateField("companyCountry", event)}
+            placeholder="Country"
+            type="text"
+            value={formState.companyCountry}
+          />
+        </SettingsField>
+        <SettingsField label="OIB / VAT number">
+          <input
+            className={formControlClassName}
+            onChange={(event) => updateField("companyTaxId", event)}
+            placeholder="Tax identifier"
+            type="text"
+            value={formState.companyTaxId}
           />
         </SettingsField>
         <SettingsField label="Company email">
@@ -172,6 +196,15 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             placeholder="company@example.com"
             type="email"
             value={formState.companyEmail}
+          />
+        </SettingsField>
+        <SettingsField label="Company phone">
+          <input
+            className={formControlClassName}
+            onChange={(event) => updateField("companyPhone", event)}
+            placeholder="+385..."
+            type="tel"
+            value={formState.companyPhone}
           />
         </SettingsField>
       </SettingsSection>

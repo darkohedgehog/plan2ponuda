@@ -6,6 +6,10 @@ import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
+import {
+  PasswordInput,
+  PasswordStrengthIndicator,
+} from "@/components/auth/password-input";
 import type { SignUpResponse } from "@/types/auth";
 
 export function SignUpForm() {
@@ -13,12 +17,21 @@ export function SignUpForm() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const passwordsDoNotMatch =
+    confirmPassword.length > 0 && password !== confirmPassword;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const response = await fetch("/api/auth/sign-up", {
@@ -81,17 +94,28 @@ export function SignUpForm() {
         type="email"
         value={email}
       />
-      <input
+      <PasswordInput
         autoComplete="new-password"
-        className={formControlClassName}
         minLength={8}
         name="password"
         onChange={(event) => setPassword(event.target.value)}
         placeholder="Password"
         required
-        type="password"
         value={password}
       />
+      <PasswordStrengthIndicator password={password} />
+      <PasswordInput
+        autoComplete="new-password"
+        minLength={8}
+        name="confirmPassword"
+        onChange={(event) => setConfirmPassword(event.target.value)}
+        placeholder="Confirm password"
+        required
+        value={confirmPassword}
+      />
+      {passwordsDoNotMatch ? (
+        <p className="text-sm text-red-600">Passwords do not match.</p>
+      ) : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button disabled={isSubmitting} type="submit">
         {isSubmitting ? "Creating account..." : "Create account"}

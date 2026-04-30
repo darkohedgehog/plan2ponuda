@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/UserSettings'
+export type * from './models/PasswordResetToken'
 export type * from './models/Project'
 export type * from './models/Room'
 export type * from './models/RoomSuggestion'

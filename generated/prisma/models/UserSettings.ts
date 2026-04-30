@@ -38,6 +38,9 @@ export type UserSettingsMinAggregateOutputType = {
   id: string | null
   userId: string | null
   companyAddress: string | null
+  companyCity: string | null
+  companyCountry: string | null
+  companyTaxId: string | null
   companyPhone: string | null
   companyEmail: string | null
   laborFactor: runtime.Decimal | null
@@ -50,6 +53,9 @@ export type UserSettingsMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   companyAddress: string | null
+  companyCity: string | null
+  companyCountry: string | null
+  companyTaxId: string | null
   companyPhone: string | null
   companyEmail: string | null
   laborFactor: runtime.Decimal | null
@@ -62,6 +68,9 @@ export type UserSettingsCountAggregateOutputType = {
   id: number
   userId: number
   companyAddress: number
+  companyCity: number
+  companyCountry: number
+  companyTaxId: number
   companyPhone: number
   companyEmail: number
   laborFactor: number
@@ -84,6 +93,9 @@ export type UserSettingsMinAggregateInputType = {
   id?: true
   userId?: true
   companyAddress?: true
+  companyCity?: true
+  companyCountry?: true
+  companyTaxId?: true
   companyPhone?: true
   companyEmail?: true
   laborFactor?: true
@@ -96,6 +108,9 @@ export type UserSettingsMaxAggregateInputType = {
   id?: true
   userId?: true
   companyAddress?: true
+  companyCity?: true
+  companyCountry?: true
+  companyTaxId?: true
   companyPhone?: true
   companyEmail?: true
   laborFactor?: true
@@ -108,6 +123,9 @@ export type UserSettingsCountAggregateInputType = {
   id?: true
   userId?: true
   companyAddress?: true
+  companyCity?: true
+  companyCountry?: true
+  companyTaxId?: true
   companyPhone?: true
   companyEmail?: true
   laborFactor?: true
@@ -207,6 +225,9 @@ export type UserSettingsGroupByOutputType = {
   id: string
   userId: string
   companyAddress: string | null
+  companyCity: string | null
+  companyCountry: string | null
+  companyTaxId: string | null
   companyPhone: string | null
   companyEmail: string | null
   laborFactor: runtime.Decimal
@@ -242,6 +263,9 @@ export type UserSettingsWhereInput = {
   id?: Prisma.StringFilter<"UserSettings"> | string
   userId?: Prisma.StringFilter<"UserSettings"> | string
   companyAddress?: Prisma.StringNullableFilter<"UserSettings"> | string | null
+  companyCity?: Prisma.StringNullableFilter<"UserSettings"> | string | null
+  companyCountry?: Prisma.StringNullableFilter<"UserSettings"> | string | null
+  companyTaxId?: Prisma.StringNullableFilter<"UserSettings"> | string | null
   companyPhone?: Prisma.StringNullableFilter<"UserSettings"> | string | null
   companyEmail?: Prisma.StringNullableFilter<"UserSettings"> | string | null
   laborFactor?: Prisma.DecimalFilter<"UserSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -255,6 +279,9 @@ export type UserSettingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyTaxId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   companyEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   laborFactor?: Prisma.SortOrder
@@ -271,6 +298,9 @@ export type UserSettingsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserSettingsWhereInput[]
   NOT?: Prisma.UserSettingsWhereInput | Prisma.UserSettingsWhereInput[]
   companyAddress?: Prisma.StringNullableFilter<"UserSettings"> | string | null
+  companyCity?: Prisma.StringNullableFilter<"UserSettings"> | string | null
+  companyCountry?: Prisma.StringNullableFilter<"UserSettings"> | string | null
+  companyTaxId?: Prisma.StringNullableFilter<"UserSettings"> | string | null
   companyPhone?: Prisma.StringNullableFilter<"UserSettings"> | string | null
   companyEmail?: Prisma.StringNullableFilter<"UserSettings"> | string | null
   laborFactor?: Prisma.DecimalFilter<"UserSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -284,6 +314,9 @@ export type UserSettingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyCountry?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyTaxId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   companyEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   laborFactor?: Prisma.SortOrder
@@ -304,6 +337,9 @@ export type UserSettingsScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"UserSettings"> | string
   userId?: Prisma.StringWithAggregatesFilter<"UserSettings"> | string
   companyAddress?: Prisma.StringNullableWithAggregatesFilter<"UserSettings"> | string | null
+  companyCity?: Prisma.StringNullableWithAggregatesFilter<"UserSettings"> | string | null
+  companyCountry?: Prisma.StringNullableWithAggregatesFilter<"UserSettings"> | string | null
+  companyTaxId?: Prisma.StringNullableWithAggregatesFilter<"UserSettings"> | string | null
   companyPhone?: Prisma.StringNullableWithAggregatesFilter<"UserSettings"> | string | null
   companyEmail?: Prisma.StringNullableWithAggregatesFilter<"UserSettings"> | string | null
   laborFactor?: Prisma.DecimalWithAggregatesFilter<"UserSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -315,6 +351,9 @@ export type UserSettingsScalarWhereWithAggregatesInput = {
 export type UserSettingsCreateInput = {
   id?: string
   companyAddress?: string | null
+  companyCity?: string | null
+  companyCountry?: string | null
+  companyTaxId?: string | null
   companyPhone?: string | null
   companyEmail?: string | null
   laborFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -328,6 +367,9 @@ export type UserSettingsUncheckedCreateInput = {
   id?: string
   userId: string
   companyAddress?: string | null
+  companyCity?: string | null
+  companyCountry?: string | null
+  companyTaxId?: string | null
   companyPhone?: string | null
   companyEmail?: string | null
   laborFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -339,6 +381,9 @@ export type UserSettingsUncheckedCreateInput = {
 export type UserSettingsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyTaxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   laborFactor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -352,6 +397,9 @@ export type UserSettingsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyTaxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   laborFactor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -364,6 +412,9 @@ export type UserSettingsCreateManyInput = {
   id?: string
   userId: string
   companyAddress?: string | null
+  companyCity?: string | null
+  companyCountry?: string | null
+  companyTaxId?: string | null
   companyPhone?: string | null
   companyEmail?: string | null
   laborFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -375,6 +426,9 @@ export type UserSettingsCreateManyInput = {
 export type UserSettingsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyTaxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   laborFactor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -387,6 +441,9 @@ export type UserSettingsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyTaxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   laborFactor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -404,6 +461,9 @@ export type UserSettingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrder
+  companyCity?: Prisma.SortOrder
+  companyCountry?: Prisma.SortOrder
+  companyTaxId?: Prisma.SortOrder
   companyPhone?: Prisma.SortOrder
   companyEmail?: Prisma.SortOrder
   laborFactor?: Prisma.SortOrder
@@ -420,6 +480,9 @@ export type UserSettingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrder
+  companyCity?: Prisma.SortOrder
+  companyCountry?: Prisma.SortOrder
+  companyTaxId?: Prisma.SortOrder
   companyPhone?: Prisma.SortOrder
   companyEmail?: Prisma.SortOrder
   laborFactor?: Prisma.SortOrder
@@ -432,6 +495,9 @@ export type UserSettingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrder
+  companyCity?: Prisma.SortOrder
+  companyCountry?: Prisma.SortOrder
+  companyTaxId?: Prisma.SortOrder
   companyPhone?: Prisma.SortOrder
   companyEmail?: Prisma.SortOrder
   laborFactor?: Prisma.SortOrder
@@ -487,6 +553,9 @@ export type DecimalFieldUpdateOperationsInput = {
 export type UserSettingsCreateWithoutUserInput = {
   id?: string
   companyAddress?: string | null
+  companyCity?: string | null
+  companyCountry?: string | null
+  companyTaxId?: string | null
   companyPhone?: string | null
   companyEmail?: string | null
   laborFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -498,6 +567,9 @@ export type UserSettingsCreateWithoutUserInput = {
 export type UserSettingsUncheckedCreateWithoutUserInput = {
   id?: string
   companyAddress?: string | null
+  companyCity?: string | null
+  companyCountry?: string | null
+  companyTaxId?: string | null
   companyPhone?: string | null
   companyEmail?: string | null
   laborFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -525,6 +597,9 @@ export type UserSettingsUpdateToOneWithWhereWithoutUserInput = {
 export type UserSettingsUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyTaxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   laborFactor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -536,6 +611,9 @@ export type UserSettingsUpdateWithoutUserInput = {
 export type UserSettingsUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCountry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyTaxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   laborFactor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -550,6 +628,9 @@ export type UserSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   userId?: boolean
   companyAddress?: boolean
+  companyCity?: boolean
+  companyCountry?: boolean
+  companyTaxId?: boolean
   companyPhone?: boolean
   companyEmail?: boolean
   laborFactor?: boolean
@@ -563,6 +644,9 @@ export type UserSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   companyAddress?: boolean
+  companyCity?: boolean
+  companyCountry?: boolean
+  companyTaxId?: boolean
   companyPhone?: boolean
   companyEmail?: boolean
   laborFactor?: boolean
@@ -576,6 +660,9 @@ export type UserSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   companyAddress?: boolean
+  companyCity?: boolean
+  companyCountry?: boolean
+  companyTaxId?: boolean
   companyPhone?: boolean
   companyEmail?: boolean
   laborFactor?: boolean
@@ -589,6 +676,9 @@ export type UserSettingsSelectScalar = {
   id?: boolean
   userId?: boolean
   companyAddress?: boolean
+  companyCity?: boolean
+  companyCountry?: boolean
+  companyTaxId?: boolean
   companyPhone?: boolean
   companyEmail?: boolean
   laborFactor?: boolean
@@ -597,7 +687,7 @@ export type UserSettingsSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "companyAddress" | "companyPhone" | "companyEmail" | "laborFactor" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["userSettings"]>
+export type UserSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "companyAddress" | "companyCity" | "companyCountry" | "companyTaxId" | "companyPhone" | "companyEmail" | "laborFactor" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["userSettings"]>
 export type UserSettingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -617,6 +707,9 @@ export type $UserSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     userId: string
     companyAddress: string | null
+    companyCity: string | null
+    companyCountry: string | null
+    companyTaxId: string | null
     companyPhone: string | null
     companyEmail: string | null
     laborFactor: runtime.Decimal
@@ -1050,6 +1143,9 @@ export interface UserSettingsFieldRefs {
   readonly id: Prisma.FieldRef<"UserSettings", 'String'>
   readonly userId: Prisma.FieldRef<"UserSettings", 'String'>
   readonly companyAddress: Prisma.FieldRef<"UserSettings", 'String'>
+  readonly companyCity: Prisma.FieldRef<"UserSettings", 'String'>
+  readonly companyCountry: Prisma.FieldRef<"UserSettings", 'String'>
+  readonly companyTaxId: Prisma.FieldRef<"UserSettings", 'String'>
   readonly companyPhone: Prisma.FieldRef<"UserSettings", 'String'>
   readonly companyEmail: Prisma.FieldRef<"UserSettings", 'String'>
   readonly laborFactor: Prisma.FieldRef<"UserSettings", 'Decimal'>

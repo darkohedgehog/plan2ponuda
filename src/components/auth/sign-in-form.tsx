@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
+import { PasswordInput } from "@/components/auth/password-input";
 
 function getSafeCallbackUrl(value: string | null): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
@@ -59,16 +61,22 @@ export function SignInForm() {
         type="email"
         value={email}
       />
-      <input
+      <PasswordInput
         autoComplete="current-password"
-        className={formControlClassName}
         name="password"
         onChange={(event) => setPassword(event.target.value)}
         placeholder="Password"
         required
-        type="password"
         value={password}
       />
+      <div className="flex justify-end">
+        <Link
+          className="text-sm font-semibold text-blue-700 hover:text-blue-800"
+          href="/forgot-password"
+        >
+          Forgot password?
+        </Link>
+      </div>
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button disabled={isSubmitting} type="submit">
         {isSubmitting ? "Signing in..." : "Sign in"}

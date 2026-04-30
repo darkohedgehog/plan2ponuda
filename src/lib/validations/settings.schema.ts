@@ -21,9 +21,12 @@ const optionalEmailSchema = z
 
 export const updateSettingsSchema = z.object({
   companyAddress: optionalTextSchema(240),
+  companyCity: optionalTextSchema(120),
+  companyCountry: optionalTextSchema(120),
   companyEmail: optionalEmailSchema,
   companyName: optionalTextSchema(120),
   companyPhone: optionalTextSchema(60),
+  companyTaxId: optionalTextSchema(80),
   currency: z.string().trim().min(1).max(12),
   fullName: optionalTextSchema(120),
   laborFactor: z.number().finite().positive().max(9999),

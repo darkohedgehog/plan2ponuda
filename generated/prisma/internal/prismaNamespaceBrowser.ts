@@ -51,6 +51,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   User: 'User',
   UserSettings: 'UserSettings',
+  PasswordResetToken: 'PasswordResetToken',
   Project: 'Project',
   Room: 'Room',
   RoomSuggestion: 'RoomSuggestion',
@@ -93,6 +94,9 @@ export const UserSettingsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   companyAddress: 'companyAddress',
+  companyCity: 'companyCity',
+  companyCountry: 'companyCountry',
+  companyTaxId: 'companyTaxId',
   companyPhone: 'companyPhone',
   companyEmail: 'companyEmail',
   laborFactor: 'laborFactor',
@@ -102,6 +106,18 @@ export const UserSettingsScalarFieldEnum = {
 } as const
 
 export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
+
+
+export const PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
 export const ProjectScalarFieldEnum = {

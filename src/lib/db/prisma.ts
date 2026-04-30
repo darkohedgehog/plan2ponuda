@@ -1,7 +1,7 @@
 // src/lib/db/prisma.ts
 import { PrismaClient } from "../../../generated/prisma/client";
 
-const PRISMA_CLIENT_SCHEMA_VERSION = "20260422164221_add_user_settings";
+const PRISMA_CLIENT_SCHEMA_VERSION = "20260430123000_add_password_reset_tokens";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
