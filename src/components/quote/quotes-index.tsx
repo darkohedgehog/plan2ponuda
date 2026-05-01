@@ -14,7 +14,7 @@ export function QuotesIndex({ quotes }: QuotesIndexProps) {
 
   return (
     <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 p-5">
+      <div className="border-b border-slate-200 p-4 sm:p-5">
         <h2 className="text-lg font-semibold text-slate-950">
           Generated quotes
         </h2>
@@ -48,7 +48,7 @@ type QuoteIndexRowProps = {
 
 function QuoteIndexRow({ quote }: QuoteIndexRowProps) {
   return (
-    <article className="grid gap-4 bg-white p-5 transition-colors hover:bg-slate-50/70 xl:grid-cols-[minmax(0,1.2fr)_minmax(9rem,0.8fr)_8rem_8rem_8rem_9rem_12rem] xl:items-center xl:gap-5">
+    <article className="grid min-w-0 gap-4 bg-white p-4 transition-colors hover:bg-slate-50/70 sm:p-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(9rem,0.8fr)_8rem_8rem_8rem_9rem_12rem] xl:items-center xl:gap-5">
       <div className="min-w-0">
         <h3 className="truncate text-base font-semibold text-slate-950">
           {quote.project.name}
@@ -59,7 +59,7 @@ function QuoteIndexRow({ quote }: QuoteIndexRowProps) {
       </div>
 
       <QuoteMobileField label="Client">
-        <span className="text-sm font-medium text-slate-700">
+        <span className="block truncate text-sm font-medium text-slate-700">
           {quote.project.clientName ?? "No client assigned"}
         </span>
       </QuoteMobileField>
@@ -119,18 +119,18 @@ function QuoteMobileField({
         align === "right" ? "xl:text-right" : ""
       }`}
     >
-      <span className="text-xs font-medium uppercase tracking-wide text-slate-400 xl:hidden">
+      <span className="shrink-0 text-xs font-medium uppercase tracking-wide text-slate-400 xl:hidden">
         {label}
       </span>
-      {children}
+      <div className="min-w-0 text-right xl:text-inherit">{children}</div>
     </div>
   );
 }
 
 function EmptyQuotesState() {
   return (
-    <section className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700">
+    <section className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm sm:p-8">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700 ring-1 ring-blue-100">
         <svg
           aria-hidden="true"
           className="h-6 w-6"
@@ -156,7 +156,7 @@ function EmptyQuotesState() {
       </p>
       <div className="mt-6">
         <Link
-          className="inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
           href="/dashboard/projects"
         >
           View Projects

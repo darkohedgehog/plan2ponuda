@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import type { Project } from "@/types/project";
@@ -22,10 +23,10 @@ function formatDate(date: Date | string): string {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <article className="grid gap-5 border-b border-slate-200 bg-white p-5 transition-colors last:border-b-0 hover:bg-slate-50/70 lg:grid-cols-[1.35fr_0.95fr_0.9fr_0.65fr_auto] lg:items-center">
+    <article className="grid min-w-0 gap-4 bg-white p-4 transition-colors hover:bg-slate-50/70 sm:p-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(8rem,0.95fr)_minmax(6rem,0.7fr)_minmax(7rem,0.65fr)_auto] lg:items-center lg:gap-5">
       <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-3">
-          <h3 className="truncate text-base font-semibold text-slate-950">
+        <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between lg:justify-start">
+          <h3 className="min-w-0 truncate text-base font-semibold text-slate-950">
             {project.name}
           </h3>
           <ProjectStatusBadge status={project.status} />
@@ -35,12 +36,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </p>
       </div>
 
-      <MetadataItem label="Object type" value={formatObjectType(project.objectType)} />
-      <MetadataItem label="Area" value={`${project.areaM2} m2`} />
-      <MetadataItem label="Created" value={formatDate(project.createdAt)} />
+      <div className="grid min-w-0 gap-3 sm:grid-cols-3 lg:contents">
+        <MetadataItem
+          label="Object type"
+          value={formatObjectType(project.objectType)}
+        />
+        <MetadataItem label="Area" value={`${project.areaM2} m2`} />
+        <MetadataItem label="Created" value={formatDate(project.createdAt)} />
+      </div>
 
       <Link
-        className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+        className="inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit lg:justify-self-end"
         href={`/dashboard/projects/${project.id}`}
       >
         Open project
@@ -51,16 +57,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
 type MetadataItemProps = {
   label: string;
-  value: string;
+  value: ReactNode;
 };
 
 function MetadataItem({ label, value }: MetadataItemProps) {
   return (
-    <div>
+    <div className="min-w-0 rounded-md bg-slate-50 px-3 py-2 ring-1 ring-slate-100 lg:bg-transparent lg:p-0 lg:ring-0">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
         {label}
       </p>
-      <p className="mt-1 text-sm font-medium text-slate-700">{value}</p>
+      <p className="mt-1 truncate text-sm font-medium text-slate-700">
+        {value}
+      </p>
     </div>
   );
 }

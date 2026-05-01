@@ -25,7 +25,7 @@ type ProjectStatusBadgeProps = {
 export function ProjectStatusBadge({ status }: ProjectStatusBadgeProps) {
   return (
     <span
-      className={`inline-flex w-fit items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold capitalize ring-1 ring-inset ${statusStyles[status]}`}
+      className={`inline-flex w-fit shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold capitalize leading-none ring-1 ring-inset ${statusStyles[status]}`}
     >
       <span
         aria-hidden="true"

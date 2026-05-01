@@ -5,9 +5,15 @@ import { SignInForm } from "@/components/auth/sign-in-form";
 
 export default function SignInPage() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-6">
+    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 px-6 py-10">
+      <Link
+        className="w-fit text-sm font-semibold text-slate-500 outline-none transition-colors hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100"
+        href="/"
+      >
+        Back to Home
+      </Link>
       <div>
-        <h1 className="text-3xl font-semibold">Sign in</h1>
+        <h1 className="text-3xl font-semibold text-slate-950">Sign in</h1>
         <p className="mt-2 text-sm text-slate-600">
           Access your Plan2Ponuda workspace.
         </p>
@@ -17,7 +23,10 @@ export default function SignInPage() {
       </Suspense>
       <p className="text-center text-sm text-slate-600">
         Don&apos;t have an account?{" "}
-        <Link className="font-semibold text-blue-700 hover:text-blue-800" href="/sign-up">
+        <Link
+          className="font-semibold text-blue-700 hover:text-blue-800"
+          href="/sign-up"
+        >
           Sign up
         </Link>
       </p>

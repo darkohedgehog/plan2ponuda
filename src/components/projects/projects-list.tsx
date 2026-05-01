@@ -47,8 +47,8 @@ export function ProjectsList({ projects }: ProjectsListProps) {
 
   return (
     <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-slate-200 p-5 lg:flex-row lg:items-center lg:justify-between">
-        <div>
+      <div className="flex flex-col gap-4 border-b border-slate-200 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="min-w-0">
           <h2 className="text-lg font-semibold text-slate-950">
             All projects
           </h2>
@@ -56,16 +56,16 @@ export function ProjectsList({ projects }: ProjectsListProps) {
             Newest projects are shown first.
           </p>
         </div>
-        <div className="grid gap-2 sm:grid-cols-[minmax(14rem,18rem)_12rem]">
+        <div className="grid w-full min-w-0 gap-2 sm:grid-cols-[minmax(0,1fr)_12rem] lg:max-w-xl">
           <input
-            className="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="h-10 min-w-0 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search projects or clients"
             type="search"
             value={searchQuery}
           />
           <select
-            className="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="h-10 min-w-0 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             onChange={(event) =>
               setSelectedStatus(event.target.value as ProjectStatus | "all")
             }
@@ -81,13 +81,29 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       </div>
 
       {filteredProjects.length > 0 ? (
-        <div>
+        <div className="divide-y divide-slate-200">
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       ) : (
-        <div className="p-8 text-center">
+        <div className="p-6 text-center sm:p-8">
+          <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600 ring-1 ring-amber-100">
+            <svg
+              aria-hidden="true"
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M10 10l4 4" />
+              <path d="M14 10l-4 4" />
+              <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+            </svg>
+          </div>
           <h3 className="text-base font-semibold text-slate-950">
             No projects match your filters
           </h3>

@@ -306,7 +306,7 @@ export function QuoteMaterialEditor({
 
       {materials.length > 0 ? (
         <div className="mt-4 overflow-hidden rounded-md border border-slate-200">
-          <div className="hidden bg-slate-50 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 xl:grid xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_7rem_8rem_8rem_5rem] xl:gap-4">
+          <div className="hidden bg-slate-50 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 xl:grid xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_8rem_7rem_8rem_5rem] xl:gap-4">
             <span>Material</span>
             <span>Category</span>
             <span>Source</span>
@@ -364,7 +364,7 @@ function MaterialEditorRow({
   const total = calculateTotal(material);
 
   return (
-    <article className="grid gap-3 px-4 py-4 text-sm xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_7rem_8rem_8rem_5rem] xl:items-center xl:gap-4">
+    <article className="grid min-w-0 gap-3 px-4 py-4 text-sm xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_8rem_7rem_8rem_5rem] xl:items-center xl:gap-4">
       <div className="min-w-0">
         {material.isNew ? (
           <TextInput
@@ -405,12 +405,7 @@ function MaterialEditorRow({
       </MaterialMobileField>
 
       <MaterialMobileField align="right" label="Quantity">
-        <div className="flex items-center justify-end gap-2">
-          <NumberInput
-            ariaLabel="Material quantity"
-            onChange={(event) => onUpdate({ quantity: event.target.value })}
-            value={material.quantity}
-          />
+        <div className="flex min-w-0 items-center justify-end gap-2">
           {material.isNew ? (
             <SelectInput
               ariaLabel="Material unit"
@@ -422,10 +417,16 @@ function MaterialEditorRow({
               value={material.unit}
             />
           ) : (
-            <span className="w-8 text-left text-xs font-medium text-slate-500">
+            <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-md bg-slate-50 px-2 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
               {material.unit}
             </span>
           )}
+          <NumberInput
+            ariaLabel="Material quantity"
+            onChange={(event) => onUpdate({ quantity: event.target.value })}
+            size="compact"
+            value={material.quantity}
+          />
         </div>
       </MaterialMobileField>
 
@@ -433,6 +434,7 @@ function MaterialEditorRow({
         <NumberInput
           ariaLabel="Material unit price"
           onChange={(event) => onUpdate({ unitPrice: event.target.value })}
+          size="price"
           value={material.unitPrice}
         />
       </MaterialMobileField>
@@ -478,14 +480,23 @@ function TextInput({ ariaLabel, onChange, placeholder, value }: TextInputProps) 
 type NumberInputProps = {
   ariaLabel: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  size?: "compact" | "default" | "price";
   value: string;
 };
 
-function NumberInput({ ariaLabel, onChange, value }: NumberInputProps) {
+function NumberInput({
+  ariaLabel,
+  onChange,
+  size = "default",
+  value,
+}: NumberInputProps) {
+  const widthClassName =
+    size === "compact" ? "w-20" : size === "price" ? "w-24" : "w-28";
+
   return (
     <input
       aria-label={ariaLabel}
-      className="h-10 w-28 rounded-md border border-slate-300 bg-white px-3 text-right text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      className={`${widthClassName} h-10 min-w-0 rounded-md border border-slate-300 bg-white px-3 text-right text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100`}
       min="0"
       onChange={onChange}
       step="0.01"
@@ -517,7 +528,7 @@ function SelectInput<TValue extends string>({
     <select
       aria-label={ariaLabel}
       className={`h-10 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 ${
-        compact ? "w-20" : "w-full"
+        compact ? "w-16" : "w-full"
       }`}
       onChange={onChange}
       value={value}
@@ -544,14 +555,14 @@ function MaterialMobileField({
 }: MaterialMobileFieldProps) {
   return (
     <div
-      className={`flex items-center justify-between gap-4 xl:block ${
+      className={`flex min-w-0 items-center justify-between gap-4 xl:block ${
         align === "right" ? "xl:text-right" : ""
       }`}
     >
-      <span className="text-xs font-medium uppercase tracking-wide text-slate-400 xl:hidden">
+      <span className="shrink-0 text-xs font-medium uppercase tracking-wide text-slate-400 xl:hidden">
         {label}
       </span>
-      {children}
+      <div className="min-w-0 text-right xl:text-inherit">{children}</div>
     </div>
   );
 }

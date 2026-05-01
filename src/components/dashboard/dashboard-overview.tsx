@@ -37,13 +37,13 @@ export function DashboardOverview({
 
   return (
     <main className="flex flex-col gap-6">
-      <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-3xl">
+          <div className="min-w-0 max-w-3xl">
             <p className="text-sm font-semibold text-blue-700">
               Welcome back, {displayName}
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
               Turn floor plans into electrical quotes with a guided workflow.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
@@ -52,7 +52,7 @@ export function DashboardOverview({
             </p>
           </div>
           <Link
-            className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+            className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
             href="/dashboard/projects/new"
           >
             Create Project
@@ -100,7 +100,7 @@ type StatsCardProps = {
 
 function StatsCard({ label, value }: StatsCardProps) {
   return (
-    <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <p className="text-sm font-medium text-slate-500">{label}</p>
       <p className="mt-3 text-3xl font-semibold text-slate-950">{value}</p>
     </article>
@@ -146,19 +146,19 @@ type RecentProjectRowProps = {
 
 function RecentProjectRow({ project }: RecentProjectRowProps) {
   return (
-    <article className="grid gap-4 p-5 md:grid-cols-[1.5fr_1fr_0.8fr_auto] md:items-center">
+    <article className="grid min-w-0 gap-4 p-4 sm:p-5 md:grid-cols-[minmax(0,1.5fr)_minmax(7rem,1fr)_0.8fr_auto] md:items-center">
       <div className="min-w-0">
         <h3 className="truncate text-sm font-semibold text-slate-950">
           {project.name}
         </h3>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 truncate text-sm text-slate-500">
           {project.clientName ?? "No client assigned"}
         </p>
       </div>
       <ProjectStatusBadge status={project.status} />
       <p className="text-sm text-slate-500">{formatDate(project.createdAt)}</p>
       <Link
-        className="inline-flex h-9 items-center justify-center rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+        className="inline-flex h-9 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
         href={`/dashboard/projects/${project.id}`}
       >
         Open
@@ -169,8 +169,8 @@ function RecentProjectRow({ project }: RecentProjectRowProps) {
 
 function EmptyProjectsState() {
   return (
-    <section className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700">
+    <section className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm sm:p-8">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700 ring-1 ring-blue-100">
         <svg
           aria-hidden="true"
           className="h-6 w-6"
@@ -192,7 +192,7 @@ function EmptyProjectsState() {
         review, materials, and quote generation.
       </p>
       <Link
-        className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+        className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
         href="/dashboard/projects/new"
       >
         Create first project
@@ -203,7 +203,7 @@ function EmptyProjectsState() {
 
 function WorkflowSection() {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <div>
         <h2 className="text-lg font-semibold text-slate-950">
           Quote workflow
