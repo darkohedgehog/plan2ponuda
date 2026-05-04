@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Plan2Ponuda",
+  title: "Ploro - AI-assisted quoting workflow for electricians",
   description: "AI-assisted quoting workflow for electricians.",
 };
 

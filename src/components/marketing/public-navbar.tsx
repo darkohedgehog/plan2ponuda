@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils/helpers";
+import Image from "next/image";
 
 const navigationLinks = [
   { href: "/#features", label: "Features" },
@@ -46,16 +47,20 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8 mb-3">
         <Link
-          className="flex items-center gap-2 text-base font-semibold text-slate-950"
+          className="flex items-center"
           href="/"
           onClick={closeMenu}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-950 text-sm font-semibold text-white">
-            P2
-          </span>
-          Plan2Ponuda
+          <Image              
+            alt="PloroAi logo"
+            src="/logo.png"
+            width={70}
+            height={55}
+            priority
+            className="h-auto w-auto"
+          />
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden items-center gap-8 md:flex">

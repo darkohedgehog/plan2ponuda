@@ -14,6 +14,7 @@ import {
 } from "@/components/dashboard/dashboard-navigation";
 import type { AuthenticatedUser } from "@/lib/auth/session";
 import { cn } from "@/lib/utils/helpers";
+import Image from "next/image";
 
 type DashboardShellProps = {
   children: ReactNode;
@@ -88,16 +89,20 @@ function DashboardSidebar({
           "relative z-10 shadow-2xl transition-transform lg:hidden",
       )}
     >
-      <div className="flex h-16 items-center gap-3 border-b border-slate-200 px-5">
+      <div className="flex h-20 items-center gap-3 px-5 mb-4">
         <Link
           className="flex items-center gap-3 rounded-md text-base font-semibold text-slate-950 outline-none focus-visible:ring-2 focus-visible:ring-blue-100"
           href="/dashboard"
           onClick={onNavigate}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-950 text-sm font-semibold text-white">
-            P2
-          </span>
-          <span>Plan2Ponuda</span>
+            <Image              
+              alt="PloroAi logo"
+              src="/logo.png"
+              width={70}
+              height={55}
+              priority
+              className="h-auto w-auto"
+            />
         </Link>
       </div>
 
