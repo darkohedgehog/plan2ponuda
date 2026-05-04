@@ -1,5 +1,1 @@
-<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plan2Ponuda">
-  <rect width="40" height="40" rx="8" fill="#2563EB"/>
-  <path d="M12 27L20 9V21H28L20 31V27H12Z" fill="white"/>
-  <text x="52" y="26" fill="#0F172A" font-family="Arial, sans-serif" font-size="18" font-weight="700">Plan2Ponuda</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" fill="none" aria-label="Plan2Ponuda" role="img" viewBox="0 0 160 40"><rect width="40" height="40" fill="#2563EB" rx="8"/><path fill="#fff" d="M12 27L20 9V21H28L20 31V27H12Z"/><text x="52" y="26" fill="#0F172A" font-family="Arial, sans-serif" font-size="18" font-weight="700">Plan2Ponuda</text></svg>
