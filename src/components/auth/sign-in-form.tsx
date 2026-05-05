@@ -1,26 +1,34 @@
 "use client";
 
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
 import { PasswordInput } from "@/components/auth/password-input";
 
-function getSafeCallbackUrl(value: string | null): string {
+function getSafeCallbackUrl(value: string | null, fallbackUrl: string): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
-    return "/dashboard";
+    return fallbackUrl;
   }
 
   return value;
 }
 
 export function SignInForm() {
+  const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tAuth = useTranslations("Auth");
+  const tValidation = useTranslations("Validation");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = getSafeCallbackUrl(searchParams.get("callbackUrl"));
+  const callbackUrl = getSafeCallbackUrl(
+    searchParams.get("callbackUrl"),
+    `/${locale}/dashboard`,
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +49,7 @@ export function SignInForm() {
     setIsSubmitting(false);
 
     if (!result || result.error) {
-      setError("Invalid email or password.");
+      setError(tValidation("invalidEmailOrPassword"));
       return;
     }
 
@@ -56,7 +64,7 @@ export function SignInForm() {
         className={formControlClassName}
         name="email"
         onChange={(event) => setEmail(event.target.value)}
-        placeholder="Email"
+        placeholder={tAuth("email")}
         required
         type="email"
         value={email}
@@ -65,7 +73,7 @@ export function SignInForm() {
         autoComplete="current-password"
         name="password"
         onChange={(event) => setPassword(event.target.value)}
-        placeholder="Password"
+        placeholder={tAuth("password")}
         required
         value={password}
       />
@@ -74,12 +82,12 @@ export function SignInForm() {
           className="text-sm font-semibold text-blue-700 hover:text-blue-800"
           href="/forgot-password"
         >
-          Forgot password?
+          {tAuth("forgotPassword")}
         </Link>
       </div>
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Signing in..." : "Sign in"}
+        {isSubmitting ? tActions("signingIn") : tAuth("signIn")}
       </Button>
     </form>
   );

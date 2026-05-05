@@ -1,10 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
+import { useRouter } from "@/i18n/navigation";
 import type { CreateProjectResponse, ObjectType } from "@/types/project";
 
 type CreateProjectFormState = {

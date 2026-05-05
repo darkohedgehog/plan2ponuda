@@ -1,17 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useState } from "react";
 
+import { LocaleSwitcher } from "@/components/i18n/locale-switcher";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/helpers";
-import Image from "next/image";
 
 const navigationLinks = [
-  { href: "/#features", label: "Features" },
-  { href: "/#how-it-works", label: "How it works" },
-  { href: "/pricing", label: "Pricing" },
-];
+  { href: "/#features", labelKey: "features" },
+  { href: "/#how-it-works", labelKey: "howItWorks" },
+  { href: "/pricing", labelKey: "pricing" },
+] as const;
 
 const navLinkClass =
   "text-sm font-medium text-slate-600 transition-colors hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-100";
@@ -24,10 +25,16 @@ type PublicNavbarProps = {
 };
 
 export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
+  const tActions = useTranslations("Actions");
+  const tAuth = useTranslations("Auth");
+  const tCommon = useTranslations("Common");
+  const tNavigation = useTranslations("Navigation");
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const signInHref = isAuthenticated ? "/dashboard" : "/sign-in";
-  const signInLabel = isAuthenticated ? "Dashboard" : "Sign in";
+  const signInLabel = isAuthenticated
+    ? tNavigation("dashboard")
+    : tAuth("signIn");
   const startProjectHref = isAuthenticated
     ? "/dashboard/projects/new"
     : "/sign-up";
@@ -47,35 +54,35 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8 mb-3">
-        <Link
-          className="flex items-center"
-          href="/"
-          onClick={closeMenu}
-        >
-          <Image              
-            alt="PloroAi logo"
-            src="/logo.png"
-            width={70}
+      <div className="mx-auto mb-3 flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
+        <Link className="flex items-center" href="/" onClick={closeMenu}>
+          <Image
+            alt={tCommon("logoAlt")}
+            className="h-auto w-auto"
             height={55}
             priority
-            className="h-auto w-auto"
+            src="/logo.png"
+            width={70}
           />
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-8 md:flex">
+        <nav
+          aria-label={tNavigation("primaryNavigation")}
+          className="hidden items-center gap-8 md:flex"
+        >
           {navigationLinks.map((link) => (
             <Link
               className={getNavLinkClass(link.href)}
               href={link.href}
               key={link.href}
             >
-              {link.label}
+              {tNavigation(link.labelKey)}
             </Link>
           ))}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <LocaleSwitcher />
           <Link
             className={cn(
               actionLinkClass,
@@ -92,13 +99,13 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
             )}
             href={startProjectHref}
           >
-            Start Project
+            {tActions("startProject")}
           </Link>
         </div>
 
         <button
           aria-expanded={isOpen}
-          aria-label="Toggle navigation menu"
+          aria-label={tNavigation("toggleNavigationMenu")}
           className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 md:hidden"
           onClick={() => setIsOpen((currentValue) => !currentValue)}
           type="button"
@@ -123,7 +130,10 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
 
       {isOpen ? (
         <div className="border-t border-slate-200 bg-white px-5 py-4 shadow-sm md:hidden">
-          <nav aria-label="Mobile navigation" className="mx-auto flex max-w-7xl flex-col gap-3">
+          <nav
+            aria-label={tNavigation("mobileNavigation")}
+            className="mx-auto flex max-w-7xl flex-col gap-3"
+          >
             {navigationLinks.map((link) => (
               <Link
                 className={cn(
@@ -134,10 +144,11 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
                 key={link.href}
                 onClick={closeMenu}
               >
-                {link.label}
+                {tNavigation(link.labelKey)}
               </Link>
             ))}
             <div className="mt-2 grid gap-2 border-t border-slate-200 pt-4">
+              <LocaleSwitcher className="justify-center" />
               <Link
                 className={cn(
                   actionLinkClass,
@@ -156,7 +167,7 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
                 href={startProjectHref}
                 onClick={closeMenu}
               >
-                Start Project
+                {tActions("startProject")}
               </Link>
             </div>
           </nav>

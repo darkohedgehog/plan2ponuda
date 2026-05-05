@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import { FloorPlanUploadForm } from "@/components/projects/floor-plan-upload-form";
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
+import { Link } from "@/i18n/navigation";
 import type { Project, ProjectStatus } from "@/types/project";
 
 type ProjectWorkspaceProps = {

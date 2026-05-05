@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
+import { Link } from "@/i18n/navigation";
 import type { ProjectDashboardOverview } from "@/server/services/project-service";
 import type { Project } from "@/types/project";
 

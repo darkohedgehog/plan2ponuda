@@ -1,0 +1,211 @@
+{
+  "Common": {
+    "appName": "Plan2Ponuda",
+    "dashboard": "Dashboard",
+    "logoAlt": "Plan2Ponuda logo",
+    "projects": "Projects",
+    "settings": "Settings"
+  },
+  "Auth": {
+    "backToHome": "Back to Home",
+    "capsLockOn": "Caps Lock is on",
+    "confirmNewPassword": "Confirm new password",
+    "confirmPassword": "Confirm password",
+    "createAccount": "Create account",
+    "developmentResetUrl": "Development reset URL",
+    "email": "Email",
+    "forgotPassword": "Forgot password?",
+    "fullName": "Full name",
+    "hidePassword": "Hide password",
+    "messages": {
+      "passwordResetSuccess": "Password reset. You can now sign in with your new password.",
+      "resetInstructionsPrepared": "If an account exists, password reset instructions have been prepared."
+    },
+    "newPassword": "New password",
+    "pages": {
+      "forgotPassword": {
+        "rememberedPassword": "Remembered your password?",
+        "subtitle": "Enter your email and we will prepare password reset instructions if the account exists.",
+        "title": "Reset password"
+      },
+      "resetPassword": {
+        "subtitle": "Choose a new password for your Plan2Ponuda account.",
+        "title": "Set new password"
+      },
+      "signIn": {
+        "noAccount": "Don't have an account?",
+        "subtitle": "Access your Plan2Ponuda workspace.",
+        "title": "Sign in"
+      },
+      "signUp": {
+        "hasAccount": "Already have an account?",
+        "subtitle": "Set up your electrician quoting workspace.",
+        "title": "Create account"
+      }
+    },
+    "password": "Password",
+    "passwordStrength": {
+      "label": "Password strength: {strength}",
+      "medium": "Medium",
+      "strong": "Strong",
+      "weak": "Weak"
+    },
+    "resetPassword": "Reset password",
+    "showPassword": "Show password",
+    "signIn": "Sign in",
+    "signUp": "Sign up"
+  },
+  "Actions": {
+    "createAccount": "Create account",
+    "creatingAccount": "Creating account...",
+    "resetPassword": "Reset password",
+    "resetting": "Resetting...",
+    "seeHowItWorks": "See how it works",
+    "sendResetInstructions": "Send reset instructions",
+    "sending": "Sending...",
+    "signingIn": "Signing in...",
+    "startFirstProject": "Start first project",
+    "startProject": "Start Project"
+  },
+  "Validation": {
+    "emailAlreadyExists": "An account with this email already exists.",
+    "enterValidEmail": "Enter a valid email address.",
+    "invalidEmailOrPassword": "Invalid email or password.",
+    "invalidInput": "Check the entered information.",
+    "invalidResetRequest": "Enter a valid reset token and password.",
+    "missingResetToken": "This password reset link is missing a token.",
+    "passwordResetInvalidOrExpired": "This password reset link is invalid or expired.",
+    "passwordResetRateLimited": "Too many reset requests. Please try again later.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "unableCreateAccount": "Unable to create account.",
+    "unableProcessPasswordReset": "Unable to process password reset request.",
+    "unableResetPassword": "Unable to reset password."
+  },
+  "Navigation": {
+    "contact": "Contact",
+    "dashboard": "Dashboard",
+    "features": "Features",
+    "footerNavigation": "Footer navigation",
+    "howItWorks": "How it works",
+    "materials": "Materials",
+    "mobileNavigation": "Mobile navigation",
+    "pricing": "Pricing",
+    "primaryNavigation": "Primary navigation",
+    "privacy": "Privacy",
+    "projects": "Projects",
+    "quotes": "Quotes",
+    "settings": "Settings",
+    "terms": "Terms",
+    "toggleNavigationMenu": "Toggle navigation menu"
+  },
+  "Marketing": {
+    "cta": {
+      "description": "Create a project, upload the plan, and move from review to quote without losing time in manual spreadsheets.",
+      "eyebrow": "Ready when the next plan arrives",
+      "title": "Start your first electrical quote with a cleaner workflow."
+    },
+    "features": {
+      "description": "Plan2Ponuda keeps the workflow narrow and practical: understand the plan, suggest the installation, and prepare the quote.",
+      "eyebrow": "Features",
+      "items": {
+        "electricalSuggestions": {
+          "description": "Generate practical sockets, switches, and lighting points based on room type.",
+          "title": "Electrical suggestions"
+        },
+        "materialQuote": {
+          "description": "Convert reviewed suggestions into material quantities, labor totals, and a quote-ready structure.",
+          "title": "Material list & quote export"
+        },
+        "roomDetection": {
+          "description": "Identify rooms from uploaded plans, then keep the estimator in control for corrections.",
+          "title": "AI-assisted room detection"
+        }
+      },
+      "title": "Built for the estimate work electricians repeat every week."
+    },
+    "footer": {
+      "tagline": "Faster electrical installation estimates from floor plans."
+    },
+    "hero": {
+      "description": "Upload a plan, review detected rooms, generate electrical suggestions, and export a client-ready quote without rebuilding the estimate by hand.",
+      "preview": {
+        "detectedRooms": "Detected rooms",
+        "exportQuote": "Export quote",
+        "floorPlanReview": "Floor plan review",
+        "materialList": "Material list",
+        "materials": {
+          "cable": "Cable",
+          "sockets": "Sockets",
+          "switches": "Switches"
+        },
+        "projectLabel": "Project",
+        "projectName": "Apartment renovation",
+        "quoteDescription": "Materials, labor, and room-level suggestions prepared for export.",
+        "quoteTotal": "Quote total",
+        "rooms": {
+          "bathroom": {
+            "name": "Bathroom",
+            "points": "5 points",
+            "status": "Ready"
+          },
+          "kitchen": {
+            "name": "Kitchen",
+            "points": "10 points",
+            "status": "Needs review"
+          },
+          "livingRoom": {
+            "name": "Living room",
+            "points": "9 points",
+            "status": "Ready"
+          }
+        },
+        "statusQuoted": "Quoted"
+      },
+      "title": "Create electrical installation quotes from floor plans in minutes"
+    },
+    "pages": {
+      "contact": {
+        "body": "Contact options for electricians and installation companies will be added here.",
+        "subtitle": "Reach out about electrical estimating workflows, early access, or product fit.",
+        "title": "Contact"
+      },
+      "pricing": {
+        "body": "Pricing details will be added as the quoting workflow moves closer to production billing.",
+        "subtitle": "Simple subscription packaging for electrical contractors and small estimating teams.",
+        "title": "Pricing"
+      },
+      "privacy": {
+        "body": "Privacy policy details will be added before public launch.",
+        "subtitle": "Product and account data policies for Plan2Ponuda.",
+        "title": "Privacy"
+      },
+      "terms": {
+        "body": "Terms of service details will be added before public launch.",
+        "subtitle": "Subscription and usage conditions for Plan2Ponuda.",
+        "title": "Terms"
+      }
+    },
+    "workflow": {
+      "eyebrow": "How it works",
+      "steps": {
+        "exportQuote": {
+          "description": "Turn the reviewed plan into a structured client-ready offer.",
+          "title": "Export quote"
+        },
+        "generateMaterials": {
+          "description": "Create socket, switch, lighting, cable, and equipment suggestions.",
+          "title": "Generate materials"
+        },
+        "reviewRooms": {
+          "description": "Confirm detected spaces and adjust names before estimating.",
+          "title": "Review rooms"
+        },
+        "uploadFloorPlan": {
+          "description": "Start with a PDF, blueprint, or image from your client.",
+          "title": "Upload floor plan"
+        }
+      },
+      "title": "From plan upload to quote export in one focused workflow."
+    }
+  }
+}

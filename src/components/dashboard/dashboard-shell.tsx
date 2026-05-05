@@ -1,8 +1,7 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
@@ -12,6 +11,8 @@ import {
   isDashboardNavigationItemActive,
   type DashboardIconName,
 } from "@/components/dashboard/dashboard-navigation";
+import { LocaleSwitcher } from "@/components/i18n/locale-switcher";
+import { Link, usePathname } from "@/i18n/navigation";
 import type { AuthenticatedUser } from "@/lib/auth/session";
 import { cn } from "@/lib/utils/helpers";
 import Image from "next/image";
@@ -195,7 +196,10 @@ function DashboardTopbar({
           </div>
         </div>
 
-        <UserAccountSummary user={user} />
+        <div className="flex shrink-0 items-center gap-2">
+          <LocaleSwitcher />
+          <UserAccountSummary user={user} />
+        </div>
       </div>
     </header>
   );
@@ -206,6 +210,7 @@ type UserAccountSummaryProps = {
 };
 
 function UserAccountSummary({ user }: UserAccountSummaryProps) {
+  const locale = useLocale();
   const displayName = user.name || user.email;
   const initials = getUserInitials(displayName);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -213,7 +218,7 @@ function UserAccountSummary({ user }: UserAccountSummaryProps) {
   async function handleSignOut() {
     setIsSigningOut(true);
     await signOut({
-      callbackUrl: "/sign-in",
+      callbackUrl: `/${locale}/sign-in`,
     });
   }
 

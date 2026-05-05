@@ -1,0 +1,211 @@
+{
+  "Common": {
+    "appName": "Plan2Ponuda",
+    "dashboard": "Dashboard",
+    "logoAlt": "Plan2Ponuda-Logo",
+    "projects": "Projekte",
+    "settings": "Einstellungen"
+  },
+  "Auth": {
+    "backToHome": "Zurück zur Startseite",
+    "capsLockOn": "Caps Lock ist aktiviert",
+    "confirmNewPassword": "Neues Passwort bestätigen",
+    "confirmPassword": "Passwort bestätigen",
+    "createAccount": "Konto erstellen",
+    "developmentResetUrl": "Entwicklungs-URL zum Zurücksetzen",
+    "email": "E-Mail",
+    "forgotPassword": "Passwort vergessen?",
+    "fullName": "Vollständiger Name",
+    "hidePassword": "Passwort ausblenden",
+    "messages": {
+      "passwordResetSuccess": "Das Passwort wurde zurückgesetzt. Sie können sich jetzt mit dem neuen Passwort anmelden.",
+      "resetInstructionsPrepared": "Wenn ein Konto existiert, wurden Anweisungen zum Zurücksetzen des Passworts vorbereitet."
+    },
+    "newPassword": "Neues Passwort",
+    "pages": {
+      "forgotPassword": {
+        "rememberedPassword": "Passwort wieder eingefallen?",
+        "subtitle": "Geben Sie Ihre E-Mail ein. Falls das Konto existiert, bereiten wir Anweisungen zum Zurücksetzen vor.",
+        "title": "Passwort zurücksetzen"
+      },
+      "resetPassword": {
+        "subtitle": "Wählen Sie ein neues Passwort für Ihr Plan2Ponuda-Konto.",
+        "title": "Neues Passwort festlegen"
+      },
+      "signIn": {
+        "noAccount": "Noch kein Konto?",
+        "subtitle": "Öffnen Sie Ihren Plan2Ponuda-Arbeitsbereich.",
+        "title": "Anmelden"
+      },
+      "signUp": {
+        "hasAccount": "Sie haben bereits ein Konto?",
+        "subtitle": "Richten Sie Ihren Arbeitsbereich für Elektroangebote ein.",
+        "title": "Konto erstellen"
+      }
+    },
+    "password": "Passwort",
+    "passwordStrength": {
+      "label": "Passwortstärke: {strength}",
+      "medium": "Mittel",
+      "strong": "Stark",
+      "weak": "Schwach"
+    },
+    "resetPassword": "Passwort zurücksetzen",
+    "showPassword": "Passwort anzeigen",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren"
+  },
+  "Actions": {
+    "createAccount": "Konto erstellen",
+    "creatingAccount": "Konto wird erstellt...",
+    "resetPassword": "Passwort zurücksetzen",
+    "resetting": "Wird zurückgesetzt...",
+    "seeHowItWorks": "So funktioniert es",
+    "sendResetInstructions": "Anweisungen senden",
+    "sending": "Wird gesendet...",
+    "signingIn": "Anmeldung läuft...",
+    "startFirstProject": "Erstes Projekt starten",
+    "startProject": "Projekt starten"
+  },
+  "Validation": {
+    "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits.",
+    "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+    "invalidEmailOrPassword": "Ungültige E-Mail oder ungültiges Passwort.",
+    "invalidInput": "Prüfen Sie die eingegebenen Daten.",
+    "invalidResetRequest": "Geben Sie einen gültigen Reset-Token und ein Passwort ein.",
+    "missingResetToken": "Diesem Link zum Zurücksetzen des Passworts fehlt ein Token.",
+    "passwordResetInvalidOrExpired": "Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.",
+    "passwordResetRateLimited": "Zu viele Reset-Anfragen. Bitte versuchen Sie es später erneut.",
+    "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
+    "unableCreateAccount": "Konto konnte nicht erstellt werden.",
+    "unableProcessPasswordReset": "Die Anfrage zum Zurücksetzen des Passworts konnte nicht verarbeitet werden.",
+    "unableResetPassword": "Passwort konnte nicht zurückgesetzt werden."
+  },
+  "Navigation": {
+    "contact": "Kontakt",
+    "dashboard": "Dashboard",
+    "features": "Funktionen",
+    "footerNavigation": "Navigation im Footer",
+    "howItWorks": "So funktioniert es",
+    "materials": "Materialien",
+    "mobileNavigation": "Mobile Navigation",
+    "pricing": "Preise",
+    "primaryNavigation": "Hauptnavigation",
+    "privacy": "Datenschutz",
+    "projects": "Projekte",
+    "quotes": "Angebote",
+    "settings": "Einstellungen",
+    "terms": "Bedingungen",
+    "toggleNavigationMenu": "Navigation öffnen oder schließen"
+  },
+  "Marketing": {
+    "cta": {
+      "description": "Erstellen Sie ein Projekt, laden Sie den Grundriss hoch und wechseln Sie ohne manuelle Tabellen vom Prüfen zum Angebot.",
+      "eyebrow": "Bereit für den nächsten Grundriss",
+      "title": "Starten Sie Ihr erstes Elektroangebot mit einem klareren Ablauf."
+    },
+    "features": {
+      "description": "Plan2Ponuda hält den Ablauf fokussiert und praktisch: Grundriss verstehen, Installation vorschlagen und Angebot vorbereiten.",
+      "eyebrow": "Funktionen",
+      "items": {
+        "electricalSuggestions": {
+          "description": "Erstellen Sie passende Steckdosen, Schalter und Lichtpunkte je nach Raumtyp.",
+          "title": "Elektrovorschläge"
+        },
+        "materialQuote": {
+          "description": "Wandeln Sie geprüfte Vorschläge in Materialmengen, Arbeitskosten und eine Angebotsstruktur um.",
+          "title": "Materialliste und Angebots-Export"
+        },
+        "roomDetection": {
+          "description": "Erkennen Sie Räume aus hochgeladenen Grundrissen und behalten Sie die Kontrolle über Korrekturen.",
+          "title": "KI-gestützte Raumerkennung"
+        }
+      },
+      "title": "Gebaut für Schätzungen, die Elektriker jede Woche wiederholen."
+    },
+    "footer": {
+      "tagline": "Schnellere Elektroangebote aus Grundrissen."
+    },
+    "hero": {
+      "description": "Laden Sie einen Grundriss hoch, prüfen Sie erkannte Räume, erstellen Sie Elektrovorschläge und exportieren Sie ein kundenfertiges Angebot ohne manuelle Nacharbeit.",
+      "preview": {
+        "detectedRooms": "Erkannte Räume",
+        "exportQuote": "Angebot exportieren",
+        "floorPlanReview": "Grundrissprüfung",
+        "materialList": "Materialliste",
+        "materials": {
+          "cable": "Kabel",
+          "sockets": "Steckdosen",
+          "switches": "Schalter"
+        },
+        "projectLabel": "Projekt",
+        "projectName": "Wohnungsrenovierung",
+        "quoteDescription": "Materialien, Arbeit und Vorschläge pro Raum sind für den Export vorbereitet.",
+        "quoteTotal": "Angebotssumme",
+        "rooms": {
+          "bathroom": {
+            "name": "Bad",
+            "points": "5 Punkte",
+            "status": "Bereit"
+          },
+          "kitchen": {
+            "name": "Küche",
+            "points": "10 Punkte",
+            "status": "Zu prüfen"
+          },
+          "livingRoom": {
+            "name": "Wohnzimmer",
+            "points": "9 Punkte",
+            "status": "Bereit"
+          }
+        },
+        "statusQuoted": "Angebot erstellt"
+      },
+      "title": "Elektroangebote aus Grundrissen in Minuten erstellen"
+    },
+    "pages": {
+      "contact": {
+        "body": "Kontaktmöglichkeiten für Elektriker und Installationsbetriebe werden hier ergänzt.",
+        "subtitle": "Melden Sie sich zu Schätzabläufen, frühem Zugang oder Produktpassung.",
+        "title": "Kontakt"
+      },
+      "pricing": {
+        "body": "Preisinformationen werden ergänzt, sobald der Angebotsablauf näher an die produktive Abrechnung rückt.",
+        "subtitle": "Einfache Abo-Pakete für Elektrofachbetriebe und kleine Schätzteams.",
+        "title": "Preise"
+      },
+      "privacy": {
+        "body": "Details zur Datenschutzerklärung werden vor dem öffentlichen Start ergänzt.",
+        "subtitle": "Richtlinien zu Produkt- und Kontodaten für Plan2Ponuda.",
+        "title": "Datenschutz"
+      },
+      "terms": {
+        "body": "Details zu den Nutzungsbedingungen werden vor dem öffentlichen Start ergänzt.",
+        "subtitle": "Abo- und Nutzungsbedingungen für Plan2Ponuda.",
+        "title": "Bedingungen"
+      }
+    },
+    "workflow": {
+      "eyebrow": "So funktioniert es",
+      "steps": {
+        "exportQuote": {
+          "description": "Machen Sie aus dem geprüften Grundriss ein strukturiertes Angebot für den Kunden.",
+          "title": "Angebot exportieren"
+        },
+        "generateMaterials": {
+          "description": "Erstellen Sie Vorschläge für Steckdosen, Schalter, Beleuchtung, Kabel und Geräte.",
+          "title": "Materialien generieren"
+        },
+        "reviewRooms": {
+          "description": "Bestätigen Sie erkannte Räume und passen Sie Namen vor der Schätzung an.",
+          "title": "Räume prüfen"
+        },
+        "uploadFloorPlan": {
+          "description": "Starten Sie mit einem PDF, Plan oder Bild Ihres Kunden.",
+          "title": "Grundriss hochladen"
+        }
+      },
+      "title": "Vom Grundriss-Upload zum Angebots-Export in einem fokussierten Ablauf."
+    }
+  }
+}

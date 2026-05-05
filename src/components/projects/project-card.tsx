@@ -1,7 +1,7 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
+import { Link } from "@/i18n/navigation";
 import type { Project } from "@/types/project";
 
 export type ProjectCardProject = Omit<Project, "createdAt" | "updatedAt"> & {

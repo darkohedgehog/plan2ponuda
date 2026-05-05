@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { Link } from "@/i18n/navigation";
 import type { QuoteIndexItem } from "@/types/quote";
 
 type QuotesIndexProps = {

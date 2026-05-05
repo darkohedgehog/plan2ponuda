@@ -1,0 +1,211 @@
+{
+  "Common": {
+    "appName": "Plan2Ponuda",
+    "dashboard": "Kontrolna tabla",
+    "logoAlt": "Plan2Ponuda logo",
+    "projects": "Projekti",
+    "settings": "Podešavanja"
+  },
+  "Auth": {
+    "backToHome": "Nazad na početnu",
+    "capsLockOn": "Caps Lock je uključen",
+    "confirmNewPassword": "Potvrdite novu lozinku",
+    "confirmPassword": "Potvrdite lozinku",
+    "createAccount": "Kreirajte nalog",
+    "developmentResetUrl": "Razvojni URL za resetovanje",
+    "email": "E-pošta",
+    "forgotPassword": "Zaboravili ste lozinku?",
+    "fullName": "Ime i prezime",
+    "hidePassword": "Sakrij lozinku",
+    "messages": {
+      "passwordResetSuccess": "Lozinka je resetovana. Sada se možete prijaviti novom lozinkom.",
+      "resetInstructionsPrepared": "Ako nalog postoji, uputstva za resetovanje lozinke su pripremljena."
+    },
+    "newPassword": "Nova lozinka",
+    "pages": {
+      "forgotPassword": {
+        "rememberedPassword": "Setili ste se lozinke?",
+        "subtitle": "Unesite e-poštu i pripremićemo uputstva za resetovanje lozinke ako nalog postoji.",
+        "title": "Resetovanje lozinke"
+      },
+      "resetPassword": {
+        "subtitle": "Izaberite novu lozinku za svoj Plan2Ponuda nalog.",
+        "title": "Postavite novu lozinku"
+      },
+      "signIn": {
+        "noAccount": "Nemate nalog?",
+        "subtitle": "Pristupite svom Plan2Ponuda radnom prostoru.",
+        "title": "Prijava"
+      },
+      "signUp": {
+        "hasAccount": "Već imate nalog?",
+        "subtitle": "Postavite svoj radni prostor za izradu elektro ponuda.",
+        "title": "Kreirajte nalog"
+      }
+    },
+    "password": "Lozinka",
+    "passwordStrength": {
+      "label": "Jačina lozinke: {strength}",
+      "medium": "Srednja",
+      "strong": "Jaka",
+      "weak": "Slaba"
+    },
+    "resetPassword": "Resetuj lozinku",
+    "showPassword": "Prikaži lozinku",
+    "signIn": "Prijava",
+    "signUp": "Registracija"
+  },
+  "Actions": {
+    "createAccount": "Kreiraj nalog",
+    "creatingAccount": "Kreiranje naloga...",
+    "resetPassword": "Resetuj lozinku",
+    "resetting": "Resetovanje...",
+    "seeHowItWorks": "Pogledajte kako radi",
+    "sendResetInstructions": "Pošalji uputstva za resetovanje",
+    "sending": "Slanje...",
+    "signingIn": "Prijava...",
+    "startFirstProject": "Pokrenite prvi projekat",
+    "startProject": "Pokreni projekat"
+  },
+  "Validation": {
+    "emailAlreadyExists": "Nalog sa ovom e-poštom već postoji.",
+    "enterValidEmail": "Unesite važeću adresu e-pošte.",
+    "invalidEmailOrPassword": "Neispravna e-pošta ili lozinka.",
+    "invalidInput": "Proverite unete podatke.",
+    "invalidResetRequest": "Unesite važeći token za resetovanje i lozinku.",
+    "missingResetToken": "Ovom linku za resetovanje lozinke nedostaje token.",
+    "passwordResetInvalidOrExpired": "Ovaj link za resetovanje lozinke nije važeći ili je istekao.",
+    "passwordResetRateLimited": "Previše zahteva za resetovanje. Pokušajte ponovo kasnije.",
+    "passwordsDoNotMatch": "Lozinke se ne podudaraju.",
+    "unableCreateAccount": "Nije moguće kreirati nalog.",
+    "unableProcessPasswordReset": "Nije moguće obraditi zahtev za resetovanje lozinke.",
+    "unableResetPassword": "Nije moguće resetovati lozinku."
+  },
+  "Navigation": {
+    "contact": "Kontakt",
+    "dashboard": "Kontrolna tabla",
+    "features": "Mogućnosti",
+    "footerNavigation": "Navigacija u podnožju",
+    "howItWorks": "Kako radi",
+    "materials": "Materijali",
+    "mobileNavigation": "Mobilna navigacija",
+    "pricing": "Cene",
+    "primaryNavigation": "Glavna navigacija",
+    "privacy": "Privatnost",
+    "projects": "Projekti",
+    "quotes": "Ponude",
+    "settings": "Podešavanja",
+    "terms": "Uslovi",
+    "toggleNavigationMenu": "Otvori ili zatvori navigaciju"
+  },
+  "Marketing": {
+    "cta": {
+      "description": "Kreirajte projekat, učitajte tlocrt i pređite od pregleda do ponude bez gubljenja vremena u ručnim tabelama.",
+      "eyebrow": "Spremno kada stigne sledeći tlocrt",
+      "title": "Pokrenite prvu ponudu za elektroinstalacije kroz čistiji tok rada."
+    },
+    "features": {
+      "description": "Plan2Ponuda drži tok rada uskim i praktičnim: razumeti tlocrt, predložiti instalaciju i pripremiti ponudu.",
+      "eyebrow": "Mogućnosti",
+      "items": {
+        "electricalSuggestions": {
+          "description": "Generišite praktične utičnice, prekidače i svetlosne tačke prema tipu prostorije.",
+          "title": "Predlozi elektroinstalacije"
+        },
+        "materialQuote": {
+          "description": "Pretvorite pregledane predloge u količine materijala, trošak rada i strukturu spremnu za ponudu.",
+          "title": "Materijali i izvoz ponude"
+        },
+        "roomDetection": {
+          "description": "Prepoznajte prostorije iz učitanih tlocrta, a procenitelju ostavite kontrolu za ispravke.",
+          "title": "AI pomoć pri prepoznavanju prostorija"
+        }
+      },
+      "title": "Napravljeno za procene koje električari ponavljaju svake nedelje."
+    },
+    "footer": {
+      "tagline": "Brže ponude za elektroinstalacije iz tlocrta."
+    },
+    "hero": {
+      "description": "Učitajte tlocrt, pregledajte prepoznate prostorije, generišite predloge elektroinstalacije i izvezite ponudu spremnu za klijenta bez ručnog sklapanja procene.",
+      "preview": {
+        "detectedRooms": "Prepoznate prostorije",
+        "exportQuote": "Izvezi ponudu",
+        "floorPlanReview": "Pregled tlocrta",
+        "materialList": "Lista materijala",
+        "materials": {
+          "cable": "Kabl",
+          "sockets": "Utičnice",
+          "switches": "Prekidači"
+        },
+        "projectLabel": "Projekat",
+        "projectName": "Adaptacija stana",
+        "quoteDescription": "Materijali, rad i predlozi po prostorijama pripremljeni su za izvoz.",
+        "quoteTotal": "Ukupna ponuda",
+        "rooms": {
+          "bathroom": {
+            "name": "Kupatilo",
+            "points": "5 priključaka",
+            "status": "Spremno"
+          },
+          "kitchen": {
+            "name": "Kuhinja",
+            "points": "10 priključaka",
+            "status": "Za pregled"
+          },
+          "livingRoom": {
+            "name": "Dnevna soba",
+            "points": "9 priključaka",
+            "status": "Spremno"
+          }
+        },
+        "statusQuoted": "Ponuda izrađena"
+      },
+      "title": "Izradite ponude za elektroinstalacije iz tlocrta za nekoliko minuta"
+    },
+    "pages": {
+      "contact": {
+        "body": "Opcije kontakta za električare i instalaterske firme biće dodate ovde.",
+        "subtitle": "Javite nam se zbog tokova procene, ranog pristupa ili uklapanja proizvoda.",
+        "title": "Kontakt"
+      },
+      "pricing": {
+        "body": "Detalji cena biće dodati kada se tok izrade ponuda približi produkcionoj naplati.",
+        "subtitle": "Jednostavni paketi pretplate za elektroinstalatere i male timove za procene.",
+        "title": "Cene"
+      },
+      "privacy": {
+        "body": "Detalji politike privatnosti biće dodati pre javnog lansiranja.",
+        "subtitle": "Pravila o podacima proizvoda i korisničkog naloga za Plan2Ponuda.",
+        "title": "Privatnost"
+      },
+      "terms": {
+        "body": "Detalji uslova korišćenja biće dodati pre javnog lansiranja.",
+        "subtitle": "Uslovi pretplate i korišćenja za Plan2Ponuda.",
+        "title": "Uslovi"
+      }
+    },
+    "workflow": {
+      "eyebrow": "Kako radi",
+      "steps": {
+        "exportQuote": {
+          "description": "Pretvorite pregledani tlocrt u strukturiranu ponudu spremnu za klijenta.",
+          "title": "Izvezite ponudu"
+        },
+        "generateMaterials": {
+          "description": "Kreirajte predloge utičnica, prekidača, rasvete, kablova i opreme.",
+          "title": "Generišite materijale"
+        },
+        "reviewRooms": {
+          "description": "Potvrdite prepoznate prostorije i prilagodite nazive pre procene.",
+          "title": "Pregledajte prostorije"
+        },
+        "uploadFloorPlan": {
+          "description": "Počnite sa PDF-om, nacrtom ili slikom koju ste dobili od klijenta.",
+          "title": "Učitajte tlocrt"
+        }
+      },
+      "title": "Od učitavanja tlocrta do izvoza ponude u jednom fokusiranom toku rada."
+    }
+  }
+}

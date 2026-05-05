@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 
 import {
@@ -8,17 +8,24 @@ import {
   PasswordStrengthIndicator,
 } from "@/components/auth/password-input";
 import { Button } from "@/components/ui/button";
-import type { ResetPasswordResponse } from "@/types/auth";
+import { Link } from "@/i18n/navigation";
+import type {
+  ResetPasswordErrorCode,
+  ResetPasswordResponse,
+} from "@/types/auth";
 
 type ResetPasswordFormProps = {
   token: string;
 };
 
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+  const tActions = useTranslations("Actions");
+  const tAuth = useTranslations("Auth");
+  const tValidation = useTranslations("Validation");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(
-    token ? null : "This password reset link is missing a token.",
+    token ? null : tValidation("missingResetToken"),
   );
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,12 +38,12 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setSuccessMessage(null);
 
     if (!token) {
-      setError("This password reset link is missing a token.");
+      setError(tValidation("missingResetToken"));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(tValidation("passwordsDoNotMatch"));
       return;
     }
 
@@ -61,17 +68,22 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setIsSubmitting(false);
 
     if (!response.ok || !payload?.ok) {
+      const resetPasswordErrorMessages = {
+        invalid_input: tValidation("invalidResetRequest"),
+        invalid_or_expired_token: tValidation("passwordResetInvalidOrExpired"),
+        server_error: tValidation("unableResetPassword"),
+      } satisfies Record<ResetPasswordErrorCode, string>;
       setError(
         payload && !payload.ok
-          ? payload.error.message
-          : "Unable to reset password.",
+          ? resetPasswordErrorMessages[payload.error.code]
+          : tValidation("unableResetPassword"),
       );
       return;
     }
 
     setPassword("");
     setConfirmPassword("");
-    setSuccessMessage(payload.message);
+    setSuccessMessage(tAuth("messages.passwordResetSuccess"));
   }
 
   return (
@@ -81,7 +93,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         minLength={8}
         name="password"
         onChange={(event) => setPassword(event.target.value)}
-        placeholder="New password"
+        placeholder={tAuth("newPassword")}
         required
         value={password}
       />
@@ -91,12 +103,14 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         minLength={8}
         name="confirmPassword"
         onChange={(event) => setConfirmPassword(event.target.value)}
-        placeholder="Confirm new password"
+        placeholder={tAuth("confirmNewPassword")}
         required
         value={confirmPassword}
       />
       {passwordsDoNotMatch ? (
-        <p className="text-sm text-red-600">Passwords do not match.</p>
+        <p className="text-sm text-red-600">
+          {tValidation("passwordsDoNotMatch")}
+        </p>
       ) : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       {successMessage ? (
@@ -105,14 +119,14 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         </div>
       ) : null}
       <Button disabled={isSubmitting || Boolean(successMessage)} type="submit">
-        {isSubmitting ? "Resetting..." : "Reset password"}
+        {isSubmitting ? tActions("resetting") : tActions("resetPassword")}
       </Button>
       {successMessage ? (
         <Link
           className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
           href="/sign-in"
         >
-          Sign in
+          {tAuth("signIn")}
         </Link>
       ) : null}
     </form>

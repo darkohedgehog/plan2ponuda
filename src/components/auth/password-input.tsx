@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   type ChangeEvent,
   type KeyboardEvent,
@@ -19,18 +20,18 @@ type PasswordInputProps = {
   value: string;
 };
 
-type PasswordStrength = "Weak" | "Medium" | "Strong";
+type PasswordStrength = "weak" | "medium" | "strong";
 
 const strengthBarStyles: Record<PasswordStrength, string> = {
-  Medium: "bg-amber-500",
-  Strong: "bg-emerald-600",
-  Weak: "bg-red-500",
+  medium: "bg-amber-500",
+  strong: "bg-emerald-600",
+  weak: "bg-red-500",
 };
 
 const strengthTextStyles: Record<PasswordStrength, string> = {
-  Medium: "text-amber-700",
-  Strong: "text-emerald-700",
-  Weak: "text-red-700",
+  medium: "text-amber-700",
+  strong: "text-emerald-700",
+  weak: "text-red-700",
 };
 
 export function PasswordInput({
@@ -42,6 +43,7 @@ export function PasswordInput({
   required = false,
   value,
 }: PasswordInputProps) {
+  const tAuth = useTranslations("Auth");
   const [showPassword, setShowPassword] = useState(false);
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
 
@@ -68,7 +70,7 @@ export function PasswordInput({
         />
         <button
           aria-label={
-            showPassword ? "Hide password" : "Show password"
+            showPassword ? tAuth("hidePassword") : tAuth("showPassword")
           }
           className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-slate-500 outline-none transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:ring-2 focus-visible:ring-blue-100"
           onClick={() => setShowPassword((currentValue) => !currentValue)}
@@ -78,7 +80,9 @@ export function PasswordInput({
         </button>
       </div>
       {isCapsLockOn ? (
-        <p className="text-xs font-medium text-amber-700">Caps Lock is on</p>
+        <p className="text-xs font-medium text-amber-700">
+          {tAuth("capsLockOn")}
+        </p>
       ) : null}
     </div>
   );
@@ -91,15 +95,17 @@ type PasswordStrengthIndicatorProps = {
 export function PasswordStrengthIndicator({
   password,
 }: PasswordStrengthIndicatorProps) {
+  const tPasswordStrength = useTranslations("Auth.passwordStrength");
+
   if (password.length === 0) {
     return null;
   }
 
   const strength = getPasswordStrength(password);
   const barWidth: Record<PasswordStrength, string> = {
-    Medium: "w-2/3",
-    Strong: "w-full",
-    Weak: "w-1/3",
+    medium: "w-2/3",
+    strong: "w-full",
+    weak: "w-1/3",
   };
 
   return (
@@ -110,7 +116,9 @@ export function PasswordStrengthIndicator({
         />
       </div>
       <p className={`text-xs font-medium ${strengthTextStyles[strength]}`}>
-        Password strength: {strength}
+        {tPasswordStrength("label", {
+          strength: tPasswordStrength(strength),
+        })}
       </p>
     </div>
   );
@@ -122,14 +130,14 @@ function getPasswordStrength(password: string): PasswordStrength {
   const hasSymbol = /[^A-Za-z0-9]/.test(password);
 
   if (password.length >= 10 && hasLetter && hasNumber && hasSymbol) {
-    return "Strong";
+    return "strong";
   }
 
   if (password.length >= 8 && hasLetter && hasNumber) {
-    return "Medium";
+    return "medium";
   }
 
-  return "Weak";
+  return "weak";
 }
 
 function EyeIcon() {

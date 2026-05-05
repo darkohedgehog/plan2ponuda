@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
@@ -10,10 +11,16 @@ import {
   PasswordInput,
   PasswordStrengthIndicator,
 } from "@/components/auth/password-input";
-import type { SignUpResponse } from "@/types/auth";
+import type { SignUpErrorCode, SignUpResponse } from "@/types/auth";
 
 export function SignUpForm() {
+  const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tAuth = useTranslations("Auth");
+  const tValidation = useTranslations("Validation");
   const router = useRouter();
+  const dashboardUrl = `/${locale}/dashboard`;
+  const signInUrl = `/${locale}/sign-in`;
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +35,7 @@ export function SignUpForm() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(tValidation("passwordsDoNotMatch"));
       return;
     }
 
@@ -48,8 +55,14 @@ export function SignUpForm() {
     const payload = (await response.json()) as SignUpResponse;
 
     if (!response.ok || !payload.ok) {
-      const message =
-        "error" in payload ? payload.error.message : "Unable to create account.";
+      const signUpErrorMessages = {
+        email_already_exists: tValidation("emailAlreadyExists"),
+        invalid_input: tValidation("invalidInput"),
+        server_error: tValidation("unableCreateAccount"),
+      } satisfies Record<SignUpErrorCode, string>;
+      const message = "error" in payload
+        ? signUpErrorMessages[payload.error.code]
+        : tValidation("unableCreateAccount");
       setError(message);
       setIsSubmitting(false);
       return;
@@ -59,17 +72,17 @@ export function SignUpForm() {
       email,
       password,
       redirect: false,
-      callbackUrl: "/dashboard",
+      callbackUrl: dashboardUrl,
     });
 
     setIsSubmitting(false);
 
     if (!result || result.error) {
-      router.push("/sign-in");
+      router.push(signInUrl);
       return;
     }
 
-    router.push(result.url ?? "/dashboard");
+    router.push(result.url ?? dashboardUrl);
     router.refresh();
   }
 
@@ -80,7 +93,7 @@ export function SignUpForm() {
         className={formControlClassName}
         name="fullName"
         onChange={(event) => setFullName(event.target.value)}
-        placeholder="Full name"
+        placeholder={tAuth("fullName")}
         type="text"
         value={fullName}
       />
@@ -89,7 +102,7 @@ export function SignUpForm() {
         className={formControlClassName}
         name="email"
         onChange={(event) => setEmail(event.target.value)}
-        placeholder="Email"
+        placeholder={tAuth("email")}
         required
         type="email"
         value={email}
@@ -99,7 +112,7 @@ export function SignUpForm() {
         minLength={8}
         name="password"
         onChange={(event) => setPassword(event.target.value)}
-        placeholder="Password"
+        placeholder={tAuth("password")}
         required
         value={password}
       />
@@ -109,16 +122,18 @@ export function SignUpForm() {
         minLength={8}
         name="confirmPassword"
         onChange={(event) => setConfirmPassword(event.target.value)}
-        placeholder="Confirm password"
+        placeholder={tAuth("confirmPassword")}
         required
         value={confirmPassword}
       />
       {passwordsDoNotMatch ? (
-        <p className="text-sm text-red-600">Passwords do not match.</p>
+        <p className="text-sm text-red-600">
+          {tValidation("passwordsDoNotMatch")}
+        </p>
       ) : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Creating account..." : "Create account"}
+        {isSubmitting ? tActions("creatingAccount") : tActions("createAccount")}
       </Button>
     </form>
   );
