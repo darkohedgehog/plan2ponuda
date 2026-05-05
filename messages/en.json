@@ -1,10 +1,21 @@
 {
   "Common": {
+    "area": "Area",
     "appName": "Plan2Ponuda",
+    "client": "Client",
+    "created": "Created",
     "dashboard": "Dashboard",
+    "file": "File",
+    "floorPlan": "Floor plan",
+    "language": "Language",
     "logoAlt": "Plan2Ponuda logo",
+    "notSet": "Not set",
+    "notUploaded": "Not uploaded",
+    "objectType": "Object type",
     "projects": "Projects",
-    "settings": "Settings"
+    "settings": "Settings",
+    "updated": "Updated",
+    "uploaded": "Uploaded"
   },
   "Auth": {
     "backToHome": "Back to Home",
@@ -56,16 +67,41 @@
     "signUp": "Sign up"
   },
   "Actions": {
+    "addFirstRoom": "Add first room",
+    "addRoom": "Add Room",
+    "checkProject": "Check Project",
     "createAccount": "Create account",
     "creatingAccount": "Creating account...",
+    "createFirstProject": "Create your first project",
+    "createProject": "Create Project",
+    "delete": "Delete",
+    "generate": "Generate",
+    "generateQuote": "Generate Quote",
+    "newProject": "New Project",
+    "open": "Open",
+    "openQuote": "Open Quote",
+    "openReview": "Open Review",
+    "openProject": "Open Project",
+    "replaceFile": "Replace file",
     "resetPassword": "Reset password",
     "resetting": "Resetting...",
+    "review": "Review",
+    "reviewRooms": "Review Rooms",
+    "saveRooms": "Save Rooms",
+    "saved": "Saved",
+    "saving": "Saving...",
     "seeHowItWorks": "See how it works",
     "sendResetInstructions": "Send reset instructions",
     "sending": "Sending...",
+    "signOut": "Sign out",
+    "signingOut": "Signing out...",
     "signingIn": "Signing in...",
     "startFirstProject": "Start first project",
-    "startProject": "Start Project"
+    "startProject": "Start Project",
+    "upload": "Upload",
+    "uploadFloorPlan": "Upload Floor Plan",
+    "waiting": "Waiting",
+    "viewAllProjects": "View all projects"
   },
   "Validation": {
     "emailAlreadyExists": "An account with this email already exists.",
@@ -79,7 +115,120 @@
     "passwordsDoNotMatch": "Passwords do not match.",
     "unableCreateAccount": "Unable to create account.",
     "unableProcessPasswordReset": "Unable to process password reset request.",
-    "unableResetPassword": "Unable to reset password."
+    "unableResetPassword": "Unable to reset password.",
+    "unableSaveRooms": "Unable to save rooms."
+  },
+  "Dashboard": {
+    "account": "Account",
+    "allStatuses": "All statuses",
+    "closeNavigation": "Close dashboard navigation",
+    "headers": {
+      "materials": {
+        "subtitle": "Reusable material catalog and pricing tools.",
+        "title": "Materials"
+      },
+      "newProject": {
+        "subtitle": "Create a project container before uploading a floor plan.",
+        "title": "New Project"
+      },
+      "overview": {
+        "subtitle": "Overview of recent projects and quote activity.",
+        "title": "Dashboard"
+      },
+      "projectWorkspace": {
+        "subtitle": "Manage plan upload, analysis status, and quote workflow.",
+        "title": "Project workspace"
+      },
+      "projects": {
+        "subtitle": "Manage floor-plan projects and installation estimates.",
+        "title": "Projects"
+      },
+      "quote": {
+        "subtitle": "Review quote totals and export-ready project details.",
+        "title": "Quote"
+      },
+      "quotes": {
+        "subtitle": "Generated quote snapshots and export history.",
+        "title": "Quotes"
+      },
+      "reviewRooms": {
+        "subtitle": "Confirm detected spaces before generating material suggestions.",
+        "title": "Review rooms"
+      },
+      "settings": {
+        "subtitle": "Account, company, and estimating preferences.",
+        "title": "Settings"
+      }
+    },
+    "home": {
+      "emptyProjects": {
+        "description": "Start with a project record, then upload the floor plan and move through review, materials, and quote generation.",
+        "title": "Create your first project"
+      },
+      "fallbackName": "there",
+      "hero": {
+        "description": "Start a project, upload a plan, review detected rooms, and move the estimate toward a client-ready quote.",
+        "title": "Turn floor plans into electrical quotes with a guided workflow.",
+        "welcome": "Welcome back, {name}"
+      },
+      "recentProjects": {
+        "subtitle": "Continue from your latest floor plan estimates.",
+        "title": "Recent projects"
+      },
+      "stats": {
+        "ariaLabel": "Project statistics",
+        "draft": "Draft projects",
+        "quoted": "Quoted projects",
+        "reviewed": "Reviewed projects",
+        "total": "Total projects"
+      },
+      "workflow": {
+        "steps": {
+          "createProject": {
+            "description": "Add client details and basic project information.",
+            "title": "Create project"
+          },
+          "generateQuote": {
+            "description": "Build materials, labor, and a client-ready estimate.",
+            "title": "Generate quote"
+          },
+          "reviewRooms": {
+            "description": "Check detected spaces and tune room-level suggestions.",
+            "title": "Review rooms"
+          },
+          "uploadPlan": {
+            "description": "Attach the PDF or image floor plan for the installation.",
+            "title": "Upload plan"
+          }
+        },
+        "subtitle": "The main path from a new client plan to a structured offer.",
+        "title": "Quote workflow"
+      }
+    },
+    "navigation": "Dashboard navigation",
+    "openNavigation": "Open dashboard navigation",
+    "search": "Search",
+    "status": "Status",
+    "workspace": "Workspace",
+    "workspaceDescription": "Electrical estimates"
+  },
+  "EmptyStates": {
+    "projects": {
+      "noMatches": {
+        "description": "Try a different search term or status filter.",
+        "title": "No projects match your filters"
+      },
+      "noProjects": {
+        "description": "Create your first project to upload a floor plan, review detected rooms, and prepare an electrical installation quote.",
+        "title": "No projects yet"
+      }
+    },
+    "rooms": {
+      "noDetected": {
+        "description": "Analysis and review data has not been generated for this project yet. Add rooms manually to continue the review workflow.",
+        "title": "No detected rooms yet"
+      }
+    }
   },
   "Navigation": {
     "contact": "Contact",
@@ -206,6 +355,200 @@
         }
       },
       "title": "From plan upload to quote export in one focused workflow."
+    }
+  },
+  "Projects": {
+    "card": {
+      "noClientAssigned": "No client assigned"
+    },
+    "list": {
+      "searchAriaLabel": "Search projects",
+      "searchPlaceholder": "Search projects or clients",
+      "statusFilterAriaLabel": "Filter projects by status",
+      "subtitle": "Newest projects are shown first.",
+      "title": "All projects"
+    },
+    "objectTypes": {
+      "apartment": "Apartment",
+      "house": "House",
+      "office": "Office"
+    },
+    "page": {
+      "eyebrow": "Project management",
+      "subtitle": "Track every floor-plan estimate from project setup through room review, material planning, and quote export.",
+      "title": "Projects"
+    }
+  },
+  "ProjectWorkspace": {
+    "currentNextStep": {
+      "title": "Current next step"
+    },
+    "hero": {
+      "description": "Manage this project from floor plan upload through review, material planning, and quote generation."
+    },
+    "meta": {
+      "created": "Created {date}"
+    },
+    "nextSteps": {
+      "analysisInProgress": {
+        "description": "Analysis is in progress. You can open the review workspace when room results are ready."
+      },
+      "attentionRequired": {
+        "description": "This project needs attention before the workflow can continue. Check the floor plan and review steps."
+      },
+      "floorPlanRequired": {
+        "description": "Upload the project floor plan before room review, suggestions, materials, or quote generation can begin."
+      },
+      "materialsAndQuote": {
+        "description": "Rooms have been reviewed. Continue to material calculation and quote preparation."
+      },
+      "quoteAvailable": {
+        "description": "A quote is available for this project. Review quote details or continue refining the estimate."
+      },
+      "reviewRooms": {
+        "description": "Review detected rooms and prepare the electrical suggestion baseline for this project."
+      }
+    },
+    "workflow": {
+      "states": {
+        "inProgress": "In progress",
+        "notStarted": "Not started",
+        "ready": "Ready"
+      },
+      "steps": {
+        "electricalSuggestions": {
+          "description": "Use room types to prepare editable sockets, switches, and lighting suggestions.",
+          "title": "Electrical Suggestions"
+        },
+        "materials": {
+          "description": "Convert reviewed suggestions into material quantities and pricing inputs.",
+          "title": "Materials"
+        },
+        "quote": {
+          "description": "Prepare the client-facing installation quote from project and material data.",
+          "title": "Quote"
+        },
+        "reviewRooms": {
+          "description": "Confirm detected rooms and correct the project structure before estimating.",
+          "title": "Review Rooms"
+        },
+        "uploadFloorPlan": {
+          "description": "Attach the source PDF or image that the rest of the workflow depends on.",
+          "title": "Upload Floor Plan"
+        }
+      },
+      "subtitle": "Follow the project lifecycle one step at a time.",
+      "title": "Workflow"
+    }
+  },
+  "Review": {
+    "errors": {
+      "invalidInput": "Enter room names, valid room types, and non-negative suggestion values.",
+      "invalidRoomReference": "One or more rooms do not belong to this project.",
+      "projectNotFound": "Project not found.",
+      "roomNameRequired": "Every room needs a name before saving.",
+      "serverError": "Unable to save rooms."
+    },
+    "floorPlan": {
+      "description": "Use the uploaded floor plan as the reference for room review.",
+      "preview": {
+        "alt": "Floor plan preview for {fileName}",
+        "expiresInMinutes": "{minutes} min",
+        "fileLabel": "File: {fileName}",
+        "imageCaption": "Signed preview for {fileName}. The URL expires in {expiresIn}.",
+        "openPdfPreview": "Open PDF preview",
+        "pdfDescription": "Open the signed PDF preview in a new tab. The URL expires in {expiresIn}.",
+        "pdfTitle": "PDF floor plan available",
+        "unavailable": {
+          "missingFile": "Upload a floor plan before reviewing the visual preview.",
+          "signingFailed": "The signed preview URL could not be generated. The file remains stored privately.",
+          "title": "Preview unavailable",
+          "unsupportedFileType": "This floor plan file type cannot be previewed safely yet."
+        }
+      },
+      "status": {
+        "missing": "No floor plan uploaded",
+        "title": "Upload status",
+        "uploaded": "Floor plan uploaded"
+      },
+      "title": "Floor plan"
+    },
+    "hero": {
+      "description": "Review detected rooms before moving into electrical suggestions, materials, and quote generation.",
+      "eyebrow": "Review rooms"
+    },
+    "messages": {
+      "saved": "Rooms saved."
+    }
+  },
+  "Rooms": {
+    "editor": {
+      "subtitle": "Add, correct, or remove rooms before generating suggestions.",
+      "title": "Detected rooms"
+    },
+    "fields": {
+      "confidence": "Confidence",
+      "estimatedArea": "Estimated area",
+      "name": "Room name",
+      "namePlaceholder": "Room name",
+      "roomNumber": "Room {number}",
+      "type": "Room type"
+    }
+  },
+  "RoomTypes": {
+    "bathroom": "Bathroom",
+    "bedroom": "Bedroom",
+    "hallway": "Hallway",
+    "kitchen": "Kitchen",
+    "living_room": "Living room",
+    "office": "Office",
+    "unknown": "Unknown"
+  },
+  "Suggestions": {
+    "lights": "Lights",
+    "override": "Override",
+    "sockets": "Sockets",
+    "suggested": "Suggested",
+    "suggestedValue": "Suggested: {value}",
+    "switches": "Switches"
+  },
+  "Status": {
+    "project": {
+      "analyzing": "Analyzing",
+      "draft": "Draft",
+      "failed": "Failed",
+      "quoted": "Quoted",
+      "reviewed": "Reviewed",
+      "uploaded": "Uploaded"
+    }
+  },
+  "Upload": {
+    "actions": {
+      "uploadFloorPlan": "Upload floor plan",
+      "uploading": "Uploading..."
+    },
+    "errors": {
+      "fallback": "Unable to upload floor plan.",
+      "fileTooLarge": "Floor plan files must be 10MB or smaller.",
+      "invalidFile": "The selected file is not a valid floor plan.",
+      "invalidInput": "Check the selected file.",
+      "invalidType": "Upload a PDF, PNG, JPG, or JPEG floor plan.",
+      "notFound": "Project not found.",
+      "required": "Select a floor plan file to upload.",
+      "serverError": "Unable to upload floor plan.",
+      "tooLarge": "Floor plan files must be 10MB or smaller.",
+      "unsupportedFileType": "Upload a PDF, PNG, JPG, or JPEG floor plan.",
+      "uploadFailed": "Floor plan upload failed."
+    },
+    "floorPlan": {
+      "attachedDescription": "A floor plan is attached. Uploading another file will replace the current project floor plan.",
+      "emptyDescription": "Upload a PDF, PNG, JPG, or JPEG file up to 10MB to start the analysis workflow.",
+      "title": "Floor plan",
+      "uploadedFile": "Uploaded file"
+    },
+    "inputAriaLabel": "Choose floor plan file",
+    "success": {
+      "uploaded": "Uploaded: {path}"
     }
   }
 }

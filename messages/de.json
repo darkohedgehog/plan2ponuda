@@ -1,10 +1,21 @@
 {
   "Common": {
+    "area": "Fläche",
     "appName": "Plan2Ponuda",
+    "client": "Kunde",
+    "created": "Erstellt",
     "dashboard": "Dashboard",
+    "file": "Datei",
+    "floorPlan": "Grundriss",
+    "language": "Sprache",
     "logoAlt": "Plan2Ponuda-Logo",
+    "notSet": "Nicht festgelegt",
+    "notUploaded": "Nicht hochgeladen",
+    "objectType": "Objekttyp",
     "projects": "Projekte",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "updated": "Aktualisiert",
+    "uploaded": "Hochgeladen"
   },
   "Auth": {
     "backToHome": "Zurück zur Startseite",
@@ -56,16 +67,41 @@
     "signUp": "Registrieren"
   },
   "Actions": {
+    "addFirstRoom": "Ersten Raum hinzufügen",
+    "addRoom": "Raum hinzufügen",
+    "checkProject": "Projekt prüfen",
     "createAccount": "Konto erstellen",
     "creatingAccount": "Konto wird erstellt...",
+    "createFirstProject": "Erstes Projekt erstellen",
+    "createProject": "Projekt erstellen",
+    "delete": "Löschen",
+    "generate": "Erstellen",
+    "generateQuote": "Angebot erstellen",
+    "newProject": "Neues Projekt",
+    "open": "Öffnen",
+    "openQuote": "Angebot öffnen",
+    "openReview": "Prüfung öffnen",
+    "openProject": "Projekt öffnen",
+    "replaceFile": "Datei ersetzen",
     "resetPassword": "Passwort zurücksetzen",
     "resetting": "Wird zurückgesetzt...",
+    "review": "Prüfen",
+    "reviewRooms": "Räume prüfen",
+    "saveRooms": "Räume speichern",
+    "saved": "Gespeichert",
+    "saving": "Wird gespeichert...",
     "seeHowItWorks": "So funktioniert es",
     "sendResetInstructions": "Anweisungen senden",
     "sending": "Wird gesendet...",
+    "signOut": "Abmelden",
+    "signingOut": "Abmeldung läuft...",
     "signingIn": "Anmeldung läuft...",
     "startFirstProject": "Erstes Projekt starten",
-    "startProject": "Projekt starten"
+    "startProject": "Projekt starten",
+    "upload": "Hochladen",
+    "uploadFloorPlan": "Grundriss hochladen",
+    "waiting": "Wartet",
+    "viewAllProjects": "Alle Projekte anzeigen"
   },
   "Validation": {
     "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits.",
@@ -79,7 +115,120 @@
     "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
     "unableCreateAccount": "Konto konnte nicht erstellt werden.",
     "unableProcessPasswordReset": "Die Anfrage zum Zurücksetzen des Passworts konnte nicht verarbeitet werden.",
-    "unableResetPassword": "Passwort konnte nicht zurückgesetzt werden."
+    "unableResetPassword": "Passwort konnte nicht zurückgesetzt werden.",
+    "unableSaveRooms": "Räume konnten nicht gespeichert werden."
+  },
+  "Dashboard": {
+    "account": "Konto",
+    "allStatuses": "Alle Status",
+    "closeNavigation": "Dashboard-Navigation schließen",
+    "headers": {
+      "materials": {
+        "subtitle": "Wiederverwendbarer Materialkatalog und Preiswerkzeuge.",
+        "title": "Materialien"
+      },
+      "newProject": {
+        "subtitle": "Erstellen Sie ein Projekt, bevor Sie einen Grundriss hochladen.",
+        "title": "Neues Projekt"
+      },
+      "overview": {
+        "subtitle": "Überblick über aktuelle Projekte und Angebotsaktivität.",
+        "title": "Dashboard"
+      },
+      "projectWorkspace": {
+        "subtitle": "Verwalten Sie Grundriss-Upload, Analysestatus und Angebotsablauf.",
+        "title": "Projektarbeitsbereich"
+      },
+      "projects": {
+        "subtitle": "Verwalten Sie Grundrissprojekte und Installationsschätzungen.",
+        "title": "Projekte"
+      },
+      "quote": {
+        "subtitle": "Prüfen Sie Angebotssummen und exportbereite Projektdetails.",
+        "title": "Angebot"
+      },
+      "quotes": {
+        "subtitle": "Generierte Angebotsstände und Exportverlauf.",
+        "title": "Angebote"
+      },
+      "reviewRooms": {
+        "subtitle": "Bestätigen Sie erkannte Räume vor dem Erstellen von Materialvorschlägen.",
+        "title": "Räume prüfen"
+      },
+      "settings": {
+        "subtitle": "Konto, Firma und Schätzungseinstellungen.",
+        "title": "Einstellungen"
+      }
+    },
+    "home": {
+      "emptyProjects": {
+        "description": "Beginnen Sie mit einem Projektdatensatz, laden Sie dann den Grundriss hoch und gehen Sie durch Prüfung, Materialien und Angebotserstellung.",
+        "title": "Erstes Projekt erstellen"
+      },
+      "fallbackName": "willkommen",
+      "hero": {
+        "description": "Starten Sie ein Projekt, laden Sie einen Plan hoch, prüfen Sie erkannte Räume und führen Sie die Schätzung zu einem kundenfertigen Angebot.",
+        "title": "Verwandeln Sie Grundrisse mit einem geführten Ablauf in Elektroangebote.",
+        "welcome": "Willkommen zurück, {name}"
+      },
+      "recentProjects": {
+        "subtitle": "Machen Sie mit Ihren neuesten Grundrissschätzungen weiter.",
+        "title": "Aktuelle Projekte"
+      },
+      "stats": {
+        "ariaLabel": "Projektstatistiken",
+        "draft": "Projekte im Entwurf",
+        "quoted": "Projekte mit Angebot",
+        "reviewed": "Geprüfte Projekte",
+        "total": "Projekte gesamt"
+      },
+      "workflow": {
+        "steps": {
+          "createProject": {
+            "description": "Fügen Sie Kundendaten und grundlegende Projektinformationen hinzu.",
+            "title": "Projekt erstellen"
+          },
+          "generateQuote": {
+            "description": "Erstellen Sie Materialien, Arbeit und eine kundenfertige Schätzung.",
+            "title": "Angebot generieren"
+          },
+          "reviewRooms": {
+            "description": "Prüfen Sie erkannte Räume und passen Sie Vorschläge pro Raum an.",
+            "title": "Räume prüfen"
+          },
+          "uploadPlan": {
+            "description": "Hängen Sie den PDF- oder Bild-Grundriss für die Installation an.",
+            "title": "Grundriss hochladen"
+          }
+        },
+        "subtitle": "Der Hauptweg vom neuen Kundenplan zum strukturierten Angebot.",
+        "title": "Angebotsablauf"
+      }
+    },
+    "navigation": "Dashboard-Navigation",
+    "openNavigation": "Dashboard-Navigation öffnen",
+    "search": "Suche",
+    "status": "Status",
+    "workspace": "Arbeitsbereich",
+    "workspaceDescription": "Elektroschätzungen"
+  },
+  "EmptyStates": {
+    "projects": {
+      "noMatches": {
+        "description": "Versuchen Sie einen anderen Suchbegriff oder Statusfilter.",
+        "title": "Keine Projekte passen zu den Filtern"
+      },
+      "noProjects": {
+        "description": "Erstellen Sie Ihr erstes Projekt, um einen Grundriss hochzuladen, erkannte Räume zu prüfen und ein Elektroangebot vorzubereiten.",
+        "title": "Noch keine Projekte"
+      }
+    },
+    "rooms": {
+      "noDetected": {
+        "description": "Für dieses Projekt wurden noch keine Analyse- und Prüfdaten erstellt. Fügen Sie Räume manuell hinzu, um mit der Prüfung fortzufahren.",
+        "title": "Noch keine erkannten Räume"
+      }
+    }
   },
   "Navigation": {
     "contact": "Kontakt",
@@ -206,6 +355,200 @@
         }
       },
       "title": "Vom Grundriss-Upload zum Angebots-Export in einem fokussierten Ablauf."
+    }
+  },
+  "Projects": {
+    "card": {
+      "noClientAssigned": "Kein Kunde zugewiesen"
+    },
+    "list": {
+      "searchAriaLabel": "Projekte suchen",
+      "searchPlaceholder": "Projekte oder Kunden suchen",
+      "statusFilterAriaLabel": "Projekte nach Status filtern",
+      "subtitle": "Neueste Projekte werden zuerst angezeigt.",
+      "title": "Alle Projekte"
+    },
+    "objectTypes": {
+      "apartment": "Wohnung",
+      "house": "Haus",
+      "office": "Büro"
+    },
+    "page": {
+      "eyebrow": "Projektverwaltung",
+      "subtitle": "Verfolgen Sie jede Grundrissschätzung von der Projekteinrichtung über Raumprüfung und Materialplanung bis zum Angebots-Export.",
+      "title": "Projekte"
+    }
+  },
+  "ProjectWorkspace": {
+    "currentNextStep": {
+      "title": "Nächster Schritt"
+    },
+    "hero": {
+      "description": "Verwalten Sie dieses Projekt vom Grundriss-Upload über Prüfung und Materialplanung bis zur Angebotserstellung."
+    },
+    "meta": {
+      "created": "Erstellt am {date}"
+    },
+    "nextSteps": {
+      "analysisInProgress": {
+        "description": "Die Analyse läuft. Sie können die Prüfung öffnen, sobald die Raumergebnisse bereit sind."
+      },
+      "attentionRequired": {
+        "description": "Dieses Projekt benötigt Aufmerksamkeit, bevor der Workflow fortgesetzt werden kann. Prüfen Sie Grundriss und Prüfschritte."
+      },
+      "floorPlanRequired": {
+        "description": "Laden Sie den Projektgrundriss hoch, bevor Raumprüfung, Vorschläge, Materialien oder Angebotserstellung starten können."
+      },
+      "materialsAndQuote": {
+        "description": "Die Räume wurden geprüft. Fahren Sie mit Materialberechnung und Angebotsvorbereitung fort."
+      },
+      "quoteAvailable": {
+        "description": "Für dieses Projekt ist ein Angebot verfügbar. Prüfen Sie die Details oder verfeinern Sie die Schätzung weiter."
+      },
+      "reviewRooms": {
+        "description": "Prüfen Sie erkannte Räume und bereiten Sie die Basis für elektrische Vorschläge vor."
+      }
+    },
+    "workflow": {
+      "states": {
+        "inProgress": "In Bearbeitung",
+        "notStarted": "Nicht begonnen",
+        "ready": "Bereit"
+      },
+      "steps": {
+        "electricalSuggestions": {
+          "description": "Nutzen Sie Raumtypen, um bearbeitbare Steckdosen-, Schalter- und Lichtvorschläge vorzubereiten.",
+          "title": "Elektrische Vorschläge"
+        },
+        "materials": {
+          "description": "Wandeln Sie geprüfte Vorschläge in Materialmengen und Preiseingaben um.",
+          "title": "Materialien"
+        },
+        "quote": {
+          "description": "Bereiten Sie das kundenfertige Installationsangebot aus Projekt- und Materialdaten vor.",
+          "title": "Angebot"
+        },
+        "reviewRooms": {
+          "description": "Bestätigen Sie erkannte Räume und korrigieren Sie die Projektstruktur vor der Schätzung.",
+          "title": "Räume prüfen"
+        },
+        "uploadFloorPlan": {
+          "description": "Fügen Sie das Quell-PDF oder Bild hinzu, auf dem der weitere Workflow basiert.",
+          "title": "Grundriss hochladen"
+        }
+      },
+      "subtitle": "Folgen Sie dem Projektzyklus Schritt für Schritt.",
+      "title": "Workflow"
+    }
+  },
+  "Review": {
+    "errors": {
+      "invalidInput": "Geben Sie Raumnamen, gültige Raumtypen und nicht negative Vorschlagswerte ein.",
+      "invalidRoomReference": "Ein oder mehrere Räume gehören nicht zu diesem Projekt.",
+      "projectNotFound": "Projekt nicht gefunden.",
+      "roomNameRequired": "Jeder Raum benötigt vor dem Speichern einen Namen.",
+      "serverError": "Räume konnten nicht gespeichert werden."
+    },
+    "floorPlan": {
+      "description": "Nutzen Sie den hochgeladenen Grundriss als Referenz für die Raumprüfung.",
+      "preview": {
+        "alt": "Grundrissvorschau für {fileName}",
+        "expiresInMinutes": "{minutes} Min.",
+        "fileLabel": "Datei: {fileName}",
+        "imageCaption": "Signierte Vorschau für {fileName}. Die URL läuft in {expiresIn} ab.",
+        "openPdfPreview": "PDF-Vorschau öffnen",
+        "pdfDescription": "Öffnen Sie die signierte PDF-Vorschau in einem neuen Tab. Die URL läuft in {expiresIn} ab.",
+        "pdfTitle": "PDF-Grundriss verfügbar",
+        "unavailable": {
+          "missingFile": "Laden Sie einen Grundriss hoch, bevor Sie die visuelle Vorschau prüfen.",
+          "signingFailed": "Die signierte Vorschau-URL konnte nicht erstellt werden. Die Datei bleibt privat gespeichert.",
+          "title": "Vorschau nicht verfügbar",
+          "unsupportedFileType": "Dieser Grundriss-Dateityp kann noch nicht sicher angezeigt werden."
+        }
+      },
+      "status": {
+        "missing": "Kein Grundriss hochgeladen",
+        "title": "Upload-Status",
+        "uploaded": "Grundriss hochgeladen"
+      },
+      "title": "Grundriss"
+    },
+    "hero": {
+      "description": "Prüfen Sie erkannte Räume, bevor Sie zu elektrischen Vorschlägen, Materialien und Angebotserstellung wechseln.",
+      "eyebrow": "Räume prüfen"
+    },
+    "messages": {
+      "saved": "Räume gespeichert."
+    }
+  },
+  "Rooms": {
+    "editor": {
+      "subtitle": "Fügen Sie Räume hinzu, korrigieren oder entfernen Sie sie, bevor Vorschläge erstellt werden.",
+      "title": "Erkannte Räume"
+    },
+    "fields": {
+      "confidence": "Konfidenz",
+      "estimatedArea": "Geschätzte Fläche",
+      "name": "Raumname",
+      "namePlaceholder": "Raumname",
+      "roomNumber": "Raum {number}",
+      "type": "Raumtyp"
+    }
+  },
+  "RoomTypes": {
+    "bathroom": "Bad",
+    "bedroom": "Schlafzimmer",
+    "hallway": "Flur",
+    "kitchen": "Küche",
+    "living_room": "Wohnzimmer",
+    "office": "Büro",
+    "unknown": "Unbekannt"
+  },
+  "Suggestions": {
+    "lights": "Leuchten",
+    "override": "Geändert",
+    "sockets": "Steckdosen",
+    "suggested": "Vorgeschlagen",
+    "suggestedValue": "Vorgeschlagen: {value}",
+    "switches": "Schalter"
+  },
+  "Status": {
+    "project": {
+      "analyzing": "Analyse",
+      "draft": "Entwurf",
+      "failed": "Fehlgeschlagen",
+      "quoted": "Angebot erstellt",
+      "reviewed": "Geprüft",
+      "uploaded": "Hochgeladen"
+    }
+  },
+  "Upload": {
+    "actions": {
+      "uploadFloorPlan": "Grundriss hochladen",
+      "uploading": "Wird hochgeladen..."
+    },
+    "errors": {
+      "fallback": "Grundriss konnte nicht hochgeladen werden.",
+      "fileTooLarge": "Grundrissdateien dürfen höchstens 10 MB groß sein.",
+      "invalidFile": "Die ausgewählte Datei ist kein gültiger Grundriss.",
+      "invalidInput": "Prüfen Sie die ausgewählte Datei.",
+      "invalidType": "Laden Sie einen Grundriss als PDF, PNG, JPG oder JPEG hoch.",
+      "notFound": "Projekt nicht gefunden.",
+      "required": "Wählen Sie eine Grundrissdatei zum Hochladen aus.",
+      "serverError": "Grundriss konnte nicht hochgeladen werden.",
+      "tooLarge": "Grundrissdateien dürfen höchstens 10 MB groß sein.",
+      "unsupportedFileType": "Laden Sie einen Grundriss als PDF, PNG, JPG oder JPEG hoch.",
+      "uploadFailed": "Grundriss-Upload fehlgeschlagen."
+    },
+    "floorPlan": {
+      "attachedDescription": "Ein Grundriss ist angehängt. Das Hochladen einer anderen Datei ersetzt den aktuellen Projektgrundriss.",
+      "emptyDescription": "Laden Sie eine PDF-, PNG-, JPG- oder JPEG-Datei bis 10 MB hoch, um den Analyseworkflow zu starten.",
+      "title": "Grundriss",
+      "uploadedFile": "Hochgeladene Datei"
+    },
+    "inputAriaLabel": "Grundrissdatei auswählen",
+    "success": {
+      "uploaded": "Hochgeladen: {path}"
     }
   }
 }

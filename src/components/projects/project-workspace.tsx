@@ -1,3 +1,5 @@
+import { useLocale, useTranslations } from "next-intl";
+
 import { FloorPlanUploadForm } from "@/components/projects/floor-plan-upload-form";
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { Link } from "@/i18n/navigation";
@@ -14,16 +16,55 @@ type ProjectWorkspaceProject = Project & {
 };
 
 type WorkflowStepState = "not started" | "in progress" | "ready";
+type WorkflowStepKey =
+  | "electricalSuggestions"
+  | "materials"
+  | "quote"
+  | "reviewRooms"
+  | "uploadFloorPlan";
+type ProjectWorkspaceActionKey =
+  | "checkProject"
+  | "generate"
+  | "generateQuote"
+  | "openQuote"
+  | "openReview"
+  | "replaceFile"
+  | "review"
+  | "reviewRooms"
+  | "upload"
+  | "uploadFloorPlan"
+  | "waiting";
+type NextStepKey =
+  | "analysisInProgress"
+  | "attentionRequired"
+  | "floorPlanRequired"
+  | "materialsAndQuote"
+  | "quoteAvailable"
+  | "reviewRooms";
 
 type WorkflowStep = {
   actionHref?: string;
-  actionLabel: string;
-  description: string;
+  actionLabelKey: ProjectWorkspaceActionKey;
+  stepKey: WorkflowStepKey;
   state: WorkflowStepState;
-  title: string;
+};
+
+const workflowStateLabelKeys: Record<
+  WorkflowStepState,
+  "inProgress" | "notStarted" | "ready"
+> = {
+  "in progress": "inProgress",
+  "not started": "notStarted",
+  ready: "ready",
 };
 
 export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
+  const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tCommon = useTranslations("Common");
+  const tProjects = useTranslations("Projects");
+  const tUpload = useTranslations("Upload");
+  const tWorkspace = useTranslations("ProjectWorkspace");
   const workflowSteps = getWorkflowSteps(project);
   const nextStep = getNextStep(project);
 
@@ -35,7 +76,9 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
             <div className="flex flex-wrap items-center gap-3">
               <ProjectStatusBadge status={project.status} />
               <p className="text-sm font-medium text-slate-500">
-                Created {formatDate(project.createdAt)}
+                {tWorkspace("meta.created", {
+                  date: formatDate(project.createdAt, locale),
+                })}
               </p>
             </div>
 
@@ -44,8 +87,7 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
             </h2>
 
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-              Manage this project from floor plan upload through review,
-              material planning, and quote generation.
+              {tWorkspace("hero.description")}
             </p>
           </div>
 
@@ -53,20 +95,27 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
             className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             href={nextStep.href}
           >
-            {nextStep.label}
+            {tActions(nextStep.labelKey)}
           </Link>
         </div>
 
         <dl className="mt-6 grid min-w-0 gap-3 border-t border-slate-200 pt-6 sm:grid-cols-2 xl:grid-cols-4">
-          <SummaryItem label="Client" value={project.clientName ?? "Not set"} />
           <SummaryItem
-            label="Object type"
-            value={formatObjectType(project.objectType)}
+            label={tCommon("client")}
+            value={project.clientName ?? tCommon("notSet")}
           />
-          <SummaryItem label="Area" value={`${project.areaM2} m²`} />
           <SummaryItem
-            label="Floor plan"
-            value={project.sourceFilePath ? "Uploaded" : "Not uploaded"}
+            label={tCommon("objectType")}
+            value={tProjects(`objectTypes.${project.objectType}`)}
+          />
+          <SummaryItem label={tCommon("area")} value={`${project.areaM2} m²`} />
+          <SummaryItem
+            label={tCommon("floorPlan")}
+            value={
+              project.sourceFilePath
+                ? tCommon("uploaded")
+                : tCommon("notUploaded")
+            }
           />
         </dl>
       </section>
@@ -74,15 +123,17 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
       <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(280px,0.8fr)]">
         <div className="min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div>
-            <h2 className="text-lg font-semibold text-slate-950">Workflow</h2>
+            <h2 className="text-lg font-semibold text-slate-950">
+              {tWorkspace("workflow.title")}
+            </h2>
             <p className="mt-1 text-sm text-slate-500">
-              Follow the project lifecycle one step at a time.
+              {tWorkspace("workflow.subtitle")}
             </p>
           </div>
 
           <div className="mt-5 grid min-w-0 gap-3">
             {workflowSteps.map((step, index) => (
-              <WorkflowStepCard index={index} key={step.title} step={step} />
+              <WorkflowStepCard index={index} key={step.stepKey} step={step} />
             ))}
           </div>
         </div>
@@ -93,19 +144,19 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
         >
           <div className="min-w-0">
             <h2 className="text-lg font-semibold text-slate-950">
-              Floor plan
+              {tUpload("floorPlan.title")}
             </h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
               {project.sourceFilePath
-                ? "A floor plan is attached. Uploading another file will replace the current project floor plan."
-                : "Upload a PDF, PNG, JPG, or JPEG file up to 10MB to start the analysis workflow."}
+                ? tUpload("floorPlan.attachedDescription")
+                : tUpload("floorPlan.emptyDescription")}
             </p>
           </div>
 
           {project.sourceFilePath ? (
             <div className="mt-4 min-w-0 rounded-md border border-slate-200 bg-slate-50 p-3">
               <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Uploaded file
+                {tUpload("floorPlan.uploadedFile")}
               </p>
               <p className="mt-1 break-all text-sm font-medium text-slate-700">
                 {project.sourceFilePath}
@@ -123,10 +174,10 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
         <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
             <h2 className="text-lg font-semibold text-slate-950">
-              Current next step
+              {tWorkspace("currentNextStep.title")}
             </h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
-              {nextStep.description}
+              {tWorkspace(`nextSteps.${nextStep.descriptionKey}.description`)}
             </p>
           </div>
 
@@ -134,7 +185,7 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
             className="inline-flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 md:w-auto"
             href={nextStep.href}
           >
-            {nextStep.label}
+            {tActions(nextStep.labelKey)}
           </Link>
         </div>
       </section>
@@ -166,6 +217,9 @@ type WorkflowStepCardProps = {
 };
 
 function WorkflowStepCard({ index, step }: WorkflowStepCardProps) {
+  const tActions = useTranslations("Actions");
+  const tWorkspace = useTranslations("ProjectWorkspace");
+
   return (
     <article className="grid min-w-0 gap-4 rounded-md border border-slate-200 bg-slate-50 p-4 md:grid-cols-[auto_minmax(0,1fr)] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center">
       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white text-sm font-semibold text-blue-700 ring-1 ring-slate-200">
@@ -175,13 +229,13 @@ function WorkflowStepCard({ index, step }: WorkflowStepCardProps) {
       <div className="min-w-0">
         <div className="flex min-w-0 flex-wrap items-center gap-3">
           <h3 className="wrap-break-word text-sm font-semibold text-slate-950">
-            {step.title}
+            {tWorkspace(`workflow.steps.${step.stepKey}.title`)}
           </h3>
           <WorkflowStateBadge state={step.state} />
         </div>
 
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          {step.description}
+          {tWorkspace(`workflow.steps.${step.stepKey}.description`)}
         </p>
       </div>
 
@@ -191,11 +245,11 @@ function WorkflowStepCard({ index, step }: WorkflowStepCardProps) {
             className="inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             href={step.actionHref}
           >
-            {step.actionLabel}
+            {tActions(step.actionLabelKey)}
           </Link>
         ) : (
           <span className="inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-400 sm:w-auto">
-            {step.actionLabel}
+            {tActions(step.actionLabelKey)}
           </span>
         )}
       </div>
@@ -208,6 +262,7 @@ type WorkflowStateBadgeProps = {
 };
 
 function WorkflowStateBadge({ state }: WorkflowStateBadgeProps) {
+  const tWorkspace = useTranslations("ProjectWorkspace");
   const stateStyles: Record<WorkflowStepState, string> = {
     "in progress": "bg-amber-50 text-amber-700 ring-amber-200",
     "not started": "bg-slate-100 text-slate-600 ring-slate-200",
@@ -216,79 +271,72 @@ function WorkflowStateBadge({ state }: WorkflowStateBadgeProps) {
 
   return (
     <span
-      className={`inline-flex shrink-0 rounded-md px-2.5 py-1 text-xs font-semibold capitalize ring-1 ring-inset ${stateStyles[state]}`}
+      className={`inline-flex shrink-0 rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${stateStyles[state]}`}
     >
-      {state}
+      {tWorkspace(`workflow.states.${workflowStateLabelKeys[state]}`)}
     </span>
   );
 }
 
 type NextStep = {
-  description: string;
+  descriptionKey: NextStepKey;
   href: string;
-  label: string;
+  labelKey: ProjectWorkspaceActionKey;
 };
 
 function getNextStep(project: ProjectWorkspaceProject): NextStep {
   if (project.hasQuote) {
     return {
-      description:
-        "A quote is available for this project. Review quote details or continue refining the estimate.",
+      descriptionKey: "quoteAvailable",
       href: `/dashboard/projects/${project.id}/quote`,
-      label: "Open Quote",
+      labelKey: "openQuote",
     };
   }
 
   if (!project.sourceFilePath) {
     return {
-      description:
-        "Upload the project floor plan before room review, suggestions, materials, or quote generation can begin.",
+      descriptionKey: "floorPlanRequired",
       href: "#floor-plan-upload",
-      label: "Upload Floor Plan",
+      labelKey: "uploadFloorPlan",
     };
   }
 
   if (project.status === "draft" || project.status === "uploaded") {
     return {
-      description:
-        "Review detected rooms and prepare the electrical suggestion baseline for this project.",
+      descriptionKey: "reviewRooms",
       href: `/dashboard/projects/${project.id}/review`,
-      label: "Review Rooms",
+      labelKey: "reviewRooms",
     };
   }
 
   if (project.status === "analyzing") {
     return {
-      description:
-        "Analysis is in progress. You can open the review workspace when room results are ready.",
+      descriptionKey: "analysisInProgress",
       href: `/dashboard/projects/${project.id}/review`,
-      label: "Open Review",
+      labelKey: "openReview",
     };
   }
 
   if (project.status === "reviewed") {
     return {
-      description:
-        "Rooms have been reviewed. Continue to material calculation and quote preparation.",
+      descriptionKey: "materialsAndQuote",
       href: `/dashboard/projects/${project.id}/quote`,
-      label: "Generate Quote",
+      labelKey: "generateQuote",
     };
   }
 
   if (project.status === "quoted") {
     return {
-      description:
-        "A quote is available for this project. Review quote details or continue refining the estimate.",
+      descriptionKey: "quoteAvailable",
       href: `/dashboard/projects/${project.id}/quote`,
-      label: "Open Quote",
+      labelKey: "openQuote",
     };
   }
 
   return {
-    description:
-      "This project needs attention before the workflow can continue. Check the floor plan and review steps.",
+    descriptionKey: "attentionRequired",
     href: "#floor-plan-upload",
-    label: "Check Project",
+    labelKey: "checkProject",
   };
 }
 
@@ -301,55 +349,45 @@ function getWorkflowSteps(project: ProjectWorkspaceProject): WorkflowStep[] {
   return [
     {
       actionHref: "#floor-plan-upload",
-      actionLabel: hasFloorPlan ? "Replace file" : "Upload",
-      description:
-        "Attach the source PDF or image that the rest of the workflow depends on.",
+      actionLabelKey: hasFloorPlan ? "replaceFile" : "upload",
+      stepKey: "uploadFloorPlan",
       state: hasFloorPlan ? "ready" : "in progress",
-      title: "Upload Floor Plan",
     },
     {
       actionHref: hasFloorPlan
         ? `/dashboard/projects/${project.id}/review`
         : undefined,
-      actionLabel: hasFloorPlan ? "Review" : "Waiting",
-      description:
-        "Confirm detected rooms and correct the project structure before estimating.",
+      actionLabelKey: hasFloorPlan ? "review" : "waiting",
+      stepKey: "reviewRooms",
       state: roomsReviewed ? "ready" : hasFloorPlan ? "in progress" : "not started",
-      title: "Review Rooms",
     },
     {
       actionHref: hasFloorPlan
         ? `/dashboard/projects/${project.id}/review`
         : undefined,
-      actionLabel: hasFloorPlan ? "Open review" : "Waiting",
-      description:
-        "Use room types to prepare editable sockets, switches, and lighting suggestions.",
+      actionLabelKey: hasFloorPlan ? "openReview" : "waiting",
+      stepKey: "electricalSuggestions",
       state: roomsReviewed ? "ready" : "not started",
-      title: "Electrical Suggestions",
     },
     {
       actionHref: roomsReviewed
         ? `/dashboard/projects/${project.id}/quote`
         : undefined,
-      actionLabel: roomsReviewed ? "Open quote" : "Waiting",
-      description:
-        "Convert reviewed suggestions into material quantities and pricing inputs.",
+      actionLabelKey: roomsReviewed ? "openQuote" : "waiting",
+      stepKey: "materials",
       state: hasPersistedMaterials
         ? "ready"
         : roomsReviewed
           ? "in progress"
           : "not started",
-      title: "Materials",
     },
     {
       actionHref: roomsReviewed
         ? `/dashboard/projects/${project.id}/quote`
         : undefined,
-      actionLabel: quoteReady ? "Open quote" : roomsReviewed ? "Generate" : "Waiting",
-      description:
-        "Prepare the client-facing installation quote from project and material data.",
+      actionLabelKey: quoteReady ? "openQuote" : roomsReviewed ? "generate" : "waiting",
+      stepKey: "quote",
       state: quoteReady ? "ready" : roomsReviewed ? "in progress" : "not started",
-      title: "Quote",
     },
   ];
 }
@@ -373,20 +411,10 @@ function isAtLeastStatus(
   return statusOrder[currentStatus] >= targetOrder[targetStatus];
 }
 
-function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("en", {
+function formatDate(date: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
   }).format(date);
-}
-
-function formatObjectType(value: Project["objectType"]): string {
-  const objectTypeLabels: Record<Project["objectType"], string> = {
-    apartment: "Apartment",
-    house: "House",
-    office: "Office",
-  };
-
-  return objectTypeLabels[value];
 }

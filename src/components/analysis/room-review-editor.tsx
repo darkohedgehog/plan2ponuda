@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, useState } from "react";
 
@@ -8,6 +9,7 @@ import {
   resolveRoomSuggestion,
 } from "@/lib/rules/room-rules";
 import type {
+  RoomErrorCode,
   RoomReviewItem,
   RoomSuggestionReviewItem,
   RoomType,
@@ -25,47 +27,58 @@ type DraftRoom = Omit<RoomReviewItem, "id"> & {
 };
 
 type SuggestionOverrideKey = "userSockets" | "userSwitches" | "userLights";
+type SuggestionLabelKey = "lights" | "sockets" | "switches";
+type ReviewErrorMessageKey =
+  | "errors.invalidInput"
+  | "errors.invalidRoomReference"
+  | "errors.projectNotFound"
+  | "errors.roomNameRequired"
+  | "errors.serverError";
 
 type SuggestionInputConfig = {
-  label: string;
+  labelKey: SuggestionLabelKey;
   overrideKey: SuggestionOverrideKey;
   resolvedKey: "resolvedSockets" | "resolvedSwitches" | "resolvedLights";
   suggestedKey: "suggestedSockets" | "suggestedSwitches" | "suggestedLights";
 };
 
-const roomTypeOptions: Array<{
-  label: string;
-  value: RoomType;
-}> = [
-  { label: "Living room", value: "living_room" },
-  { label: "Bedroom", value: "bedroom" },
-  { label: "Kitchen", value: "kitchen" },
-  { label: "Bathroom", value: "bathroom" },
-  { label: "Hallway", value: "hallway" },
-  { label: "Office", value: "office" },
-  { label: "Unknown", value: "unknown" },
+const roomTypeOptions: RoomType[] = [
+  "living_room",
+  "bedroom",
+  "kitchen",
+  "bathroom",
+  "hallway",
+  "office",
+  "unknown",
 ];
 
 const suggestionInputConfigs: SuggestionInputConfig[] = [
   {
-    label: "Sockets",
+    labelKey: "sockets",
     overrideKey: "userSockets",
     resolvedKey: "resolvedSockets",
     suggestedKey: "suggestedSockets",
   },
   {
-    label: "Switches",
+    labelKey: "switches",
     overrideKey: "userSwitches",
     resolvedKey: "resolvedSwitches",
     suggestedKey: "suggestedSwitches",
   },
   {
-    label: "Lights",
+    labelKey: "lights",
     overrideKey: "userLights",
     resolvedKey: "resolvedLights",
     suggestedKey: "suggestedLights",
   },
 ];
+
+const reviewErrorKeysByCode: Record<RoomErrorCode, ReviewErrorMessageKey> = {
+  invalid_input: "errors.invalidInput",
+  invalid_room_reference: "errors.invalidRoomReference",
+  not_found: "errors.projectNotFound",
+  server_error: "errors.serverError",
+};
 
 function createClientId(): string {
   return `room-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -130,22 +143,26 @@ export function RoomReviewEditor({
   projectId,
 }: RoomReviewEditorProps) {
   const router = useRouter();
+  const tActions = useTranslations("Actions");
+  const tEmptyRooms = useTranslations("EmptyStates.rooms.noDetected");
+  const tReview = useTranslations("Review");
+  const tRooms = useTranslations("Rooms");
   const [rooms, setRooms] = useState<DraftRoom[]>(
     initialRooms.map(toDraftRoom),
   );
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<ReviewErrorMessageKey | null>(null);
+  const [isSaved, setIsSaved] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function addRoom() {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setIsSaved(false);
     setRooms((currentRooms) => [...currentRooms, createBlankDraftRoom()]);
   }
 
   function deleteRoom(clientId: string) {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setIsSaved(false);
     setRooms((currentRooms) =>
       currentRooms.filter((room) => room.clientId !== clientId),
     );
@@ -155,8 +172,8 @@ export function RoomReviewEditor({
     clientId: string,
     updates: Pick<DraftRoom, "name"> | Pick<DraftRoom, "type">,
   ) {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setIsSaved(false);
     setRooms((currentRooms) =>
       currentRooms.map((room) =>
         room.clientId === clientId
@@ -171,8 +188,8 @@ export function RoomReviewEditor({
     overrideKey: SuggestionOverrideKey,
     nextValue: number,
   ) {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setIsSaved(false);
     setRooms((currentRooms) =>
       currentRooms.map((room) => {
         if (room.clientId !== clientId) {
@@ -205,13 +222,13 @@ export function RoomReviewEditor({
     );
 
     if (hasInvalidRoomName) {
-      setError("Every room needs a name before saving.");
-      setSuccessMessage(null);
+      setErrorKey("errors.roomNameRequired");
+      setIsSaved(false);
       return;
     }
 
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setIsSaved(false);
     setIsSubmitting(true);
 
     const response = await fetch(`/api/projects/${projectId}/rooms`, {
@@ -241,16 +258,16 @@ export function RoomReviewEditor({
     setIsSubmitting(false);
 
     if (!response.ok || !payload?.ok) {
-      setError(
+      setErrorKey(
         payload && "error" in payload
-          ? payload.error.message
-          : "Unable to save rooms.",
+          ? reviewErrorKeysByCode[payload.error.code]
+          : "errors.serverError",
       );
       return;
     }
 
     setRooms(payload.rooms.map(toDraftRoom));
-    setSuccessMessage("Rooms saved.");
+    setIsSaved(true);
     router.refresh();
   }
 
@@ -259,10 +276,10 @@ export function RoomReviewEditor({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <h2 className="text-lg font-semibold text-slate-950">
-            Detected rooms
+            {tRooms("editor.title")}
           </h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">
-            Add, correct, or remove rooms before generating suggestions.
+            {tRooms("editor.subtitle")}
           </p>
         </div>
         <button
@@ -270,7 +287,7 @@ export function RoomReviewEditor({
           onClick={addRoom}
           type="button"
         >
-          Add Room
+          {tActions("addRoom")}
         </button>
       </div>
 
@@ -293,25 +310,28 @@ export function RoomReviewEditor({
       ) : (
         <div className="mt-5 rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
           <h3 className="text-base font-semibold text-slate-950">
-            No detected rooms yet
+            {tEmptyRooms("title")}
           </h3>
           <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
-            Analysis and review data has not been generated for this project
-            yet. Add rooms manually to continue the review workflow.
+            {tEmptyRooms("description")}
           </p>
           <button
             className="mt-5 inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             onClick={addRoom}
             type="button"
           >
-            Add first room
+            {tActions("addFirstRoom")}
           </button>
         </div>
       )}
 
-      {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
-      {successMessage ? (
-        <p className="mt-4 text-sm text-emerald-700">{successMessage}</p>
+      {errorKey ? (
+        <p className="mt-4 text-sm text-red-600">{tReview(errorKey)}</p>
+      ) : null}
+      {isSaved ? (
+        <p className="mt-4 text-sm text-emerald-700">
+          {tReview("messages.saved")}
+        </p>
       ) : null}
 
       <div className="mt-5 flex sm:justify-end">
@@ -321,7 +341,7 @@ export function RoomReviewEditor({
           onClick={saveRooms}
           type="button"
         >
-          {isSubmitting ? "Saving..." : "Save Rooms"}
+          {isSubmitting ? tActions("saving") : tActions("saveRooms")}
         </button>
       </div>
     </section>
@@ -348,6 +368,11 @@ function RoomEditorRow({
   onTypeChange,
   room,
 }: RoomEditorRowProps) {
+  const tActions = useTranslations("Actions");
+  const tCommon = useTranslations("Common");
+  const tRooms = useTranslations("Rooms");
+  const tRoomTypes = useTranslations("RoomTypes");
+
   function handleTypeChange(event: ChangeEvent<HTMLSelectElement>) {
     onTypeChange(event.target.value as RoomType);
   }
@@ -358,13 +383,13 @@ function RoomEditorRow({
         <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)] xl:grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)]">
           <label className="grid min-w-0 gap-1.5">
             <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Room {index + 1}
+              {tRooms("fields.roomNumber", { number: index + 1 })}
             </span>
             <input
               className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               maxLength={100}
               onChange={(event) => onNameChange(event.target.value)}
-              placeholder="Room name"
+              placeholder={tRooms("fields.namePlaceholder")}
               type="text"
               value={room.name}
             />
@@ -372,7 +397,7 @@ function RoomEditorRow({
 
           <label className="grid min-w-0 gap-1.5">
             <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Room type
+              {tRooms("fields.type")}
             </span>
             <select
               className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
@@ -380,8 +405,8 @@ function RoomEditorRow({
               value={room.type}
             >
               {roomTypeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+                <option key={option} value={option}>
+                  {tRoomTypes(option)}
                 </option>
               ))}
             </select>
@@ -390,19 +415,19 @@ function RoomEditorRow({
 
         <div className="grid gap-3 sm:grid-cols-2">
           <ReadOnlyMetric
-            label="Area"
+            label={tRooms("fields.estimatedArea")}
             value={
               room.estimatedAreaM2 !== undefined
                 ? `${room.estimatedAreaM2} m2`
-                : "Not set"
+                : tCommon("notSet")
             }
           />
           <ReadOnlyMetric
-            label="Confidence"
+            label={tRooms("fields.confidence")}
             value={
               room.confidence !== undefined
                 ? `${Math.round(room.confidence * 100)}%`
-                : "Not set"
+                : tCommon("notSet")
             }
           />
         </div>
@@ -426,7 +451,7 @@ function RoomEditorRow({
             onClick={onDelete}
             type="button"
           >
-            Delete
+            {tActions("delete")}
           </button>
         </div>
       </div>
@@ -445,12 +470,13 @@ function SuggestionInput({
   onChange,
   suggestion,
 }: SuggestionInputProps) {
+  const tSuggestions = useTranslations("Suggestions");
   const isOverride = suggestion[config.overrideKey] !== undefined;
 
   return (
     <label className="grid min-w-0 gap-1.5">
       <span className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-slate-400">
-        {config.label}
+        {tSuggestions(config.labelKey)}
         <span
           className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold normal-case tracking-normal ${
             isOverride
@@ -458,7 +484,9 @@ function SuggestionInput({
               : "bg-white text-slate-500 ring-1 ring-inset ring-slate-200"
           }`}
         >
-          {isOverride ? "Override" : "Suggested"}
+          {isOverride
+            ? tSuggestions("override")
+            : tSuggestions("suggested")}
         </span>
       </span>
       <input
@@ -471,7 +499,9 @@ function SuggestionInput({
         value={suggestion[config.resolvedKey]}
       />
       <span className="text-xs text-slate-500">
-        Suggested: {suggestion[config.suggestedKey]}
+        {tSuggestions("suggestedValue", {
+          value: suggestion[config.suggestedKey],
+        })}
       </span>
     </label>
   );

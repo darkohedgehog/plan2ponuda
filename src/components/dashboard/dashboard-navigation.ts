@@ -8,91 +8,99 @@ export type DashboardIconName =
 export type DashboardNavigationItem = {
   href: string;
   icon: DashboardIconName;
-  label: string;
+  labelKey: DashboardNavigationLabelKey;
 };
 
+export type DashboardNavigationLabelKey =
+  | "dashboard"
+  | "materials"
+  | "projects"
+  | "quotes"
+  | "settings";
+
 export type DashboardPageHeader = {
+  id: DashboardPageHeaderId;
   matcher: (pathname: string) => boolean;
-  title: string;
-  subtitle: string;
 };
+
+export type DashboardPageHeaderId =
+  | "materials"
+  | "newProject"
+  | "overview"
+  | "projectWorkspace"
+  | "projects"
+  | "quote"
+  | "quotes"
+  | "reviewRooms"
+  | "settings";
 
 export const dashboardNavigationItems: DashboardNavigationItem[] = [
   {
     href: "/dashboard",
     icon: "dashboard",
-    label: "Dashboard",
+    labelKey: "dashboard",
   },
   {
     href: "/dashboard/projects",
     icon: "folder",
-    label: "Projects",
+    labelKey: "projects",
   },
   {
     href: "/dashboard/materials",
     icon: "materials",
-    label: "Materials",
+    labelKey: "materials",
   },
   {
     href: "/dashboard/quotes",
     icon: "quotes",
-    label: "Quotes",
+    labelKey: "quotes",
   },
   {
     href: "/dashboard/settings",
     icon: "settings",
-    label: "Settings",
+    labelKey: "settings",
   },
 ];
 
 export const dashboardPageHeaders: DashboardPageHeader[] = [
   {
+    id: "overview",
     matcher: (pathname) => pathname === "/dashboard",
-    title: "Dashboard",
-    subtitle: "Overview of recent projects and quote activity.",
   },
   {
+    id: "newProject",
     matcher: (pathname) => pathname === "/dashboard/projects/new",
-    title: "New project",
-    subtitle: "Create a project container before uploading a floor plan.",
   },
   {
+    id: "reviewRooms",
     matcher: (pathname) => pathname.endsWith("/review"),
-    title: "Review rooms",
-    subtitle: "Confirm detected spaces before generating material suggestions.",
   },
   {
+    id: "quote",
     matcher: (pathname) => pathname.endsWith("/quote"),
-    title: "Quote",
-    subtitle: "Review quote totals and export-ready project details.",
   },
   {
+    id: "projectWorkspace",
     matcher: (pathname) =>
       pathname.startsWith("/dashboard/projects/") &&
       !pathname.endsWith("/review") &&
       !pathname.endsWith("/quote"),
-    title: "Project workspace",
-    subtitle: "Manage plan upload, analysis status, and quote workflow.",
   },
   {
+    id: "projects",
     matcher: (pathname) => pathname === "/dashboard/projects",
-    title: "Projects",
-    subtitle: "Manage floor-plan projects and installation estimates.",
   },
   {
+    id: "materials",
     matcher: (pathname) => pathname === "/dashboard/materials",
-    title: "Materials",
-    subtitle: "Reusable material catalog and pricing tools.",
   },
   {
+    id: "quotes",
     matcher: (pathname) => pathname === "/dashboard/quotes",
-    title: "Quotes",
-    subtitle: "Generated quote snapshots and export history.",
   },
   {
+    id: "settings",
     matcher: (pathname) => pathname === "/dashboard/settings",
-    title: "Settings",
-    subtitle: "Account, company, and estimating preferences.",
   },
 ];
 

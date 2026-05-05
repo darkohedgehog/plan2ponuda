@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { type ChangeEvent, useTransition } from "react";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
@@ -17,6 +17,7 @@ function isLocale(value: string): value is Locale {
 
 export function LocaleSwitcher({ className }: LocaleSwitcherProps) {
   const locale = useLocale();
+  const tCommon = useTranslations("Common");
   const pathname = usePathname();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -36,9 +37,9 @@ export function LocaleSwitcher({ className }: LocaleSwitcherProps) {
 
   return (
     <label className={cn("inline-flex shrink-0 items-center", className)}>
-      <span className="sr-only">Language</span>
+      <span className="sr-only">{tCommon("language")}</span>
       <select
-        aria-label="Language"
+        aria-label={tCommon("language")}
         className="h-9 rounded-md border border-slate-200 bg-white px-2.5 text-xs font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         disabled={isPending}
         onChange={handleLocaleChange}

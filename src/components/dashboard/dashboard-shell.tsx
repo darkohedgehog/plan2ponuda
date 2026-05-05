@@ -1,6 +1,7 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
 import { signOut } from "next-auth/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
@@ -15,7 +16,6 @@ import { LocaleSwitcher } from "@/components/i18n/locale-switcher";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { AuthenticatedUser } from "@/lib/auth/session";
 import { cn } from "@/lib/utils/helpers";
-import Image from "next/image";
 
 type DashboardShellProps = {
   children: ReactNode;
@@ -23,9 +23,12 @@ type DashboardShellProps = {
 };
 
 export function DashboardShell({ children, user }: DashboardShellProps) {
+  const tDashboard = useTranslations("Dashboard");
   const pathname = usePathname();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pageHeader = getDashboardPageHeader(pathname);
+  const pageTitle = tDashboard(`headers.${pageHeader.id}.title`);
+  const pageSubtitle = tDashboard(`headers.${pageHeader.id}.subtitle`);
 
   function closeMobileSidebar() {
     setIsMobileSidebarOpen(false);
@@ -42,7 +45,7 @@ export function DashboardShell({ children, user }: DashboardShellProps) {
       {isMobileSidebarOpen ? (
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
-            aria-label="Close dashboard navigation"
+            aria-label={tDashboard("closeNavigation")}
             className="absolute inset-0 bg-slate-950/40"
             onClick={closeMobileSidebar}
             type="button"
@@ -58,8 +61,8 @@ export function DashboardShell({ children, user }: DashboardShellProps) {
       <div className="lg:pl-72">
         <DashboardTopbar
           onOpenSidebar={() => setIsMobileSidebarOpen(true)}
-          subtitle={pageHeader.subtitle}
-          title={pageHeader.title}
+          subtitle={pageSubtitle}
+          title={pageTitle}
           user={user}
         />
         <div className="mx-auto w-full max-w-7xl px-5 py-6 sm:px-6 lg:px-8 lg:py-8">
@@ -81,6 +84,10 @@ function DashboardSidebar({
   pathname,
   variant,
 }: DashboardSidebarProps) {
+  const tCommon = useTranslations("Common");
+  const tDashboard = useTranslations("Dashboard");
+  const tNavigation = useTranslations("Navigation");
+
   return (
     <aside
       className={cn(
@@ -90,24 +97,24 @@ function DashboardSidebar({
           "relative z-10 shadow-2xl transition-transform lg:hidden",
       )}
     >
-      <div className="flex h-20 items-center gap-3 px-5 mb-4">
+      <div className="mb-4 flex h-20 items-center gap-3 px-5">
         <Link
           className="flex items-center gap-3 rounded-md text-base font-semibold text-slate-950 outline-none focus-visible:ring-2 focus-visible:ring-blue-100"
           href="/dashboard"
           onClick={onNavigate}
         >
-            <Image              
-              alt="PloroAi logo"
-              src="/logo.png"
-              width={70}
-              height={55}
-              priority
-              className="h-auto w-auto"
-            />
+          <Image
+            alt={tCommon("logoAlt")}
+            className="h-auto w-auto"
+            height={55}
+            priority
+            src="/logo.png"
+            width={70}
+          />
         </Link>
       </div>
 
-      <nav aria-label="Dashboard navigation" className="flex-1 px-3 py-5">
+      <nav aria-label={tDashboard("navigation")} className="flex-1 px-3 py-5">
         <div className="grid gap-1">
           {dashboardNavigationItems.map((item) => {
             const isActive = isDashboardNavigationItemActive(pathname, item.href);
@@ -132,7 +139,7 @@ function DashboardSidebar({
                   )}
                   name={item.icon}
                 />
-                {item.label}
+                {tNavigation(item.labelKey)}
               </Link>
             );
           })}
@@ -141,9 +148,11 @@ function DashboardSidebar({
 
       <div className="border-t border-slate-200 p-4">
         <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
-          <p className="text-xs font-medium text-slate-500">Workspace</p>
+          <p className="text-xs font-medium text-slate-500">
+            {tDashboard("workspace")}
+          </p>
           <p className="mt-1 text-sm font-semibold text-slate-950">
-            Electrical estimates
+            {tDashboard("workspaceDescription")}
           </p>
         </div>
       </div>
@@ -164,12 +173,14 @@ function DashboardTopbar({
   title,
   user,
 }: DashboardTopbarProps) {
+  const tDashboard = useTranslations("Dashboard");
+
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="flex min-h-16 items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <button
-            aria-label="Open dashboard navigation"
+            aria-label={tDashboard("openNavigation")}
             className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 lg:hidden"
             onClick={onOpenSidebar}
             type="button"
@@ -211,6 +222,8 @@ type UserAccountSummaryProps = {
 
 function UserAccountSummary({ user }: UserAccountSummaryProps) {
   const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tDashboard = useTranslations("Dashboard");
   const displayName = user.name || user.email;
   const initials = getUserInitials(displayName);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -223,7 +236,11 @@ function UserAccountSummary({ user }: UserAccountSummaryProps) {
   }
 
   return (
-    <div className="flex shrink-0 items-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 py-2 shadow-sm sm:gap-3">
+    <div
+      aria-label={tDashboard("account")}
+      className="flex shrink-0 items-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 py-2 shadow-sm sm:gap-3"
+      role="group"
+    >
       <div className="flex min-w-0 items-center gap-3">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-slate-100 text-xs font-semibold text-slate-700">
           {initials}
@@ -241,7 +258,7 @@ function UserAccountSummary({ user }: UserAccountSummaryProps) {
         onClick={handleSignOut}
         type="button"
       >
-        {isSigningOut ? "Signing out..." : "Sign out"}
+        {isSigningOut ? tActions("signingOut") : tActions("signOut")}
       </button>
     </div>
   );

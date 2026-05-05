@@ -1,10 +1,21 @@
 {
   "Common": {
+    "area": "Površina",
     "appName": "Plan2Ponuda",
+    "client": "Klijent",
+    "created": "Kreirano",
     "dashboard": "Kontrolna tabla",
+    "file": "Datoteka",
+    "floorPlan": "Tlocrt",
+    "language": "Jezik",
     "logoAlt": "Plan2Ponuda logo",
+    "notSet": "Nije podešeno",
+    "notUploaded": "Nije učitano",
+    "objectType": "Tip objekta",
     "projects": "Projekti",
-    "settings": "Podešavanja"
+    "settings": "Podešavanja",
+    "updated": "Ažurirano",
+    "uploaded": "Učitano"
   },
   "Auth": {
     "backToHome": "Nazad na početnu",
@@ -56,16 +67,41 @@
     "signUp": "Registracija"
   },
   "Actions": {
+    "addFirstRoom": "Dodaj prvu prostoriju",
+    "addRoom": "Dodaj prostoriju",
+    "checkProject": "Proveri projekat",
     "createAccount": "Kreiraj nalog",
     "creatingAccount": "Kreiranje naloga...",
+    "createFirstProject": "Kreirajte prvi projekat",
+    "createProject": "Kreiraj projekat",
+    "delete": "Izbriši",
+    "generate": "Generiši",
+    "generateQuote": "Generiši ponudu",
+    "newProject": "Novi projekat",
+    "open": "Otvori",
+    "openQuote": "Otvori ponudu",
+    "openReview": "Otvori pregled",
+    "openProject": "Otvori projekat",
+    "replaceFile": "Zameni datoteku",
     "resetPassword": "Resetuj lozinku",
     "resetting": "Resetovanje...",
+    "review": "Pregledaj",
+    "reviewRooms": "Pregledaj prostorije",
+    "saveRooms": "Sačuvaj prostorije",
+    "saved": "Sačuvano",
+    "saving": "Čuvanje...",
     "seeHowItWorks": "Pogledajte kako radi",
     "sendResetInstructions": "Pošalji uputstva za resetovanje",
     "sending": "Slanje...",
+    "signOut": "Odjava",
+    "signingOut": "Odjava...",
     "signingIn": "Prijava...",
     "startFirstProject": "Pokrenite prvi projekat",
-    "startProject": "Pokreni projekat"
+    "startProject": "Pokreni projekat",
+    "upload": "Učitaj",
+    "uploadFloorPlan": "Učitaj tlocrt",
+    "waiting": "Čeka",
+    "viewAllProjects": "Prikaži sve projekte"
   },
   "Validation": {
     "emailAlreadyExists": "Nalog sa ovom e-poštom već postoji.",
@@ -79,7 +115,120 @@
     "passwordsDoNotMatch": "Lozinke se ne podudaraju.",
     "unableCreateAccount": "Nije moguće kreirati nalog.",
     "unableProcessPasswordReset": "Nije moguće obraditi zahtev za resetovanje lozinke.",
-    "unableResetPassword": "Nije moguće resetovati lozinku."
+    "unableResetPassword": "Nije moguće resetovati lozinku.",
+    "unableSaveRooms": "Nije moguće sačuvati prostorije."
+  },
+  "Dashboard": {
+    "account": "Nalog",
+    "allStatuses": "Svi statusi",
+    "closeNavigation": "Zatvori navigaciju kontrolne table",
+    "headers": {
+      "materials": {
+        "subtitle": "Višekratni katalog materijala i alati za cene.",
+        "title": "Materijali"
+      },
+      "newProject": {
+        "subtitle": "Kreirajte projekat pre učitavanja tlocrta.",
+        "title": "Novi projekat"
+      },
+      "overview": {
+        "subtitle": "Pregled nedavnih projekata i aktivnosti ponuda.",
+        "title": "Kontrolna tabla"
+      },
+      "projectWorkspace": {
+        "subtitle": "Upravljajte učitavanjem tlocrta, statusom analize i tokom ponude.",
+        "title": "Radni prostor projekta"
+      },
+      "projects": {
+        "subtitle": "Upravljajte projektima tlocrta i procenama instalacija.",
+        "title": "Projekti"
+      },
+      "quote": {
+        "subtitle": "Pregledajte ukupne iznose ponude i detalje projekta spremne za izvoz.",
+        "title": "Ponuda"
+      },
+      "quotes": {
+        "subtitle": "Snimci generisanih ponuda i istorija izvoza.",
+        "title": "Ponude"
+      },
+      "reviewRooms": {
+        "subtitle": "Potvrdite prepoznate prostorije pre generisanja predloga materijala.",
+        "title": "Pregled prostorija"
+      },
+      "settings": {
+        "subtitle": "Nalog, firma i podešavanja procena.",
+        "title": "Podešavanja"
+      }
+    },
+    "home": {
+      "emptyProjects": {
+        "description": "Počnite sa zapisom projekta, zatim učitajte tlocrt i prođite kroz pregled, materijale i izradu ponude.",
+        "title": "Kreirajte prvi projekat"
+      },
+      "fallbackName": "korisniče",
+      "hero": {
+        "description": "Pokrenite projekat, učitajte tlocrt, pregledajte prepoznate prostorije i pomerite procenu ka ponudi spremnoj za klijenta.",
+        "title": "Pretvorite tlocrte u elektro ponude kroz vođeni tok rada.",
+        "welcome": "Dobro došli nazad, {name}"
+      },
+      "recentProjects": {
+        "subtitle": "Nastavite od najnovijih procena iz tlocrta.",
+        "title": "Nedavni projekti"
+      },
+      "stats": {
+        "ariaLabel": "Statistika projekata",
+        "draft": "Projekti u nacrtu",
+        "quoted": "Projekti sa ponudom",
+        "reviewed": "Pregledani projekti",
+        "total": "Ukupno projekata"
+      },
+      "workflow": {
+        "steps": {
+          "createProject": {
+            "description": "Dodajte podatke o klijentu i osnovne informacije o projektu.",
+            "title": "Kreirajte projekat"
+          },
+          "generateQuote": {
+            "description": "Složite materijale, rad i procenu spremnu za klijenta.",
+            "title": "Generišite ponudu"
+          },
+          "reviewRooms": {
+            "description": "Proverite prepoznate prostore i prilagodite predloge po prostorijama.",
+            "title": "Pregledajte prostorije"
+          },
+          "uploadPlan": {
+            "description": "Dodajte PDF ili sliku tlocrta za instalaciju.",
+            "title": "Učitajte tlocrt"
+          }
+        },
+        "subtitle": "Glavni put od novog tlocrta klijenta do strukturirane ponude.",
+        "title": "Tok izrade ponude"
+      }
+    },
+    "navigation": "Navigacija kontrolne table",
+    "openNavigation": "Otvori navigaciju kontrolne table",
+    "search": "Pretraga",
+    "status": "Status",
+    "workspace": "Radni prostor",
+    "workspaceDescription": "Elektro procene"
+  },
+  "EmptyStates": {
+    "projects": {
+      "noMatches": {
+        "description": "Pokušajte sa drugim pojmom pretrage ili filtrom statusa.",
+        "title": "Nijedan projekat ne odgovara filterima"
+      },
+      "noProjects": {
+        "description": "Kreirajte prvi projekat za učitavanje tlocrta, pregled prepoznatih prostorija i pripremu elektroinstalacijske ponude.",
+        "title": "Još nema projekata"
+      }
+    },
+    "rooms": {
+      "noDetected": {
+        "description": "Podaci analize i pregleda još nisu generisani za ovaj projekat. Ručno dodajte prostorije za nastavak toka pregleda.",
+        "title": "Još nema prepoznatih prostorija"
+      }
+    }
   },
   "Navigation": {
     "contact": "Kontakt",
@@ -206,6 +355,200 @@
         }
       },
       "title": "Od učitavanja tlocrta do izvoza ponude u jednom fokusiranom toku rada."
+    }
+  },
+  "Projects": {
+    "card": {
+      "noClientAssigned": "Klijent nije dodeljen"
+    },
+    "list": {
+      "searchAriaLabel": "Pretraži projekte",
+      "searchPlaceholder": "Pretraži projekte ili klijente",
+      "statusFilterAriaLabel": "Filtriraj projekte po statusu",
+      "subtitle": "Najnoviji projekti su prikazani prvi.",
+      "title": "Svi projekti"
+    },
+    "objectTypes": {
+      "apartment": "Stan",
+      "house": "Kuća",
+      "office": "Kancelarija"
+    },
+    "page": {
+      "eyebrow": "Upravljanje projektima",
+      "subtitle": "Pratite svaku procenu iz tlocrta od postavljanja projekta do pregleda prostorija, planiranja materijala i izvoza ponude.",
+      "title": "Projekti"
+    }
+  },
+  "ProjectWorkspace": {
+    "currentNextStep": {
+      "title": "Trenutni sledeći korak"
+    },
+    "hero": {
+      "description": "Upravljajte ovim projektom od učitavanja tlocrta preko pregleda, planiranja materijala i izrade ponude."
+    },
+    "meta": {
+      "created": "Kreirano {date}"
+    },
+    "nextSteps": {
+      "analysisInProgress": {
+        "description": "Analiza je u toku. Pregled možete otvoriti kada rezultati prostorija budu spremni."
+      },
+      "attentionRequired": {
+        "description": "Ovaj projekat traži pažnju pre nastavka toka rada. Proverite tlocrt i korake pregleda."
+      },
+      "floorPlanRequired": {
+        "description": "Učitajte tlocrt projekta pre pregleda prostorija, predloga, materijala ili izrade ponude."
+      },
+      "materialsAndQuote": {
+        "description": "Prostorije su pregledane. Nastavite na obračun materijala i pripremu ponude."
+      },
+      "quoteAvailable": {
+        "description": "Ponuda je dostupna za ovaj projekat. Pregledajte detalje ponude ili nastavite doradu procene."
+      },
+      "reviewRooms": {
+        "description": "Pregledajte prepoznate prostorije i pripremite osnovu predloga elektroinstalacije za ovaj projekat."
+      }
+    },
+    "workflow": {
+      "states": {
+        "inProgress": "U toku",
+        "notStarted": "Nije započeto",
+        "ready": "Spremno"
+      },
+      "steps": {
+        "electricalSuggestions": {
+          "description": "Koristite vrste prostorija za pripremu predloga utičnica, prekidača i rasvete koje možete urediti.",
+          "title": "Elektro predlozi"
+        },
+        "materials": {
+          "description": "Pretvorite pregledane predloge u količine materijala i ulazne cene.",
+          "title": "Materijali"
+        },
+        "quote": {
+          "description": "Pripremite ponudu za klijenta iz podataka projekta i materijala.",
+          "title": "Ponuda"
+        },
+        "reviewRooms": {
+          "description": "Potvrdite prepoznate prostorije i ispravite strukturu projekta pre procene.",
+          "title": "Pregledajte prostorije"
+        },
+        "uploadFloorPlan": {
+          "description": "Dodajte izvorni PDF ili sliku od koje zavisi ostatak toka rada.",
+          "title": "Učitajte tlocrt"
+        }
+      },
+      "subtitle": "Pratite životni ciklus projekta korak po korak.",
+      "title": "Tok rada"
+    }
+  },
+  "Review": {
+    "errors": {
+      "invalidInput": "Unesite nazive prostorija, važeće tipove prostorija i nenegativne vrednosti predloga.",
+      "invalidRoomReference": "Jedna ili više prostorija ne pripada ovom projektu.",
+      "projectNotFound": "Projekat nije pronađen.",
+      "roomNameRequired": "Svaka prostorija mora imati naziv pre čuvanja.",
+      "serverError": "Nije moguće sačuvati prostorije."
+    },
+    "floorPlan": {
+      "description": "Koristite učitani tlocrt kao referencu za pregled prostorija.",
+      "preview": {
+        "alt": "Pregled tlocrta za {fileName}",
+        "expiresInMinutes": "{minutes} min",
+        "fileLabel": "Datoteka: {fileName}",
+        "imageCaption": "Potpisani pregled za {fileName}. URL ističe za {expiresIn}.",
+        "openPdfPreview": "Otvori PDF pregled",
+        "pdfDescription": "Otvorite potpisani PDF pregled u novoj kartici. URL ističe za {expiresIn}.",
+        "pdfTitle": "PDF tlocrt je dostupan",
+        "unavailable": {
+          "missingFile": "Učitajte tlocrt pre pregleda vizuelnog prikaza.",
+          "signingFailed": "Potpisani URL pregleda nije moguće generisati. Datoteka ostaje privatno sačuvana.",
+          "title": "Pregled nije dostupan",
+          "unsupportedFileType": "Ovaj tip datoteke tlocrta još ne može bezbedno da se pregleda."
+        }
+      },
+      "status": {
+        "missing": "Tlocrt nije učitan",
+        "title": "Status učitavanja",
+        "uploaded": "Tlocrt je učitan"
+      },
+      "title": "Tlocrt"
+    },
+    "hero": {
+      "description": "Pregledajte prepoznate prostorije pre prelaska na elektro predloge, materijale i izradu ponude.",
+      "eyebrow": "Pregled prostorija"
+    },
+    "messages": {
+      "saved": "Prostorije su sačuvane."
+    }
+  },
+  "Rooms": {
+    "editor": {
+      "subtitle": "Dodajte, ispravite ili uklonite prostorije pre generisanja predloga.",
+      "title": "Prepoznate prostorije"
+    },
+    "fields": {
+      "confidence": "Pouzdanost",
+      "estimatedArea": "Procenjena površina",
+      "name": "Naziv prostorije",
+      "namePlaceholder": "Naziv prostorije",
+      "roomNumber": "Prostorija {number}",
+      "type": "Tip prostorije"
+    }
+  },
+  "RoomTypes": {
+    "bathroom": "Kupatilo",
+    "bedroom": "Spavaća soba",
+    "hallway": "Hodnik",
+    "kitchen": "Kuhinja",
+    "living_room": "Dnevna soba",
+    "office": "Kancelarija",
+    "unknown": "Nepoznato"
+  },
+  "Suggestions": {
+    "lights": "Rasveta",
+    "override": "Izmena",
+    "sockets": "Utičnice",
+    "suggested": "Predloženo",
+    "suggestedValue": "Predloženo: {value}",
+    "switches": "Prekidači"
+  },
+  "Status": {
+    "project": {
+      "analyzing": "Analiza",
+      "draft": "Nacrt",
+      "failed": "Neuspelo",
+      "quoted": "Ponuda",
+      "reviewed": "Pregledano",
+      "uploaded": "Učitano"
+    }
+  },
+  "Upload": {
+    "actions": {
+      "uploadFloorPlan": "Učitaj tlocrt",
+      "uploading": "Učitavanje..."
+    },
+    "errors": {
+      "fallback": "Nije moguće učitati tlocrt.",
+      "fileTooLarge": "Datoteka tlocrta mora biti 10 MB ili manja.",
+      "invalidFile": "Izabrana datoteka nije važeći tlocrt.",
+      "invalidInput": "Proverite izabranu datoteku.",
+      "invalidType": "Učitajte tlocrt u PDF, PNG, JPG ili JPEG formatu.",
+      "notFound": "Projekat nije pronađen.",
+      "required": "Izaberite datoteku tlocrta za učitavanje.",
+      "serverError": "Nije moguće učitati tlocrt.",
+      "tooLarge": "Datoteka tlocrta mora biti 10 MB ili manja.",
+      "unsupportedFileType": "Učitajte tlocrt u PDF, PNG, JPG ili JPEG formatu.",
+      "uploadFailed": "Učitavanje tlocrta nije uspelo."
+    },
+    "floorPlan": {
+      "attachedDescription": "Tlocrt je priložen. Učitavanje druge datoteke zameniće trenutni tlocrt projekta.",
+      "emptyDescription": "Učitajte PDF, PNG, JPG ili JPEG datoteku do 10 MB za početak toka analize.",
+      "title": "Tlocrt",
+      "uploadedFile": "Učitana datoteka"
+    },
+    "inputAriaLabel": "Izaberite datoteku tlocrta",
+    "success": {
+      "uploaded": "Učitano: {path}"
     }
   }
 }

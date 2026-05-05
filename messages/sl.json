@@ -1,10 +1,21 @@
 {
   "Common": {
+    "area": "Površina",
     "appName": "Plan2Ponuda",
+    "client": "Stranka",
+    "created": "Ustvarjeno",
     "dashboard": "Nadzorna plošča",
+    "file": "Datoteka",
+    "floorPlan": "Tloris",
+    "language": "Jezik",
     "logoAlt": "Logotip Plan2Ponuda",
+    "notSet": "Ni nastavljeno",
+    "notUploaded": "Ni naloženo",
+    "objectType": "Vrsta objekta",
     "projects": "Projekti",
-    "settings": "Nastavitve"
+    "settings": "Nastavitve",
+    "updated": "Posodobljeno",
+    "uploaded": "Naloženo"
   },
   "Auth": {
     "backToHome": "Nazaj na začetno",
@@ -56,16 +67,41 @@
     "signUp": "Registracija"
   },
   "Actions": {
+    "addFirstRoom": "Dodaj prvi prostor",
+    "addRoom": "Dodaj prostor",
+    "checkProject": "Preveri projekt",
     "createAccount": "Ustvari račun",
     "creatingAccount": "Ustvarjanje računa...",
+    "createFirstProject": "Ustvarite prvi projekt",
+    "createProject": "Ustvari projekt",
+    "delete": "Izbriši",
+    "generate": "Ustvari",
+    "generateQuote": "Ustvari ponudbo",
+    "newProject": "Nov projekt",
+    "open": "Odpri",
+    "openQuote": "Odpri ponudbo",
+    "openReview": "Odpri pregled",
+    "openProject": "Odpri projekt",
+    "replaceFile": "Zamenjaj datoteko",
     "resetPassword": "Ponastavi geslo",
     "resetting": "Ponastavljanje...",
+    "review": "Preglej",
+    "reviewRooms": "Preglej prostore",
+    "saveRooms": "Shrani prostore",
+    "saved": "Shranjeno",
+    "saving": "Shranjevanje...",
     "seeHowItWorks": "Poglejte, kako deluje",
     "sendResetInstructions": "Pošlji navodila za ponastavitev",
     "sending": "Pošiljanje...",
+    "signOut": "Odjava",
+    "signingOut": "Odjava...",
     "signingIn": "Prijava...",
     "startFirstProject": "Začnite prvi projekt",
-    "startProject": "Začni projekt"
+    "startProject": "Začni projekt",
+    "upload": "Naloži",
+    "uploadFloorPlan": "Naloži tloris",
+    "waiting": "Čaka",
+    "viewAllProjects": "Prikaži vse projekte"
   },
   "Validation": {
     "emailAlreadyExists": "Račun s to e-pošto že obstaja.",
@@ -79,7 +115,120 @@
     "passwordsDoNotMatch": "Gesli se ne ujemata.",
     "unableCreateAccount": "Računa ni mogoče ustvariti.",
     "unableProcessPasswordReset": "Zahteve za ponastavitev gesla ni mogoče obdelati.",
-    "unableResetPassword": "Gesla ni mogoče ponastaviti."
+    "unableResetPassword": "Gesla ni mogoče ponastaviti.",
+    "unableSaveRooms": "Prostorov ni mogoče shraniti."
+  },
+  "Dashboard": {
+    "account": "Račun",
+    "allStatuses": "Vsi statusi",
+    "closeNavigation": "Zapri navigacijo nadzorne plošče",
+    "headers": {
+      "materials": {
+        "subtitle": "Ponovno uporaben katalog materialov in orodja za cene.",
+        "title": "Materiali"
+      },
+      "newProject": {
+        "subtitle": "Ustvarite projekt pred nalaganjem tlorisa.",
+        "title": "Nov projekt"
+      },
+      "overview": {
+        "subtitle": "Pregled nedavnih projektov in aktivnosti ponudb.",
+        "title": "Nadzorna plošča"
+      },
+      "projectWorkspace": {
+        "subtitle": "Upravljajte nalaganje tlorisa, stanje analize in potek ponudbe.",
+        "title": "Delovni prostor projekta"
+      },
+      "projects": {
+        "subtitle": "Upravljajte projekte tlorisov in ocene instalacij.",
+        "title": "Projekti"
+      },
+      "quote": {
+        "subtitle": "Preglejte skupne zneske ponudbe in podrobnosti projekta za izvoz.",
+        "title": "Ponudba"
+      },
+      "quotes": {
+        "subtitle": "Ustvarjeni posnetki ponudb in zgodovina izvoza.",
+        "title": "Ponudbe"
+      },
+      "reviewRooms": {
+        "subtitle": "Potrdite prepoznane prostore pred ustvarjanjem predlogov materiala.",
+        "title": "Pregled prostorov"
+      },
+      "settings": {
+        "subtitle": "Račun, podjetje in nastavitve ocenjevanja.",
+        "title": "Nastavitve"
+      }
+    },
+    "home": {
+      "emptyProjects": {
+        "description": "Začnite z zapisom projekta, nato naložite tloris in nadaljujte skozi pregled, materiale in ustvarjanje ponudbe.",
+        "title": "Ustvarite prvi projekt"
+      },
+      "fallbackName": "uporabnik",
+      "hero": {
+        "description": "Začnite projekt, naložite načrt, preglejte prepoznane prostore in premaknite oceno proti ponudbi, pripravljeni za stranko.",
+        "title": "Pretvorite tlorise v elektro ponudbe z vodenim potekom dela.",
+        "welcome": "Dobrodošli nazaj, {name}"
+      },
+      "recentProjects": {
+        "subtitle": "Nadaljujte z najnovejšimi ocenami iz tlorisov.",
+        "title": "Nedavni projekti"
+      },
+      "stats": {
+        "ariaLabel": "Statistika projektov",
+        "draft": "Projekti v osnutku",
+        "quoted": "Projekti s ponudbo",
+        "reviewed": "Pregledani projekti",
+        "total": "Skupaj projektov"
+      },
+      "workflow": {
+        "steps": {
+          "createProject": {
+            "description": "Dodajte podatke o stranki in osnovne informacije o projektu.",
+            "title": "Ustvarite projekt"
+          },
+          "generateQuote": {
+            "description": "Pripravite materiale, delo in oceno, pripravljeno za stranko.",
+            "title": "Ustvarite ponudbo"
+          },
+          "reviewRooms": {
+            "description": "Preverite prepoznane prostore in prilagodite predloge po prostorih.",
+            "title": "Preglejte prostore"
+          },
+          "uploadPlan": {
+            "description": "Priložite PDF ali sliko tlorisa za instalacijo.",
+            "title": "Naložite tloris"
+          }
+        },
+        "subtitle": "Glavna pot od novega načrta stranke do strukturirane ponudbe.",
+        "title": "Potek priprave ponudbe"
+      }
+    },
+    "navigation": "Navigacija nadzorne plošče",
+    "openNavigation": "Odpri navigacijo nadzorne plošče",
+    "search": "Iskanje",
+    "status": "Status",
+    "workspace": "Delovni prostor",
+    "workspaceDescription": "Elektro ocene"
+  },
+  "EmptyStates": {
+    "projects": {
+      "noMatches": {
+        "description": "Poskusite z drugim iskalnim izrazom ali filtrom statusa.",
+        "title": "Noben projekt ne ustreza filtrom"
+      },
+      "noProjects": {
+        "description": "Ustvarite prvi projekt za nalaganje tlorisa, pregled prepoznanih prostorov in pripravo ponudbe za elektroinstalacijo.",
+        "title": "Projektov še ni"
+      }
+    },
+    "rooms": {
+      "noDetected": {
+        "description": "Podatki analize in pregleda še niso ustvarjeni za ta projekt. Ročno dodajte prostore za nadaljevanje poteka pregleda.",
+        "title": "Prepoznanih prostorov še ni"
+      }
+    }
   },
   "Navigation": {
     "contact": "Kontakt",
@@ -206,6 +355,200 @@
         }
       },
       "title": "Od nalaganja tlorisa do izvoza ponudbe v enem osredotočenem poteku dela."
+    }
+  },
+  "Projects": {
+    "card": {
+      "noClientAssigned": "Stranka ni dodeljena"
+    },
+    "list": {
+      "searchAriaLabel": "Išči projekte",
+      "searchPlaceholder": "Išči projekte ali stranke",
+      "statusFilterAriaLabel": "Filtriraj projekte po statusu",
+      "subtitle": "Najnovejši projekti so prikazani prvi.",
+      "title": "Vsi projekti"
+    },
+    "objectTypes": {
+      "apartment": "Stanovanje",
+      "house": "Hiša",
+      "office": "Pisarna"
+    },
+    "page": {
+      "eyebrow": "Upravljanje projektov",
+      "subtitle": "Spremljajte vsako oceno iz tlorisa od nastavitve projekta do pregleda prostorov, načrtovanja materialov in izvoza ponudbe.",
+      "title": "Projekti"
+    }
+  },
+  "ProjectWorkspace": {
+    "currentNextStep": {
+      "title": "Trenutni naslednji korak"
+    },
+    "hero": {
+      "description": "Upravljajte ta projekt od nalaganja tlorisa prek pregleda, načrtovanja materialov in priprave ponudbe."
+    },
+    "meta": {
+      "created": "Ustvarjeno {date}"
+    },
+    "nextSteps": {
+      "analysisInProgress": {
+        "description": "Analiza je v teku. Pregled lahko odprete, ko so rezultati prostorov pripravljeni."
+      },
+      "attentionRequired": {
+        "description": "Ta projekt zahteva pozornost, preden se lahko potek dela nadaljuje. Preverite tloris in korake pregleda."
+      },
+      "floorPlanRequired": {
+        "description": "Naložite tloris projekta, preden se lahko začne pregled prostorov, predlogi, materiali ali priprava ponudbe."
+      },
+      "materialsAndQuote": {
+        "description": "Prostori so pregledani. Nadaljujte z izračunom materialov in pripravo ponudbe."
+      },
+      "quoteAvailable": {
+        "description": "Ponudba je na voljo za ta projekt. Preglejte podrobnosti ponudbe ali nadaljujte z izboljšavo ocene."
+      },
+      "reviewRooms": {
+        "description": "Preglejte prepoznane prostore in pripravite osnovo za elektro predloge za ta projekt."
+      }
+    },
+    "workflow": {
+      "states": {
+        "inProgress": "V teku",
+        "notStarted": "Ni začeto",
+        "ready": "Pripravljeno"
+      },
+      "steps": {
+        "electricalSuggestions": {
+          "description": "Uporabite vrste prostorov za pripravo uredljivih predlogov vtičnic, stikal in razsvetljave.",
+          "title": "Elektro predlogi"
+        },
+        "materials": {
+          "description": "Pretvorite pregledane predloge v količine materialov in cenovne vnose.",
+          "title": "Materiali"
+        },
+        "quote": {
+          "description": "Pripravite ponudbo za stranko iz podatkov projekta in materialov.",
+          "title": "Ponudba"
+        },
+        "reviewRooms": {
+          "description": "Potrdite prepoznane prostore in popravite strukturo projekta pred oceno.",
+          "title": "Preglej prostore"
+        },
+        "uploadFloorPlan": {
+          "description": "Dodajte izvorni PDF ali sliko, od katere je odvisen preostanek poteka dela.",
+          "title": "Naloži tloris"
+        }
+      },
+      "subtitle": "Sledite življenjskemu ciklu projekta korak za korakom.",
+      "title": "Potek dela"
+    }
+  },
+  "Review": {
+    "errors": {
+      "invalidInput": "Vnesite imena prostorov, veljavne vrste prostorov in nenegativne vrednosti predlogov.",
+      "invalidRoomReference": "En ali več prostorov ne pripada temu projektu.",
+      "projectNotFound": "Projekt ni najden.",
+      "roomNameRequired": "Vsak prostor mora imeti ime pred shranjevanjem.",
+      "serverError": "Prostorov ni mogoče shraniti."
+    },
+    "floorPlan": {
+      "description": "Uporabite naloženi tloris kot referenco za pregled prostorov.",
+      "preview": {
+        "alt": "Predogled tlorisa za {fileName}",
+        "expiresInMinutes": "{minutes} min",
+        "fileLabel": "Datoteka: {fileName}",
+        "imageCaption": "Podpisan predogled za {fileName}. URL poteče čez {expiresIn}.",
+        "openPdfPreview": "Odpri PDF-predogled",
+        "pdfDescription": "Odprite podpisan PDF-predogled v novem zavihku. URL poteče čez {expiresIn}.",
+        "pdfTitle": "PDF tloris je na voljo",
+        "unavailable": {
+          "missingFile": "Naložite tloris pred pregledom vizualnega predogleda.",
+          "signingFailed": "Podpisanega URL-ja za predogled ni bilo mogoče ustvariti. Datoteka ostane zasebno shranjena.",
+          "title": "Predogled ni na voljo",
+          "unsupportedFileType": "Te vrste datoteke tlorisa še ni mogoče varno predogledati."
+        }
+      },
+      "status": {
+        "missing": "Tloris ni naložen",
+        "title": "Stanje nalaganja",
+        "uploaded": "Tloris je naložen"
+      },
+      "title": "Tloris"
+    },
+    "hero": {
+      "description": "Preglejte prepoznane prostore pred prehodom na elektro predloge, materiale in pripravo ponudbe.",
+      "eyebrow": "Pregled prostorov"
+    },
+    "messages": {
+      "saved": "Prostori so shranjeni."
+    }
+  },
+  "Rooms": {
+    "editor": {
+      "subtitle": "Dodajte, popravite ali odstranite prostore pred ustvarjanjem predlogov.",
+      "title": "Prepoznani prostori"
+    },
+    "fields": {
+      "confidence": "Zanesljivost",
+      "estimatedArea": "Ocenjena površina",
+      "name": "Ime prostora",
+      "namePlaceholder": "Ime prostora",
+      "roomNumber": "Prostor {number}",
+      "type": "Vrsta prostora"
+    }
+  },
+  "RoomTypes": {
+    "bathroom": "Kopalnica",
+    "bedroom": "Spalnica",
+    "hallway": "Hodnik",
+    "kitchen": "Kuhinja",
+    "living_room": "Dnevna soba",
+    "office": "Pisarna",
+    "unknown": "Neznano"
+  },
+  "Suggestions": {
+    "lights": "Luči",
+    "override": "Spremenjeno",
+    "sockets": "Vtičnice",
+    "suggested": "Predlagano",
+    "suggestedValue": "Predlagano: {value}",
+    "switches": "Stikala"
+  },
+  "Status": {
+    "project": {
+      "analyzing": "Analiza",
+      "draft": "Osnutek",
+      "failed": "Neuspešno",
+      "quoted": "Ponudba",
+      "reviewed": "Pregledano",
+      "uploaded": "Naloženo"
+    }
+  },
+  "Upload": {
+    "actions": {
+      "uploadFloorPlan": "Naloži tloris",
+      "uploading": "Nalaganje..."
+    },
+    "errors": {
+      "fallback": "Tlorisa ni mogoče naložiti.",
+      "fileTooLarge": "Datoteka tlorisa mora biti velika največ 10 MB.",
+      "invalidFile": "Izbrana datoteka ni veljaven tloris.",
+      "invalidInput": "Preverite izbrano datoteko.",
+      "invalidType": "Naložite tloris v formatu PDF, PNG, JPG ali JPEG.",
+      "notFound": "Projekt ni najden.",
+      "required": "Izberite datoteko tlorisa za nalaganje.",
+      "serverError": "Tlorisa ni mogoče naložiti.",
+      "tooLarge": "Datoteka tlorisa mora biti velika največ 10 MB.",
+      "unsupportedFileType": "Naložite tloris v formatu PDF, PNG, JPG ali JPEG.",
+      "uploadFailed": "Nalaganje tlorisa ni uspelo."
+    },
+    "floorPlan": {
+      "attachedDescription": "Tloris je priložen. Nalaganje druge datoteke bo zamenjalo trenutni tloris projekta.",
+      "emptyDescription": "Naložite datoteko PDF, PNG, JPG ali JPEG do 10 MB za začetek poteka analize.",
+      "title": "Tloris",
+      "uploadedFile": "Naložena datoteka"
+    },
+    "inputAriaLabel": "Izberite datoteko tlorisa",
+    "success": {
+      "uploaded": "Naloženo: {path}"
     }
   }
 }

@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import type { ProjectStatus } from "@/types/project";
 
 const statusStyles: Record<ProjectStatus, string> = {
@@ -23,15 +25,17 @@ type ProjectStatusBadgeProps = {
 };
 
 export function ProjectStatusBadge({ status }: ProjectStatusBadgeProps) {
+  const tStatus = useTranslations("Status.project");
+
   return (
     <span
-      className={`inline-flex w-fit shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold capitalize leading-none ring-1 ring-inset ${statusStyles[status]}`}
+      className={`inline-flex w-fit shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold leading-none ring-1 ring-inset ${statusStyles[status]}`}
     >
       <span
         aria-hidden="true"
         className={`h-1.5 w-1.5 rounded-full ${statusDotStyles[status]}`}
       />
-      {status}
+      {tStatus(status)}
     </span>
   );
 }

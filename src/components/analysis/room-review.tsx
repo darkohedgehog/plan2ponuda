@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { RoomReviewEditor } from "@/components/analysis/room-review-editor";
 import type { FloorPlanPreview, Project } from "@/types/project";
 import type { RoomReviewItem } from "@/types/room";
@@ -15,16 +17,19 @@ export function RoomReview({
   project,
   rooms,
 }: RoomReviewProps) {
+  const tReview = useTranslations("Review");
+
   return (
     <main className="flex flex-col gap-6">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <p className="text-sm font-semibold text-blue-700">Room review</p>
+        <p className="text-sm font-semibold text-blue-700">
+          {tReview("hero.eyebrow")}
+        </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
           {project.name}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-          Review detected rooms before moving into electrical suggestions,
-          materials, and quote generation.
+          {tReview("hero.description")}
         </p>
       </section>
 
@@ -42,15 +47,19 @@ type FloorPlanCardProps = {
 };
 
 function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
+  const tReview = useTranslations("Review");
+  const tStatus = useTranslations("Status.project");
   const hasFloorPlan =
     preview.kind !== "unavailable" || preview.reason !== "missing_file";
 
   return (
     <section className="min-w-0 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
       <div>
-        <h2 className="text-lg font-semibold text-slate-950">Floor plan</h2>
+        <h2 className="text-lg font-semibold text-slate-950">
+          {tReview("floorPlan.title")}
+        </h2>
         <p className="mt-1 text-sm leading-6 text-slate-600">
-          Use the uploaded floor plan as the reference for room review.
+          {tReview("floorPlan.description")}
         </p>
       </div>
 
@@ -58,10 +67,12 @@ function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="p-5">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Upload status
+              {tReview("floorPlan.status.title")}
             </p>
             <p className="mt-2 text-sm font-semibold text-slate-800">
-              {hasFloorPlan ? "Floor plan uploaded" : "No floor plan uploaded"}
+              {hasFloorPlan
+                ? tReview("floorPlan.status.uploaded")
+                : tReview("floorPlan.status.missing")}
             </p>
           </div>
           <span
@@ -71,7 +82,7 @@ function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
                 : "bg-slate-100 text-slate-600 ring-slate-200"
             }`}
           >
-            {project.status}
+            {tStatus(project.status)}
           </span>
         </div>
 
@@ -86,34 +97,47 @@ type FloorPlanPreviewContentProps = {
 };
 
 function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
+  const tReview = useTranslations("Review");
+
   if (preview.kind === "image") {
+    const expiresIn = tReview("floorPlan.preview.expiresInMinutes", {
+      minutes: getExpiryMinutes(preview.expiresInSeconds),
+    });
+
     return (
       <figure className="border-t border-slate-200 bg-white p-4">
         {/* Native img keeps short-lived signed Supabase URLs out of Next image config. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          alt={`Floor plan preview for ${preview.fileName}`}
+          alt={tReview("floorPlan.preview.alt", {
+            fileName: preview.fileName,
+          })}
           className="max-h-140 w-full rounded-md border border-slate-200 object-contain"
           src={preview.url}
         />
         <figcaption className="mt-3 text-xs text-slate-500">
-          Signed preview for {preview.fileName}. The URL expires in{" "}
-          {formatExpiry(preview.expiresInSeconds)}.
+          {tReview("floorPlan.preview.imageCaption", {
+            expiresIn,
+            fileName: preview.fileName,
+          })}
         </figcaption>
       </figure>
     );
   }
 
   if (preview.kind === "pdf") {
+    const expiresIn = tReview("floorPlan.preview.expiresInMinutes", {
+      minutes: getExpiryMinutes(preview.expiresInSeconds),
+    });
+
     return (
       <div className="border-t border-slate-200 bg-white p-5">
         <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
           <p className="text-sm font-semibold text-slate-950">
-            PDF floor plan available
+            {tReview("floorPlan.preview.pdfTitle")}
           </p>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            Open the signed PDF preview in a new tab. The URL expires in{" "}
-            {formatExpiry(preview.expiresInSeconds)}.
+            {tReview("floorPlan.preview.pdfDescription", { expiresIn })}
           </p>
           <a
             className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
@@ -121,7 +145,7 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
             rel="noreferrer"
             target="_blank"
           >
-            Open PDF preview
+            {tReview("floorPlan.preview.openPdfPreview")}
           </a>
         </div>
       </div>
@@ -132,14 +156,20 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
     <div className="border-t border-slate-200 bg-white p-5">
       <div className="rounded-md border border-dashed border-slate-300 bg-slate-50 p-4">
         <p className="text-sm font-semibold text-slate-950">
-          Preview unavailable
+          {tReview("floorPlan.preview.unavailable.title")}
         </p>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          {getPreviewUnavailableMessage(preview)}
+          {tReview(
+            `floorPlan.preview.unavailable.${getPreviewUnavailableMessageKey(
+              preview,
+            )}`,
+          )}
         </p>
         {preview.fileName ? (
           <p className="mt-3 break-all text-xs font-medium text-slate-500">
-            File: {preview.fileName}
+            {tReview("floorPlan.preview.fileLabel", {
+              fileName: preview.fileName,
+            })}
           </p>
         ) : null}
       </div>
@@ -147,22 +177,25 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
   );
 }
 
-function formatExpiry(expiresInSeconds: number): string {
-  const minutes = Math.max(1, Math.round(expiresInSeconds / 60));
-
-  return `${minutes} min`;
+function getExpiryMinutes(expiresInSeconds: number): number {
+  return Math.max(1, Math.round(expiresInSeconds / 60));
 }
 
-function getPreviewUnavailableMessage(
+type PreviewUnavailableMessageKey =
+  | "missingFile"
+  | "signingFailed"
+  | "unsupportedFileType";
+
+function getPreviewUnavailableMessageKey(
   preview: Extract<FloorPlanPreview, { kind: "unavailable" }>,
-): string {
+): PreviewUnavailableMessageKey {
   if (preview.reason === "missing_file") {
-    return "Upload a floor plan before reviewing the visual preview.";
+    return "missingFile";
   }
 
   if (preview.reason === "unsupported_file_type") {
-    return "This floor plan file type cannot be previewed safely yet.";
+    return "unsupportedFileType";
   }
 
-  return "The signed preview URL could not be generated. The file remains stored privately.";
+  return "signingFailed";
 }
