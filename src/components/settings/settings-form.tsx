@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   type ChangeEvent,
@@ -29,6 +30,8 @@ type SettingsFormState = {
   laborFactor: string;
 };
 
+type SettingsErrorKey = "invalidInput" | "laborFactor" | "saveFailed";
+
 function toFormState(settings: UserSettingsProfile): SettingsFormState {
   return {
     companyAddress: settings.companyAddress ?? "",
@@ -46,19 +49,25 @@ function toFormState(settings: UserSettingsProfile): SettingsFormState {
 
 export function SettingsForm({ initialSettings }: SettingsFormProps) {
   const router = useRouter();
+  const tActions = useTranslations("Actions");
+  const tCompany = useTranslations("Company");
+  const tEstimating = useTranslations("Estimating");
+  const tProfile = useTranslations("Profile");
+  const tSettings = useTranslations("Settings");
+  const tValidation = useTranslations("Validation");
   const [formState, setFormState] = useState<SettingsFormState>(
     toFormState(initialSettings),
   );
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<SettingsErrorKey | null>(null);
+  const [showSaved, setShowSaved] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateField(
     field: keyof SettingsFormState,
     event: ChangeEvent<HTMLInputElement>,
   ) {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setShowSaved(false);
     setFormState((currentState) => ({
       ...currentState,
       [field]: event.target.value,
@@ -71,13 +80,13 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     const laborFactor = Number(formState.laborFactor);
 
     if (!Number.isFinite(laborFactor) || laborFactor <= 0) {
-      setError("Labor factor must be a positive number.");
-      setSuccessMessage(null);
+      setErrorKey("laborFactor");
+      setShowSaved(false);
       return;
     }
 
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setShowSaved(false);
     setIsSubmitting(true);
 
     const response = await fetch("/api/settings", {
@@ -99,37 +108,37 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     setIsSubmitting(false);
 
     if (!response.ok || !payload?.ok) {
-      setError(
-        payload && !payload.ok
-          ? payload.error.message
-          : "Unable to save settings.",
+      setErrorKey(
+        payload && !payload.ok && payload.error.code === "invalid_input"
+          ? "invalidInput"
+          : "saveFailed",
       );
       return;
     }
 
     setFormState(toFormState(payload.settings));
-    setSuccessMessage("Settings saved.");
+    setShowSaved(true);
     router.refresh();
   }
 
   return (
     <form className="grid gap-5" onSubmit={handleSubmit}>
       <SettingsSection
-        description="Basic account information used inside your workspace."
-        title="Account"
+        description={tProfile("section.description")}
+        title={tProfile("section.title")}
       >
-        <SettingsField label="Full name">
+        <SettingsField label={tProfile("fields.fullName")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("fullName", event)}
-            placeholder="Your name"
+            placeholder={tProfile("placeholders.fullName")}
             type="text"
             value={formState.fullName}
           />
         </SettingsField>
         <SettingsField
-          helperText="Email changes are not supported yet."
-          label="Email"
+          helperText={tProfile("helpers.emailReadOnly")}
+          label={tProfile("fields.email")}
         >
           <input
             className={`${formControlClassName} bg-slate-50 text-slate-500`}
@@ -141,68 +150,68 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       </SettingsSection>
 
       <SettingsSection
-        description="Company details can be reused later for quote and PDF branding."
-        title="Company information"
+        description={tCompany("section.description")}
+        title={tCompany("section.title")}
       >
-        <SettingsField label="Company name">
+        <SettingsField label={tCompany("fields.name")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyName", event)}
-            placeholder="Company name"
+            placeholder={tCompany("placeholders.name")}
             type="text"
             value={formState.companyName}
           />
         </SettingsField>
-        <SettingsField label="Company address">
+        <SettingsField label={tCompany("fields.address")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyAddress", event)}
-            placeholder="Street and number"
+            placeholder={tCompany("placeholders.address")}
             type="text"
             value={formState.companyAddress}
           />
         </SettingsField>
-        <SettingsField label="City">
+        <SettingsField label={tCompany("fields.city")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyCity", event)}
-            placeholder="City"
+            placeholder={tCompany("placeholders.city")}
             type="text"
             value={formState.companyCity}
           />
         </SettingsField>
-        <SettingsField label="Country">
+        <SettingsField label={tCompany("fields.country")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyCountry", event)}
-            placeholder="Country"
+            placeholder={tCompany("placeholders.country")}
             type="text"
             value={formState.companyCountry}
           />
         </SettingsField>
-        <SettingsField label="OIB / VAT number">
+        <SettingsField label={tCompany("fields.taxId")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyTaxId", event)}
-            placeholder="Tax identifier"
+            placeholder={tCompany("placeholders.taxId")}
             type="text"
             value={formState.companyTaxId}
           />
         </SettingsField>
-        <SettingsField label="Company email">
+        <SettingsField label={tCompany("fields.email")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyEmail", event)}
-            placeholder="company@example.com"
+            placeholder={tCompany("placeholders.email")}
             type="email"
             value={formState.companyEmail}
           />
         </SettingsField>
-        <SettingsField label="Company phone">
+        <SettingsField label={tCompany("fields.phone")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("companyPhone", event)}
-            placeholder="+385..."
+            placeholder={tCompany("placeholders.phone")}
             type="tel"
             value={formState.companyPhone}
           />
@@ -210,12 +219,12 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       </SettingsSection>
 
       <SettingsSection
-        description="Defaults used when generating future quote totals."
-        title="Estimating preferences"
+        description={tEstimating("section.description")}
+        title={tEstimating("section.title")}
       >
         <SettingsField
-          helperText="Labor cost is project area multiplied by this factor."
-          label="Labor factor"
+          helperText={tEstimating("helpers.laborFactor")}
+          label={tEstimating("fields.laborFactor")}
         >
           <input
             className={formControlClassName}
@@ -226,31 +235,35 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             value={formState.laborFactor}
           />
         </SettingsField>
-        <SettingsField label="Currency">
+        <SettingsField label={tEstimating("fields.currency")}>
           <input
             className={formControlClassName}
             onChange={(event) => updateField("currency", event)}
-            placeholder="EUR"
+            placeholder={tEstimating("placeholders.currency")}
             type="text"
             value={formState.currency}
           />
         </SettingsField>
       </SettingsSection>
 
-      {error ? (
+      {errorKey ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
-          {error}
+          {errorKey === "laborFactor"
+            ? tValidation("laborFactorPositive")
+            : errorKey === "invalidInput"
+              ? tValidation("invalidSettingsInput")
+              : tSettings("errors.saveFailed")}
         </div>
       ) : null}
-      {successMessage ? (
+      {showSaved ? (
         <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
-          {successMessage}
+          {tSettings("messages.saved")}
         </div>
       ) : null}
 
       <div className="flex justify-end">
         <Button disabled={isSubmitting} type="submit">
-          {isSubmitting ? "Saving..." : "Save Settings"}
+          {isSubmitting ? tActions("saving") : tActions("saveSettings")}
         </Button>
       </div>
     </form>

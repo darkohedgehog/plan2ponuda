@@ -1,3 +1,4 @@
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
 import { MaterialPriceEditor } from "@/components/materials/material-price-editor";
@@ -18,6 +19,9 @@ const categoryStyles: Record<MaterialCategory, string> = {
 };
 
 export function MaterialCatalog({ materials }: MaterialCatalogProps) {
+  const tCommon = useTranslations("Common");
+  const tMaterials = useTranslations("Materials");
+
   if (materials.length === 0) {
     return <EmptyMaterialCatalog />;
   }
@@ -27,20 +31,20 @@ export function MaterialCatalog({ materials }: MaterialCatalogProps) {
       <div className="flex flex-col gap-4 border-b border-slate-200 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0">
           <h2 className="text-lg font-semibold text-slate-950">
-            Catalog materials
+            {tMaterials("catalog.title")}
           </h2>
           <p className="mt-1 text-sm text-slate-500">
-            Showing persisted material records, newest updates included.
+            {tMaterials("catalog.subtitle")}
           </p>
         </div>
       </div>
 
       <div className="hidden border-b border-slate-200 bg-slate-50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_13rem_9rem] lg:gap-5">
-        <span>Material</span>
-        <span>Category</span>
-        <span>Unit</span>
-        <span className="text-right">Default price</span>
-        <span className="text-right">Updated</span>
+        <span>{tMaterials("fields.materialName")}</span>
+        <span>{tCommon("category")}</span>
+        <span>{tCommon("unit")}</span>
+        <span className="text-right">{tCommon("defaultPrice")}</span>
+        <span className="text-right">{tCommon("updated")}</span>
       </div>
 
       <div className="divide-y divide-slate-200">
@@ -57,6 +61,11 @@ type MaterialCatalogRowProps = {
 };
 
 function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
+  const locale = useLocale();
+  const tCommon = useTranslations("Common");
+  const tMaterials = useTranslations("Materials");
+  const tUnits = useTranslations("MaterialUnits");
+
   return (
     <article className="grid min-w-0 gap-4 bg-white p-4 transition-colors hover:bg-slate-50/70 sm:p-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_13rem_9rem] lg:items-center lg:gap-5">
       <div className="min-w-0">
@@ -65,28 +74,28 @@ function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
         </h3>
         {material.code ? (
           <p className="mt-1 truncate text-xs font-medium text-slate-500">
-            {material.code}
+            {tMaterials("fields.codeValue", { code: material.code })}
           </p>
         ) : null}
       </div>
 
-      <MaterialMobileField label="Category">
+      <MaterialMobileField label={tCommon("category")}>
         <CategoryBadge category={material.category} />
       </MaterialMobileField>
-      <MaterialMobileField label="Unit">
+      <MaterialMobileField label={tCommon("unit")}>
         <span className="text-sm font-medium text-slate-700">
-          {formatUnit(material.unit)}
+          {tUnits(material.unit)}
         </span>
       </MaterialMobileField>
-      <MaterialMobileField align="right" label="Default price">
+      <MaterialMobileField align="right" label={tCommon("defaultPrice")}>
         <MaterialPriceEditor
           defaultPrice={material.defaultPrice}
           materialId={material.id}
         />
       </MaterialMobileField>
-      <MaterialMobileField align="right" label="Updated">
+      <MaterialMobileField align="right" label={tCommon("updated")}>
         <span className="text-sm font-medium text-slate-600">
-          {formatDate(material.updatedAt)}
+          {formatDate(material.updatedAt, locale)}
         </span>
       </MaterialMobileField>
     </article>
@@ -119,16 +128,20 @@ function MaterialMobileField({
 }
 
 function CategoryBadge({ category }: { category: MaterialCategory }) {
+  const tCategories = useTranslations("MaterialCategories");
+
   return (
     <span
-      className={`inline-flex w-fit items-center rounded-full border px-2.5 py-1 text-xs font-semibold capitalize ${categoryStyles[category]}`}
+      className={`inline-flex w-fit items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${categoryStyles[category]}`}
     >
-      {category}
+      {tCategories(category)}
     </span>
   );
 }
 
 function EmptyMaterialCatalog() {
+  const tEmptyState = useTranslations("EmptyStates.materials.noMaterials");
+
   return (
     <section className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm sm:p-8">
       <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700 ring-1 ring-blue-100">
@@ -149,30 +162,19 @@ function EmptyMaterialCatalog() {
         </svg>
       </div>
       <h2 className="mt-5 text-xl font-semibold text-slate-950">
-        No materials yet
+        {tEmptyState("title")}
       </h2>
       <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
-        Materials will appear here after a project quote generates and persists
-        catalog records.
+        {tEmptyState("description")}
       </p>
     </section>
   );
 }
 
-function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("en", {
+function formatDate(date: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
   }).format(date);
-}
-
-function formatUnit(unit: Material["unit"]): string {
-  const labels: Record<Material["unit"], string> = {
-    m: "Meters",
-    pcs: "Pieces",
-    set: "Set",
-  };
-
-  return labels[unit];
 }

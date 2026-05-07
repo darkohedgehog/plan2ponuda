@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { QuoteWorkspaceClient } from "@/components/quote/quote-workspace-client";
 import type { QuoteMaterialEditorMaterial } from "@/components/quote/quote-material-editor";
 import type { ProjectMaterial, Quote } from "@/types/quote";
@@ -10,18 +12,23 @@ type QuoteSummaryProps = {
   quote: Quote;
 };
 
-export function QuoteSummary({
+export async function QuoteSummary({
   areaM2,
   exportHref,
   materials,
   projectName,
   quote,
 }: QuoteSummaryProps) {
+  const tMaterials = await getTranslations("Materials");
+  const fallbackMaterialName = tMaterials("fallbackName");
+
   return (
     <QuoteWorkspaceClient
       areaM2={areaM2}
       exportHref={exportHref}
-      initialMaterials={materials.map(toEditorMaterial)}
+      initialMaterials={materials.map((material) =>
+        toEditorMaterial(material, fallbackMaterialName),
+      )}
       initialQuote={{
         laborCost: quote.laborCost,
         materialCost: quote.materialCost,
@@ -36,12 +43,13 @@ export function QuoteSummary({
 
 function toEditorMaterial(
   projectMaterial: ProjectMaterial,
+  fallbackMaterialName: string,
 ): QuoteMaterialEditorMaterial {
   const editorMaterial: QuoteMaterialEditorMaterial = {
     category: projectMaterial.material?.category ?? "other",
     id: projectMaterial.id,
     materialId: projectMaterial.materialId,
-    name: projectMaterial.material?.name ?? "Material",
+    name: projectMaterial.material?.name ?? fallbackMaterialName,
     quantity: projectMaterial.quantity,
     source: projectMaterial.source,
     totalPrice: projectMaterial.totalPrice,

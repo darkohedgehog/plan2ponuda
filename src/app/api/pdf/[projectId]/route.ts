@@ -1,7 +1,16 @@
-import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
+import { type NextRequest, NextResponse } from "next/server";
 
+import {
+  defaultLocale,
+  locales,
+  type Locale,
+} from "@/i18n/routing";
 import { requireApiUser } from "@/lib/auth/guards";
-import { generateQuotePdf } from "@/lib/pdf/generate-quote";
+import {
+  generateQuotePdf,
+  type QuotePdfLabels,
+} from "@/lib/pdf/generate-quote";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import { getQuoteExportData } from "@/server/services/quote-service";
 
@@ -11,7 +20,7 @@ type PdfRouteContext = {
   }>;
 };
 
-export async function GET(_request: Request, context: PdfRouteContext) {
+export async function GET(request: NextRequest, context: PdfRouteContext) {
   const auth = await requireApiUser();
 
   if (!auth.ok) {
@@ -33,7 +42,12 @@ export async function GET(_request: Request, context: PdfRouteContext) {
     return NextResponse.json({ error: "Project not found" }, { status: 404 });
   }
 
-  const pdf = await generateQuotePdf(quoteData);
+  const locale = resolvePdfLocale(request);
+  const labels = await getQuotePdfLabels(locale);
+  const pdf = await generateQuotePdf(quoteData, {
+    labels,
+    locale,
+  });
   const body = new ArrayBuffer(pdf.byteLength);
 
   new Uint8Array(body).set(pdf);
@@ -48,6 +62,126 @@ export async function GET(_request: Request, context: PdfRouteContext) {
       "Content-Type": "application/pdf",
     },
   });
+}
+
+async function getQuotePdfLabels(locale: Locale): Promise<QuotePdfLabels> {
+  const tCategories = await getTranslations({
+    locale,
+    namespace: "MaterialCategories",
+  });
+  const tObjectTypes = await getTranslations({
+    locale,
+    namespace: "Projects.objectTypes",
+  });
+  const tPdf = await getTranslations({
+    locale,
+    namespace: "QuotePdf",
+  });
+  const tRoomTypes = await getTranslations({
+    locale,
+    namespace: "RoomTypes",
+  });
+  const tUnits = await getTranslations({
+    locale,
+    namespace: "MaterialUnits",
+  });
+
+  return {
+    fallbacks: {
+      material: tPdf("fallbacks.material"),
+      notSpecified: tPdf("fallbacks.notSpecified"),
+    },
+    fields: {
+      area: tPdf("fields.area"),
+      client: tPdf("fields.client"),
+      generatedDate: tPdf("fields.generatedDate"),
+      objectType: tPdf("fields.objectType"),
+      project: tPdf("fields.project"),
+    },
+    intro: tPdf("intro"),
+    materialCategories: {
+      box: tCategories("box"),
+      breaker: tCategories("breaker"),
+      cable: tCategories("cable"),
+      other: tCategories("other"),
+      panel: tCategories("panel"),
+      socket: tCategories("socket"),
+      switch: tCategories("switch"),
+    },
+    materialUnits: {
+      m: tUnits("m"),
+      pcs: tUnits("pcs"),
+      set: tUnits("set"),
+    },
+    objectTypes: {
+      apartment: tObjectTypes("apartment"),
+      house: tObjectTypes("house"),
+      office: tObjectTypes("office"),
+    },
+    roomTypes: {
+      bathroom: tRoomTypes("bathroom"),
+      bedroom: tRoomTypes("bedroom"),
+      hallway: tRoomTypes("hallway"),
+      kitchen: tRoomTypes("kitchen"),
+      living_room: tRoomTypes("living_room"),
+      office: tRoomTypes("office"),
+      unknown: tRoomTypes("unknown"),
+    },
+    sections: {
+      materialList: tPdf("sections.materialList"),
+      project: tPdf("sections.project"),
+      roomSummary: tPdf("sections.roomSummary"),
+      totals: tPdf("sections.totals"),
+    },
+    tables: {
+      category: tPdf("tables.category"),
+      lights: tPdf("tables.lights"),
+      material: tPdf("tables.material"),
+      quantity: tPdf("tables.quantity"),
+      room: tPdf("tables.room"),
+      sockets: tPdf("tables.sockets"),
+      switches: tPdf("tables.switches"),
+      totalPrice: tPdf("tables.totalPrice"),
+      type: tPdf("tables.type"),
+      unit: tPdf("tables.unit"),
+      unitPrice: tPdf("tables.unitPrice"),
+    },
+    title: tPdf("title"),
+    totals: {
+      laborCost: tPdf("totals.laborCost"),
+      materialCost: tPdf("totals.materialCost"),
+      subtotal: tPdf("totals.subtotal"),
+      total: tPdf("totals.total"),
+    },
+  };
+}
+
+function resolvePdfLocale(request: NextRequest): Locale {
+  const candidates = [
+    request.nextUrl.searchParams.get("locale") ?? undefined,
+    getLocaleFromReferer(request.headers.get("referer")),
+    request.cookies.get("NEXT_LOCALE")?.value,
+  ];
+
+  return (
+    candidates.find((candidate): candidate is Locale =>
+      locales.some((locale) => locale === candidate),
+    ) ?? defaultLocale
+  );
+}
+
+function getLocaleFromReferer(referer: string | null): string | undefined {
+  if (!referer) {
+    return undefined;
+  }
+
+  try {
+    const pathname = new URL(referer).pathname;
+
+    return pathname.split("/").filter(Boolean)[0];
+  } catch {
+    return undefined;
+  }
 }
 
 function getQuoteFileName(projectName: string): string {

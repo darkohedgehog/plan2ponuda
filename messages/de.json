@@ -1,19 +1,36 @@
 {
   "Common": {
+    "actions": "Aktionen",
     "area": "Fläche",
-    "appName": "Plan2Ponuda",
+    "appName": "Ploro AI",
+    "category": "Kategorie",
     "client": "Kunde",
+    "code": "Code",
     "created": "Erstellt",
     "dashboard": "Dashboard",
+    "defaultPrice": "Standardpreis",
+    "error": "Fehler",
     "file": "Datei",
     "floorPlan": "Grundriss",
     "language": "Sprache",
-    "logoAlt": "Plan2Ponuda-Logo",
+    "labor": "Arbeit",
+    "logoAlt": "Ploro AI-Logo",
+    "materialCost": "Materialkosten",
+    "materials": "Materialien",
     "notSet": "Nicht festgelegt",
     "notUploaded": "Nicht hochgeladen",
+    "object": "Objekt",
     "objectType": "Objekttyp",
+    "project": "Projekt",
     "projects": "Projekte",
+    "quantity": "Menge",
     "settings": "Einstellungen",
+    "source": "Quelle",
+    "subtotal": "Zwischensumme",
+    "total": "Gesamt",
+    "totalPrice": "Gesamtpreis",
+    "unit": "Einheit",
+    "unitPrice": "Einzelpreis",
     "updated": "Aktualisiert",
     "uploaded": "Hochgeladen"
   },
@@ -40,12 +57,12 @@
         "title": "Passwort zurücksetzen"
       },
       "resetPassword": {
-        "subtitle": "Wählen Sie ein neues Passwort für Ihr Plan2Ponuda-Konto.",
+        "subtitle": "Wählen Sie ein neues Passwort für Ihr Ploro AI-Konto.",
         "title": "Neues Passwort festlegen"
       },
       "signIn": {
         "noAccount": "Noch kein Konto?",
-        "subtitle": "Öffnen Sie Ihren Plan2Ponuda-Arbeitsbereich.",
+        "subtitle": "Öffnen Sie Ihren Ploro AI-Arbeitsbereich.",
         "title": "Anmelden"
       },
       "signUp": {
@@ -68,6 +85,7 @@
   },
   "Actions": {
     "addFirstRoom": "Ersten Raum hinzufügen",
+    "addMaterial": "Material hinzufügen",
     "addRoom": "Raum hinzufügen",
     "checkProject": "Projekt prüfen",
     "createAccount": "Konto erstellen",
@@ -75,6 +93,7 @@
     "createFirstProject": "Erstes Projekt erstellen",
     "createProject": "Projekt erstellen",
     "delete": "Löschen",
+    "exportPdf": "PDF exportieren",
     "generate": "Erstellen",
     "generateQuote": "Angebot erstellen",
     "newProject": "Neues Projekt",
@@ -87,7 +106,10 @@
     "resetting": "Wird zurückgesetzt...",
     "review": "Prüfen",
     "reviewRooms": "Räume prüfen",
+    "save": "Speichern",
+    "saveMaterials": "Materialien speichern",
     "saveRooms": "Räume speichern",
+    "saveSettings": "Einstellungen speichern",
     "saved": "Gespeichert",
     "saving": "Wird gespeichert...",
     "seeHowItWorks": "So funktioniert es",
@@ -101,21 +123,32 @@
     "upload": "Hochladen",
     "uploadFloorPlan": "Grundriss hochladen",
     "waiting": "Wartet",
-    "viewAllProjects": "Alle Projekte anzeigen"
+    "viewAllProjects": "Alle Projekte anzeigen",
+    "viewProjects": "Projekte anzeigen"
   },
   "Validation": {
     "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits.",
+    "enterValidDefaultPrice": "Geben Sie einen gültigen Standardpreis ein.",
     "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+    "enterValidPrice": "Geben Sie einen gültigen Preis ein.",
     "invalidEmailOrPassword": "Ungültige E-Mail oder ungültiges Passwort.",
     "invalidInput": "Prüfen Sie die eingegebenen Daten.",
+    "invalidProjectInput": "Geben Sie einen Projektnamen, Objekttyp und eine Fläche größer als 0 ein.",
+    "invalidQuoteMaterialInput": "Prüfen Sie Materialnamen, Mengen und Preise.",
+    "invalidSettingsInput": "Geben Sie gültige Profil-, Unternehmens- und Schätzungseinstellungen ein.",
     "invalidResetRequest": "Geben Sie einen gültigen Reset-Token und ein Passwort ein.",
+    "laborFactorPositive": "Der Arbeitsfaktor muss eine positive Zahl sein.",
     "missingResetToken": "Diesem Link zum Zurücksetzen des Passworts fehlt ein Token.",
     "passwordResetInvalidOrExpired": "Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.",
     "passwordResetRateLimited": "Zu viele Reset-Anfragen. Bitte versuchen Sie es später erneut.",
     "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
     "unableCreateAccount": "Konto konnte nicht erstellt werden.",
+    "unableCreateProject": "Projekt konnte nicht erstellt werden.",
     "unableProcessPasswordReset": "Die Anfrage zum Zurücksetzen des Passworts konnte nicht verarbeitet werden.",
     "unableResetPassword": "Passwort konnte nicht zurückgesetzt werden.",
+    "unableSavePrice": "Preis konnte nicht gespeichert werden.",
+    "unableSaveMaterials": "Materialien konnten nicht gespeichert werden.",
+    "unableSaveSettings": "Einstellungen konnten nicht gespeichert werden.",
     "unableSaveRooms": "Räume konnten nicht gespeichert werden."
   },
   "Dashboard": {
@@ -212,7 +245,75 @@
     "workspace": "Arbeitsbereich",
     "workspaceDescription": "Elektroschätzungen"
   },
+  "Profile": {
+    "fields": {
+      "email": "E-Mail",
+      "fullName": "Vollständiger Name"
+    },
+    "helpers": {
+      "emailReadOnly": "E-Mail-Änderungen werden noch nicht unterstützt."
+    },
+    "placeholders": {
+      "fullName": "Ihr Name"
+    },
+    "section": {
+      "description": "Grundlegende Kontodaten, die in Ihrem Arbeitsbereich verwendet werden.",
+      "title": "Profil"
+    }
+  },
+  "Company": {
+    "fields": {
+      "address": "Firmenadresse",
+      "city": "Stadt",
+      "country": "Land",
+      "email": "Firmen-E-Mail",
+      "name": "Firmenname",
+      "phone": "Firmentelefon",
+      "taxId": "OIB / USt-IdNr."
+    },
+    "placeholders": {
+      "address": "Straße und Hausnummer",
+      "city": "Stadt",
+      "country": "Land",
+      "email": "firma@example.com",
+      "name": "Firmenname",
+      "phone": "+385...",
+      "taxId": "Steuerkennung"
+    },
+    "section": {
+      "description": "Firmendaten können später für Angebote und PDF-Branding wiederverwendet werden.",
+      "title": "Firmeninformationen"
+    }
+  },
+  "Estimating": {
+    "fields": {
+      "currency": "Währung",
+      "laborFactor": "Arbeitsfaktor"
+    },
+    "helpers": {
+      "laborFactor": "Arbeitskosten sind die Projektfläche multipliziert mit diesem Faktor."
+    },
+    "placeholders": {
+      "currency": "EUR"
+    },
+    "section": {
+      "description": "Standardwerte für die Berechnung zukünftiger Angebotssummen.",
+      "title": "Schätzungseinstellungen"
+    }
+  },
   "EmptyStates": {
+    "materials": {
+      "noMaterials": {
+        "description": "Materialien erscheinen hier, nachdem ein Projektangebot Katalogeinträge erstellt und gespeichert hat.",
+        "title": "Noch keine Materialien"
+      }
+    },
+    "quotes": {
+      "noQuotes": {
+        "description": "Generierte Projektangebote erscheinen hier, nachdem Sie die Prüfung abgeschlossen und einen Angebotsarbeitsbereich geöffnet haben.",
+        "title": "Noch keine Angebote"
+      }
+    },
     "projects": {
       "noMatches": {
         "description": "Versuchen Sie einen anderen Suchbegriff oder Statusfilter.",
@@ -254,7 +355,7 @@
       "title": "Starten Sie Ihr erstes Elektroangebot mit einem klareren Ablauf."
     },
     "features": {
-      "description": "Plan2Ponuda hält den Ablauf fokussiert und praktisch: Grundriss verstehen, Installation vorschlagen und Angebot vorbereiten.",
+      "description": "Ploro AI hält den Ablauf fokussiert und praktisch: Grundriss verstehen, Installation vorschlagen und Angebot vorbereiten.",
       "eyebrow": "Funktionen",
       "items": {
         "electricalSuggestions": {
@@ -357,6 +458,46 @@
       "title": "Vom Grundriss-Upload zum Angebots-Export in einem fokussierten Ablauf."
     }
   },
+  "MaterialCategories": {
+    "box": "Dose",
+    "breaker": "Sicherung",
+    "cable": "Kabel",
+    "other": "Sonstiges",
+    "panel": "Verteiler",
+    "socket": "Steckdose",
+    "switch": "Schalter"
+  },
+  "Materials": {
+    "catalog": {
+      "subtitle": "Gespeicherte Materialeinträge mit den neuesten Aktualisierungen.",
+      "title": "Materialkatalog"
+    },
+    "fallbackName": "Material",
+    "fields": {
+      "codeValue": "Code: {code}",
+      "materialName": "Materialname"
+    },
+    "page": {
+      "description": "Prüfen Sie gespeicherte Katalogeinträge, die für generierte Projektangebote verwendet werden.",
+      "eyebrow": "Materialkatalog",
+      "title": "Materialien"
+    },
+    "priceEditor": {
+      "inputAriaLabel": "Standardpreis des Materials"
+    },
+    "sources": {
+      "manual": "Manuell",
+      "rule": "Regel/generiert"
+    },
+    "errors": {
+      "materialNotFound": "Material nicht gefunden."
+    }
+  },
+  "MaterialUnits": {
+    "m": "Meter",
+    "pcs": "Stück",
+    "set": "Set"
+  },
   "Projects": {
     "card": {
       "noClientAssigned": "Kein Kunde zugewiesen"
@@ -439,6 +580,94 @@
       },
       "subtitle": "Folgen Sie dem Projektzyklus Schritt für Schritt.",
       "title": "Workflow"
+    }
+  },
+  "Quotes": {
+    "index": {
+      "subtitle": "Die neuesten Angebotsaktualisierungen werden zuerst angezeigt.",
+      "title": "Generierte Angebote",
+      "updatedAt": "Aktualisiert {date}"
+    },
+    "page": {
+      "description": "Prüfen Sie generierte Angebotssummen und exportieren Sie kundenfertige PDFs an einem Ort.",
+      "eyebrow": "Angebotsexporte",
+      "title": "Angebote"
+    }
+  },
+  "QuoteWorkspace": {
+    "hero": {
+      "description": "Prüfen Sie Materialliste und Summen vor dem finalen Export.",
+      "eyebrow": "Angebotsarbeitsbereich"
+    },
+    "materials": {
+      "emptyDescription": "Fügen Sie eine manuelle Materialzeile hinzu und speichern Sie sie, damit sie in die Angebotssummen einfließt.",
+      "emptyTitle": "Noch keine Materialien in diesem Angebot",
+      "subtitle": "Mengen werden aus aufgelösten Raumvorschlägen generiert und können vor dem Export angepasst werden.",
+      "title": "Materialliste"
+    },
+    "messages": {
+      "materialsSaved": "Materialien wurden gespeichert."
+    },
+    "metrics": {
+      "laborCost": "Arbeitskosten",
+      "materialCost": "Materialkosten",
+      "projectArea": "Projektfläche: {area}",
+      "quoteTotal": "Angebotssumme",
+      "subtotal": "Zwischensumme",
+      "total": "Gesamt"
+    }
+  },
+  "QuotePdf": {
+    "fallbacks": {
+      "material": "Material",
+      "notSpecified": "Nicht angegeben"
+    },
+    "fields": {
+      "area": "Fläche",
+      "client": "Kunde",
+      "generatedDate": "Erstellungsdatum",
+      "objectType": "Objekttyp",
+      "project": "Projekt"
+    },
+    "intro": "Erstellt mit Ploro AI zur Prüfung und Weitergabe an den Kunden.",
+    "sections": {
+      "materialList": "Materialliste",
+      "project": "Projekt",
+      "roomSummary": "Raumübersicht",
+      "totals": "Summen"
+    },
+    "tables": {
+      "category": "Kategorie",
+      "lights": "Lichter",
+      "material": "Material",
+      "quantity": "Menge",
+      "room": "Raum",
+      "sockets": "Steckdosen",
+      "switches": "Schalter",
+      "totalPrice": "Gesamtpreis",
+      "type": "Typ",
+      "unit": "Einheit",
+      "unitPrice": "Einzelpreis"
+    },
+    "title": "Angebot",
+    "totals": {
+      "laborCost": "Arbeitskosten",
+      "materialCost": "Materialkosten",
+      "subtotal": "Zwischensumme",
+      "total": "Gesamt"
+    }
+  },
+  "Settings": {
+    "errors": {
+      "saveFailed": "Einstellungen konnten nicht gespeichert werden."
+    },
+    "messages": {
+      "saved": "Einstellungen gespeichert."
+    },
+    "page": {
+      "description": "Verwalten Sie Profildaten, Firmeninformationen und Schätzungsstandards für die Angebotserstellung.",
+      "eyebrow": "Arbeitsbereich einrichten",
+      "title": "Einstellungen"
     }
   },
   "Review": {

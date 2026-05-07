@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import {
@@ -28,6 +29,9 @@ export function QuoteWorkspaceClient({
   initialQuote,
   projectName,
 }: QuoteWorkspaceClientProps) {
+  const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tWorkspace = useTranslations("QuoteWorkspace");
   const [quote, setQuote] = useState<QuoteTotals>(initialQuote);
 
   function handleMaterialsSaved(result: {
@@ -46,33 +50,37 @@ export function QuoteWorkspaceClient({
   return (
     <div className="flex flex-col gap-4">
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <p className="text-sm font-semibold text-blue-700">Quote workspace</p>
+        <p className="text-sm font-semibold text-blue-700">
+          {tWorkspace("hero.eyebrow")}
+        </p>
         <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
               {projectName}
             </h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Review the material list and totals before final export.
+              {tWorkspace("hero.description")}
             </p>
             <p className="mt-2 text-sm font-medium text-slate-500">
-              Project area: {formatArea(areaM2)}
+              {tWorkspace("metrics.projectArea", {
+                area: formatArea(areaM2, locale),
+              })}
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
               <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Quote total
+                {tWorkspace("metrics.quoteTotal")}
               </p>
               <p className="mt-1 text-lg font-semibold text-slate-950">
-                {formatMoney(Number(quote.total))}
+                {formatMoney(Number(quote.total), locale)}
               </p>
             </div>
             <a
               className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
               href={exportHref}
             >
-              Export PDF
+              {tActions("exportPdf")}
             </a>
           </div>
         </div>
@@ -80,32 +88,31 @@ export function QuoteWorkspaceClient({
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <QuoteMetricCard
-          label="Material cost"
-          value={formatMoney(Number(quote.materialCost))}
+          label={tWorkspace("metrics.materialCost")}
+          value={formatMoney(Number(quote.materialCost), locale)}
         />
         <QuoteMetricCard
-          label="Labor cost"
-          value={formatMoney(Number(quote.laborCost))}
+          label={tWorkspace("metrics.laborCost")}
+          value={formatMoney(Number(quote.laborCost), locale)}
         />
         <QuoteMetricCard
-          label="Subtotal"
-          value={formatMoney(Number(quote.subtotal))}
+          label={tWorkspace("metrics.subtotal")}
+          value={formatMoney(Number(quote.subtotal), locale)}
         />
         <QuoteMetricCard
           emphasize
-          label="Total"
-          value={formatMoney(Number(quote.total))}
+          label={tWorkspace("metrics.total")}
+          value={formatMoney(Number(quote.total), locale)}
         />
       </section>
 
       <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
         <div>
           <h2 className="text-lg font-semibold text-slate-950">
-            Material list
+            {tWorkspace("materials.title")}
           </h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">
-            Quantities are generated from resolved room suggestions and can be
-            adjusted before export.
+            {tWorkspace("materials.subtitle")}
           </p>
         </div>
 
@@ -148,15 +155,15 @@ function QuoteMetricCard({
   );
 }
 
-function formatMoney(value: number): string {
-  return new Intl.NumberFormat("hr-HR", {
+function formatMoney(value: number, locale: string): string {
+  return new Intl.NumberFormat(locale, {
     currency: "EUR",
     style: "currency",
   }).format(value);
 }
 
-function formatArea(value: number): string {
-  return `${new Intl.NumberFormat("hr-HR", {
+function formatArea(value: number, locale: string): string {
+  return `${new Intl.NumberFormat(locale, {
     maximumFractionDigits: 2,
   }).format(value)} m2`;
 }

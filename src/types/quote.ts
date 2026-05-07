@@ -64,6 +64,7 @@ export type QuoteExportRoom = {
 };
 
 export type QuoteExportData = {
+  currency: string;
   generatedAt: Date;
   materials: ProjectMaterial[];
   project: {

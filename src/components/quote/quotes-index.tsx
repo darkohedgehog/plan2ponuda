@@ -1,3 +1,4 @@
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
 import { Link } from "@/i18n/navigation";
@@ -8,6 +9,9 @@ type QuotesIndexProps = {
 };
 
 export function QuotesIndex({ quotes }: QuotesIndexProps) {
+  const tCommon = useTranslations("Common");
+  const tQuotes = useTranslations("Quotes.index");
+
   if (quotes.length === 0) {
     return <EmptyQuotesState />;
   }
@@ -16,21 +20,21 @@ export function QuotesIndex({ quotes }: QuotesIndexProps) {
     <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 p-4 sm:p-5">
         <h2 className="text-lg font-semibold text-slate-950">
-          Generated quotes
+          {tQuotes("title")}
         </h2>
         <p className="mt-1 text-sm text-slate-500">
-          Newest quote updates are shown first.
+          {tQuotes("subtitle")}
         </p>
       </div>
 
       <div className="hidden border-b border-slate-200 bg-slate-50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 xl:grid xl:grid-cols-[minmax(0,1.2fr)_minmax(9rem,0.8fr)_8rem_8rem_8rem_9rem_12rem] xl:gap-5">
-        <span>Project</span>
-        <span>Client</span>
-        <span>Object</span>
-        <span className="text-right">Materials</span>
-        <span className="text-right">Labor</span>
-        <span className="text-right">Total</span>
-        <span className="text-right">Actions</span>
+        <span>{tCommon("project")}</span>
+        <span>{tCommon("client")}</span>
+        <span>{tCommon("object")}</span>
+        <span className="text-right">{tCommon("materials")}</span>
+        <span className="text-right">{tCommon("labor")}</span>
+        <span className="text-right">{tCommon("total")}</span>
+        <span className="text-right">{tCommon("actions")}</span>
       </div>
 
       <div className="divide-y divide-slate-200">
@@ -47,6 +51,20 @@ type QuoteIndexRowProps = {
 };
 
 function QuoteIndexRow({ quote }: QuoteIndexRowProps) {
+  const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tCommon = useTranslations("Common");
+  const tProjects = useTranslations("Projects");
+  const tQuotes = useTranslations("Quotes.index");
+  const objectTypeLabel =
+    quote.project.objectType === "apartment"
+      ? tProjects("objectTypes.apartment")
+      : quote.project.objectType === "house"
+        ? tProjects("objectTypes.house")
+        : quote.project.objectType === "office"
+          ? tProjects("objectTypes.office")
+          : quote.project.objectType;
+
   return (
     <article className="grid min-w-0 gap-4 bg-white p-4 transition-colors hover:bg-slate-50/70 sm:p-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(9rem,0.8fr)_8rem_8rem_8rem_9rem_12rem] xl:items-center xl:gap-5">
       <div className="min-w-0">
@@ -54,33 +72,33 @@ function QuoteIndexRow({ quote }: QuoteIndexRowProps) {
           {quote.project.name}
         </h3>
         <p className="mt-1 text-xs font-medium text-slate-500">
-          Updated {formatDate(quote.updatedAt)}
+          {tQuotes("updatedAt", { date: formatDate(quote.updatedAt, locale) })}
         </p>
       </div>
 
-      <QuoteMobileField label="Client">
+      <QuoteMobileField label={tCommon("client")}>
         <span className="block truncate text-sm font-medium text-slate-700">
-          {quote.project.clientName ?? "No client assigned"}
+          {quote.project.clientName ?? tProjects("card.noClientAssigned")}
         </span>
       </QuoteMobileField>
-      <QuoteMobileField label="Object">
+      <QuoteMobileField label={tCommon("object")}>
         <span className="text-sm font-medium text-slate-700">
-          {formatObjectType(quote.project.objectType)}
+          {objectTypeLabel}
         </span>
       </QuoteMobileField>
-      <QuoteMobileField align="right" label="Materials">
+      <QuoteMobileField align="right" label={tCommon("materials")}>
         <span className="text-sm font-medium text-slate-700">
-          {formatMoney(Number(quote.materialCost))}
+          {formatMoney(Number(quote.materialCost), locale)}
         </span>
       </QuoteMobileField>
-      <QuoteMobileField align="right" label="Labor">
+      <QuoteMobileField align="right" label={tCommon("labor")}>
         <span className="text-sm font-medium text-slate-700">
-          {formatMoney(Number(quote.laborCost))}
+          {formatMoney(Number(quote.laborCost), locale)}
         </span>
       </QuoteMobileField>
-      <QuoteMobileField align="right" label="Total">
+      <QuoteMobileField align="right" label={tCommon("total")}>
         <span className="text-base font-semibold text-slate-950">
-          {formatMoney(Number(quote.total))}
+          {formatMoney(Number(quote.total), locale)}
         </span>
       </QuoteMobileField>
 
@@ -89,13 +107,13 @@ function QuoteIndexRow({ quote }: QuoteIndexRowProps) {
           className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
           href={`/dashboard/projects/${quote.project.id}/quote`}
         >
-          Open Quote
+          {tActions("openQuote")}
         </Link>
         <a
           className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
-          href={`/api/pdf/${quote.project.id}`}
+          href={`/api/pdf/${quote.project.id}?locale=${locale}`}
         >
-          Export PDF
+          {tActions("exportPdf")}
         </a>
       </div>
     </article>
@@ -128,6 +146,9 @@ function QuoteMobileField({
 }
 
 function EmptyQuotesState() {
+  const tActions = useTranslations("Actions");
+  const tEmptyState = useTranslations("EmptyStates.quotes.noQuotes");
+
   return (
     <section className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm sm:p-8">
       <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700 ring-1 ring-blue-100">
@@ -148,45 +169,34 @@ function EmptyQuotesState() {
         </svg>
       </div>
       <h2 className="mt-5 text-xl font-semibold text-slate-950">
-        No quotes generated yet
+        {tEmptyState("title")}
       </h2>
       <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
-        Generated project quotes will appear here after you complete review and
-        open a project quote workspace.
+        {tEmptyState("description")}
       </p>
       <div className="mt-6">
         <Link
           className="inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
           href="/dashboard/projects"
         >
-          View Projects
+          {tActions("viewProjects")}
         </Link>
       </div>
     </section>
   );
 }
 
-function formatMoney(value: number): string {
-  return new Intl.NumberFormat("hr-HR", {
+function formatMoney(value: number, locale: string): string {
+  return new Intl.NumberFormat(locale, {
     currency: "EUR",
     style: "currency",
   }).format(value);
 }
 
-function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("en", {
+function formatDate(date: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
   }).format(date);
-}
-
-function formatObjectType(value: string): string {
-  const labels: Record<string, string> = {
-    apartment: "Apartment",
-    house: "House",
-    office: "Office",
-  };
-
-  return labels[value] ?? value;
 }

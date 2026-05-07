@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ReactNode, useState } from "react";
 
@@ -46,27 +47,19 @@ type SaveMaterialsResponse =
       error: string;
     };
 
-const categoryOptions: Array<{
-  label: string;
-  value: MaterialCategory;
-}> = [
-  { label: "Cable", value: "cable" },
-  { label: "Socket", value: "socket" },
-  { label: "Switch", value: "switch" },
-  { label: "Breaker", value: "breaker" },
-  { label: "Box", value: "box" },
-  { label: "Panel", value: "panel" },
-  { label: "Other", value: "other" },
+type QuoteMaterialErrorKey = "invalidInput" | "saveFailed";
+
+const categoryOptions: MaterialCategory[] = [
+  "cable",
+  "socket",
+  "switch",
+  "breaker",
+  "box",
+  "panel",
+  "other",
 ];
 
-const unitOptions: Array<{
-  label: string;
-  value: MaterialUnit;
-}> = [
-  { label: "pcs", value: "pcs" },
-  { label: "m", value: "m" },
-  { label: "set", value: "set" },
-];
+const unitOptions: MaterialUnit[] = ["pcs", "m", "set"];
 
 function createClientId(): string {
   return `material-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -80,12 +73,15 @@ function toDraftMaterial(material: QuoteMaterialEditorMaterial): DraftMaterial {
   };
 }
 
-function toEditorMaterial(material: ProjectMaterial): QuoteMaterialEditorMaterial {
+function toEditorMaterial(
+  material: ProjectMaterial,
+  fallbackMaterialName: string,
+): QuoteMaterialEditorMaterial {
   const editorMaterial: QuoteMaterialEditorMaterial = {
     category: material.material?.category ?? "other",
     id: material.id,
     materialId: material.materialId,
-    name: material.material?.name ?? "Material",
+    name: material.material?.name ?? fallbackMaterialName,
     quantity: material.quantity,
     source: material.source,
     totalPrice: material.totalPrice,
@@ -142,17 +138,22 @@ export function QuoteMaterialEditor({
   projectId,
 }: QuoteMaterialEditorProps) {
   const router = useRouter();
+  const tActions = useTranslations("Actions");
+  const tCommon = useTranslations("Common");
+  const tMaterials = useTranslations("Materials");
+  const tValidation = useTranslations("Validation");
+  const tWorkspace = useTranslations("QuoteWorkspace");
   const [materials, setMaterials] = useState<DraftMaterial[]>(
     initialMaterials.map(toDraftMaterial),
   );
   const [deletedMaterialIds, setDeletedMaterialIds] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<QuoteMaterialErrorKey | null>(null);
+  const [showSaved, setShowSaved] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function addMaterial() {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setShowSaved(false);
     setMaterials((currentMaterials) => [
       ...currentMaterials,
       createManualMaterial(),
@@ -160,8 +161,8 @@ export function QuoteMaterialEditor({
   }
 
   function deleteMaterial(material: DraftMaterial) {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setShowSaved(false);
 
     if (!material.isNew) {
       setDeletedMaterialIds((currentIds) => [...currentIds, material.id]);
@@ -183,8 +184,8 @@ export function QuoteMaterialEditor({
       >
     >,
   ) {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setShowSaved(false);
     setMaterials((currentMaterials) =>
       currentMaterials.map((material) =>
         material.clientId === clientId
@@ -210,13 +211,13 @@ export function QuoteMaterialEditor({
     });
 
     if (invalidMaterial) {
-      setError("Enter a name, quantity, and unit price for every material.");
-      setSuccessMessage(null);
+      setErrorKey("invalidInput");
+      setShowSaved(false);
       return;
     }
 
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setShowSaved(false);
     setIsSubmitting(true);
 
     const response = await fetch(`/api/quotes/${projectId}`, {
@@ -253,17 +254,19 @@ export function QuoteMaterialEditor({
     setIsSubmitting(false);
 
     if (!response.ok || !payload || "error" in payload) {
-      setError(
-        payload && "error" in payload
-          ? payload.error
-          : "Unable to save materials.",
-      );
+      setErrorKey(response.status === 400 ? "invalidInput" : "saveFailed");
       return;
     }
 
-    setMaterials(payload.materials.map(toEditorMaterial).map(toDraftMaterial));
+    setMaterials(
+      payload.materials
+        .map((material) =>
+          toEditorMaterial(material, tMaterials("fallbackName")),
+        )
+        .map(toDraftMaterial),
+    );
     setDeletedMaterialIds([]);
-    setSuccessMessage("Materials saved.");
+    setShowSaved(true);
     onSaved?.({
       materials: payload.materials,
       quote: payload.quote,
@@ -280,7 +283,7 @@ export function QuoteMaterialEditor({
             onClick={addMaterial}
             type="button"
           >
-            Add Material
+            {tActions("addMaterial")}
           </button>
           <button
             className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300"
@@ -288,32 +291,34 @@ export function QuoteMaterialEditor({
             onClick={saveMaterials}
             type="button"
           >
-            {isSubmitting ? "Saving..." : "Save Materials"}
+            {isSubmitting ? tActions("saving") : tActions("saveMaterials")}
           </button>
         </div>
-        {successMessage ? (
+        {showSaved ? (
           <p className="text-sm font-medium text-emerald-700">
-            {successMessage}
+            {tWorkspace("messages.materialsSaved")}
           </p>
         ) : null}
       </div>
 
-      {error ? (
+      {errorKey ? (
         <div className="mt-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
-          {error}
+          {errorKey === "invalidInput"
+            ? tValidation("invalidQuoteMaterialInput")
+            : tValidation("unableSaveMaterials")}
         </div>
       ) : null}
 
       {materials.length > 0 ? (
         <div className="mt-4 overflow-hidden rounded-md border border-slate-200">
           <div className="hidden bg-slate-50 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 xl:grid xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_8rem_7rem_8rem_5rem] xl:gap-4">
-            <span>Material</span>
-            <span>Category</span>
-            <span>Source</span>
-            <span className="text-right">Quantity</span>
-            <span className="text-right">Unit price</span>
-            <span className="text-right">Total</span>
-            <span className="text-right">Delete</span>
+            <span>{tMaterials("fields.materialName")}</span>
+            <span>{tCommon("category")}</span>
+            <span>{tCommon("source")}</span>
+            <span className="text-right">{tCommon("quantity")}</span>
+            <span className="text-right">{tCommon("unitPrice")}</span>
+            <span className="text-right">{tCommon("total")}</span>
+            <span className="text-right">{tActions("delete")}</span>
           </div>
 
           <div className="divide-y divide-slate-200">
@@ -332,10 +337,10 @@ export function QuoteMaterialEditor({
       ) : (
         <div className="mt-4 rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
           <h3 className="text-base font-semibold text-slate-950">
-            No materials in this quote
+            {tWorkspace("materials.emptyTitle")}
           </h3>
           <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
-            Add a manual material line and save to include it in quote totals.
+            {tWorkspace("materials.emptyDescription")}
           </p>
         </div>
       )}
@@ -361,16 +366,36 @@ function MaterialEditorRow({
   onDelete,
   onUpdate,
 }: MaterialEditorRowProps) {
+  const locale = useLocale();
+  const tActions = useTranslations("Actions");
+  const tCategories = useTranslations("MaterialCategories");
+  const tCommon = useTranslations("Common");
+  const tMaterials = useTranslations("Materials");
+  const tUnits = useTranslations("MaterialUnits");
   const total = calculateTotal(material);
+  const translatedCategoryOptions = categoryOptions.map((category) => ({
+    label: tCategories(category),
+    value: category,
+  }));
+  const translatedUnitOptions = unitOptions.map((unit) => ({
+    label: tUnits(unit),
+    value: unit,
+  }));
+  const sourceLabel =
+    material.source === "manual"
+      ? tMaterials("sources.manual")
+      : material.source === "rule"
+        ? tMaterials("sources.rule")
+        : material.source;
 
   return (
     <article className="grid min-w-0 gap-3 px-4 py-4 text-sm xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_8rem_7rem_8rem_5rem] xl:items-center xl:gap-4">
       <div className="min-w-0">
         {material.isNew ? (
           <TextInput
-            ariaLabel="Material name"
+            ariaLabel={tMaterials("fields.materialName")}
             onChange={(event) => onUpdate({ name: event.target.value })}
-            placeholder="Material name"
+            placeholder={tMaterials("fields.materialName")}
             value={material.name}
           />
         ) : (
@@ -383,46 +408,48 @@ function MaterialEditorRow({
         )}
       </div>
 
-      <MaterialMobileField label="Category">
+      <MaterialMobileField label={tCommon("category")}>
         {material.isNew ? (
           <SelectInput
-            ariaLabel="Material category"
+            ariaLabel={tCommon("category")}
             onChange={(event) =>
               onUpdate({ category: event.target.value as MaterialCategory })
             }
-            options={categoryOptions}
+            options={translatedCategoryOptions}
             value={material.category}
           />
         ) : (
-          <span className="capitalize text-slate-700">{material.category}</span>
+          <span className="text-slate-700">
+            {tCategories(material.category)}
+          </span>
         )}
       </MaterialMobileField>
 
-      <MaterialMobileField label="Source">
-        <span className="inline-flex w-fit items-center rounded-full border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold capitalize text-slate-600">
-          {material.source}
+      <MaterialMobileField label={tCommon("source")}>
+        <span className="inline-flex w-fit items-center rounded-full border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600">
+          {sourceLabel}
         </span>
       </MaterialMobileField>
 
-      <MaterialMobileField align="right" label="Quantity">
+      <MaterialMobileField align="right" label={tCommon("quantity")}>
         <div className="flex min-w-0 items-center justify-end gap-2">
           {material.isNew ? (
             <SelectInput
-              ariaLabel="Material unit"
+              ariaLabel={tCommon("unit")}
               compact
               onChange={(event) =>
                 onUpdate({ unit: event.target.value as MaterialUnit })
               }
-              options={unitOptions}
+              options={translatedUnitOptions}
               value={material.unit}
             />
           ) : (
             <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-md bg-slate-50 px-2 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
-              {material.unit}
+              {tUnits(material.unit)}
             </span>
           )}
           <NumberInput
-            ariaLabel="Material quantity"
+            ariaLabel={tCommon("quantity")}
             onChange={(event) => onUpdate({ quantity: event.target.value })}
             size="compact"
             value={material.quantity}
@@ -430,18 +457,18 @@ function MaterialEditorRow({
         </div>
       </MaterialMobileField>
 
-      <MaterialMobileField align="right" label="Unit price">
+      <MaterialMobileField align="right" label={tCommon("unitPrice")}>
         <NumberInput
-          ariaLabel="Material unit price"
+          ariaLabel={tCommon("unitPrice")}
           onChange={(event) => onUpdate({ unitPrice: event.target.value })}
           size="price"
           value={material.unitPrice}
         />
       </MaterialMobileField>
 
-      <MaterialMobileField align="right" label="Total">
+      <MaterialMobileField align="right" label={tCommon("total")}>
         <span className="font-semibold text-slate-950">
-          {formatMoney(total)}
+          {formatMoney(total, locale)}
         </span>
       </MaterialMobileField>
 
@@ -451,7 +478,7 @@ function MaterialEditorRow({
           onClick={onDelete}
           type="button"
         >
-          Delete
+          {tActions("delete")}
         </button>
       </div>
     </article>
@@ -567,8 +594,8 @@ function MaterialMobileField({
   );
 }
 
-function formatMoney(value: number): string {
-  return new Intl.NumberFormat("hr-HR", {
+function formatMoney(value: number, locale: string): string {
+  return new Intl.NumberFormat(locale, {
     currency: "EUR",
     style: "currency",
   }).format(value);

@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { MaterialCatalog } from "@/components/materials/material-catalog";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
@@ -20,16 +22,19 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
   }
 
   const materials = await getMaterialCatalog();
+  const tMaterials = await getTranslations("Materials");
 
   return (
     <main className="flex flex-col gap-6">
       <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-        <p className="text-sm font-semibold text-blue-700">Materials catalog</p>
+        <p className="text-sm font-semibold text-blue-700">
+          {tMaterials("page.eyebrow")}
+        </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-          Materials
+          {tMaterials("page.title")}
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-          Review the persisted catalog records used by generated project quotes.
+          {tMaterials("page.description")}
         </p>
       </section>
 

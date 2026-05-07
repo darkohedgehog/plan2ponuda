@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { QuotesIndex } from "@/components/quote/quotes-index";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
@@ -20,17 +22,19 @@ export default async function QuotesPage({ params }: QuotesPageProps) {
   }
 
   const quotes = await getUserQuotes(user.id);
+  const tQuotes = await getTranslations("Quotes");
 
   return (
     <main className="flex flex-col gap-6">
       <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-        <p className="text-sm font-semibold text-blue-700">Quote exports</p>
+        <p className="text-sm font-semibold text-blue-700">
+          {tQuotes("page.eyebrow")}
+        </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-          Quotes
+          {tQuotes("page.title")}
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-          Review generated quote totals and export client-ready PDFs from one
-          place.
+          {tQuotes("page.description")}
         </p>
       </section>
 

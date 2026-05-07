@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
@@ -20,6 +21,8 @@ type SaveMaterialResponse =
       error: string;
     };
 
+type MaterialPriceErrorKey = "invalidPrice" | "notFound" | "saveFailed";
+
 const MONEY_INPUT_PATTERN = /^\d+(?:[.,]\d{1,2})?$/;
 
 function isValidPriceInput(value: string): boolean {
@@ -31,23 +34,38 @@ export function MaterialPriceEditor({
   materialId,
 }: MaterialPriceEditorProps) {
   const router = useRouter();
+  const tActions = useTranslations("Actions");
+  const tMaterials = useTranslations("Materials");
+  const tValidation = useTranslations("Validation");
   const [price, setPrice] = useState(defaultPrice);
   const [savedPrice, setSavedPrice] = useState(defaultPrice);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<MaterialPriceErrorKey | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
   const isDirty = price !== savedPrice;
+
+  function getErrorMessage(key: MaterialPriceErrorKey): string {
+    if (key === "invalidPrice") {
+      return tValidation("enterValidPrice");
+    }
+
+    if (key === "notFound") {
+      return tMaterials("errors.materialNotFound");
+    }
+
+    return tValidation("unableSavePrice");
+  }
 
   async function savePrice(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!isValidPriceInput(price)) {
-      setError("Enter a valid price.");
+      setErrorKey("invalidPrice");
       setShowSaved(false);
       return;
     }
 
-    setError(null);
+    setErrorKey(null);
     setShowSaved(false);
     setIsSaving(true);
 
@@ -69,11 +87,7 @@ export function MaterialPriceEditor({
     setIsSaving(false);
 
     if (!response.ok || !payload || "error" in payload) {
-      setError(
-        payload && "error" in payload
-          ? payload.error
-          : "Unable to save price.",
-      );
+      setErrorKey(response.status === 404 ? "notFound" : "saveFailed");
       return;
     }
 
@@ -90,12 +104,12 @@ export function MaterialPriceEditor({
     >
       <div className="flex w-full max-w-[13rem] items-center justify-end gap-2">
         <input
-          aria-label="Default material price"
+          aria-label={tMaterials("priceEditor.inputAriaLabel")}
           className={cn(formControlClassName, "w-24 text-right")}
           disabled={isSaving}
           inputMode="decimal"
           onChange={(event) => {
-            setError(null);
+            setErrorKey(null);
             setShowSaved(false);
             setPrice(event.target.value);
           }}
@@ -108,14 +122,16 @@ export function MaterialPriceEditor({
           disabled={isSaving || !isDirty}
           type="submit"
         >
-          {isSaving ? "Saving" : "Save"}
+          {isSaving ? tActions("saving") : tActions("save")}
         </button>
       </div>
-      {error ? (
-        <p className="text-right text-xs font-medium text-red-700">{error}</p>
+      {errorKey ? (
+        <p className="text-right text-xs font-medium text-red-700">
+          {getErrorMessage(errorKey)}
+        </p>
       ) : showSaved ? (
         <p className="text-right text-xs font-medium text-emerald-700">
-          Saved
+          {tActions("saved")}
         </p>
       ) : null}
     </form>

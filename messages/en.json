@@ -1,19 +1,36 @@
 {
   "Common": {
+    "actions": "Actions",
     "area": "Area",
-    "appName": "Plan2Ponuda",
+    "appName": "Ploro AI",
+    "category": "Category",
     "client": "Client",
+    "code": "Code",
     "created": "Created",
     "dashboard": "Dashboard",
+    "defaultPrice": "Default price",
+    "error": "Error",
     "file": "File",
     "floorPlan": "Floor plan",
     "language": "Language",
-    "logoAlt": "Plan2Ponuda logo",
+    "labor": "Labor",
+    "logoAlt": "Ploro AI logo",
+    "materialCost": "Material cost",
+    "materials": "Materials",
     "notSet": "Not set",
     "notUploaded": "Not uploaded",
+    "object": "Object",
     "objectType": "Object type",
+    "project": "Project",
     "projects": "Projects",
+    "quantity": "Quantity",
     "settings": "Settings",
+    "source": "Source",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "totalPrice": "Total price",
+    "unit": "Unit",
+    "unitPrice": "Unit price",
     "updated": "Updated",
     "uploaded": "Uploaded"
   },
@@ -40,12 +57,12 @@
         "title": "Reset password"
       },
       "resetPassword": {
-        "subtitle": "Choose a new password for your Plan2Ponuda account.",
+        "subtitle": "Choose a new password for your Ploro AI account.",
         "title": "Set new password"
       },
       "signIn": {
         "noAccount": "Don't have an account?",
-        "subtitle": "Access your Plan2Ponuda workspace.",
+        "subtitle": "Access your Ploro AI workspace.",
         "title": "Sign in"
       },
       "signUp": {
@@ -68,6 +85,7 @@
   },
   "Actions": {
     "addFirstRoom": "Add first room",
+    "addMaterial": "Add material",
     "addRoom": "Add Room",
     "checkProject": "Check Project",
     "createAccount": "Create account",
@@ -75,6 +93,7 @@
     "createFirstProject": "Create your first project",
     "createProject": "Create Project",
     "delete": "Delete",
+    "exportPdf": "Export PDF",
     "generate": "Generate",
     "generateQuote": "Generate Quote",
     "newProject": "New Project",
@@ -87,7 +106,10 @@
     "resetting": "Resetting...",
     "review": "Review",
     "reviewRooms": "Review Rooms",
+    "save": "Save",
+    "saveMaterials": "Save materials",
     "saveRooms": "Save Rooms",
+    "saveSettings": "Save settings",
     "saved": "Saved",
     "saving": "Saving...",
     "seeHowItWorks": "See how it works",
@@ -101,21 +123,32 @@
     "upload": "Upload",
     "uploadFloorPlan": "Upload Floor Plan",
     "waiting": "Waiting",
-    "viewAllProjects": "View all projects"
+    "viewAllProjects": "View all projects",
+    "viewProjects": "View Projects"
   },
   "Validation": {
     "emailAlreadyExists": "An account with this email already exists.",
+    "enterValidDefaultPrice": "Enter a valid default price.",
     "enterValidEmail": "Enter a valid email address.",
+    "enterValidPrice": "Enter a valid price.",
     "invalidEmailOrPassword": "Invalid email or password.",
     "invalidInput": "Check the entered information.",
+    "invalidProjectInput": "Enter a project name, object type, and area greater than 0.",
+    "invalidQuoteMaterialInput": "Check material names, quantities, and prices.",
+    "invalidSettingsInput": "Enter valid profile, company, and estimating preference values.",
     "invalidResetRequest": "Enter a valid reset token and password.",
+    "laborFactorPositive": "Labor factor must be a positive number.",
     "missingResetToken": "This password reset link is missing a token.",
     "passwordResetInvalidOrExpired": "This password reset link is invalid or expired.",
     "passwordResetRateLimited": "Too many reset requests. Please try again later.",
     "passwordsDoNotMatch": "Passwords do not match.",
     "unableCreateAccount": "Unable to create account.",
+    "unableCreateProject": "Unable to create project.",
     "unableProcessPasswordReset": "Unable to process password reset request.",
     "unableResetPassword": "Unable to reset password.",
+    "unableSavePrice": "Unable to save price.",
+    "unableSaveMaterials": "Unable to save materials.",
+    "unableSaveSettings": "Unable to save settings.",
     "unableSaveRooms": "Unable to save rooms."
   },
   "Dashboard": {
@@ -212,7 +245,75 @@
     "workspace": "Workspace",
     "workspaceDescription": "Electrical estimates"
   },
+  "Profile": {
+    "fields": {
+      "email": "Email",
+      "fullName": "Full name"
+    },
+    "helpers": {
+      "emailReadOnly": "Email changes are not supported yet."
+    },
+    "placeholders": {
+      "fullName": "Your name"
+    },
+    "section": {
+      "description": "Basic account information used inside your workspace.",
+      "title": "Profile"
+    }
+  },
+  "Company": {
+    "fields": {
+      "address": "Company address",
+      "city": "City",
+      "country": "Country",
+      "email": "Company email",
+      "name": "Company name",
+      "phone": "Company phone",
+      "taxId": "OIB / VAT number"
+    },
+    "placeholders": {
+      "address": "Street and number",
+      "city": "City",
+      "country": "Country",
+      "email": "company@example.com",
+      "name": "Company name",
+      "phone": "+385...",
+      "taxId": "Tax identifier"
+    },
+    "section": {
+      "description": "Company details can be reused later for quote and PDF branding.",
+      "title": "Company information"
+    }
+  },
+  "Estimating": {
+    "fields": {
+      "currency": "Currency",
+      "laborFactor": "Labor factor"
+    },
+    "helpers": {
+      "laborFactor": "Labor cost is project area multiplied by this factor."
+    },
+    "placeholders": {
+      "currency": "EUR"
+    },
+    "section": {
+      "description": "Defaults used when generating future quote totals.",
+      "title": "Estimating preferences"
+    }
+  },
   "EmptyStates": {
+    "materials": {
+      "noMaterials": {
+        "description": "Materials will appear here after a project quote generates and persists catalog records.",
+        "title": "No materials yet"
+      }
+    },
+    "quotes": {
+      "noQuotes": {
+        "description": "Generated project quotes will appear here after you complete review and open a project quote workspace.",
+        "title": "No quotes yet"
+      }
+    },
     "projects": {
       "noMatches": {
         "description": "Try a different search term or status filter.",
@@ -254,7 +355,7 @@
       "title": "Start your first electrical quote with a cleaner workflow."
     },
     "features": {
-      "description": "Plan2Ponuda keeps the workflow narrow and practical: understand the plan, suggest the installation, and prepare the quote.",
+      "description": "Ploro AI keeps the workflow narrow and practical: understand the plan, suggest the installation, and prepare the quote.",
       "eyebrow": "Features",
       "items": {
         "electricalSuggestions": {
@@ -357,6 +458,46 @@
       "title": "From plan upload to quote export in one focused workflow."
     }
   },
+  "MaterialCategories": {
+    "box": "Box",
+    "breaker": "Breaker",
+    "cable": "Cable",
+    "other": "Other",
+    "panel": "Panel",
+    "socket": "Socket",
+    "switch": "Switch"
+  },
+  "Materials": {
+    "catalog": {
+      "subtitle": "Showing persisted material records, newest updates included.",
+      "title": "Material catalog"
+    },
+    "fallbackName": "Material",
+    "fields": {
+      "codeValue": "Code: {code}",
+      "materialName": "Material name"
+    },
+    "page": {
+      "description": "Review the persisted catalog records used by generated project quotes.",
+      "eyebrow": "Materials catalog",
+      "title": "Materials"
+    },
+    "priceEditor": {
+      "inputAriaLabel": "Default material price"
+    },
+    "sources": {
+      "manual": "Manual",
+      "rule": "Rule/generated"
+    },
+    "errors": {
+      "materialNotFound": "Material not found."
+    }
+  },
+  "MaterialUnits": {
+    "m": "Meters",
+    "pcs": "Pieces",
+    "set": "Set"
+  },
   "Projects": {
     "card": {
       "noClientAssigned": "No client assigned"
@@ -439,6 +580,94 @@
       },
       "subtitle": "Follow the project lifecycle one step at a time.",
       "title": "Workflow"
+    }
+  },
+  "Quotes": {
+    "index": {
+      "subtitle": "Newest quote updates are shown first.",
+      "title": "Generated quotes",
+      "updatedAt": "Updated {date}"
+    },
+    "page": {
+      "description": "Review generated quote totals and export client-ready PDFs from one place.",
+      "eyebrow": "Quote exports",
+      "title": "Quotes"
+    }
+  },
+  "QuoteWorkspace": {
+    "hero": {
+      "description": "Review the material list and totals before final export.",
+      "eyebrow": "Quote workspace"
+    },
+    "materials": {
+      "emptyDescription": "Add a manual material line and save to include it in quote totals.",
+      "emptyTitle": "No materials in this quote",
+      "subtitle": "Quantities are generated from resolved room suggestions and can be adjusted before export.",
+      "title": "Material list"
+    },
+    "messages": {
+      "materialsSaved": "Materials saved."
+    },
+    "metrics": {
+      "laborCost": "Labor cost",
+      "materialCost": "Material cost",
+      "projectArea": "Project area: {area}",
+      "quoteTotal": "Quote total",
+      "subtotal": "Subtotal",
+      "total": "Total"
+    }
+  },
+  "QuotePdf": {
+    "fallbacks": {
+      "material": "Material",
+      "notSpecified": "Not specified"
+    },
+    "fields": {
+      "area": "Area",
+      "client": "Client",
+      "generatedDate": "Generated date",
+      "objectType": "Object type",
+      "project": "Project"
+    },
+    "intro": "Generated by Ploro AI for review and client sharing.",
+    "sections": {
+      "materialList": "Material list",
+      "project": "Project",
+      "roomSummary": "Room summary",
+      "totals": "Totals"
+    },
+    "tables": {
+      "category": "Category",
+      "lights": "Lights",
+      "material": "Material",
+      "quantity": "Quantity",
+      "room": "Room",
+      "sockets": "Sockets",
+      "switches": "Switches",
+      "totalPrice": "Total price",
+      "type": "Type",
+      "unit": "Unit",
+      "unitPrice": "Unit price"
+    },
+    "title": "Quote",
+    "totals": {
+      "laborCost": "Labor cost",
+      "materialCost": "Material cost",
+      "subtotal": "Subtotal",
+      "total": "Total"
+    }
+  },
+  "Settings": {
+    "errors": {
+      "saveFailed": "Failed to save settings."
+    },
+    "messages": {
+      "saved": "Settings saved."
+    },
+    "page": {
+      "description": "Manage profile details, company information, and estimating defaults used when generating quotes.",
+      "eyebrow": "Workspace setup",
+      "title": "Settings"
     }
   },
   "Review": {

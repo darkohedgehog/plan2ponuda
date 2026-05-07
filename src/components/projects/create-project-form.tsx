@@ -1,27 +1,42 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
 import { useRouter } from "@/i18n/navigation";
-import type { CreateProjectResponse, ObjectType } from "@/types/project";
+import type {
+  CreateProjectResponse,
+  ObjectType,
+  ProjectErrorCode,
+} from "@/types/project";
 
 type CreateProjectFormState = {
-  error: string | null;
+  errorKey: CreateProjectErrorKey | null;
   isSubmitting: boolean;
+};
+
+type CreateProjectErrorKey = "invalidInput" | "serverError";
+
+const createProjectErrorKeysByCode: Partial<
+  Record<ProjectErrorCode, CreateProjectErrorKey>
+> = {
+  invalid_input: "invalidInput",
+  server_error: "serverError",
 };
 
 export function CreateProjectForm() {
   const router = useRouter();
+  const tValidation = useTranslations("Validation");
   const [state, setState] = useState<CreateProjectFormState>({
-    error: null,
+    errorKey: null,
     isSubmitting: false,
   });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setState({ error: null, isSubmitting: true });
+    setState({ errorKey: null, isSubmitting: true });
 
     const formData = new FormData(event.currentTarget);
     const areaM2 = Number(formData.get("areaM2"));
@@ -42,9 +57,12 @@ export function CreateProjectForm() {
     const payload = (await response.json()) as CreateProjectResponse;
 
     if (!response.ok || !payload.ok) {
-      const message =
-        "error" in payload ? payload.error.message : "Unable to create project.";
-      setState({ error: message, isSubmitting: false });
+      const errorKey =
+        "error" in payload
+          ? createProjectErrorKeysByCode[payload.error.code] ?? "serverError"
+          : "serverError";
+
+      setState({ errorKey, isSubmitting: false });
       return;
     }
 
@@ -86,7 +104,13 @@ export function CreateProjectForm() {
         step="0.1"
         type="number"
       />
-      {state.error ? <p className="text-sm text-red-600">{state.error}</p> : null}
+      {state.errorKey ? (
+        <p className="text-sm text-red-600">
+          {state.errorKey === "invalidInput"
+            ? tValidation("invalidProjectInput")
+            : tValidation("unableCreateProject")}
+        </p>
+      ) : null}
       <div className="flex gap-3">
         <Button disabled={state.isSubmitting} type="submit">
           {state.isSubmitting ? "Creating..." : "Create project"}

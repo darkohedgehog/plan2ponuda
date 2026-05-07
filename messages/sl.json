@@ -1,19 +1,36 @@
 {
   "Common": {
+    "actions": "Dejanja",
     "area": "Površina",
-    "appName": "Plan2Ponuda",
+    "appName": "Ploro AI",
+    "category": "Kategorija",
     "client": "Stranka",
+    "code": "Koda",
     "created": "Ustvarjeno",
     "dashboard": "Nadzorna plošča",
+    "defaultPrice": "Privzeta cena",
+    "error": "Napaka",
     "file": "Datoteka",
     "floorPlan": "Tloris",
     "language": "Jezik",
-    "logoAlt": "Logotip Plan2Ponuda",
+    "labor": "Delo",
+    "logoAlt": "Logotip Ploro AI",
+    "materialCost": "Strošek materiala",
+    "materials": "Materiali",
     "notSet": "Ni nastavljeno",
     "notUploaded": "Ni naloženo",
+    "object": "Objekt",
     "objectType": "Vrsta objekta",
+    "project": "Projekt",
     "projects": "Projekti",
+    "quantity": "Količina",
     "settings": "Nastavitve",
+    "source": "Vir",
+    "subtotal": "Vmesni znesek",
+    "total": "Skupaj",
+    "totalPrice": "Skupna cena",
+    "unit": "Enota",
+    "unitPrice": "Cena na enoto",
     "updated": "Posodobljeno",
     "uploaded": "Naloženo"
   },
@@ -40,12 +57,12 @@
         "title": "Ponastavitev gesla"
       },
       "resetPassword": {
-        "subtitle": "Izberite novo geslo za svoj račun Plan2Ponuda.",
+        "subtitle": "Izberite novo geslo za svoj račun Ploro AI.",
         "title": "Nastavite novo geslo"
       },
       "signIn": {
         "noAccount": "Nimate računa?",
-        "subtitle": "Dostopajte do svojega delovnega prostora Plan2Ponuda.",
+        "subtitle": "Dostopajte do svojega delovnega prostora Ploro AI.",
         "title": "Prijava"
       },
       "signUp": {
@@ -68,6 +85,7 @@
   },
   "Actions": {
     "addFirstRoom": "Dodaj prvi prostor",
+    "addMaterial": "Dodaj material",
     "addRoom": "Dodaj prostor",
     "checkProject": "Preveri projekt",
     "createAccount": "Ustvari račun",
@@ -75,6 +93,7 @@
     "createFirstProject": "Ustvarite prvi projekt",
     "createProject": "Ustvari projekt",
     "delete": "Izbriši",
+    "exportPdf": "Izvozi PDF",
     "generate": "Ustvari",
     "generateQuote": "Ustvari ponudbo",
     "newProject": "Nov projekt",
@@ -87,7 +106,10 @@
     "resetting": "Ponastavljanje...",
     "review": "Preglej",
     "reviewRooms": "Preglej prostore",
+    "save": "Shrani",
+    "saveMaterials": "Shrani materiale",
     "saveRooms": "Shrani prostore",
+    "saveSettings": "Shrani nastavitve",
     "saved": "Shranjeno",
     "saving": "Shranjevanje...",
     "seeHowItWorks": "Poglejte, kako deluje",
@@ -101,21 +123,32 @@
     "upload": "Naloži",
     "uploadFloorPlan": "Naloži tloris",
     "waiting": "Čaka",
-    "viewAllProjects": "Prikaži vse projekte"
+    "viewAllProjects": "Prikaži vse projekte",
+    "viewProjects": "Prikaži projekte"
   },
   "Validation": {
     "emailAlreadyExists": "Račun s to e-pošto že obstaja.",
+    "enterValidDefaultPrice": "Vnesite veljavno privzeto ceno.",
     "enterValidEmail": "Vnesite veljaven e-poštni naslov.",
+    "enterValidPrice": "Vnesite veljavno ceno.",
     "invalidEmailOrPassword": "Neveljavna e-pošta ali geslo.",
     "invalidInput": "Preverite vnesene podatke.",
+    "invalidProjectInput": "Vnesite ime projekta, vrsto objekta in površino, večjo od 0.",
+    "invalidQuoteMaterialInput": "Preverite imena materialov, količine in cene.",
+    "invalidSettingsInput": "Vnesite veljavne podatke profila, podjetja in nastavitev ocenjevanja.",
     "invalidResetRequest": "Vnesite veljaven žeton za ponastavitev in geslo.",
+    "laborFactorPositive": "Faktor dela mora biti pozitivno število.",
     "missingResetToken": "Tej povezavi za ponastavitev gesla manjka žeton.",
     "passwordResetInvalidOrExpired": "Ta povezava za ponastavitev gesla ni veljavna ali je potekla.",
     "passwordResetRateLimited": "Preveč zahtev za ponastavitev. Poskusite znova pozneje.",
     "passwordsDoNotMatch": "Gesli se ne ujemata.",
     "unableCreateAccount": "Računa ni mogoče ustvariti.",
+    "unableCreateProject": "Projekta ni mogoče ustvariti.",
     "unableProcessPasswordReset": "Zahteve za ponastavitev gesla ni mogoče obdelati.",
     "unableResetPassword": "Gesla ni mogoče ponastaviti.",
+    "unableSavePrice": "Cene ni mogoče shraniti.",
+    "unableSaveMaterials": "Materialov ni mogoče shraniti.",
+    "unableSaveSettings": "Nastavitev ni mogoče shraniti.",
     "unableSaveRooms": "Prostorov ni mogoče shraniti."
   },
   "Dashboard": {
@@ -212,7 +245,75 @@
     "workspace": "Delovni prostor",
     "workspaceDescription": "Elektro ocene"
   },
+  "Profile": {
+    "fields": {
+      "email": "E-pošta",
+      "fullName": "Ime in priimek"
+    },
+    "helpers": {
+      "emailReadOnly": "Sprememba e-pošte še ni podprta."
+    },
+    "placeholders": {
+      "fullName": "Vaše ime"
+    },
+    "section": {
+      "description": "Osnovni podatki računa, uporabljeni v vašem delovnem prostoru.",
+      "title": "Profil"
+    }
+  },
+  "Company": {
+    "fields": {
+      "address": "Naslov podjetja",
+      "city": "Mesto",
+      "country": "Država",
+      "email": "E-pošta podjetja",
+      "name": "Ime podjetja",
+      "phone": "Telefon podjetja",
+      "taxId": "OIB / DDV številka"
+    },
+    "placeholders": {
+      "address": "Ulica in številka",
+      "city": "Mesto",
+      "country": "Država",
+      "email": "podjetje@example.com",
+      "name": "Ime podjetja",
+      "phone": "+385...",
+      "taxId": "Davčna oznaka"
+    },
+    "section": {
+      "description": "Podatke podjetja lahko pozneje ponovno uporabite za ponudbe in PDF-branding.",
+      "title": "Podatki podjetja"
+    }
+  },
+  "Estimating": {
+    "fields": {
+      "currency": "Valuta",
+      "laborFactor": "Faktor dela"
+    },
+    "helpers": {
+      "laborFactor": "Strošek dela je površina projekta, pomnožena s tem faktorjem."
+    },
+    "placeholders": {
+      "currency": "EUR"
+    },
+    "section": {
+      "description": "Privzete vrednosti, uporabljene pri ustvarjanju prihodnjih skupnih zneskov ponudb.",
+      "title": "Nastavitve ocenjevanja"
+    }
+  },
   "EmptyStates": {
+    "materials": {
+      "noMaterials": {
+        "description": "Materiali bodo prikazani tukaj, ko ponudba projekta ustvari in shrani zapise kataloga.",
+        "title": "Materialov še ni"
+      }
+    },
+    "quotes": {
+      "noQuotes": {
+        "description": "Ustvarjene ponudbe projektov bodo prikazane tukaj, ko dokončate pregled in odprete delovni prostor ponudbe.",
+        "title": "Ponudb še ni"
+      }
+    },
     "projects": {
       "noMatches": {
         "description": "Poskusite z drugim iskalnim izrazom ali filtrom statusa.",
@@ -254,7 +355,7 @@
       "title": "Začnite prvo elektro ponudbo s čistejšim potekom dela."
     },
     "features": {
-      "description": "Plan2Ponuda ohranja potek dela ozek in praktičen: razume tloris, predlaga instalacijo in pripravi ponudbo.",
+      "description": "Ploro AI ohranja potek dela ozek in praktičen: razume tloris, predlaga instalacijo in pripravi ponudbo.",
       "eyebrow": "Funkcije",
       "items": {
         "electricalSuggestions": {
@@ -357,6 +458,46 @@
       "title": "Od nalaganja tlorisa do izvoza ponudbe v enem osredotočenem poteku dela."
     }
   },
+  "MaterialCategories": {
+    "box": "Doza",
+    "breaker": "Odklopnik",
+    "cable": "Kabel",
+    "other": "Drugo",
+    "panel": "Razdelilna omarica",
+    "socket": "Vtičnica",
+    "switch": "Stikalo"
+  },
+  "Materials": {
+    "catalog": {
+      "subtitle": "Prikaz shranjenih zapisov materialov z najnovejšimi posodobitvami.",
+      "title": "Katalog materialov"
+    },
+    "fallbackName": "Material",
+    "fields": {
+      "codeValue": "Koda: {code}",
+      "materialName": "Ime materiala"
+    },
+    "page": {
+      "description": "Preglejte shranjene zapise kataloga, ki se uporabljajo pri ustvarjenih ponudbah projektov.",
+      "eyebrow": "Katalog materialov",
+      "title": "Materiali"
+    },
+    "priceEditor": {
+      "inputAriaLabel": "Privzeta cena materiala"
+    },
+    "sources": {
+      "manual": "Ročno",
+      "rule": "Pravilo/ustvarjeno"
+    },
+    "errors": {
+      "materialNotFound": "Material ni najden."
+    }
+  },
+  "MaterialUnits": {
+    "m": "Metri",
+    "pcs": "Kosi",
+    "set": "Set"
+  },
   "Projects": {
     "card": {
       "noClientAssigned": "Stranka ni dodeljena"
@@ -439,6 +580,94 @@
       },
       "subtitle": "Sledite življenjskemu ciklu projekta korak za korakom.",
       "title": "Potek dela"
+    }
+  },
+  "Quotes": {
+    "index": {
+      "subtitle": "Najnovejše posodobitve ponudb so prikazane prve.",
+      "title": "Ustvarjene ponudbe",
+      "updatedAt": "Posodobljeno {date}"
+    },
+    "page": {
+      "description": "Preglejte skupne zneske ustvarjenih ponudb in izvozite PDF-je, pripravljene za stranko, na enem mestu.",
+      "eyebrow": "Izvozi ponudb",
+      "title": "Ponudbe"
+    }
+  },
+  "QuoteWorkspace": {
+    "hero": {
+      "description": "Preglejte seznam materialov in skupne zneske pred končnim izvozom.",
+      "eyebrow": "Delovni prostor ponudbe"
+    },
+    "materials": {
+      "emptyDescription": "Dodajte ročno vrstico materiala in jo shranite, da bo vključena v skupne zneske ponudbe.",
+      "emptyTitle": "V tej ponudbi še ni materialov",
+      "subtitle": "Količine so ustvarjene iz razrešenih predlogov po prostorih in jih lahko prilagodite pred izvozom.",
+      "title": "Seznam materialov"
+    },
+    "messages": {
+      "materialsSaved": "Materiali so shranjeni."
+    },
+    "metrics": {
+      "laborCost": "Strošek dela",
+      "materialCost": "Strošek materiala",
+      "projectArea": "Površina projekta: {area}",
+      "quoteTotal": "Skupna ponudba",
+      "subtotal": "Vmesni znesek",
+      "total": "Skupaj"
+    }
+  },
+  "QuotePdf": {
+    "fallbacks": {
+      "material": "Material",
+      "notSpecified": "Ni navedeno"
+    },
+    "fields": {
+      "area": "Površina",
+      "client": "Stranka",
+      "generatedDate": "Datum ustvarjanja",
+      "objectType": "Vrsta objekta",
+      "project": "Projekt"
+    },
+    "intro": "Ustvarjeno v Ploro AI za pregled in deljenje s stranko.",
+    "sections": {
+      "materialList": "Seznam materialov",
+      "project": "Projekt",
+      "roomSummary": "Povzetek prostorov",
+      "totals": "Skupaj"
+    },
+    "tables": {
+      "category": "Kategorija",
+      "lights": "Razsvetljava",
+      "material": "Material",
+      "quantity": "Količina",
+      "room": "Prostor",
+      "sockets": "Vtičnice",
+      "switches": "Stikala",
+      "totalPrice": "Skupna cena",
+      "type": "Vrsta",
+      "unit": "Enota",
+      "unitPrice": "Cena na enoto"
+    },
+    "title": "Ponudba",
+    "totals": {
+      "laborCost": "Strošek dela",
+      "materialCost": "Strošek materiala",
+      "subtotal": "Vmesni znesek",
+      "total": "Skupaj"
+    }
+  },
+  "Settings": {
+    "errors": {
+      "saveFailed": "Shranjevanje nastavitev ni uspelo."
+    },
+    "messages": {
+      "saved": "Nastavitve so shranjene."
+    },
+    "page": {
+      "description": "Upravljajte podatke profila, informacije o podjetju in privzete nastavitve ocenjevanja, uporabljene pri pripravi ponudb.",
+      "eyebrow": "Nastavitev delovnega prostora",
+      "title": "Nastavitve"
     }
   },
   "Review": {

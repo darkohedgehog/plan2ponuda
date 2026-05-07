@@ -20,6 +20,7 @@ import {
 } from "@/lib/rules/room-rules";
 import type { UpdateProjectMaterialsInput } from "@/lib/validations/quote.schema";
 import {
+  DEFAULT_CURRENCY,
   DEFAULT_LABOR_FACTOR,
   getUserLaborFactor,
 } from "@/server/services/settings-service";
@@ -781,6 +782,15 @@ export async function getQuoteExportData(
         ],
       },
       quote: true,
+      user: {
+        select: {
+          settings: {
+            select: {
+              currency: true,
+            },
+          },
+        },
+      },
       rooms: {
         include: {
           suggestion: true,
@@ -802,6 +812,7 @@ export async function getQuoteExportData(
   }
 
   return {
+    currency: project.user.settings?.currency ?? DEFAULT_CURRENCY,
     generatedAt: new Date(),
     materials: project.materials.map(mapProjectMaterial),
     project: {
