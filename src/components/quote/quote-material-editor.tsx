@@ -407,7 +407,7 @@ function MaterialEditorRow({
           />
         ) : (
           <div className="min-w-0 overflow-hidden">
-            <p className="break-words font-semibold leading-5 text-slate-950 2xl:truncate">
+            <p className="wrap-break-word font-semibold leading-5 text-slate-950 2xl:truncate">
               {material.name}
             </p>
             {material.code ? (
