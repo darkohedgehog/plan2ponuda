@@ -87,11 +87,13 @@
     "addFirstRoom": "Add first room",
     "addMaterial": "Add material",
     "addRoom": "Add Room",
+    "cancel": "Cancel",
     "checkProject": "Check Project",
     "createAccount": "Create account",
     "creatingAccount": "Creating account...",
     "createFirstProject": "Create your first project",
     "createProject": "Create Project",
+    "creatingProject": "Creating project...",
     "delete": "Delete",
     "exportPdf": "Export PDF",
     "generate": "Generate",
@@ -501,6 +503,11 @@
   "Projects": {
     "card": {
       "noClientAssigned": "No client assigned"
+    },
+    "form": {
+      "areaPlaceholder": "Area in m2",
+      "clientNamePlaceholder": "Client name",
+      "projectNamePlaceholder": "Project name"
     },
     "list": {
       "searchAriaLabel": "Search projects",

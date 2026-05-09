@@ -28,6 +28,8 @@ const createProjectErrorKeysByCode: Partial<
 
 export function CreateProjectForm() {
   const router = useRouter();
+  const tActions = useTranslations("Actions");
+  const tProjects = useTranslations("Projects");
   const tValidation = useTranslations("Validation");
   const [state, setState] = useState<CreateProjectFormState>({
     errorKey: null,
@@ -76,14 +78,14 @@ export function CreateProjectForm() {
         className={formControlClassName}
         minLength={3}
         name="name"
-        placeholder="Project name"
+        placeholder={tProjects("form.projectNamePlaceholder")}
         required
         type="text"
       />
       <input
         className={formControlClassName}
         name="clientName"
-        placeholder="Client name"
+        placeholder={tProjects("form.clientNamePlaceholder")}
         type="text"
       />
       <select
@@ -91,15 +93,15 @@ export function CreateProjectForm() {
         defaultValue="apartment"
         name="objectType"
       >
-        <option value="apartment">Apartment</option>
-        <option value="house">House</option>
-        <option value="office">Office</option>
+        <option value="apartment">{tProjects("objectTypes.apartment")}</option>
+        <option value="house">{tProjects("objectTypes.house")}</option>
+        <option value="office">{tProjects("objectTypes.office")}</option>
       </select>
       <input
         className={formControlClassName}
         min="1"
         name="areaM2"
-        placeholder="Area in m2"
+        placeholder={tProjects("form.areaPlaceholder")}
         required
         step="0.1"
         type="number"
@@ -113,14 +115,16 @@ export function CreateProjectForm() {
       ) : null}
       <div className="flex gap-3">
         <Button disabled={state.isSubmitting} type="submit">
-          {state.isSubmitting ? "Creating..." : "Create project"}
+          {state.isSubmitting
+            ? tActions("creatingProject")
+            : tActions("createProject")}
         </Button>
         <Button
           onClick={() => router.push("/dashboard/projects")}
           type="button"
           variant="secondary"
         >
-          Cancel
+          {tActions("cancel")}
         </Button>
       </div>
     </form>

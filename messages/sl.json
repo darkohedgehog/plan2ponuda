@@ -87,11 +87,13 @@
     "addFirstRoom": "Dodaj prvi prostor",
     "addMaterial": "Dodaj material",
     "addRoom": "Dodaj prostor",
+    "cancel": "Prekliči",
     "checkProject": "Preveri projekt",
     "createAccount": "Ustvari račun",
     "creatingAccount": "Ustvarjanje računa...",
     "createFirstProject": "Ustvarite prvi projekt",
     "createProject": "Ustvari projekt",
+    "creatingProject": "Ustvarjanje projekta...",
     "delete": "Izbriši",
     "exportPdf": "Izvozi PDF",
     "generate": "Ustvari",
@@ -501,6 +503,11 @@
   "Projects": {
     "card": {
       "noClientAssigned": "Stranka ni dodeljena"
+    },
+    "form": {
+      "areaPlaceholder": "Površina v m2",
+      "clientNamePlaceholder": "Ime stranke",
+      "projectNamePlaceholder": "Ime projekta"
     },
     "list": {
       "searchAriaLabel": "Išči projekte",

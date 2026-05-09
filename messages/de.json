@@ -87,11 +87,13 @@
     "addFirstRoom": "Ersten Raum hinzufügen",
     "addMaterial": "Material hinzufügen",
     "addRoom": "Raum hinzufügen",
+    "cancel": "Abbrechen",
     "checkProject": "Projekt prüfen",
     "createAccount": "Konto erstellen",
     "creatingAccount": "Konto wird erstellt...",
     "createFirstProject": "Erstes Projekt erstellen",
     "createProject": "Projekt erstellen",
+    "creatingProject": "Projekt wird erstellt...",
     "delete": "Löschen",
     "exportPdf": "PDF exportieren",
     "generate": "Erstellen",
@@ -501,6 +503,11 @@
   "Projects": {
     "card": {
       "noClientAssigned": "Kein Kunde zugewiesen"
+    },
+    "form": {
+      "areaPlaceholder": "Fläche in m2",
+      "clientNamePlaceholder": "Kundenname",
+      "projectNamePlaceholder": "Projektname"
     },
     "list": {
       "searchAriaLabel": "Projekte suchen",

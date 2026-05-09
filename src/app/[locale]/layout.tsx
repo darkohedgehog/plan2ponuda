@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
 import "@/app/globals.css";
 import { routing } from "@/i18n/routing";
-
-export const metadata: Metadata = {
-  title: "Ploro - AI-assisted quoting workflow for electricians",
-  description: "AI-assisted quoting workflow for electricians.",
-};
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -19,8 +14,33 @@ type RootLayoutProps = {
   }>;
 };
 
+type MetadataProps = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: MetadataProps): Promise<Metadata> {
+  const { locale: requestedLocale } = await params;
+  const locale = hasLocale(routing.locales, requestedLocale)
+    ? requestedLocale
+    : routing.defaultLocale;
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
+  const tHero = await getTranslations({
+    locale,
+    namespace: "Marketing.hero",
+  });
+
+  return {
+    description: tHero("description"),
+    title: `${tCommon("appName")} - ${tHero("title")}`,
+  };
 }
 
 export default async function LocaleLayout({

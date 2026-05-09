@@ -87,11 +87,13 @@
     "addFirstRoom": "Dodaj prvu prostoriju",
     "addMaterial": "Dodaj materijal",
     "addRoom": "Dodaj prostoriju",
+    "cancel": "Odustani",
     "checkProject": "Provjeri projekt",
     "createAccount": "Kreiraj račun",
     "creatingAccount": "Kreiranje računa...",
     "createFirstProject": "Kreirajte prvi projekt",
     "createProject": "Kreiraj projekt",
+    "creatingProject": "Kreiranje projekta...",
     "delete": "Izbriši",
     "exportPdf": "Izvezi PDF",
     "generate": "Generiraj",
@@ -494,13 +496,18 @@
     }
   },
   "MaterialUnits": {
-    "m": "Metri",
-    "pcs": "Komadi",
+    "m": "Metara",
+    "pcs": "Komada",
     "set": "Set"
   },
   "Projects": {
     "card": {
       "noClientAssigned": "Klijent nije dodijeljen"
+    },
+    "form": {
+      "areaPlaceholder": "Površina u m2",
+      "clientNamePlaceholder": "Ime klijenta",
+      "projectNamePlaceholder": "Naziv projekta"
     },
     "list": {
       "searchAriaLabel": "Pretraži projekte",
