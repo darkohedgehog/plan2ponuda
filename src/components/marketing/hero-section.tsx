@@ -23,7 +23,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
 
   return (
     <section className="relative overflow-hidden bg-[radial-gradient(circle_at_20%_0%,rgba(0,212,255,0.22),transparent_28rem),linear-gradient(135deg,#010223_0%,#020231_58%,#001724_100%)]">
-      <div className="absolute inset-x-0 top-0 h-48 border-b border-white/10 bg-white/[0.03]" />
+      <div className="absolute inset-x-0 top-0 h-48 border-b border-white/10 bg-white/3" />
       <div className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:py-20">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold text-turquoise-surf-300">
