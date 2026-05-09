@@ -784,8 +784,16 @@ export async function getQuoteExportData(
       quote: true,
       user: {
         select: {
+          companyName: true,
+          fullName: true,
           settings: {
             select: {
+              companyAddress: true,
+              companyCity: true,
+              companyCountry: true,
+              companyEmail: true,
+              companyPhone: true,
+              companyTaxId: true,
               currency: true,
             },
           },
@@ -812,6 +820,16 @@ export async function getQuoteExportData(
   }
 
   return {
+    company: {
+      companyAddress: project.user.settings?.companyAddress ?? undefined,
+      companyCity: project.user.settings?.companyCity ?? undefined,
+      companyCountry: project.user.settings?.companyCountry ?? undefined,
+      companyEmail: project.user.settings?.companyEmail ?? undefined,
+      companyName: project.user.companyName ?? undefined,
+      companyPhone: project.user.settings?.companyPhone ?? undefined,
+      companyTaxId: project.user.settings?.companyTaxId ?? undefined,
+      fullName: project.user.fullName ?? undefined,
+    },
     currency: project.user.settings?.currency ?? DEFAULT_CURRENCY,
     generatedAt: new Date(),
     materials: project.materials.map(mapProjectMaterial),

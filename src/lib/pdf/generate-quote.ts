@@ -1,4 +1,12 @@
-import type { ProjectMaterial, QuoteExportData } from "@/types/quote";
+import {
+  getLocalizedMaterialName,
+  type MaterialCatalogItemKey,
+} from "../i18n/material-name";
+import type {
+  ProjectMaterial,
+  QuoteExportCompany,
+  QuoteExportData,
+} from "@/types/quote";
 
 type TextOptions = {
   bold?: boolean;
@@ -23,12 +31,15 @@ export type QuotePdfLabels = {
     objectType: string;
     project: string;
   };
+  companyFields: QuotePdfCompanyLabels;
   intro: string;
+  materialCatalogItems: Record<MaterialCatalogItemKey, string>;
   objectTypes: Record<string, string>;
   roomTypes: Record<string, string>;
   sections: {
     materialList: string;
     project: string;
+    provider: string;
     roomSummary: string;
     totals: string;
   };
@@ -54,6 +65,17 @@ export type QuotePdfLabels = {
   };
   materialCategories: Record<string, string>;
   materialUnits: Record<string, string>;
+};
+
+export type QuotePdfCompanyLabels = {
+  address: string;
+  city: string;
+  country: string;
+  email: string;
+  fullName: string;
+  name: string;
+  phone: string;
+  taxId: string;
 };
 
 type GenerateQuotePdfOptions = {
@@ -277,9 +299,23 @@ export async function generateQuotePdf(
   const pdf = new PdfDocument();
   const { labels, locale } = options;
   const currency = data.currency;
+  const companyRows = getCompanyDetailRows(data.company, labels.companyFields);
 
   pdf.addTitle(labels.title);
+  pdf.addKeyValue(
+    labels.fields.generatedDate,
+    formatDate(data.generatedAt, locale),
+  );
   pdf.addParagraph(labels.intro);
+
+  if (companyRows.length > 0) {
+    pdf.addSectionTitle(labels.sections.provider);
+
+    for (const [label, value] of companyRows) {
+      pdf.addKeyValue(label, value);
+    }
+  }
+
   pdf.addSectionTitle(labels.sections.project);
   pdf.addKeyValue(labels.fields.project, data.project.name);
   pdf.addKeyValue(
@@ -291,10 +327,6 @@ export async function generateQuotePdf(
     formatObjectType(data.project.objectType, labels),
   );
   pdf.addKeyValue(labels.fields.area, formatArea(data.project.areaM2, locale));
-  pdf.addKeyValue(
-    labels.fields.generatedDate,
-    formatDate(data.generatedAt, locale),
-  );
 
   if (data.rooms.length > 0) {
     pdf.addSectionTitle(labels.sections.roomSummary);
@@ -358,9 +390,19 @@ function formatMaterialRow(
 ): string[] {
   const material = projectMaterial.material;
   const unit = material?.unit ? formatMaterialUnit(material.unit, labels) : "";
+  const name = material
+    ? getLocalizedMaterialName(
+        {
+          code: material.code,
+          name: material.name,
+          source: projectMaterial.source,
+        },
+        (key) => labels.materialCatalogItems[key],
+      )
+    : labels.fallbacks.material;
 
   return [
-    material?.name ?? labels.fallbacks.material,
+    name,
     material?.category
       ? formatMaterialCategory(material.category, labels)
       : labels.materialCategories.other,
@@ -368,6 +410,26 @@ function formatMaterialRow(
     formatMoney(projectMaterial.unitPrice, locale, currency),
     formatMoney(projectMaterial.totalPrice, locale, currency),
   ];
+}
+
+export function getCompanyDetailRows(
+  company: QuoteExportCompany,
+  labels: QuotePdfCompanyLabels,
+): Array<[string, string]> {
+  return [
+    [labels.fullName, company.fullName],
+    [labels.name, company.companyName],
+    [labels.address, company.companyAddress],
+    [labels.city, company.companyCity],
+    [labels.country, company.companyCountry],
+    [labels.taxId, company.companyTaxId],
+    [labels.email, company.companyEmail],
+    [labels.phone, company.companyPhone],
+  ].filter((row): row is [string, string] => {
+    const value = row[1];
+
+    return typeof value === "string" && value.trim().length > 0;
+  });
 }
 
 function buildPdf(objects: string[]): Uint8Array {

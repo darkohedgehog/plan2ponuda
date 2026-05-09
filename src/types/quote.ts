@@ -63,7 +63,19 @@ export type QuoteExportRoom = {
   resolvedLights: number;
 };
 
+export type QuoteExportCompany = {
+  companyAddress?: string;
+  companyCity?: string;
+  companyCountry?: string;
+  companyEmail?: string;
+  companyName?: string;
+  companyPhone?: string;
+  companyTaxId?: string;
+  fullName?: string;
+};
+
 export type QuoteExportData = {
+  company: QuoteExportCompany;
   currency: string;
   generatedAt: Date;
   materials: ProjectMaterial[];

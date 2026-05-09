@@ -474,6 +474,17 @@
       "subtitle": "Prikaz spremljenih zapisa materijala, uključujući najnovija ažuriranja.",
       "title": "Katalog materijala"
     },
+    "catalogItems": {
+      "breaker": "Osigurač",
+      "cable3x15": "Kabel 3x1,5",
+      "cable3x25": "Kabel 3x2,5",
+      "installationMisc": "Instalacijski potrošni materijal",
+      "junctionBox": "Razvodna kutija",
+      "lightPoint": "Rasvjetno mjesto",
+      "panel": "Razvodna ploča",
+      "socketModule": "Utičnički modul",
+      "switchModule": "Prekidački modul"
+    },
     "fallbackName": "Materijal",
     "fields": {
       "codeValue": "Šifra: {code}",
@@ -629,6 +640,16 @@
       "material": "Materijal",
       "notSpecified": "Nije navedeno"
     },
+    "companyFields": {
+      "address": "Adresa",
+      "city": "Grad",
+      "country": "Država",
+      "email": "E-pošta",
+      "fullName": "Ime i prezime",
+      "name": "Tvrtka",
+      "phone": "Telefon",
+      "taxId": "OIB / PDV broj"
+    },
     "fields": {
       "area": "Površina",
       "client": "Klijent",
@@ -639,7 +660,8 @@
     "intro": "Generirano u Ploro AI za pregled i dijeljenje s klijentom.",
     "sections": {
       "materialList": "Popis materijala",
-      "project": "Projekt",
+      "project": "Klijent / Projekt",
+      "provider": "Pripremio",
       "roomSummary": "Sažetak prostorija",
       "totals": "Ukupno"
     },

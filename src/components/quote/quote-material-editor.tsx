@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ReactNode, useState } from "react";
 
+import { getLocalizedMaterialName } from "@/lib/i18n/material-name";
 import type {
   MaterialCategory,
   MaterialUnit,
@@ -374,9 +375,13 @@ function MaterialEditorRow({
   const tActions = useTranslations("Actions");
   const tCategories = useTranslations("MaterialCategories");
   const tCommon = useTranslations("Common");
+  const tCatalogItems = useTranslations("Materials.catalogItems");
   const tMaterials = useTranslations("Materials");
   const tUnits = useTranslations("MaterialUnits");
   const total = calculateTotal(material);
+  const displayName = getLocalizedMaterialName(material, (key) =>
+    tCatalogItems(key),
+  );
   const translatedCategoryOptions = categoryOptions.map((category) => ({
     label: tCategories(category),
     value: category,
@@ -408,7 +413,7 @@ function MaterialEditorRow({
         ) : (
           <div className="min-w-0 overflow-hidden">
             <p className="wrap-break-word font-semibold leading-5 text-slate-950 2xl:truncate">
-              {material.name}
+              {displayName}
             </p>
             {material.code ? (
               <p className="mt-1 break-all font-mono text-xs text-slate-500">

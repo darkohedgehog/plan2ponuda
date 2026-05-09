@@ -69,6 +69,10 @@ async function getQuotePdfLabels(locale: Locale): Promise<QuotePdfLabels> {
     locale,
     namespace: "MaterialCategories",
   });
+  const tMaterialCatalogItems = await getTranslations({
+    locale,
+    namespace: "Materials.catalogItems",
+  });
   const tObjectTypes = await getTranslations({
     locale,
     namespace: "Projects.objectTypes",
@@ -98,7 +102,28 @@ async function getQuotePdfLabels(locale: Locale): Promise<QuotePdfLabels> {
       objectType: tPdf("fields.objectType"),
       project: tPdf("fields.project"),
     },
+    companyFields: {
+      address: tPdf("companyFields.address"),
+      city: tPdf("companyFields.city"),
+      country: tPdf("companyFields.country"),
+      email: tPdf("companyFields.email"),
+      fullName: tPdf("companyFields.fullName"),
+      name: tPdf("companyFields.name"),
+      phone: tPdf("companyFields.phone"),
+      taxId: tPdf("companyFields.taxId"),
+    },
     intro: tPdf("intro"),
+    materialCatalogItems: {
+      breaker: tMaterialCatalogItems("breaker"),
+      cable3x15: tMaterialCatalogItems("cable3x15"),
+      cable3x25: tMaterialCatalogItems("cable3x25"),
+      installationMisc: tMaterialCatalogItems("installationMisc"),
+      junctionBox: tMaterialCatalogItems("junctionBox"),
+      lightPoint: tMaterialCatalogItems("lightPoint"),
+      panel: tMaterialCatalogItems("panel"),
+      socketModule: tMaterialCatalogItems("socketModule"),
+      switchModule: tMaterialCatalogItems("switchModule"),
+    },
     materialCategories: {
       box: tCategories("box"),
       breaker: tCategories("breaker"),
@@ -130,6 +155,7 @@ async function getQuotePdfLabels(locale: Locale): Promise<QuotePdfLabels> {
     sections: {
       materialList: tPdf("sections.materialList"),
       project: tPdf("sections.project"),
+      provider: tPdf("sections.provider"),
       roomSummary: tPdf("sections.roomSummary"),
       totals: tPdf("sections.totals"),
     },

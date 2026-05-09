@@ -2,6 +2,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
 import { MaterialPriceEditor } from "@/components/materials/material-price-editor";
+import { getLocalizedMaterialName } from "@/lib/i18n/material-name";
 import type { Material, MaterialCategory } from "@/types/quote";
 
 type MaterialCatalogProps = {
@@ -63,14 +64,18 @@ type MaterialCatalogRowProps = {
 function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
   const locale = useLocale();
   const tCommon = useTranslations("Common");
+  const tCatalogItems = useTranslations("Materials.catalogItems");
   const tMaterials = useTranslations("Materials");
   const tUnits = useTranslations("MaterialUnits");
+  const displayName = getLocalizedMaterialName(material, (key) =>
+    tCatalogItems(key),
+  );
 
   return (
     <article className="grid min-w-0 gap-4 bg-white p-4 transition-colors hover:bg-slate-50/70 sm:p-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_13rem_9rem] lg:items-center lg:gap-5">
       <div className="min-w-0">
         <h3 className="truncate text-base font-semibold text-slate-950">
-          {material.name}
+          {displayName}
         </h3>
         {material.code ? (
           <p className="mt-1 truncate text-xs font-medium text-slate-500">

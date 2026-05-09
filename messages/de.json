@@ -474,6 +474,17 @@
       "subtitle": "Gespeicherte Materialeinträge mit den neuesten Aktualisierungen.",
       "title": "Materialkatalog"
     },
+    "catalogItems": {
+      "breaker": "Sicherung",
+      "cable3x15": "Kabel 3x1,5",
+      "cable3x25": "Kabel 3x2,5",
+      "installationMisc": "Installationskleinteile",
+      "junctionBox": "Abzweigdose",
+      "lightPoint": "Lichtpunkt",
+      "panel": "Verteiler",
+      "socketModule": "Steckdosenmodul",
+      "switchModule": "Schaltermodul"
+    },
     "fallbackName": "Material",
     "fields": {
       "codeValue": "Code: {code}",
@@ -629,6 +640,16 @@
       "material": "Material",
       "notSpecified": "Nicht angegeben"
     },
+    "companyFields": {
+      "address": "Adresse",
+      "city": "Stadt",
+      "country": "Land",
+      "email": "E-Mail",
+      "fullName": "Vollständiger Name",
+      "name": "Unternehmen",
+      "phone": "Telefon",
+      "taxId": "Steuer-/USt-IdNr."
+    },
     "fields": {
       "area": "Fläche",
       "client": "Kunde",
@@ -639,7 +660,8 @@
     "intro": "Erstellt mit Ploro AI zur Prüfung und Weitergabe an den Kunden.",
     "sections": {
       "materialList": "Materialliste",
-      "project": "Projekt",
+      "project": "Kunde / Projekt",
+      "provider": "Erstellt von",
       "roomSummary": "Raumübersicht",
       "totals": "Summen"
     },
