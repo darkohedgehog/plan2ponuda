@@ -275,34 +275,38 @@ export function QuoteMaterialEditor({
   }
 
   return (
-    <div className="mt-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2">
-          <button
-            className="inline-flex h-10 items-center justify-center rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
-            onClick={addMaterial}
-            type="button"
-          >
-            {tActions("addMaterial")}
-          </button>
-          <button
-            className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300"
-            disabled={isSubmitting}
-            onClick={saveMaterials}
-            type="button"
-          >
-            {isSubmitting ? tActions("saving") : tActions("saveMaterials")}
-          </button>
+    <div className="mt-5 space-y-4">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 shadow-sm shadow-slate-200/50 sm:p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {showSaved ? (
+            <p className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700">
+              {tWorkspace("messages.materialsSaved")}
+            </p>
+          ) : (
+            <div className="hidden sm:block" />
+          )}
+          <div className="grid gap-2 sm:flex sm:justify-end">
+            <button
+              className="inline-flex h-10 w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+              onClick={addMaterial}
+              type="button"
+            >
+              {tActions("addMaterial")}
+            </button>
+            <button
+              className="inline-flex h-10 w-full items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
+              disabled={isSubmitting}
+              onClick={saveMaterials}
+              type="button"
+            >
+              {isSubmitting ? tActions("saving") : tActions("saveMaterials")}
+            </button>
+          </div>
         </div>
-        {showSaved ? (
-          <p className="text-sm font-medium text-emerald-700">
-            {tWorkspace("messages.materialsSaved")}
-          </p>
-        ) : null}
       </div>
 
       {errorKey ? (
-        <div className="mt-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           {errorKey === "invalidInput"
             ? tValidation("invalidQuoteMaterialInput")
             : tValidation("unableSaveMaterials")}
@@ -310,8 +314,8 @@ export function QuoteMaterialEditor({
       ) : null}
 
       {materials.length > 0 ? (
-        <div className="mt-4 overflow-hidden rounded-md border border-slate-200">
-          <div className="hidden bg-slate-50 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-400 xl:grid xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_8rem_7rem_8rem_5rem] xl:gap-4">
+        <div className="space-y-3 2xl:overflow-hidden 2xl:rounded-2xl 2xl:border 2xl:border-slate-200 2xl:bg-white 2xl:shadow-sm 2xl:shadow-slate-200/50">
+          <div className="hidden border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 2xl:grid 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:gap-4">
             <span>{tMaterials("fields.materialName")}</span>
             <span>{tCommon("category")}</span>
             <span>{tCommon("source")}</span>
@@ -321,7 +325,7 @@ export function QuoteMaterialEditor({
             <span className="text-right">{tActions("delete")}</span>
           </div>
 
-          <div className="divide-y divide-slate-200">
+          <div className="space-y-3 2xl:space-y-0 2xl:divide-y 2xl:divide-slate-100">
             {materials.map((material) => (
               <MaterialEditorRow
                 key={material.clientId}
@@ -335,7 +339,7 @@ export function QuoteMaterialEditor({
           </div>
         </div>
       ) : (
-        <div className="mt-4 rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
+        <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
           <h3 className="text-base font-semibold text-slate-950">
             {tWorkspace("materials.emptyTitle")}
           </h3>
@@ -389,8 +393,11 @@ function MaterialEditorRow({
         : material.source;
 
   return (
-    <article className="grid min-w-0 gap-3 px-4 py-4 text-sm xl:grid-cols-[minmax(12rem,1.3fr)_minmax(7rem,0.7fr)_8rem_8rem_7rem_8rem_5rem] xl:items-center xl:gap-4">
-      <div className="min-w-0">
+    <article className="grid min-w-0 gap-4 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm shadow-slate-200/50 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(11rem,0.8fr)_minmax(10rem,0.7fr)] 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:items-center 2xl:gap-4 2xl:rounded-none 2xl:border-0 2xl:shadow-none">
+      <MaterialResponsiveField
+        className="sm:col-span-2 lg:col-span-1 2xl:col-span-1"
+        label={tMaterials("fields.materialName")}
+      >
         {material.isNew ? (
           <TextInput
             ariaLabel={tMaterials("fields.materialName")}
@@ -399,16 +406,20 @@ function MaterialEditorRow({
             value={material.name}
           />
         ) : (
-          <>
-            <p className="font-semibold text-slate-950">{material.name}</p>
+          <div className="min-w-0 overflow-hidden">
+            <p className="break-words font-semibold leading-5 text-slate-950 2xl:truncate">
+              {material.name}
+            </p>
             {material.code ? (
-              <p className="mt-1 text-xs text-slate-500">{material.code}</p>
+              <p className="mt-1 break-all font-mono text-xs text-slate-500">
+                {material.code}
+              </p>
             ) : null}
-          </>
+          </div>
         )}
-      </div>
+      </MaterialResponsiveField>
 
-      <MaterialMobileField label={tCommon("category")}>
+      <MaterialResponsiveField label={tCommon("category")}>
         {material.isNew ? (
           <SelectInput
             ariaLabel={tCommon("category")}
@@ -416,23 +427,28 @@ function MaterialEditorRow({
               onUpdate({ category: event.target.value as MaterialCategory })
             }
             options={translatedCategoryOptions}
+            pill
             value={material.category}
           />
         ) : (
-          <span className="text-slate-700">
-            {tCategories(material.category)}
+          <span className="inline-flex max-w-full items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700">
+            <span className="truncate">{tCategories(material.category)}</span>
           </span>
         )}
-      </MaterialMobileField>
+      </MaterialResponsiveField>
 
-      <MaterialMobileField label={tCommon("source")}>
-        <span className="inline-flex w-fit items-center rounded-full border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600">
-          {sourceLabel}
+      <MaterialResponsiveField label={tCommon("source")}>
+        <span
+          className={`inline-flex max-w-full items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${getSourceBadgeClassName(
+            material.source,
+          )}`}
+        >
+          <span className="truncate">{sourceLabel}</span>
         </span>
-      </MaterialMobileField>
+      </MaterialResponsiveField>
 
-      <MaterialMobileField align="right" label={tCommon("quantity")}>
-        <div className="flex min-w-0 items-center justify-end gap-2">
+      <MaterialResponsiveField align="right" label={tCommon("quantity")}>
+        <div className="flex min-w-0 items-center gap-2 sm:justify-end">
           {material.isNew ? (
             <SelectInput
               ariaLabel={tCommon("unit")}
@@ -444,7 +460,7 @@ function MaterialEditorRow({
               value={material.unit}
             />
           ) : (
-            <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-md bg-slate-50 px-2 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
+            <span className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 px-2.5 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
               {tUnits(material.unit)}
             </span>
           )}
@@ -455,26 +471,26 @@ function MaterialEditorRow({
             value={material.quantity}
           />
         </div>
-      </MaterialMobileField>
+      </MaterialResponsiveField>
 
-      <MaterialMobileField align="right" label={tCommon("unitPrice")}>
+      <MaterialResponsiveField align="right" label={tCommon("unitPrice")}>
         <NumberInput
           ariaLabel={tCommon("unitPrice")}
           onChange={(event) => onUpdate({ unitPrice: event.target.value })}
           size="price"
           value={material.unitPrice}
         />
-      </MaterialMobileField>
+      </MaterialResponsiveField>
 
-      <MaterialMobileField align="right" label={tCommon("total")}>
-        <span className="font-semibold text-slate-950">
+      <MaterialResponsiveField align="right" label={tCommon("total")}>
+        <span className="inline-flex h-10 max-w-full items-center justify-end rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm font-semibold tabular-nums text-slate-950 shadow-inner shadow-slate-200/40">
           {formatMoney(total, locale)}
         </span>
-      </MaterialMobileField>
+      </MaterialResponsiveField>
 
-      <div className="flex justify-end">
+      <div className="min-w-0 sm:col-span-2 lg:col-span-3 2xl:col-span-1 2xl:flex 2xl:justify-end">
         <button
-          className="inline-flex h-9 items-center justify-center rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2"
+          className="inline-flex h-10 w-full items-center justify-center rounded-xl border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2 2xl:h-9 2xl:w-auto"
           onClick={onDelete}
           type="button"
         >
@@ -496,7 +512,7 @@ function TextInput({ ariaLabel, onChange, placeholder, value }: TextInputProps) 
   return (
     <input
       aria-label={ariaLabel}
-      className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      className="h-10 w-full min-w-0 rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
       onChange={onChange}
       placeholder={placeholder}
       value={value}
@@ -518,12 +534,16 @@ function NumberInput({
   value,
 }: NumberInputProps) {
   const widthClassName =
-    size === "compact" ? "w-20" : size === "price" ? "w-24" : "w-28";
+    size === "compact"
+      ? "w-20 sm:w-24"
+      : size === "price"
+        ? "w-24 sm:w-28 2xl:w-full"
+        : "w-28 2xl:w-full";
 
   return (
     <input
       aria-label={ariaLabel}
-      className={`${widthClassName} h-10 min-w-0 rounded-md border border-slate-300 bg-white px-3 text-right text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100`}
+      className={`${widthClassName} h-10 min-w-0 rounded-xl border border-slate-200 bg-white px-3 text-right text-sm font-medium tabular-nums text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100`}
       min="0"
       onChange={onChange}
       step="0.01"
@@ -541,6 +561,7 @@ type SelectInputProps<TValue extends string> = {
     label: string;
     value: TValue;
   }>;
+  pill?: boolean;
   value: TValue;
 };
 
@@ -549,13 +570,18 @@ function SelectInput<TValue extends string>({
   compact = false,
   onChange,
   options,
+  pill = false,
   value,
 }: SelectInputProps<TValue>) {
+  const shapeClassName = pill
+    ? "rounded-full bg-slate-50 text-xs font-semibold text-slate-700"
+    : "rounded-xl bg-white text-sm font-medium text-slate-950";
+
   return (
     <select
       aria-label={ariaLabel}
-      className={`h-10 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 ${
-        compact ? "w-16" : "w-full"
+      className={`h-10 min-w-0 border border-slate-200 px-3 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 ${shapeClassName} ${
+        compact ? "w-16 shrink-0" : "w-full"
       }`}
       onChange={onChange}
       value={value}
@@ -569,29 +595,45 @@ function SelectInput<TValue extends string>({
   );
 }
 
-type MaterialMobileFieldProps = {
+type MaterialResponsiveFieldProps = {
   align?: "left" | "right";
   children: ReactNode;
+  className?: string;
   label: string;
 };
 
-function MaterialMobileField({
+function MaterialResponsiveField({
   align = "left",
   children,
+  className = "",
   label,
-}: MaterialMobileFieldProps) {
+}: MaterialResponsiveFieldProps) {
   return (
-    <div
-      className={`flex min-w-0 items-center justify-between gap-4 xl:block ${
-        align === "right" ? "xl:text-right" : ""
-      }`}
-    >
-      <span className="shrink-0 text-xs font-medium uppercase tracking-wide text-slate-400 xl:hidden">
+    <div className={`min-w-0 overflow-hidden ${className}`}>
+      <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400 2xl:hidden">
         {label}
       </span>
-      <div className="min-w-0 text-right xl:text-inherit">{children}</div>
+      <div
+        className={`min-w-0 ${
+          align === "right" ? "sm:text-right 2xl:text-right" : ""
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
+}
+
+function getSourceBadgeClassName(source: string): string {
+  if (source === "manual") {
+    return "border-amber-200 bg-amber-50 text-amber-700";
+  }
+
+  if (source === "rule") {
+    return "border-emerald-200 bg-emerald-50 text-emerald-700";
+  }
+
+  return "border-slate-200 bg-slate-50 text-slate-600";
 }
 
 function formatMoney(value: number, locale: string): string {
