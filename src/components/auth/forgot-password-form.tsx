@@ -94,10 +94,10 @@ export function ForgotPasswordForm() {
           ? tActions("sending")
           : tActions("sendResetInstructions")}
       </Button>
-      <p className="text-center text-sm text-slate-600">
+      <p className="text-center text-sm text-deep-twilight-700">
         {tAuth("pages.forgotPassword.rememberedPassword")}{" "}
         <Link
-          className="font-semibold text-blue-700 hover:text-blue-800"
+          className="font-semibold text-bright-teal-blue-700 hover:text-bright-teal-blue-800"
           href="/sign-in"
         >
           {tAuth("signIn")}

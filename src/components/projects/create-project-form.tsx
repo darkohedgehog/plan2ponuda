@@ -1,5 +1,6 @@
 "use client";
 
+import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 
@@ -115,6 +116,7 @@ export function CreateProjectForm() {
       ) : null}
       <div className="flex gap-3">
         <Button disabled={state.isSubmitting} type="submit">
+          <Plus aria-hidden="true" className="h-4 w-4" />
           {state.isSubmitting
             ? tActions("creatingProject")
             : tActions("createProject")}

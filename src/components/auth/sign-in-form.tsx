@@ -79,7 +79,7 @@ export function SignInForm() {
       />
       <div className="flex justify-end">
         <Link
-          className="text-sm font-semibold text-blue-700 hover:text-blue-800"
+          className="text-sm font-semibold text-bright-teal-blue-700 hover:text-bright-teal-blue-800"
           href="/forgot-password"
         >
           {tAuth("forgotPassword")}

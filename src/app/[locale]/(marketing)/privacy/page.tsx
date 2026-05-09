@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       subtitle={tPrivacy("subtitle")}
       title={tPrivacy("title")}
     >
-      <p className="max-w-2xl text-sm leading-6 text-slate-600">
+      <p className="max-w-2xl text-sm leading-6 text-deep-twilight-700">
         {tPrivacy("body")}
       </p>
     </PublicPageShell>

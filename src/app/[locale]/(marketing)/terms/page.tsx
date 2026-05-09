@@ -10,7 +10,7 @@ export default function TermsPage() {
       subtitle={tTerms("subtitle")}
       title={tTerms("title")}
     >
-      <p className="max-w-2xl text-sm leading-6 text-slate-600">
+      <p className="max-w-2xl text-sm leading-6 text-deep-twilight-700">
         {tTerms("body")}
       </p>
     </PublicPageShell>

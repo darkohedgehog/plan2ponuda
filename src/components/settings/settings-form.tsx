@@ -1,5 +1,6 @@
 "use client";
 
+import { Save } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
@@ -141,7 +142,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
           label={tProfile("fields.email")}
         >
           <input
-            className={`${formControlClassName} bg-slate-50 text-slate-500`}
+            className={`${formControlClassName} bg-frosted-blue-50 text-deep-twilight-700/70`}
             readOnly
             type="email"
             value={initialSettings.email}
@@ -263,6 +264,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
 
       <div className="flex justify-end">
         <Button disabled={isSubmitting} type="submit">
+          <Save aria-hidden="true" className="h-4 w-4" />
           {isSubmitting ? tActions("saving") : tActions("saveSettings")}
         </Button>
       </div>
@@ -282,10 +284,10 @@ function SettingsSection({
   title,
 }: SettingsSectionProps) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-      <div className="border-b border-slate-200 pb-4">
-        <h2 className="text-lg font-semibold text-slate-950">{title}</h2>
-        <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p>
+    <section className="rounded-lg border border-frosted-blue-200 bg-white p-5 shadow-sm sm:p-6">
+      <div className="border-b border-frosted-blue-200 pb-4">
+        <h2 className="text-lg font-semibold text-deep-twilight-950">{title}</h2>
+        <p className="mt-1 text-sm leading-6 text-deep-twilight-700">{description}</p>
       </div>
       <div className="mt-5 grid gap-4 md:grid-cols-2">{children}</div>
     </section>
@@ -301,10 +303,10 @@ type SettingsFieldProps = {
 function SettingsField({ children, helperText, label }: SettingsFieldProps) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-slate-800">{label}</span>
+      <span className="text-sm font-semibold text-deep-twilight-800">{label}</span>
       {children}
       {helperText ? (
-        <span className="text-xs leading-5 text-slate-500">{helperText}</span>
+        <span className="text-xs leading-5 text-deep-twilight-700/70">{helperText}</span>
       ) : null}
     </label>
   );

@@ -123,7 +123,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       </Button>
       {successMessage ? (
         <Link
-          className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2"
+          className="inline-flex h-10 items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
           href="/sign-in"
         >
           {tAuth("signIn")}

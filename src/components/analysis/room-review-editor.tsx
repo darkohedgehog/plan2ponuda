@@ -1,5 +1,6 @@
 "use client";
 
+import { Plus, Save, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, useState } from "react";
@@ -272,21 +273,22 @@ export function RoomReviewEditor({
   }
 
   return (
-    <section className="min-w-0 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <section className="min-w-0 rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <h2 className="text-lg font-semibold text-slate-950">
+          <h2 className="text-lg font-semibold text-deep-twilight-950">
             {tRooms("editor.title")}
           </h2>
-          <p className="mt-1 text-sm leading-6 text-slate-600">
+          <p className="mt-1 text-sm leading-6 text-deep-twilight-700">
             {tRooms("editor.subtitle")}
           </p>
         </div>
         <button
-          className="inline-flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+          className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
           onClick={addRoom}
           type="button"
         >
+          <Plus aria-hidden="true" className="h-4 w-4" />
           {tActions("addRoom")}
         </button>
       </div>
@@ -308,18 +310,19 @@ export function RoomReviewEditor({
           ))}
         </div>
       ) : (
-        <div className="mt-5 rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-          <h3 className="text-base font-semibold text-slate-950">
+        <div className="mt-5 rounded-md border border-dashed border-frosted-blue-300 bg-frosted-blue-50 p-6 text-center">
+          <h3 className="text-base font-semibold text-deep-twilight-950">
             {tEmptyRooms("title")}
           </h3>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-deep-twilight-700">
             {tEmptyRooms("description")}
           </p>
           <button
-            className="mt-5 inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            className="mt-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             onClick={addRoom}
             type="button"
           >
+            <Plus aria-hidden="true" className="h-4 w-4" />
             {tActions("addFirstRoom")}
           </button>
         </div>
@@ -336,11 +339,12 @@ export function RoomReviewEditor({
 
       <div className="mt-5 flex sm:justify-end">
         <button
-          className="inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           disabled={isSubmitting}
           onClick={saveRooms}
           type="button"
         >
+          <Save aria-hidden="true" className="h-4 w-4" />
           {isSubmitting ? tActions("saving") : tActions("saveRooms")}
         </button>
       </div>
@@ -378,15 +382,15 @@ function RoomEditorRow({
   }
 
   return (
-    <article className="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-4">
+    <article className="min-w-0 rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-4">
       <div className="grid gap-4">
         <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)] xl:grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)]">
           <label className="grid min-w-0 gap-1.5">
-            <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <span className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
               {tRooms("fields.roomNumber", { number: index + 1 })}
             </span>
             <input
-              className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="h-10 min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-900 shadow-sm outline-none transition-colors placeholder:text-deep-twilight-700/45 focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
               maxLength={100}
               onChange={(event) => onNameChange(event.target.value)}
               placeholder={tRooms("fields.namePlaceholder")}
@@ -396,11 +400,11 @@ function RoomEditorRow({
           </label>
 
           <label className="grid min-w-0 gap-1.5">
-            <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <span className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
               {tRooms("fields.type")}
             </span>
             <select
-              className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="h-10 min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-900 shadow-sm outline-none transition-colors focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
               onChange={handleTypeChange}
               value={room.type}
             >
@@ -445,12 +449,13 @@ function RoomEditorRow({
           ))}
         </div>
 
-        <div className="flex border-t border-slate-200 pt-4 sm:justify-end">
+        <div className="flex border-t border-frosted-blue-200 pt-4 sm:justify-end">
           <button
-            className="inline-flex h-10 w-full items-center justify-center rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 shadow-sm outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2 sm:w-auto"
+            className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 shadow-sm outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2 sm:w-auto"
             onClick={onDelete}
             type="button"
           >
+            <Trash2 aria-hidden="true" className="h-4 w-4" />
             {tActions("delete")}
           </button>
         </div>
@@ -475,13 +480,13 @@ function SuggestionInput({
 
   return (
     <label className="grid min-w-0 gap-1.5">
-      <span className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-slate-400">
+      <span className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
         {tSuggestions(config.labelKey)}
         <span
           className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold normal-case tracking-normal ${
             isOverride
-              ? "bg-blue-50 text-blue-700"
-              : "bg-white text-slate-500 ring-1 ring-inset ring-slate-200"
+              ? "bg-bright-teal-blue-50 text-bright-teal-blue-700"
+              : "bg-white text-deep-twilight-700/70 ring-1 ring-inset ring-frosted-blue-200"
           }`}
         >
           {isOverride
@@ -490,7 +495,7 @@ function SuggestionInput({
         </span>
       </span>
       <input
-        className="h-10 min-w-0 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 shadow-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="h-10 min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-900 shadow-sm outline-none transition-colors focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
         min={0}
         onChange={(event) =>
           onChange(parseSuggestionInputValue(event.target.value))
@@ -498,7 +503,7 @@ function SuggestionInput({
         type="number"
         value={suggestion[config.resolvedKey]}
       />
-      <span className="text-xs text-slate-500">
+      <span className="text-xs text-deep-twilight-700/70">
         {tSuggestions("suggestedValue", {
           value: suggestion[config.suggestedKey],
         })}
@@ -515,10 +520,10 @@ type ReadOnlyMetricProps = {
 function ReadOnlyMetric({ label, value }: ReadOnlyMetricProps) {
   return (
     <div className="min-w-0">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <p className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
         {label}
       </p>
-      <p className="mt-1 flex h-10 min-w-0 items-center truncate rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-600">
+      <p className="mt-1 flex h-10 min-w-0 items-center truncate rounded-md border border-frosted-blue-200 bg-white px-3 text-sm font-medium text-deep-twilight-700">
         {value}
       </p>
     </div>

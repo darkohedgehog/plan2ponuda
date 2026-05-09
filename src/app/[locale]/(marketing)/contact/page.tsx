@@ -10,7 +10,7 @@ export default function ContactPage() {
       subtitle={tContact("subtitle")}
       title={tContact("title")}
     >
-      <p className="max-w-2xl text-sm leading-6 text-slate-600">
+      <p className="max-w-2xl text-sm leading-6 text-deep-twilight-700">
         {tContact("body")}
       </p>
     </PublicPageShell>

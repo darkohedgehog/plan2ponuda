@@ -1,5 +1,6 @@
 "use client";
 
+import { Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEvent, useState } from "react";
@@ -166,11 +167,12 @@ export function FloorPlanUploadForm({ projectId }: FloorPlanUploadFormProps) {
         <p className="text-sm text-red-600">{tUpload(state.errorKey)}</p>
       ) : null}
       {state.uploadedPath ? (
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-deep-twilight-700">
           {tUpload("success.uploaded", { path: state.uploadedPath })}
         </p>
       ) : null}
       <Button disabled={state.isSubmitting} type="submit">
+        <Upload aria-hidden="true" className="h-4 w-4" />
         {state.isSubmitting
           ? tUpload("actions.uploading")
           : tUpload("actions.uploadFloorPlan")}

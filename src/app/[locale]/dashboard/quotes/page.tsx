@@ -26,14 +26,14 @@ export default async function QuotesPage({ params }: QuotesPageProps) {
 
   return (
     <main className="flex flex-col gap-6">
-      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-        <p className="text-sm font-semibold text-blue-700">
+      <section className="rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-6">
+        <p className="text-sm font-semibold text-bright-teal-blue-700">
           {tQuotes("page.eyebrow")}
         </p>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-deep-twilight-950 sm:text-3xl">
           {tQuotes("page.title")}
         </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-deep-twilight-700">
           {tQuotes("page.description")}
         </p>
       </section>

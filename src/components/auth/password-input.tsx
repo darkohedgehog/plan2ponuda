@@ -72,7 +72,7 @@ export function PasswordInput({
           aria-label={
             showPassword ? tAuth("hidePassword") : tAuth("showPassword")
           }
-          className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-slate-500 outline-none transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:ring-2 focus-visible:ring-blue-100"
+          className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-deep-twilight-700/70 outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-800 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100"
           onClick={() => setShowPassword((currentValue) => !currentValue)}
           type="button"
         >
@@ -110,7 +110,7 @@ export function PasswordStrengthIndicator({
 
   return (
     <div className="grid gap-2">
-      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+      <div className="h-1.5 overflow-hidden rounded-full bg-frosted-blue-100">
         <div
           className={`h-full rounded-full ${barWidth[strength]} ${strengthBarStyles[strength]}`}
         />

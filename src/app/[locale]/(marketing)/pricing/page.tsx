@@ -10,7 +10,7 @@ export default function PricingPage() {
       subtitle={tPricing("subtitle")}
       title={tPricing("title")}
     >
-      <p className="max-w-2xl text-sm leading-6 text-slate-600">
+      <p className="max-w-2xl text-sm leading-6 text-deep-twilight-700">
         {tPricing("body")}
       </p>
     </PublicPageShell>

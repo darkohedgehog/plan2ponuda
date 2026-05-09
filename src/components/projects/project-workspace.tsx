@@ -70,36 +70,36 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
 
   return (
     <main className="flex min-w-0 flex-col gap-4 sm:gap-6">
-      <section className="min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+      <section className="min-w-0 overflow-hidden rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-3">
               <ProjectStatusBadge status={project.status} />
-              <p className="text-sm font-medium text-slate-500">
+              <p className="text-sm font-medium text-deep-twilight-700/70">
                 {tWorkspace("meta.created", {
                   date: formatDate(project.createdAt, locale),
                 })}
               </p>
             </div>
 
-            <h2 className="mt-4 wrap-break-word text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+            <h2 className="mt-4 wrap-break-word text-2xl font-semibold tracking-tight text-deep-twilight-950 sm:text-3xl">
               {project.name}
             </h2>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-deep-twilight-700">
               {tWorkspace("hero.description")}
             </p>
           </div>
 
           <Link
-            className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-md bg-deep-twilight-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             href={nextStep.href}
           >
             {tActions(nextStep.labelKey)}
           </Link>
         </div>
 
-        <dl className="mt-6 grid min-w-0 gap-3 border-t border-slate-200 pt-6 sm:grid-cols-2 xl:grid-cols-4">
+        <dl className="mt-6 grid min-w-0 gap-3 border-t border-frosted-blue-200 pt-6 sm:grid-cols-2 xl:grid-cols-4">
           <SummaryItem
             label={tCommon("client")}
             value={project.clientName ?? tCommon("notSet")}
@@ -121,12 +121,12 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
       </section>
 
       <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(280px,0.8fr)]">
-        <div className="min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <div className="min-w-0 overflow-hidden rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-5">
           <div>
-            <h2 className="text-lg font-semibold text-slate-950">
+            <h2 className="text-lg font-semibold text-deep-twilight-950">
               {tWorkspace("workflow.title")}
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-deep-twilight-700/70">
               {tWorkspace("workflow.subtitle")}
             </p>
           </div>
@@ -139,14 +139,14 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
         </div>
 
         <div
-          className="min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+          className="min-w-0 overflow-hidden rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-5"
           id="floor-plan-upload"
         >
           <div className="min-w-0">
-            <h2 className="text-lg font-semibold text-slate-950">
+            <h2 className="text-lg font-semibold text-deep-twilight-950">
               {tUpload("floorPlan.title")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
+            <p className="mt-1 text-sm leading-6 text-deep-twilight-700">
               {project.sourceFilePath
                 ? tUpload("floorPlan.attachedDescription")
                 : tUpload("floorPlan.emptyDescription")}
@@ -154,11 +154,11 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
           </div>
 
           {project.sourceFilePath ? (
-            <div className="mt-4 min-w-0 rounded-md border border-slate-200 bg-slate-50 p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <div className="mt-4 min-w-0 rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-3">
+              <p className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
                 {tUpload("floorPlan.uploadedFile")}
               </p>
-              <p className="mt-1 break-all text-sm font-medium text-slate-700">
+              <p className="mt-1 break-all text-sm font-medium text-deep-twilight-800">
                 {project.sourceFilePath}
               </p>
             </div>
@@ -170,19 +170,19 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
         </div>
       </section>
 
-      <section className="min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      <section className="min-w-0 overflow-hidden rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-5">
         <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
-            <h2 className="text-lg font-semibold text-slate-950">
+            <h2 className="text-lg font-semibold text-deep-twilight-950">
               {tWorkspace("currentNextStep.title")}
             </h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
+            <p className="mt-1 text-sm leading-6 text-deep-twilight-700">
               {tWorkspace(`nextSteps.${nextStep.descriptionKey}.description`)}
             </p>
           </div>
 
           <Link
-            className="inline-flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 md:w-auto"
+            className="inline-flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 md:w-auto"
             href={nextStep.href}
           >
             {tActions(nextStep.labelKey)}
@@ -200,11 +200,11 @@ type SummaryItemProps = {
 
 function SummaryItem({ label, value }: SummaryItemProps) {
   return (
-    <div className="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-4">
-      <dt className="text-xs font-medium uppercase tracking-wide text-slate-400">
+    <div className="min-w-0 rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-4">
+      <dt className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
         {label}
       </dt>
-      <dd className="mt-2 wrap-break-word text-sm font-semibold text-slate-800">
+      <dd className="mt-2 wrap-break-word text-sm font-semibold text-deep-twilight-800">
         {value}
       </dd>
     </div>
@@ -221,20 +221,20 @@ function WorkflowStepCard({ index, step }: WorkflowStepCardProps) {
   const tWorkspace = useTranslations("ProjectWorkspace");
 
   return (
-    <article className="grid min-w-0 gap-4 rounded-md border border-slate-200 bg-slate-50 p-4 md:grid-cols-[auto_minmax(0,1fr)] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white text-sm font-semibold text-blue-700 ring-1 ring-slate-200">
+    <article className="grid min-w-0 gap-4 rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-4 md:grid-cols-[auto_minmax(0,1fr)] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white text-sm font-semibold text-bright-teal-blue-700 ring-1 ring-frosted-blue-200">
         {index + 1}
       </div>
 
       <div className="min-w-0">
         <div className="flex min-w-0 flex-wrap items-center gap-3">
-          <h3 className="wrap-break-word text-sm font-semibold text-slate-950">
+          <h3 className="wrap-break-word text-sm font-semibold text-deep-twilight-950">
             {tWorkspace(`workflow.steps.${step.stepKey}.title`)}
           </h3>
           <WorkflowStateBadge state={step.state} />
         </div>
 
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="mt-2 text-sm leading-6 text-deep-twilight-700">
           {tWorkspace(`workflow.steps.${step.stepKey}.description`)}
         </p>
       </div>
@@ -242,13 +242,13 @@ function WorkflowStepCard({ index, step }: WorkflowStepCardProps) {
       <div className="md:col-span-2 lg:col-span-1 lg:justify-self-end">
         {step.actionHref ? (
           <Link
-            className="inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            className="inline-flex h-10 w-full items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             href={step.actionHref}
           >
             {tActions(step.actionLabelKey)}
           </Link>
         ) : (
-          <span className="inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-400 sm:w-auto">
+          <span className="inline-flex h-10 w-full items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-700/55 sm:w-auto">
             {tActions(step.actionLabelKey)}
           </span>
         )}
@@ -265,7 +265,7 @@ function WorkflowStateBadge({ state }: WorkflowStateBadgeProps) {
   const tWorkspace = useTranslations("ProjectWorkspace");
   const stateStyles: Record<WorkflowStepState, string> = {
     "in progress": "bg-amber-50 text-amber-700 ring-amber-200",
-    "not started": "bg-slate-100 text-slate-600 ring-slate-200",
+    "not started": "bg-frosted-blue-100 text-deep-twilight-700 ring-frosted-blue-200",
     ready: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   };
 

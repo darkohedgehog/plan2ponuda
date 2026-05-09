@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
+import { FolderOpen, Plus } from "lucide-react";
 
 import { ProjectsList } from "@/components/projects/projects-list";
 import { Link, redirect } from "@/i18n/navigation";
@@ -29,23 +30,24 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
 
   return (
     <main className="flex flex-col gap-6">
-      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+      <section className="rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0 max-w-3xl">
-            <p className="text-sm font-semibold text-blue-700">
+            <p className="text-sm font-semibold text-bright-teal-blue-700">
               {tProjects("page.eyebrow")}
             </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-deep-twilight-950 sm:text-3xl">
               {tProjects("page.title")}
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-deep-twilight-700">
               {tProjects("page.subtitle")}
             </p>
           </div>
           <Link
-            className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
+            className="inline-flex h-11 w-full shrink-0 items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-fit"
             href="/dashboard/projects/new"
           >
+            <Plus aria-hidden="true" className="h-4 w-4" />
             {tActions("newProject")}
           </Link>
         </div>
@@ -71,32 +73,22 @@ function EmptyProjectsState() {
   const tEmptyState = useTranslations("EmptyStates.projects.noProjects");
 
   return (
-    <section className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm sm:p-8">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-blue-50 text-blue-700 ring-1 ring-blue-100">
-        <svg
-          aria-hidden="true"
-          className="h-6 w-6"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
-        </svg>
+    <section className="rounded-lg border border-dashed border-frosted-blue-300 bg-white p-6 text-center shadow-sm sm:p-8">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-md bg-bright-teal-blue-50 text-bright-teal-blue-700 ring-1 ring-bright-teal-blue-100">
+        <FolderOpen aria-hidden="true" className="h-6 w-6" />
       </div>
-      <h2 className="mt-5 text-xl font-semibold text-slate-950">
+      <h2 className="mt-5 text-xl font-semibold text-deep-twilight-950">
         {tEmptyState("title")}
       </h2>
-      <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
+      <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-deep-twilight-700">
         {tEmptyState("description")}
       </p>
       <div className="mt-6">
         <Link
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-fit"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-5 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-fit"
           href="/dashboard/projects/new"
         >
+          <Plus aria-hidden="true" className="h-4 w-4" />
           {tActions("createFirstProject")}
         </Link>
       </div>

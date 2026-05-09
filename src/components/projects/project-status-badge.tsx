@@ -4,20 +4,20 @@ import type { ProjectStatus } from "@/types/project";
 
 const statusStyles: Record<ProjectStatus, string> = {
   analyzing: "bg-amber-50 text-amber-700 ring-amber-200",
-  draft: "bg-slate-100 text-slate-700 ring-slate-200",
+  draft: "bg-frosted-blue-100 text-deep-twilight-800 ring-frosted-blue-200",
   failed: "bg-red-50 text-red-700 ring-red-200",
   quoted: "bg-emerald-50 text-emerald-700 ring-emerald-200",
-  reviewed: "bg-blue-50 text-blue-700 ring-blue-200",
-  uploaded: "bg-indigo-50 text-indigo-700 ring-indigo-200",
+  reviewed: "bg-bright-teal-blue-50 text-bright-teal-blue-700 ring-bright-teal-blue-200",
+  uploaded: "bg-turquoise-surf-50 text-turquoise-surf-800 ring-turquoise-surf-200",
 };
 
 const statusDotStyles: Record<ProjectStatus, string> = {
   analyzing: "bg-amber-500",
-  draft: "bg-slate-400",
+  draft: "bg-frosted-blue-500",
   failed: "bg-red-500",
   quoted: "bg-emerald-500",
-  reviewed: "bg-blue-500",
-  uploaded: "bg-indigo-500",
+  reviewed: "bg-bright-teal-blue-500",
+  uploaded: "bg-turquoise-surf-500",
 };
 
 type ProjectStatusBadgeProps = {

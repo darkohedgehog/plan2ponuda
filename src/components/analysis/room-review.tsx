@@ -21,14 +21,14 @@ export function RoomReview({
 
   return (
     <main className="flex flex-col gap-6">
-      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <p className="text-sm font-semibold text-blue-700">
+      <section className="rounded-lg border border-frosted-blue-200 bg-white p-5 shadow-sm sm:p-6">
+        <p className="text-sm font-semibold text-bright-teal-blue-700">
           {tReview("hero.eyebrow")}
         </p>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-deep-twilight-950 sm:text-3xl">
           {project.name}
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-deep-twilight-700">
           {tReview("hero.description")}
         </p>
       </section>
@@ -53,23 +53,23 @@ function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
     preview.kind !== "unavailable" || preview.reason !== "missing_file";
 
   return (
-    <section className="min-w-0 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 rounded-lg border border-frosted-blue-200 bg-white p-5 shadow-sm">
       <div>
-        <h2 className="text-lg font-semibold text-slate-950">
+        <h2 className="text-lg font-semibold text-deep-twilight-950">
           {tReview("floorPlan.title")}
         </h2>
-        <p className="mt-1 text-sm leading-6 text-slate-600">
+        <p className="mt-1 text-sm leading-6 text-deep-twilight-700">
           {tReview("floorPlan.description")}
         </p>
       </div>
 
-      <div className="mt-5 overflow-hidden rounded-md border border-slate-200 bg-slate-50">
+      <div className="mt-5 overflow-hidden rounded-md border border-frosted-blue-200 bg-frosted-blue-50">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="p-5">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
               {tReview("floorPlan.status.title")}
             </p>
-            <p className="mt-2 text-sm font-semibold text-slate-800">
+            <p className="mt-2 text-sm font-semibold text-deep-twilight-800">
               {hasFloorPlan
                 ? tReview("floorPlan.status.uploaded")
                 : tReview("floorPlan.status.missing")}
@@ -79,7 +79,7 @@ function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
             className={`m-5 inline-flex w-fit rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${
               hasFloorPlan
                 ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
-                : "bg-slate-100 text-slate-600 ring-slate-200"
+                : "bg-frosted-blue-100 text-deep-twilight-700 ring-frosted-blue-200"
             }`}
           >
             {tStatus(project.status)}
@@ -105,17 +105,17 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
     });
 
     return (
-      <figure className="border-t border-slate-200 bg-white p-4">
+      <figure className="border-t border-frosted-blue-200 bg-white p-4">
         {/* Native img keeps short-lived signed Supabase URLs out of Next image config. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt={tReview("floorPlan.preview.alt", {
             fileName: preview.fileName,
           })}
-          className="max-h-140 w-full rounded-md border border-slate-200 object-contain"
+          className="max-h-140 w-full rounded-md border border-frosted-blue-200 object-contain"
           src={preview.url}
         />
-        <figcaption className="mt-3 text-xs text-slate-500">
+        <figcaption className="mt-3 text-xs text-deep-twilight-700/70">
           {tReview("floorPlan.preview.imageCaption", {
             expiresIn,
             fileName: preview.fileName,
@@ -131,16 +131,16 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
     });
 
     return (
-      <div className="border-t border-slate-200 bg-white p-5">
-        <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
-          <p className="text-sm font-semibold text-slate-950">
+      <div className="border-t border-frosted-blue-200 bg-white p-5">
+        <div className="rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-4">
+          <p className="text-sm font-semibold text-deep-twilight-950">
             {tReview("floorPlan.preview.pdfTitle")}
           </p>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-deep-twilight-700">
             {tReview("floorPlan.preview.pdfDescription", { expiresIn })}
           </p>
           <a
-            className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
             href={preview.url}
             rel="noreferrer"
             target="_blank"
@@ -153,12 +153,12 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
   }
 
   return (
-    <div className="border-t border-slate-200 bg-white p-5">
-      <div className="rounded-md border border-dashed border-slate-300 bg-slate-50 p-4">
-        <p className="text-sm font-semibold text-slate-950">
+    <div className="border-t border-frosted-blue-200 bg-white p-5">
+      <div className="rounded-md border border-dashed border-frosted-blue-300 bg-frosted-blue-50 p-4">
+        <p className="text-sm font-semibold text-deep-twilight-950">
           {tReview("floorPlan.preview.unavailable.title")}
         </p>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="mt-2 text-sm leading-6 text-deep-twilight-700">
           {tReview(
             `floorPlan.preview.unavailable.${getPreviewUnavailableMessageKey(
               preview,
@@ -166,7 +166,7 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
           )}
         </p>
         {preview.fileName ? (
-          <p className="mt-3 break-all text-xs font-medium text-slate-500">
+          <p className="mt-3 break-all text-xs font-medium text-deep-twilight-700/70">
             {tReview("floorPlan.preview.fileLabel", {
               fileName: preview.fileName,
             })}

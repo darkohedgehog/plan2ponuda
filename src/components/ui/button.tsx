@@ -15,11 +15,11 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-semibold shadow-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60",
+        "inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-sm font-semibold shadow-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60",
         variant === "primary" &&
-          "bg-blue-600 text-white hover:bg-blue-700",
+          "bg-deep-twilight-600 text-white shadow-deep-twilight-900/10 hover:bg-deep-twilight-700",
         variant === "secondary" &&
-          "border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-950",
+          "border border-frosted-blue-200 bg-white text-deep-twilight-800 hover:border-bright-teal-blue-200 hover:bg-frosted-blue-50 hover:text-deep-twilight-950",
         className,
       )}
       type={type}

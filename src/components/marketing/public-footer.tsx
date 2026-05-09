@@ -14,20 +14,20 @@ export function PublicFooter() {
   const tNavigation = useTranslations("Navigation");
 
   return (
-    <footer className="border-t border-slate-200 bg-white">
+    <footer className="border-t border-frosted-blue-200 bg-white">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-5 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
         <div>
-          <Link className="text-base font-semibold text-slate-950" href="/">
+          <Link className="text-base font-semibold text-deep-twilight-950" href="/">
             {tCommon("appName")}
           </Link>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-deep-twilight-700/70">
             {tMarketing("tagline")}
           </p>
         </div>
         <nav aria-label={tNavigation("footerNavigation")} className="flex gap-5">
           {footerLinks.map((link) => (
             <Link
-              className="rounded-md text-sm font-medium text-slate-500 outline-none transition-colors hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-blue-100"
+              className="rounded-md text-sm font-medium text-deep-twilight-700/70 outline-none transition-colors hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100"
               href={link.href}
               key={link.href}
             >

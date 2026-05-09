@@ -1,5 +1,6 @@
 "use client";
 
+import { Plus, Save, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ReactNode, useState } from "react";
@@ -277,7 +278,7 @@ export function QuoteMaterialEditor({
 
   return (
     <div className="mt-5 space-y-4">
-      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 shadow-sm shadow-slate-200/50 sm:p-4">
+      <div className="rounded-2xl border border-frosted-blue-200 bg-frosted-blue-50/80 p-3 shadow-sm shadow-frosted-blue-200/50 sm:p-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {showSaved ? (
             <p className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700">
@@ -288,18 +289,20 @@ export function QuoteMaterialEditor({
           )}
           <div className="grid gap-2 sm:flex sm:justify-end">
             <button
-              className="inline-flex h-10 w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:border-frosted-blue-300 hover:bg-frosted-blue-50 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
               onClick={addMaterial}
               type="button"
             >
+              <Plus aria-hidden="true" className="h-4 w-4" />
               {tActions("addMaterial")}
             </button>
             <button
-              className="inline-flex h-10 w-full items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
+              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-deep-twilight-300 sm:w-auto"
               disabled={isSubmitting}
               onClick={saveMaterials}
               type="button"
             >
+              <Save aria-hidden="true" className="h-4 w-4" />
               {isSubmitting ? tActions("saving") : tActions("saveMaterials")}
             </button>
           </div>
@@ -315,8 +318,8 @@ export function QuoteMaterialEditor({
       ) : null}
 
       {materials.length > 0 ? (
-        <div className="space-y-3 2xl:overflow-hidden 2xl:rounded-2xl 2xl:border 2xl:border-slate-200 2xl:bg-white 2xl:shadow-sm 2xl:shadow-slate-200/50">
-          <div className="hidden border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 2xl:grid 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:gap-4">
+        <div className="space-y-3 2xl:overflow-hidden 2xl:rounded-2xl 2xl:border 2xl:border-frosted-blue-200 2xl:bg-white 2xl:shadow-sm 2xl:shadow-frosted-blue-200/50">
+          <div className="hidden border-b border-frosted-blue-200 bg-frosted-blue-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-deep-twilight-700/70 2xl:grid 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:gap-4">
             <span>{tMaterials("fields.materialName")}</span>
             <span>{tCommon("category")}</span>
             <span>{tCommon("source")}</span>
@@ -326,7 +329,7 @@ export function QuoteMaterialEditor({
             <span className="text-right">{tActions("delete")}</span>
           </div>
 
-          <div className="space-y-3 2xl:space-y-0 2xl:divide-y 2xl:divide-slate-100">
+          <div className="space-y-3 2xl:space-y-0 2xl:divide-y 2xl:divide-frosted-blue-100">
             {materials.map((material) => (
               <MaterialEditorRow
                 key={material.clientId}
@@ -340,11 +343,11 @@ export function QuoteMaterialEditor({
           </div>
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-          <h3 className="text-base font-semibold text-slate-950">
+        <div className="rounded-2xl border border-dashed border-frosted-blue-300 bg-frosted-blue-50 p-6 text-center">
+          <h3 className="text-base font-semibold text-deep-twilight-950">
             {tWorkspace("materials.emptyTitle")}
           </h3>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-deep-twilight-700">
             {tWorkspace("materials.emptyDescription")}
           </p>
         </div>
@@ -398,7 +401,7 @@ function MaterialEditorRow({
         : material.source;
 
   return (
-    <article className="grid min-w-0 gap-4 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm shadow-slate-200/50 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(11rem,0.8fr)_minmax(10rem,0.7fr)] 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:items-center 2xl:gap-4 2xl:rounded-none 2xl:border-0 2xl:shadow-none">
+    <article className="grid min-w-0 gap-4 overflow-hidden rounded-2xl border border-frosted-blue-200 bg-white p-4 text-sm shadow-sm shadow-frosted-blue-200/50 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(11rem,0.8fr)_minmax(10rem,0.7fr)] 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:items-center 2xl:gap-4 2xl:rounded-none 2xl:border-0 2xl:shadow-none">
       <MaterialResponsiveField
         className="sm:col-span-2 lg:col-span-1 2xl:col-span-1"
         label={tMaterials("fields.materialName")}
@@ -412,11 +415,11 @@ function MaterialEditorRow({
           />
         ) : (
           <div className="min-w-0 overflow-hidden">
-            <p className="wrap-break-word font-semibold leading-5 text-slate-950 2xl:truncate">
+            <p className="wrap-break-word font-semibold leading-5 text-deep-twilight-950 2xl:truncate">
               {displayName}
             </p>
             {material.code ? (
-              <p className="mt-1 break-all font-mono text-xs text-slate-500">
+              <p className="mt-1 break-all font-mono text-xs text-deep-twilight-700/70">
                 {material.code}
               </p>
             ) : null}
@@ -436,7 +439,7 @@ function MaterialEditorRow({
             value={material.category}
           />
         ) : (
-          <span className="inline-flex max-w-full items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700">
+          <span className="inline-flex max-w-full items-center rounded-full border border-frosted-blue-200 bg-frosted-blue-50 px-2.5 py-1 text-xs font-semibold text-deep-twilight-800">
             <span className="truncate">{tCategories(material.category)}</span>
           </span>
         )}
@@ -465,7 +468,7 @@ function MaterialEditorRow({
               value={material.unit}
             />
           ) : (
-            <span className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 px-2.5 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
+            <span className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-frosted-blue-50 px-2.5 text-xs font-semibold text-deep-twilight-700/70 ring-1 ring-frosted-blue-200">
               {tUnits(material.unit)}
             </span>
           )}
@@ -488,17 +491,18 @@ function MaterialEditorRow({
       </MaterialResponsiveField>
 
       <MaterialResponsiveField align="right" label={tCommon("total")}>
-        <span className="inline-flex h-10 max-w-full items-center justify-end rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm font-semibold tabular-nums text-slate-950 shadow-inner shadow-slate-200/40">
+        <span className="inline-flex h-10 max-w-full items-center justify-end rounded-xl border border-frosted-blue-200 bg-frosted-blue-50 px-3 text-sm font-semibold tabular-nums text-deep-twilight-950 shadow-inner shadow-frosted-blue-200/40">
           {formatMoney(total, locale)}
         </span>
       </MaterialResponsiveField>
 
       <div className="min-w-0 sm:col-span-2 lg:col-span-3 2xl:col-span-1 2xl:flex 2xl:justify-end">
         <button
-          className="inline-flex h-10 w-full items-center justify-center rounded-xl border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2 2xl:h-9 2xl:w-auto"
+          className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-white px-3 text-sm font-semibold text-red-700 outline-none transition-colors hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-100 focus-visible:ring-offset-2 2xl:h-9 2xl:w-auto"
           onClick={onDelete}
           type="button"
         >
+          <Trash2 aria-hidden="true" className="h-4 w-4" />
           {tActions("delete")}
         </button>
       </div>
@@ -517,7 +521,7 @@ function TextInput({ ariaLabel, onChange, placeholder, value }: TextInputProps) 
   return (
     <input
       aria-label={ariaLabel}
-      className="h-10 w-full min-w-0 rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+      className="h-10 w-full min-w-0 rounded-xl border border-frosted-blue-200 bg-white px-3 text-sm font-medium text-deep-twilight-950 outline-none transition-colors placeholder:text-deep-twilight-700/45 focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
       onChange={onChange}
       placeholder={placeholder}
       value={value}
@@ -548,7 +552,7 @@ function NumberInput({
   return (
     <input
       aria-label={ariaLabel}
-      className={`${widthClassName} h-10 min-w-0 rounded-xl border border-slate-200 bg-white px-3 text-right text-sm font-medium tabular-nums text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100`}
+      className={`${widthClassName} h-10 min-w-0 rounded-xl border border-frosted-blue-200 bg-white px-3 text-right text-sm font-medium tabular-nums text-deep-twilight-950 outline-none transition-colors focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100`}
       min="0"
       onChange={onChange}
       step="0.01"
@@ -579,13 +583,13 @@ function SelectInput<TValue extends string>({
   value,
 }: SelectInputProps<TValue>) {
   const shapeClassName = pill
-    ? "rounded-full bg-slate-50 text-xs font-semibold text-slate-700"
-    : "rounded-xl bg-white text-sm font-medium text-slate-950";
+    ? "rounded-full bg-frosted-blue-50 text-xs font-semibold text-deep-twilight-800"
+    : "rounded-xl bg-white text-sm font-medium text-deep-twilight-950";
 
   return (
     <select
       aria-label={ariaLabel}
-      className={`h-10 min-w-0 border border-slate-200 px-3 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 ${shapeClassName} ${
+      className={`h-10 min-w-0 border border-frosted-blue-200 px-3 outline-none transition-colors focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100 ${shapeClassName} ${
         compact ? "w-16 shrink-0" : "w-full"
       }`}
       onChange={onChange}
@@ -615,7 +619,7 @@ function MaterialResponsiveField({
 }: MaterialResponsiveFieldProps) {
   return (
     <div className={`min-w-0 overflow-hidden ${className}`}>
-      <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400 2xl:hidden">
+      <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-deep-twilight-700/55 2xl:hidden">
         {label}
       </span>
       <div
@@ -638,7 +642,7 @@ function getSourceBadgeClassName(source: string): string {
     return "border-emerald-200 bg-emerald-50 text-emerald-700";
   }
 
-  return "border-slate-200 bg-slate-50 text-slate-600";
+  return "border-frosted-blue-200 bg-frosted-blue-50 text-deep-twilight-700";
 }
 
 function formatMoney(value: number, locale: string): string {

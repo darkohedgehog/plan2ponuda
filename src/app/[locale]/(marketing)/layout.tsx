@@ -14,7 +14,7 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
   const user = await getOptionalCurrentUser();
 
   return (
-    <div className="min-h-screen bg-white text-slate-950">
+    <div className="min-h-screen bg-white text-deep-twilight-950">
       <PublicNavbar isAuthenticated={Boolean(user)} />
       {children}
       <PublicFooter />

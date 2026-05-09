@@ -1,5 +1,6 @@
 "use client";
 
+import { Languages } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { type ChangeEvent, useTransition } from "react";
 
@@ -36,11 +37,15 @@ export function LocaleSwitcher({ className }: LocaleSwitcherProps) {
   }
 
   return (
-    <label className={cn("inline-flex shrink-0 items-center", className)}>
+    <label className={cn("inline-flex shrink-0 items-center gap-2", className)}>
       <span className="sr-only">{tCommon("language")}</span>
+      <Languages
+        aria-hidden="true"
+        className="hidden h-4 w-4 text-bright-teal-blue-700 sm:block"
+      />
       <select
         aria-label={tCommon("language")}
-        className="h-9 rounded-md border border-slate-200 bg-white px-2.5 text-xs font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="h-9 rounded-md border border-frosted-blue-200 bg-white px-2.5 text-xs font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-50 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         disabled={isPending}
         onChange={handleLocaleChange}
         value={locale}

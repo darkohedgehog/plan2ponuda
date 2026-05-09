@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleX, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
@@ -50,28 +51,34 @@ export function ProjectsList({ projects }: ProjectsListProps) {
   }, [projects, searchQuery, selectedStatus]);
 
   return (
-    <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-slate-200 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
+    <section className="overflow-hidden rounded-lg border border-frosted-blue-200 bg-white shadow-sm">
+      <div className="flex flex-col gap-4 border-b border-frosted-blue-200 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0">
-          <h2 className="text-lg font-semibold text-slate-950">
+          <h2 className="text-lg font-semibold text-deep-twilight-950">
             {tProjects("list.title")}
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-deep-twilight-700/70">
             {tProjects("list.subtitle")}
           </p>
         </div>
         <div className="grid w-full min-w-0 gap-2 sm:grid-cols-[minmax(0,1fr)_12rem] lg:max-w-xl">
-          <input
-            aria-label={tProjects("list.searchAriaLabel")}
-            className="h-10 min-w-0 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            onChange={(event) => setSearchQuery(event.target.value)}
-            placeholder={tProjects("list.searchPlaceholder")}
-            type="search"
-            value={searchQuery}
-          />
+          <div className="relative min-w-0">
+            <Search
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-deep-twilight-700/45"
+            />
+            <input
+              aria-label={tProjects("list.searchAriaLabel")}
+              className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-300 bg-white pl-9 pr-3 text-sm font-medium text-deep-twilight-950 outline-none transition-colors placeholder:text-deep-twilight-700/45 focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder={tProjects("list.searchPlaceholder")}
+              type="search"
+              value={searchQuery}
+            />
+          </div>
           <select
             aria-label={tProjects("list.statusFilterAriaLabel")}
-            className="h-10 min-w-0 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-950 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="h-10 min-w-0 rounded-md border border-frosted-blue-300 bg-white px-3 text-sm font-medium text-deep-twilight-950 outline-none transition-colors focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
             onChange={(event) =>
               setSelectedStatus(event.target.value as ProjectStatus | "all")
             }
@@ -89,7 +96,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       </div>
 
       {filteredProjects.length > 0 ? (
-        <div className="divide-y divide-slate-200">
+        <div className="divide-y divide-frosted-blue-200">
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -97,25 +104,12 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       ) : (
         <div className="p-6 text-center sm:p-8">
           <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600 ring-1 ring-amber-100">
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M10 10l4 4" />
-              <path d="M14 10l-4 4" />
-              <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-            </svg>
+            <CircleX aria-hidden="true" className="h-5 w-5" />
           </div>
-          <h3 className="text-base font-semibold text-slate-950">
+          <h3 className="text-base font-semibold text-deep-twilight-950">
             {tEmptyState("title")}
           </h3>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-deep-twilight-700">
             {tEmptyState("description")}
           </p>
         </div>

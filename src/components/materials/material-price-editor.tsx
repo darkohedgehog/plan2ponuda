@@ -1,5 +1,6 @@
 "use client";
 
+import { Save } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
@@ -118,10 +119,11 @@ export function MaterialPriceEditor({
           value={price}
         />
         <button
-          className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-3 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-3 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-deep-twilight-300"
           disabled={isSaving || !isDirty}
           type="submit"
         >
+          <Save aria-hidden="true" className="h-4 w-4" />
           {isSaving ? tActions("saving") : tActions("save")}
         </button>
       </div>
