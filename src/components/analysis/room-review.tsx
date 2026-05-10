@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 
+import { AnalyzeFloorPlanButton } from "@/components/analysis/analyze-floor-plan-button";
 import { RoomReviewEditor } from "@/components/analysis/room-review-editor";
 import type { FloorPlanPreview, Project } from "@/types/project";
 import type { RoomReviewItem } from "@/types/room";
@@ -34,7 +35,11 @@ export function RoomReview({
       </section>
 
       <section className="grid min-w-0 gap-4 2xl:grid-cols-[minmax(0,1fr)_minmax(28rem,0.9fr)]">
-        <FloorPlanCard preview={floorPlanPreview} project={project} />
+        <FloorPlanCard
+          hasExistingRooms={rooms.length > 0}
+          preview={floorPlanPreview}
+          project={project}
+        />
         <RoomReviewEditor initialRooms={rooms} projectId={project.id} />
       </section>
     </main>
@@ -42,11 +47,16 @@ export function RoomReview({
 }
 
 type FloorPlanCardProps = {
+  hasExistingRooms: boolean;
   preview: FloorPlanPreview;
   project: ReviewProject;
 };
 
-function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
+function FloorPlanCard({
+  hasExistingRooms,
+  preview,
+  project,
+}: FloorPlanCardProps) {
   const tReview = useTranslations("Review");
   const tStatus = useTranslations("Status.project");
   const hasFloorPlan =
@@ -88,6 +98,12 @@ function FloorPlanCard({ preview, project }: FloorPlanCardProps) {
 
         <FloorPlanPreviewContent preview={preview} />
       </div>
+
+      <AnalyzeFloorPlanButton
+        hasExistingRooms={hasExistingRooms}
+        hasFloorPlan={hasFloorPlan}
+        projectId={project.id}
+      />
     </section>
   );
 }

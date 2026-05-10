@@ -43,6 +43,7 @@ export function getSupabaseServerEnv() {
 
 export function getAiServerEnv() {
   return {
+    openAiAnalysisModel: process.env.OPENAI_ANALYSIS_MODEL ?? null,
     openAiApiKey: process.env.OPENAI_API_KEY ?? null,
   };
 }

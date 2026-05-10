@@ -87,6 +87,8 @@
     "addFirstRoom": "Ersten Raum hinzufügen",
     "addMaterial": "Material hinzufügen",
     "addRoom": "Raum hinzufügen",
+    "analyzeFloorPlan": "Grundriss analysieren",
+    "analyzingFloorPlan": "Analyse läuft...",
     "cancel": "Abbrechen",
     "checkProject": "Projekt prüfen",
     "createAccount": "Konto erstellen",
@@ -700,6 +702,22 @@
     }
   },
   "Review": {
+    "analysis": {
+      "errors": {
+        "aiFailed": "Dieser Grundriss konnte nicht analysiert werden.",
+        "invalidInput": "Ungültiges Projekt.",
+        "missingFloorPlan": "Laden Sie einen Grundriss hoch, bevor Sie die Analyse starten.",
+        "projectNotFound": "Projekt nicht gefunden.",
+        "rateLimited": "Zu viele KI-Anfragen. Bitte versuchen Sie es in Kürze erneut.",
+        "roomsAlreadyExist": "Dieses Projekt enthält bereits Räume. Speichern oder entfernen Sie bestehende Räume, bevor Sie die Analyse erneut starten.",
+        "serverError": "Dieser Grundriss konnte nicht analysiert werden.",
+        "unsupportedFileType": "Der hochgeladene Grundrisstyp wird für die Analyse nicht unterstützt."
+      },
+      "messages": {
+        "existingRooms": "Die Analyse ist deaktiviert, weil dieses Projekt bereits Räume enthält.",
+        "success": "Analyse abgeschlossen. Erkannte Räume: {count}."
+      }
+    },
     "errors": {
       "invalidInput": "Geben Sie Raumnamen, gültige Raumtypen und nicht negative Vorschlagswerte ein.",
       "invalidRoomReference": "Ein oder mehrere Räume gehören nicht zu diesem Projekt.",

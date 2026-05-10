@@ -87,6 +87,8 @@
     "addFirstRoom": "Add first room",
     "addMaterial": "Add material",
     "addRoom": "Add Room",
+    "analyzeFloorPlan": "Analyze Floor Plan",
+    "analyzingFloorPlan": "Analyzing...",
     "cancel": "Cancel",
     "checkProject": "Check Project",
     "createAccount": "Create account",
@@ -700,6 +702,22 @@
     }
   },
   "Review": {
+    "analysis": {
+      "errors": {
+        "aiFailed": "Unable to analyze this floor plan.",
+        "invalidInput": "Invalid project.",
+        "missingFloorPlan": "Upload a floor plan before running analysis.",
+        "projectNotFound": "Project not found.",
+        "rateLimited": "Too many AI requests. Please try again shortly.",
+        "roomsAlreadyExist": "This project already has rooms. Save or remove existing rooms before running analysis again.",
+        "serverError": "Unable to analyze this floor plan.",
+        "unsupportedFileType": "The uploaded floor plan type is not supported for analysis."
+      },
+      "messages": {
+        "existingRooms": "Analysis is disabled because this project already has rooms.",
+        "success": "Analysis complete. Detected {count} rooms."
+      }
+    },
     "errors": {
       "invalidInput": "Enter room names, valid room types, and non-negative suggestion values.",
       "invalidRoomReference": "One or more rooms do not belong to this project.",

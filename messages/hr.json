@@ -87,6 +87,8 @@
     "addFirstRoom": "Dodaj prvu prostoriju",
     "addMaterial": "Dodaj materijal",
     "addRoom": "Dodaj prostoriju",
+    "analyzeFloorPlan": "Analiziraj tlocrt",
+    "analyzingFloorPlan": "Analiza...",
     "cancel": "Odustani",
     "checkProject": "Provjeri projekt",
     "createAccount": "Kreiraj račun",
@@ -700,6 +702,22 @@
     }
   },
   "Review": {
+    "analysis": {
+      "errors": {
+        "aiFailed": "Nije moguće analizirati ovaj tlocrt.",
+        "invalidInput": "Projekt nije valjan.",
+        "missingFloorPlan": "Učitajte tlocrt prije pokretanja analize.",
+        "projectNotFound": "Projekt nije pronađen.",
+        "rateLimited": "Previše AI zahtjeva. Pokušajte ponovno uskoro.",
+        "roomsAlreadyExist": "Ovaj projekt već ima prostorije. Spremite ili uklonite postojeće prostorije prije ponovne analize.",
+        "serverError": "Nije moguće analizirati ovaj tlocrt.",
+        "unsupportedFileType": "Učitana vrsta tlocrta nije podržana za analizu."
+      },
+      "messages": {
+        "existingRooms": "Analiza je onemogućena jer ovaj projekt već ima prostorije.",
+        "success": "Analiza je dovršena. Prepoznato prostorija: {count}."
+      }
+    },
     "errors": {
       "invalidInput": "Unesite nazive prostorija, valjane vrste prostorija i nenegativne vrijednosti prijedloga.",
       "invalidRoomReference": "Jedna ili više prostorija ne pripada ovom projektu.",

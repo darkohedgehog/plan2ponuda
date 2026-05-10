@@ -87,6 +87,8 @@
     "addFirstRoom": "Dodaj prvi prostor",
     "addMaterial": "Dodaj material",
     "addRoom": "Dodaj prostor",
+    "analyzeFloorPlan": "Analiziraj tloris",
+    "analyzingFloorPlan": "Analiza...",
     "cancel": "Prekliči",
     "checkProject": "Preveri projekt",
     "createAccount": "Ustvari račun",
@@ -700,6 +702,22 @@
     }
   },
   "Review": {
+    "analysis": {
+      "errors": {
+        "aiFailed": "Tega tlorisa ni mogoče analizirati.",
+        "invalidInput": "Projekt ni veljaven.",
+        "missingFloorPlan": "Naložite tloris pred zagonom analize.",
+        "projectNotFound": "Projekt ni najden.",
+        "rateLimited": "Preveč AI zahtev. Poskusite znova kmalu.",
+        "roomsAlreadyExist": "Ta projekt že ima prostore. Shranite ali odstranite obstoječe prostore pred ponovno analizo.",
+        "serverError": "Tega tlorisa ni mogoče analizirati.",
+        "unsupportedFileType": "Naložena vrsta tlorisa ni podprta za analizo."
+      },
+      "messages": {
+        "existingRooms": "Analiza je onemogočena, ker ta projekt že ima prostore.",
+        "success": "Analiza je končana. Prepoznanih prostorov: {count}."
+      }
+    },
     "errors": {
       "invalidInput": "Vnesite imena prostorov, veljavne vrste prostorov in nenegativne vrednosti predlogov.",
       "invalidRoomReference": "En ali več prostorov ne pripada temu projektu.",
