@@ -91,6 +91,8 @@
     "analyzingFloorPlan": "Analiza...",
     "cancel": "Odustani",
     "checkProject": "Proveri projekat",
+    "confirmRooms": "Potvrdi prostorije",
+    "continueToMaterials": "Nastavi na materijale",
     "createAccount": "Kreiraj nalog",
     "creatingAccount": "Kreiranje naloga...",
     "createFirstProject": "Kreirajte prvi projekat",
@@ -104,6 +106,7 @@
     "open": "Otvori",
     "openQuote": "Otvori ponudu",
     "openReview": "Otvori pregled",
+    "openRoomReview": "Otvori pregled prostorija",
     "openProject": "Otvori projekat",
     "replaceFile": "Zameni datoteku",
     "resetPassword": "Resetuj lozinku",
@@ -473,7 +476,7 @@
   },
   "Materials": {
     "catalog": {
-      "subtitle": "Prikaz sačuvanih zapisa materijala, uključujući najnovija ažuriranja.",
+      "subtitle": "Podrazumevane cene kataloga ostaju osnova za buduće generisane projektne materijale.",
       "title": "Katalog materijala"
     },
     "catalogItems": {
@@ -493,8 +496,8 @@
       "materialName": "Naziv materijala"
     },
     "page": {
-      "description": "Pregledajte sačuvane zapise kataloga koji se koriste u generisanim ponudama projekata.",
-      "eyebrow": "Katalog materijala",
+      "description": "Upravljajte podrazumevanim cenama kataloga i pregledajte sačuvane stavke materijala iz projektnih ponuda.",
+      "eyebrow": "Kontrolna tabla materijala",
       "title": "Materijali"
     },
     "priceEditor": {
@@ -504,9 +507,39 @@
       "manual": "Ručno",
       "rule": "Pravilo/generisano"
     },
+    "tabs": {
+      "ariaLabel": "Sekcije kontrolne table materijala",
+      "catalog": "Katalog",
+      "projectMaterials": "Projektni materijali"
+    },
     "errors": {
       "materialNotFound": "Materijal nije pronađen."
     }
+  },
+  "ProjectMaterials": {
+    "editingNote": "Otvorite ponudu za uređivanje količina, cena ili ručnih stavki materijala.",
+    "empty": {
+      "description": "Projektne stavke materijala pojaviće se ovde nakon generisanja ili otvaranja projektne ponude.",
+      "title": "Još nema projektnih materijala"
+    },
+    "fields": {
+      "action": "Radnja",
+      "category": "Kategorija",
+      "material": "Materijal",
+      "project": "Projekat",
+      "quantityUnit": "Kol. / jedinica",
+      "source": "Izvor",
+      "totalPrice": "Ukupna cena",
+      "unitPrice": "Jedinična cena"
+    },
+    "subtitle": "Pregled samo za čitanje generisanih i ručno uređenih stavki materijala kroz vaše projekte.",
+    "summary": {
+      "manualLineCount": "Ručne stavke",
+      "materialLineCount": "Stavke materijala",
+      "projectCount": "Projekti sa materijalima",
+      "totalMaterialValue": "Ukupna vrednost materijala"
+    },
+    "title": "Projektni materijali"
   },
   "MaterialUnits": {
     "m": "Metara",
@@ -567,7 +600,7 @@
         "description": "Ponuda je dostupna za ovaj projekat. Pregledajte detalje ponude ili nastavite doradu procene."
       },
       "reviewRooms": {
-        "description": "Pregledajte prepoznate prostorije i pripremite osnovu predloga elektroinstalacije za ovaj projekat."
+        "description": "Pregledajte prepoznate prostorije i predloge, zatim ih potvrdite pre generisanja materijala i ponude."
       }
     },
     "workflow": {
@@ -622,6 +655,8 @@
     "materials": {
       "emptyDescription": "Dodajte ručnu stavku materijala i sačuvajte je kako bi ušla u ukupne iznose ponude.",
       "emptyTitle": "Još nema materijala u ovoj ponudi",
+      "needsReviewDescription": "Pregledajte i potvrdite detektovane prostorije i električne predloge pre generisanja projektnih materijala i ponude.",
+      "needsReviewTitle": "Pregledajte prostorije pre generisanja materijala",
       "subtitle": "Količine se generišu iz razrešenih predloga po prostorijama i mogu se prilagoditi pre izvoza.",
       "title": "Lista materijala"
     },
@@ -709,12 +744,12 @@
         "missingFloorPlan": "Učitajte tlocrt pre pokretanja analize.",
         "projectNotFound": "Projekat nije pronađen.",
         "rateLimited": "Previše AI zahteva. Pokušajte ponovo uskoro.",
-        "roomsAlreadyExist": "Ovaj projekat već ima prostorije. Sačuvajte ili uklonite postojeće prostorije pre ponovne analize.",
+        "roomsAlreadyExist": "Ovaj projekat već ima prepoznate prostorije. Pregledajte ih ili uredite pre generisanja ponude.",
         "serverError": "Nije moguće analizirati ovaj tlocrt.",
         "unsupportedFileType": "Učitani tip tlocrta nije podržan za analizu."
       },
       "messages": {
-        "existingRooms": "Analiza je onemogućena jer ovaj projekat već ima prostorije.",
+        "existingRooms": "Ovaj projekat već ima prepoznate prostorije. Pregledajte ih ili uredite pre generisanja ponude.",
         "success": "Analiza je završena. Prepoznato prostorija: {count}."
       }
     },
@@ -750,16 +785,17 @@
       "title": "Tlocrt"
     },
     "hero": {
-      "description": "Pregledajte prepoznate prostorije pre prelaska na elektro predloge, materijale i izradu ponude.",
+      "description": "Pregledajte prepoznate prostorije i predloge. Nakon potvrde možete generisati materijale i pripremiti ponudu.",
       "eyebrow": "Pregled prostorija"
     },
     "messages": {
+      "confirmed": "Prostorije su potvrđene. Nastavite na materijale kada ste spremni da generišete ponudu.",
       "saved": "Prostorije su sačuvane."
     }
   },
   "Rooms": {
     "editor": {
-      "subtitle": "Dodajte, ispravite ili uklonite prostorije pre generisanja predloga.",
+      "subtitle": "Proverite nazive prostorija, vrste prostorija i električne predloge pre nastavka na materijale.",
       "title": "Prepoznate prostorije"
     },
     "fields": {

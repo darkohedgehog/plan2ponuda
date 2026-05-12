@@ -91,6 +91,8 @@
     "analyzingFloorPlan": "Analyse läuft...",
     "cancel": "Abbrechen",
     "checkProject": "Projekt prüfen",
+    "confirmRooms": "Räume bestätigen",
+    "continueToMaterials": "Weiter zu Materialien",
     "createAccount": "Konto erstellen",
     "creatingAccount": "Konto wird erstellt...",
     "createFirstProject": "Erstes Projekt erstellen",
@@ -104,6 +106,7 @@
     "open": "Öffnen",
     "openQuote": "Angebot öffnen",
     "openReview": "Prüfung öffnen",
+    "openRoomReview": "Raumprüfung öffnen",
     "openProject": "Projekt öffnen",
     "replaceFile": "Datei ersetzen",
     "resetPassword": "Passwort zurücksetzen",
@@ -473,7 +476,7 @@
   },
   "Materials": {
     "catalog": {
-      "subtitle": "Gespeicherte Materialeinträge mit den neuesten Aktualisierungen.",
+      "subtitle": "Standardpreise im Katalog bleiben die Basis für künftig generierte Projektmaterialien.",
       "title": "Materialkatalog"
     },
     "catalogItems": {
@@ -493,8 +496,8 @@
       "materialName": "Materialname"
     },
     "page": {
-      "description": "Prüfen Sie gespeicherte Katalogeinträge, die für generierte Projektangebote verwendet werden.",
-      "eyebrow": "Materialkatalog",
+      "description": "Verwalten Sie Standardpreise im Katalog und prüfen Sie gespeicherte Materialpositionen aus Projektangeboten.",
+      "eyebrow": "Materialübersicht",
       "title": "Materialien"
     },
     "priceEditor": {
@@ -504,9 +507,39 @@
       "manual": "Manuell",
       "rule": "Regel/generiert"
     },
+    "tabs": {
+      "ariaLabel": "Bereiche der Materialübersicht",
+      "catalog": "Katalog",
+      "projectMaterials": "Projektmaterialien"
+    },
     "errors": {
       "materialNotFound": "Material nicht gefunden."
     }
+  },
+  "ProjectMaterials": {
+    "editingNote": "Öffnen Sie ein Angebot, um Mengen, Preise oder manuelle Materialpositionen zu bearbeiten.",
+    "empty": {
+      "description": "Projektmaterialien erscheinen hier, nachdem Sie ein Projektangebot erstellt oder geöffnet haben.",
+      "title": "Noch keine Projektmaterialien"
+    },
+    "fields": {
+      "action": "Aktion",
+      "category": "Kategorie",
+      "material": "Material",
+      "project": "Projekt",
+      "quantityUnit": "Menge / Einheit",
+      "source": "Quelle",
+      "totalPrice": "Gesamtpreis",
+      "unitPrice": "Einzelpreis"
+    },
+    "subtitle": "Schreibgeschützte Übersicht generierter und manuell bearbeiteter Materialpositionen in Ihren Projekten.",
+    "summary": {
+      "manualLineCount": "Manuelle Positionen",
+      "materialLineCount": "Materialpositionen",
+      "projectCount": "Projekte mit Materialien",
+      "totalMaterialValue": "Gesamtwert Material"
+    },
+    "title": "Projektmaterialien"
   },
   "MaterialUnits": {
     "m": "Meter",
@@ -567,7 +600,7 @@
         "description": "Für dieses Projekt ist ein Angebot verfügbar. Prüfen Sie die Details oder verfeinern Sie die Schätzung weiter."
       },
       "reviewRooms": {
-        "description": "Prüfen Sie erkannte Räume und bereiten Sie die Basis für elektrische Vorschläge vor."
+        "description": "Prüfen Sie erkannte Räume und Vorschläge und bestätigen Sie sie, bevor Materialien und Angebot erstellt werden."
       }
     },
     "workflow": {
@@ -622,6 +655,8 @@
     "materials": {
       "emptyDescription": "Fügen Sie eine manuelle Materialzeile hinzu und speichern Sie sie, damit sie in die Angebotssummen einfließt.",
       "emptyTitle": "Noch keine Materialien in diesem Angebot",
+      "needsReviewDescription": "Prüfen und bestätigen Sie die erkannten Räume und Elektro-Vorschläge, bevor Projektmaterialien und Angebot generiert werden.",
+      "needsReviewTitle": "Räume vor der Materialgenerierung prüfen",
       "subtitle": "Mengen werden aus aufgelösten Raumvorschlägen generiert und können vor dem Export angepasst werden.",
       "title": "Materialliste"
     },
@@ -709,12 +744,12 @@
         "missingFloorPlan": "Laden Sie einen Grundriss hoch, bevor Sie die Analyse starten.",
         "projectNotFound": "Projekt nicht gefunden.",
         "rateLimited": "Zu viele KI-Anfragen. Bitte versuchen Sie es in Kürze erneut.",
-        "roomsAlreadyExist": "Dieses Projekt enthält bereits Räume. Speichern oder entfernen Sie bestehende Räume, bevor Sie die Analyse erneut starten.",
+        "roomsAlreadyExist": "Dieses Projekt hat bereits erkannte Räume. Prüfen oder bearbeiten Sie sie, bevor Sie das Angebot erstellen.",
         "serverError": "Dieser Grundriss konnte nicht analysiert werden.",
         "unsupportedFileType": "Der hochgeladene Grundrisstyp wird für die Analyse nicht unterstützt."
       },
       "messages": {
-        "existingRooms": "Die Analyse ist deaktiviert, weil dieses Projekt bereits Räume enthält.",
+        "existingRooms": "Dieses Projekt hat bereits erkannte Räume. Prüfen oder bearbeiten Sie sie, bevor Sie das Angebot erstellen.",
         "success": "Analyse abgeschlossen. Erkannte Räume: {count}."
       }
     },
@@ -750,16 +785,17 @@
       "title": "Grundriss"
     },
     "hero": {
-      "description": "Prüfen Sie erkannte Räume, bevor Sie zu elektrischen Vorschlägen, Materialien und Angebotserstellung wechseln.",
+      "description": "Prüfen Sie erkannte Räume und Vorschläge. Nach der Bestätigung können Sie Materialien erstellen und das Angebot vorbereiten.",
       "eyebrow": "Räume prüfen"
     },
     "messages": {
+      "confirmed": "Räume bestätigt. Fahren Sie mit Materialien fort, wenn Sie das Angebot erstellen möchten.",
       "saved": "Räume gespeichert."
     }
   },
   "Rooms": {
     "editor": {
-      "subtitle": "Fügen Sie Räume hinzu, korrigieren oder entfernen Sie sie, bevor Vorschläge erstellt werden.",
+      "subtitle": "Prüfen Sie Raumnamen, Raumtypen und elektrische Vorschläge, bevor Sie mit Materialien fortfahren.",
       "title": "Erkannte Räume"
     },
     "fields": {

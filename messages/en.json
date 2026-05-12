@@ -91,6 +91,8 @@
     "analyzingFloorPlan": "Analyzing...",
     "cancel": "Cancel",
     "checkProject": "Check Project",
+    "confirmRooms": "Confirm rooms",
+    "continueToMaterials": "Continue to materials",
     "createAccount": "Create account",
     "creatingAccount": "Creating account...",
     "createFirstProject": "Create your first project",
@@ -104,6 +106,7 @@
     "open": "Open",
     "openQuote": "Open Quote",
     "openReview": "Open Review",
+    "openRoomReview": "Open room review",
     "openProject": "Open Project",
     "replaceFile": "Replace file",
     "resetPassword": "Reset password",
@@ -473,7 +476,7 @@
   },
   "Materials": {
     "catalog": {
-      "subtitle": "Showing persisted material records, newest updates included.",
+      "subtitle": "Default catalog prices remain the baseline for future generated project materials.",
       "title": "Material catalog"
     },
     "catalogItems": {
@@ -493,8 +496,8 @@
       "materialName": "Material name"
     },
     "page": {
-      "description": "Review the persisted catalog records used by generated project quotes.",
-      "eyebrow": "Materials catalog",
+      "description": "Manage default catalog pricing and review persisted material lines from project quotes.",
+      "eyebrow": "Materials dashboard",
       "title": "Materials"
     },
     "priceEditor": {
@@ -504,9 +507,39 @@
       "manual": "Manual",
       "rule": "Rule/generated"
     },
+    "tabs": {
+      "ariaLabel": "Materials dashboard sections",
+      "catalog": "Catalog",
+      "projectMaterials": "Project materials"
+    },
     "errors": {
       "materialNotFound": "Material not found."
     }
+  },
+  "ProjectMaterials": {
+    "editingNote": "Open a quote to edit quantities, prices, or manual material lines.",
+    "empty": {
+      "description": "Project material lines will appear here after you generate or open a project quote.",
+      "title": "No project materials yet"
+    },
+    "fields": {
+      "action": "Action",
+      "category": "Category",
+      "material": "Material",
+      "project": "Project",
+      "quantityUnit": "Qty / unit",
+      "source": "Source",
+      "totalPrice": "Total price",
+      "unitPrice": "Unit price"
+    },
+    "subtitle": "Read-only overview of generated and manually edited material lines across your projects.",
+    "summary": {
+      "manualLineCount": "Manual lines",
+      "materialLineCount": "Material lines",
+      "projectCount": "Projects with materials",
+      "totalMaterialValue": "Total material value"
+    },
+    "title": "Project materials"
   },
   "MaterialUnits": {
     "m": "Meters",
@@ -567,7 +600,7 @@
         "description": "A quote is available for this project. Review quote details or continue refining the estimate."
       },
       "reviewRooms": {
-        "description": "Review detected rooms and prepare the electrical suggestion baseline for this project."
+        "description": "Review detected rooms and suggestions, then confirm them before generating materials and the quote."
       }
     },
     "workflow": {
@@ -622,6 +655,8 @@
     "materials": {
       "emptyDescription": "Add a manual material line and save to include it in quote totals.",
       "emptyTitle": "No materials in this quote",
+      "needsReviewDescription": "Review and confirm detected rooms and electrical suggestions before generating project materials and the quote.",
+      "needsReviewTitle": "Review rooms before generating materials",
       "subtitle": "Quantities are generated from resolved room suggestions and can be adjusted before export.",
       "title": "Material list"
     },
@@ -709,12 +744,12 @@
         "missingFloorPlan": "Upload a floor plan before running analysis.",
         "projectNotFound": "Project not found.",
         "rateLimited": "Too many AI requests. Please try again shortly.",
-        "roomsAlreadyExist": "This project already has rooms. Save or remove existing rooms before running analysis again.",
+        "roomsAlreadyExist": "This project already has detected rooms. Review or edit them before generating the quote.",
         "serverError": "Unable to analyze this floor plan.",
         "unsupportedFileType": "The uploaded floor plan type is not supported for analysis."
       },
       "messages": {
-        "existingRooms": "Analysis is disabled because this project already has rooms.",
+        "existingRooms": "This project already has detected rooms. Review or edit them before generating the quote.",
         "success": "Analysis complete. Detected {count} rooms."
       }
     },
@@ -750,16 +785,17 @@
       "title": "Floor plan"
     },
     "hero": {
-      "description": "Review detected rooms before moving into electrical suggestions, materials, and quote generation.",
+      "description": "Review detected rooms and suggestions. Once confirmed, you can generate materials and prepare the quote.",
       "eyebrow": "Review rooms"
     },
     "messages": {
+      "confirmed": "Rooms confirmed. Continue to materials when you are ready to generate the quote.",
       "saved": "Rooms saved."
     }
   },
   "Rooms": {
     "editor": {
-      "subtitle": "Add, correct, or remove rooms before generating suggestions.",
+      "subtitle": "Check room names, room types, and electrical suggestions before continuing to materials.",
       "title": "Detected rooms"
     },
     "fields": {

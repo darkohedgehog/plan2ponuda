@@ -24,6 +24,7 @@ import {
   DEFAULT_LABOR_FACTOR,
   getUserLaborFactor,
 } from "@/server/services/settings-service";
+import { getQuoteWorkspaceMaterialState } from "@/server/services/quote-workspace-state";
 import type {
   Material,
   ProjectMaterial,
@@ -60,6 +61,13 @@ type QuoteGenerationResult =
   | {
       ok: false;
       reason: "not_found";
+    };
+
+type QuoteWorkspaceResult =
+  | QuoteGenerationResult
+  | {
+      ok: false;
+      reason: "needs_room_review";
     };
 
 type ProjectMaterialUpdateResult =
@@ -576,7 +584,7 @@ export async function generateQuote(
 export async function getQuoteWorkspace(
   projectId: string,
   userId: string,
-): Promise<QuoteGenerationResult> {
+): Promise<QuoteWorkspaceResult> {
   const project = await prisma.project.findFirst({
     where: {
       id: projectId,
@@ -585,7 +593,13 @@ export async function getQuoteWorkspace(
     select: {
       areaM2: true,
       id: true,
-      quote: true,
+      status: true,
+      _count: {
+        select: {
+          materials: true,
+          rooms: true,
+        },
+      },
     },
   });
 
@@ -596,7 +610,20 @@ export async function getQuoteWorkspace(
     };
   }
 
-  if (!project.quote) {
+  const materialState = getQuoteWorkspaceMaterialState({
+    projectMaterialCount: project._count.materials,
+    projectStatus: project.status,
+    roomCount: project._count.rooms,
+  });
+
+  if (materialState === "needs_room_review") {
+    return {
+      ok: false,
+      reason: "needs_room_review",
+    };
+  }
+
+  if (materialState === "generate_initial_materials") {
     return generateQuote(project.id, userId);
   }
 

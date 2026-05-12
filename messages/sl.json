@@ -91,6 +91,8 @@
     "analyzingFloorPlan": "Analiza...",
     "cancel": "Prekliči",
     "checkProject": "Preveri projekt",
+    "confirmRooms": "Potrdi prostore",
+    "continueToMaterials": "Nadaljuj na materiale",
     "createAccount": "Ustvari račun",
     "creatingAccount": "Ustvarjanje računa...",
     "createFirstProject": "Ustvarite prvi projekt",
@@ -104,6 +106,7 @@
     "open": "Odpri",
     "openQuote": "Odpri ponudbo",
     "openReview": "Odpri pregled",
+    "openRoomReview": "Odpri pregled prostorov",
     "openProject": "Odpri projekt",
     "replaceFile": "Zamenjaj datoteko",
     "resetPassword": "Ponastavi geslo",
@@ -473,7 +476,7 @@
   },
   "Materials": {
     "catalog": {
-      "subtitle": "Prikaz shranjenih zapisov materialov z najnovejšimi posodobitvami.",
+      "subtitle": "Privzete cene kataloga ostajajo osnova za prihodnje ustvarjene projektne materiale.",
       "title": "Katalog materialov"
     },
     "catalogItems": {
@@ -493,8 +496,8 @@
       "materialName": "Ime materiala"
     },
     "page": {
-      "description": "Preglejte shranjene zapise kataloga, ki se uporabljajo pri ustvarjenih ponudbah projektov.",
-      "eyebrow": "Katalog materialov",
+      "description": "Upravljajte privzete cene kataloga in preglejte shranjene postavke materialov iz projektnih ponudb.",
+      "eyebrow": "Nadzorna plošča materialov",
       "title": "Materiali"
     },
     "priceEditor": {
@@ -504,9 +507,39 @@
       "manual": "Ročno",
       "rule": "Pravilo/ustvarjeno"
     },
+    "tabs": {
+      "ariaLabel": "Sekcije nadzorne plošče materialov",
+      "catalog": "Katalog",
+      "projectMaterials": "Projektni materiali"
+    },
     "errors": {
       "materialNotFound": "Material ni najden."
     }
+  },
+  "ProjectMaterials": {
+    "editingNote": "Odprite ponudbo za urejanje količin, cen ali ročnih postavk materialov.",
+    "empty": {
+      "description": "Projektne postavke materialov se bodo prikazale tukaj po ustvarjanju ali odprtju projektne ponudbe.",
+      "title": "Projektnih materialov še ni"
+    },
+    "fields": {
+      "action": "Dejanje",
+      "category": "Kategorija",
+      "material": "Material",
+      "project": "Projekt",
+      "quantityUnit": "Kol. / enota",
+      "source": "Vir",
+      "totalPrice": "Skupna cena",
+      "unitPrice": "Cena na enoto"
+    },
+    "subtitle": "Pregled ustvarjenih in ročno urejenih postavk materialov v vaših projektih samo za branje.",
+    "summary": {
+      "manualLineCount": "Ročne postavke",
+      "materialLineCount": "Postavke materialov",
+      "projectCount": "Projekti z materiali",
+      "totalMaterialValue": "Skupna vrednost materialov"
+    },
+    "title": "Projektni materiali"
   },
   "MaterialUnits": {
     "m": "Metri",
@@ -567,7 +600,7 @@
         "description": "Ponudba je na voljo za ta projekt. Preglejte podrobnosti ponudbe ali nadaljujte z izboljšavo ocene."
       },
       "reviewRooms": {
-        "description": "Preglejte prepoznane prostore in pripravite osnovo za elektro predloge za ta projekt."
+        "description": "Preglejte prepoznane prostore in predloge, nato jih potrdite pred ustvarjanjem materialov in ponudbe."
       }
     },
     "workflow": {
@@ -622,6 +655,8 @@
     "materials": {
       "emptyDescription": "Dodajte ročno vrstico materiala in jo shranite, da bo vključena v skupne zneske ponudbe.",
       "emptyTitle": "V tej ponudbi še ni materialov",
+      "needsReviewDescription": "Preglejte in potrdite zaznane prostore ter električne predloge pred ustvarjanjem projektnih materialov in ponudbe.",
+      "needsReviewTitle": "Preglejte prostore pred ustvarjanjem materialov",
       "subtitle": "Količine so ustvarjene iz razrešenih predlogov po prostorih in jih lahko prilagodite pred izvozom.",
       "title": "Seznam materialov"
     },
@@ -709,12 +744,12 @@
         "missingFloorPlan": "Naložite tloris pred zagonom analize.",
         "projectNotFound": "Projekt ni najden.",
         "rateLimited": "Preveč AI zahtev. Poskusite znova kmalu.",
-        "roomsAlreadyExist": "Ta projekt že ima prostore. Shranite ali odstranite obstoječe prostore pred ponovno analizo.",
+        "roomsAlreadyExist": "Ta projekt že ima prepoznane prostore. Preglejte ali uredite jih pred ustvarjanjem ponudbe.",
         "serverError": "Tega tlorisa ni mogoče analizirati.",
         "unsupportedFileType": "Naložena vrsta tlorisa ni podprta za analizo."
       },
       "messages": {
-        "existingRooms": "Analiza je onemogočena, ker ta projekt že ima prostore.",
+        "existingRooms": "Ta projekt že ima prepoznane prostore. Preglejte ali uredite jih pred ustvarjanjem ponudbe.",
         "success": "Analiza je končana. Prepoznanih prostorov: {count}."
       }
     },
@@ -750,16 +785,17 @@
       "title": "Tloris"
     },
     "hero": {
-      "description": "Preglejte prepoznane prostore pred prehodom na elektro predloge, materiale in pripravo ponudbe.",
+      "description": "Preglejte prepoznane prostore in predloge. Po potrditvi lahko ustvarite materiale in pripravite ponudbo.",
       "eyebrow": "Pregled prostorov"
     },
     "messages": {
+      "confirmed": "Prostori so potrjeni. Nadaljujte na materiale, ko ste pripravljeni ustvariti ponudbo.",
       "saved": "Prostori so shranjeni."
     }
   },
   "Rooms": {
     "editor": {
-      "subtitle": "Dodajte, popravite ali odstranite prostore pred ustvarjanjem predlogov.",
+      "subtitle": "Preverite imena prostorov, vrste prostorov in električne predloge pred nadaljevanjem na materiale.",
       "title": "Prepoznani prostori"
     },
     "fields": {

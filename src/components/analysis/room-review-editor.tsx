@@ -1,10 +1,11 @@
 "use client";
 
-import { Plus, Save, Trash2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, useState } from "react";
 
+import { Link } from "@/i18n/navigation";
 import {
   generateRoomSuggestions,
   resolveRoomSuggestion,
@@ -332,9 +333,18 @@ export function RoomReviewEditor({
         <p className="mt-4 text-sm text-red-600">{tReview(errorKey)}</p>
       ) : null}
       {isSaved ? (
-        <p className="mt-4 text-sm text-emerald-700">
-          {tReview("messages.saved")}
-        </p>
+        <div className="mt-4 rounded-md border border-emerald-200 bg-emerald-50 p-4">
+          <p className="text-sm font-medium text-emerald-800">
+            {tReview("messages.confirmed")}
+          </p>
+          <Link
+            className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            href={`/dashboard/projects/${projectId}/quote`}
+          >
+            {tActions("continueToMaterials")}
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        </div>
       ) : null}
 
       <div className="mt-5 flex sm:justify-end">
@@ -344,8 +354,8 @@ export function RoomReviewEditor({
           onClick={saveRooms}
           type="button"
         >
-          <Save aria-hidden="true" className="h-4 w-4" />
-          {isSubmitting ? tActions("saving") : tActions("saveRooms")}
+          <CheckCircle2 aria-hidden="true" className="h-4 w-4" />
+          {isSubmitting ? tActions("saving") : tActions("confirmRooms")}
         </button>
       </div>
     </section>

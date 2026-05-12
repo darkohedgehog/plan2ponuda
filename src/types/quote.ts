@@ -33,6 +33,21 @@ export type ProjectMaterial = {
   updatedAt: Date;
 };
 
+export type ProjectMaterialOverviewItem = ProjectMaterial & {
+  project: {
+    clientName?: string;
+    id: string;
+    name: string;
+  };
+};
+
+export type UserMaterialSummary = {
+  manualLineCount: number;
+  materialLineCount: number;
+  projectCount: number;
+  totalMaterialValue: string;
+};
+
 export type Quote = {
   id: string;
   projectId: string;

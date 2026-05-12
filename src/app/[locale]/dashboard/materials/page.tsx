@@ -1,10 +1,17 @@
 import { getTranslations } from "next-intl/server";
 
 import { MaterialCatalog } from "@/components/materials/material-catalog";
+import { MaterialSummaryCards } from "@/components/materials/material-summary-cards";
+import { MaterialsDashboardTabs } from "@/components/materials/materials-dashboard-tabs";
+import { ProjectMaterialsOverview } from "@/components/materials/project-materials-overview";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/auth/session";
-import { getMaterialCatalog } from "@/server/services/material-service";
+import {
+  getMaterialCatalog,
+  getUserMaterialSummary,
+  getUserProjectMaterials,
+} from "@/server/services/material-service";
 
 type MaterialsPageProps = {
   params: Promise<{
@@ -21,7 +28,11 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
     return redirect({ href: "/sign-in", locale });
   }
 
-  const materials = await getMaterialCatalog();
+  const [materials, projectMaterials, materialSummary] = await Promise.all([
+    getMaterialCatalog(),
+    getUserProjectMaterials(user.id),
+    getUserMaterialSummary(user.id),
+  ]);
   const tMaterials = await getTranslations("Materials");
 
   return (
@@ -38,7 +49,16 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
         </p>
       </section>
 
-      <MaterialCatalog materials={materials} />
+      <MaterialSummaryCards summary={materialSummary} />
+
+      <MaterialsDashboardTabs
+        catalog={<MaterialCatalog materials={materials} />}
+        catalogCount={materials.length}
+        projectMaterialCount={projectMaterials.length}
+        projectMaterials={
+          <ProjectMaterialsOverview materials={projectMaterials} />
+        }
+      />
     </main>
   );
 }

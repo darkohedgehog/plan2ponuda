@@ -1,10 +1,16 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import {
+  getAnalyzeFloorPlanUiState,
+  type AnalysisFeedback,
+  type AnalysisFeedbackKey,
+} from "@/components/analysis/analyze-floor-plan-state";
+import { Link } from "@/i18n/navigation";
 import type {
   AnalysisErrorCode,
   AnalyzeProjectResponse,
@@ -15,16 +21,6 @@ type AnalyzeFloorPlanButtonProps = {
   hasFloorPlan: boolean;
   projectId: string;
 };
-
-type AnalysisFeedbackKey =
-  | "analysis.errors.aiFailed"
-  | "analysis.errors.invalidInput"
-  | "analysis.errors.missingFloorPlan"
-  | "analysis.errors.projectNotFound"
-  | "analysis.errors.rateLimited"
-  | "analysis.errors.roomsAlreadyExist"
-  | "analysis.errors.serverError"
-  | "analysis.errors.unsupportedFileType";
 
 const analysisErrorKeysByCode: Record<AnalysisErrorCode, AnalysisFeedbackKey> =
   {
@@ -46,14 +42,21 @@ export function AnalyzeFloorPlanButton({
   const router = useRouter();
   const tActions = useTranslations("Actions");
   const tReview = useTranslations("Review");
-  const [errorKey, setErrorKey] = useState<AnalysisFeedbackKey | null>(null);
+  const [feedback, setFeedback] = useState<AnalysisFeedback>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [roomCount, setRoomCount] = useState<number | null>(null);
-  const canAnalyze = hasFloorPlan && !hasExistingRooms;
+  const uiState = getAnalyzeFloorPlanUiState({
+    feedback,
+    hasExistingRooms,
+    hasFloorPlan,
+    isSubmitting,
+  });
 
   async function analyzeFloorPlan() {
-    setErrorKey(null);
-    setRoomCount(null);
+    if (uiState.button.disabled) {
+      return;
+    }
+
+    setFeedback(null);
     setIsSubmitting(true);
 
     const response = await fetch(`/api/analysis/${projectId}`, {
@@ -62,7 +65,7 @@ export function AnalyzeFloorPlanButton({
 
     if (!response) {
       setIsSubmitting(false);
-      setErrorKey("analysis.errors.serverError");
+      setFeedback({ kind: "error", key: "analysis.errors.serverError" });
       return;
     }
 
@@ -73,43 +76,65 @@ export function AnalyzeFloorPlanButton({
     setIsSubmitting(false);
 
     if (!response.ok || !payload?.ok) {
-      setErrorKey(
-        payload && "error" in payload
-          ? analysisErrorKeysByCode[payload.error.code]
-          : "analysis.errors.serverError",
-      );
+      if (payload && "error" in payload) {
+        if (payload.error.code === "rooms_already_exist") {
+          router.refresh();
+          return;
+        }
+
+        setFeedback({
+          kind: "error",
+          key: analysisErrorKeysByCode[payload.error.code],
+        });
+        return;
+      }
+
+      setFeedback({ kind: "error", key: "analysis.errors.serverError" });
       return;
     }
 
-    setRoomCount(payload.analysis.roomCount);
+    setFeedback({ kind: "success", roomCount: payload.analysis.roomCount });
     router.refresh();
   }
 
   return (
     <div className="mt-4 border-t border-frosted-blue-200 pt-4">
-      <button
-        className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-        disabled={!canAnalyze || isSubmitting}
-        onClick={analyzeFloorPlan}
-        type="button"
-      >
-        <Sparkles aria-hidden="true" className="h-4 w-4" />
-        {isSubmitting
-          ? tActions("analyzingFloorPlan")
-          : tActions("analyzeFloorPlan")}
-      </button>
+      {uiState.button.visible ? (
+        <button
+          className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          disabled={uiState.button.disabled}
+          onClick={analyzeFloorPlan}
+          type="button"
+        >
+          <Sparkles aria-hidden="true" className="h-4 w-4" />
+          {tActions(uiState.button.labelKey)}
+        </button>
+      ) : null}
 
-      {hasExistingRooms ? (
-        <p className="mt-3 text-sm text-deep-twilight-700">
-          {tReview("analysis.messages.existingRooms")}
+      {uiState.feedback?.kind === "existingRooms" ? (
+        <div className="mt-3 rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-3">
+          <p className="text-sm leading-6 text-deep-twilight-700">
+            {tReview("analysis.messages.existingRooms")}
+          </p>
+          <Link
+            className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            href={`/dashboard/projects/${projectId}/review`}
+          >
+            {tActions("openRoomReview")}
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        </div>
+      ) : null}
+      {uiState.feedback?.kind === "error" ? (
+        <p className="mt-3 text-sm text-red-600">
+          {tReview(uiState.feedback.key)}
         </p>
       ) : null}
-      {errorKey ? (
-        <p className="mt-3 text-sm text-red-600">{tReview(errorKey)}</p>
-      ) : null}
-      {roomCount !== null ? (
+      {uiState.feedback?.kind === "success" ? (
         <p className="mt-3 text-sm text-emerald-700">
-          {tReview("analysis.messages.success", { count: roomCount })}
+          {tReview("analysis.messages.success", {
+            count: uiState.feedback.roomCount,
+          })}
         </p>
       ) : null}
     </div>

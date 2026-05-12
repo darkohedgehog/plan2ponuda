@@ -102,6 +102,9 @@ function FloorPlanCard({
       <AnalyzeFloorPlanButton
         hasExistingRooms={hasExistingRooms}
         hasFloorPlan={hasFloorPlan}
+        key={`${project.id}-${
+          hasExistingRooms ? "with-existing-rooms" : "without-existing-rooms"
+        }`}
         projectId={project.id}
       />
     </section>
