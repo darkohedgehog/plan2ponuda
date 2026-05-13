@@ -550,6 +550,18 @@
     "card": {
       "noClientAssigned": "Kein Kunde zugewiesen"
     },
+    "delete": {
+      "cancel": "Abbrechen",
+      "cannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden",
+      "dangerZone": "Gefahrenbereich",
+      "deletePermanently": "Dauerhaft löschen",
+      "deleteProject": "Projekt löschen",
+      "deleting": "Wird gelöscht...",
+      "failed": "Projekt konnte nicht gelöscht werden",
+      "permanentWarning": "Projekt, Räume, Materialien, Angebot und hochgeladene Dateien werden dauerhaft gelöscht.",
+      "projectDeleted": "Projekt gelöscht",
+      "typeProjectNameToConfirm": "Projektnamen zur Bestätigung eingeben"
+    },
     "form": {
       "areaPlaceholder": "Fläche in m2",
       "clientNamePlaceholder": "Kundenname",
@@ -750,6 +762,7 @@
       },
       "messages": {
         "existingRooms": "Dieses Projekt hat bereits erkannte Räume. Prüfen oder bearbeiten Sie sie, bevor Sie das Angebot erstellen.",
+        "noRoomsDetected": "Die Analyse wurde abgeschlossen, aber es wurden keine Räume erkannt. Sie können Räume manuell hinzufügen.",
         "success": "Analyse abgeschlossen. Erkannte Räume: {count}."
       }
     },

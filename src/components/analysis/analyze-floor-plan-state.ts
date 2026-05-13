@@ -10,6 +10,9 @@ export type AnalysisFeedbackKey =
 
 export type AnalysisFeedback =
   | {
+      kind: "emptySuccess";
+    }
+  | {
       kind: "error";
       key: AnalysisFeedbackKey;
     }
@@ -56,4 +59,11 @@ export function getAnalyzeFloorPlanUiState({
     },
     feedback: hasExistingRooms ? { kind: "existingRooms" } : feedback,
   };
+}
+
+export function getRoomReviewEditorStateKey(
+  projectId: string,
+  rooms: ReadonlyArray<{ id: string }>,
+): string {
+  return `${projectId}:${rooms.map((room) => room.id).join("|")}`;
 }

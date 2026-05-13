@@ -2,7 +2,6 @@
 
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import {
@@ -10,7 +9,7 @@ import {
   type AnalysisFeedback,
   type AnalysisFeedbackKey,
 } from "@/components/analysis/analyze-floor-plan-state";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import type {
   AnalysisErrorCode,
   AnalyzeProjectResponse,
@@ -39,6 +38,7 @@ export function AnalyzeFloorPlanButton({
   hasFloorPlan,
   projectId,
 }: AnalyzeFloorPlanButtonProps) {
+  const pathname = usePathname();
   const router = useRouter();
   const tActions = useTranslations("Actions");
   const tReview = useTranslations("Review");
@@ -50,6 +50,16 @@ export function AnalyzeFloorPlanButton({
     hasFloorPlan,
     isSubmitting,
   });
+  const reviewPath = `/dashboard/projects/${projectId}/review`;
+  const isReviewPage = pathname === reviewPath || pathname.endsWith(reviewPath);
+
+  function syncAnalysisRouteData() {
+    if (!isReviewPage) {
+      router.push(reviewPath);
+    }
+
+    router.refresh();
+  }
 
   async function analyzeFloorPlan() {
     if (uiState.button.disabled) {
@@ -78,7 +88,7 @@ export function AnalyzeFloorPlanButton({
     if (!response.ok || !payload?.ok) {
       if (payload && "error" in payload) {
         if (payload.error.code === "rooms_already_exist") {
-          router.refresh();
+          syncAnalysisRouteData();
           return;
         }
 
@@ -93,8 +103,12 @@ export function AnalyzeFloorPlanButton({
       return;
     }
 
-    setFeedback({ kind: "success", roomCount: payload.analysis.roomCount });
-    router.refresh();
+    setFeedback(
+      payload.analysis.roomCount > 0
+        ? { kind: "success", roomCount: payload.analysis.roomCount }
+        : { kind: "emptySuccess" },
+    );
+    syncAnalysisRouteData();
   }
 
   return (
@@ -135,6 +149,11 @@ export function AnalyzeFloorPlanButton({
           {tReview("analysis.messages.success", {
             count: uiState.feedback.roomCount,
           })}
+        </p>
+      ) : null}
+      {uiState.feedback?.kind === "emptySuccess" ? (
+        <p className="mt-3 text-sm text-amber-700">
+          {tReview("analysis.messages.noRoomsDetected")}
         </p>
       ) : null}
     </div>

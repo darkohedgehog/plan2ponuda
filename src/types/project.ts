@@ -77,3 +77,13 @@ export type UploadFloorPlanResponse =
       ok: false;
       error: ProjectError;
     };
+
+export type DeleteProjectResponse =
+  | {
+      ok: true;
+      projectId: string;
+    }
+  | {
+      ok: false;
+      error: ProjectError;
+    };

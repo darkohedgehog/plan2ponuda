@@ -550,6 +550,18 @@
     "card": {
       "noClientAssigned": "No client assigned"
     },
+    "delete": {
+      "cancel": "Cancel",
+      "cannotBeUndone": "This action cannot be undone",
+      "dangerZone": "Danger zone",
+      "deletePermanently": "Delete permanently",
+      "deleteProject": "Delete project",
+      "deleting": "Deleting...",
+      "failed": "Failed to delete project",
+      "permanentWarning": "The project, rooms, materials, quote, and uploaded files will be permanently deleted.",
+      "projectDeleted": "Project deleted",
+      "typeProjectNameToConfirm": "Type project name to confirm"
+    },
     "form": {
       "areaPlaceholder": "Area in m2",
       "clientNamePlaceholder": "Client name",
@@ -750,6 +762,7 @@
       },
       "messages": {
         "existingRooms": "This project already has detected rooms. Review or edit them before generating the quote.",
+        "noRoomsDetected": "Analysis completed, but no rooms were detected. You can add rooms manually.",
         "success": "Analysis complete. Detected {count} rooms."
       }
     },

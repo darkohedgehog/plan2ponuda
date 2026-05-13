@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 
+import { getRoomReviewEditorStateKey } from "@/components/analysis/analyze-floor-plan-state";
 import { AnalyzeFloorPlanButton } from "@/components/analysis/analyze-floor-plan-button";
 import { RoomReviewEditor } from "@/components/analysis/room-review-editor";
 import type { FloorPlanPreview, Project } from "@/types/project";
@@ -40,7 +41,11 @@ export function RoomReview({
           preview={floorPlanPreview}
           project={project}
         />
-        <RoomReviewEditor initialRooms={rooms} projectId={project.id} />
+        <RoomReviewEditor
+          initialRooms={rooms}
+          key={getRoomReviewEditorStateKey(project.id, rooms)}
+          projectId={project.id}
+        />
       </section>
     </main>
   );

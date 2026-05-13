@@ -550,6 +550,18 @@
     "card": {
       "noClientAssigned": "Klijent nije dodeljen"
     },
+    "delete": {
+      "cancel": "Odustani",
+      "cannotBeUndone": "Ova radnja se ne može opozvati",
+      "dangerZone": "Zona opasnosti",
+      "deletePermanently": "Trajno izbriši",
+      "deleteProject": "Izbriši projekat",
+      "deleting": "Brisanje...",
+      "failed": "Brisanje projekta nije uspelo",
+      "permanentWarning": "Projekat, prostorije, materijali, ponuda i učitane datoteke biće trajno izbrisani.",
+      "projectDeleted": "Projekat je izbrisan",
+      "typeProjectNameToConfirm": "Unesite naziv projekta za potvrdu"
+    },
     "form": {
       "areaPlaceholder": "Površina u m2",
       "clientNamePlaceholder": "Ime klijenta",
@@ -750,6 +762,7 @@
       },
       "messages": {
         "existingRooms": "Ovaj projekat već ima prepoznate prostorije. Pregledajte ih ili uredite pre generisanja ponude.",
+        "noRoomsDetected": "Analiza je završena, ali nije prepoznata nijedna prostorija. Prostorije možete dodati ručno.",
         "success": "Analiza je završena. Prepoznato prostorija: {count}."
       }
     },

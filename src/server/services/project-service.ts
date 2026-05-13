@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { Project as DbProject } from "../../../generated/prisma/client";
+import { Prisma } from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/db/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server-client";
@@ -15,6 +16,7 @@ import type {
   Project,
   UploadFloorPlanResponse,
 } from "@/types/project";
+import { getProjectStoragePathsToDelete } from "./project-storage-paths";
 
 const PROJECT_FILES_BUCKET = "project-files";
 const FLOOR_PLAN_PREVIEW_URL_TTL_SECONDS = 5 * 60;
@@ -127,6 +129,80 @@ export async function getProjectById(
   });
 
   return project ? mapProject(project) : null;
+}
+
+export type DeleteProjectResult =
+  | {
+      ok: true;
+      projectId: string;
+    }
+  | {
+      ok: false;
+      reason: "not_found";
+    };
+
+export async function deleteProject(
+  projectId: string,
+  userId: string,
+): Promise<DeleteProjectResult> {
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    select: {
+      id: true,
+      previewPath: true,
+      sourceFilePath: true,
+    },
+  });
+
+  if (!project) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
+
+  const storagePaths = getProjectStoragePathsToDelete({
+    previewPath: project.previewPath,
+    projectId: project.id,
+    sourceFilePath: project.sourceFilePath,
+  });
+
+  const deletedProject = await prisma.project
+    .delete({
+      where: {
+        id: project.id,
+      },
+      select: {
+        id: true,
+      },
+    })
+    .catch((error: unknown) => {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        return null;
+      }
+
+      throw error;
+    });
+
+  if (!deletedProject) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
+
+  await removeProjectStorageFiles(storagePaths);
+
+  return {
+    ok: true,
+    projectId: deletedProject.id,
+  };
 }
 
 export type ProjectWorkspaceData = Project & {
@@ -242,6 +318,25 @@ export async function createSignedFloorPlanUrl(
       kind: "unavailable",
       reason: "signing_failed",
     };
+  }
+}
+
+async function removeProjectStorageFiles(filePaths: string[]): Promise<void> {
+  if (filePaths.length === 0) {
+    return;
+  }
+
+  try {
+    const supabase = createSupabaseServerClient();
+    const { error } = await supabase.storage
+      .from(PROJECT_FILES_BUCKET)
+      .remove(filePaths);
+
+    if (error) {
+      console.error("Project storage cleanup failed", error);
+    }
+  } catch (error) {
+    console.error("Project storage cleanup failed", error);
   }
 }
 

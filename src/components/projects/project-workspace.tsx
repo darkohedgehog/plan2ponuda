@@ -1,5 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 
+import { DeleteProjectDangerZone } from "@/components/projects/delete-project-danger-zone";
 import { FloorPlanUploadForm } from "@/components/projects/floor-plan-upload-form";
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { Link } from "@/i18n/navigation";
@@ -189,6 +190,11 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
           </Link>
         </div>
       </section>
+
+      <DeleteProjectDangerZone
+        projectId={project.id}
+        projectName={project.name}
+      />
     </main>
   );
 }
