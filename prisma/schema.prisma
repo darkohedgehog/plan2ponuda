@@ -58,20 +58,70 @@ enum AnalysisStatus {
   failed
 }
 
+enum UserRole {
+  user
+  admin
+}
+
+enum BillingPlan {
+  free
+  basic
+  pro
+}
+
+enum SubscriptionStatus {
+  incomplete
+  trialing
+  active
+  past_due
+  canceled
+  unpaid
+  paused
+}
+
+enum CustomerType {
+  croatian_individual
+  croatian_business_b2b
+  croatian_b2g
+  eu_business
+  eu_b2g_needs_review
+  outside_eu
+}
+
+enum InvoiceTaskStatus {
+  pending
+  issued
+  failed
+  needs_review
+  not_required
+}
+
+enum UsageCounterType {
+  floor_plans_created
+  quotes_created
+  large_pdf_analyses_used
+}
+
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
   passwordHash String
   fullName     String?
   companyName  String?
+  role         UserRole  @default(user)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
   projects     Project[]
   settings     UserSettings?
+  subscription Subscription?
+  billingProfile BillingProfile?
+  invoiceTasks InvoiceTask[]
+  usageCounters UsageCounter[]
   passwordResetTokens PasswordResetToken[]
 
   @@index([createdAt])
+  @@index([role])
 }
 
 model UserSettings {
@@ -223,4 +273,118 @@ model Quote {
   updatedAt    DateTime  @updatedAt
 
   project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  plan                 BillingPlan        @default(free)
+  status               SubscriptionStatus @default(active)
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  stripePriceId        String?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  trialEndsAt          DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([plan])
+  @@index([status])
+  @@index([currentPeriodEnd])
+}
+
+model BillingProfile {
+  id                   String       @id @default(cuid())
+  userId               String       @unique
+  customerType         CustomerType
+  billingName          String
+  billingEmail         String
+  billingAddressLine1  String
+  billingAddressLine2  String?
+  billingCity          String
+  billingPostalCode    String
+  billingCountry       String
+  companyName          String?
+  contactPerson        String?
+  vatId                String?
+  taxId                String?
+  oib                  String?
+  phone                String?
+  purchaseOrderNumber  String?
+  eInvoiceReference    String?
+  procurementReference String?
+  notes                String?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+
+  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([customerType])
+  @@index([billingCountry])
+}
+
+model BillingEvent {
+  id              String    @id @default(cuid())
+  stripeEventId   String    @unique
+  eventType       String
+  processedAt     DateTime?
+  processingError String?
+  payload         Json
+  createdAt       DateTime  @default(now())
+
+  @@index([eventType])
+  @@index([processedAt])
+  @@index([createdAt])
+}
+
+model InvoiceTask {
+  id                    String            @id @default(cuid())
+  userId                String
+  status                InvoiceTaskStatus @default(pending)
+  stripeCustomerId      String?
+  stripeSubscriptionId  String?
+  stripeInvoiceId       String?           @unique
+  stripePaymentIntentId String?
+  stripeEventId         String?
+  periodStart           DateTime?
+  periodEnd             DateTime?
+  amountPaid            Decimal?          @db.Decimal(10, 2)
+  currency              String            @default("EUR")
+  customerType          CustomerType
+  billingSnapshot       Json
+  synesisInvoiceNumber  String?
+  adminNotes            String?
+  reviewedAt            DateTime?
+  issuedAt              DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+  @@index([stripeInvoiceId])
+}
+
+model UsageCounter {
+  id          String           @id @default(cuid())
+  userId      String
+  type        UsageCounterType
+  periodKey   String           @default("lifetime")
+  count       Int              @default(0)
+  periodStart DateTime?
+  periodEnd   DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([periodEnd])
+  @@unique([userId, type, periodKey])
 }

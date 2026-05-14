@@ -1,4 +1,5 @@
 export type DashboardIconName =
+  | "billing"
   | "dashboard"
   | "folder"
   | "materials"
@@ -12,6 +13,7 @@ export type DashboardNavigationItem = {
 };
 
 export type DashboardNavigationLabelKey =
+  | "billing"
   | "dashboard"
   | "materials"
   | "projects"
@@ -24,6 +26,8 @@ export type DashboardPageHeader = {
 };
 
 export type DashboardPageHeaderId =
+  | "adminBilling"
+  | "billing"
   | "materials"
   | "newProject"
   | "overview"
@@ -54,6 +58,11 @@ export const dashboardNavigationItems: DashboardNavigationItem[] = [
     href: "/dashboard/quotes",
     icon: "quotes",
     labelKey: "quotes",
+  },
+  {
+    href: "/dashboard/billing",
+    icon: "billing",
+    labelKey: "billing",
   },
   {
     href: "/dashboard/settings",
@@ -97,6 +106,14 @@ export const dashboardPageHeaders: DashboardPageHeader[] = [
   {
     id: "quotes",
     matcher: (pathname) => pathname === "/dashboard/quotes",
+  },
+  {
+    id: "billing",
+    matcher: (pathname) => pathname === "/dashboard/billing",
+  },
+  {
+    id: "adminBilling",
+    matcher: (pathname) => pathname === "/dashboard/admin/billing",
   },
   {
     id: "settings",

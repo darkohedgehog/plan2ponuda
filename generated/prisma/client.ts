@@ -94,3 +94,28 @@ export type Analysis = Prisma.AnalysisModel
  * 
  */
 export type Quote = Prisma.QuoteModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model BillingProfile
+ * 
+ */
+export type BillingProfile = Prisma.BillingProfileModel
+/**
+ * Model BillingEvent
+ * 
+ */
+export type BillingEvent = Prisma.BillingEventModel
+/**
+ * Model InvoiceTask
+ * 
+ */
+export type InvoiceTask = Prisma.InvoiceTaskModel
+/**
+ * Model UsageCounter
+ * 
+ */
+export type UsageCounter = Prisma.UsageCounterModel

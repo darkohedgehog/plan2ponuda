@@ -72,3 +72,65 @@ export const AnalysisStatus = {
 } as const
 
 export type AnalysisStatus = (typeof AnalysisStatus)[keyof typeof AnalysisStatus]
+
+
+export const UserRole = {
+  user: 'user',
+  admin: 'admin'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const BillingPlan = {
+  free: 'free',
+  basic: 'basic',
+  pro: 'pro'
+} as const
+
+export type BillingPlan = (typeof BillingPlan)[keyof typeof BillingPlan]
+
+
+export const SubscriptionStatus = {
+  incomplete: 'incomplete',
+  trialing: 'trialing',
+  active: 'active',
+  past_due: 'past_due',
+  canceled: 'canceled',
+  unpaid: 'unpaid',
+  paused: 'paused'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+
+
+export const CustomerType = {
+  croatian_individual: 'croatian_individual',
+  croatian_business_b2b: 'croatian_business_b2b',
+  croatian_b2g: 'croatian_b2g',
+  eu_business: 'eu_business',
+  eu_b2g_needs_review: 'eu_b2g_needs_review',
+  outside_eu: 'outside_eu'
+} as const
+
+export type CustomerType = (typeof CustomerType)[keyof typeof CustomerType]
+
+
+export const InvoiceTaskStatus = {
+  pending: 'pending',
+  issued: 'issued',
+  failed: 'failed',
+  needs_review: 'needs_review',
+  not_required: 'not_required'
+} as const
+
+export type InvoiceTaskStatus = (typeof InvoiceTaskStatus)[keyof typeof InvoiceTaskStatus]
+
+
+export const UsageCounterType = {
+  floor_plans_created: 'floor_plans_created',
+  quotes_created: 'quotes_created',
+  large_pdf_analyses_used: 'large_pdf_analyses_used'
+} as const
+
+export type UsageCounterType = (typeof UsageCounterType)[keyof typeof UsageCounterType]

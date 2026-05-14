@@ -3,6 +3,7 @@
     "actions": "Radnje",
     "area": "Površina",
     "appName": "Ploro AI",
+    "billing": "Naplata",
     "category": "Kategorija",
     "client": "Klijent",
     "code": "Šifra",
@@ -140,6 +141,7 @@
     "enterValidPrice": "Unesite važeću cenu.",
     "invalidEmailOrPassword": "Neispravna e-pošta ili lozinka.",
     "invalidInput": "Proverite unete podatke.",
+    "invalidBillingProfileInput": "Unesite obavezna polja profila za naplatu.",
     "invalidProjectInput": "Unesite naziv projekta, tip objekta i površinu veću od 0.",
     "invalidQuoteMaterialInput": "Proverite nazive materijala, količine i cene.",
     "invalidSettingsInput": "Unesite važeće podatke profila, kompanije i podešavanja procene.",
@@ -190,6 +192,14 @@
       "quotes": {
         "subtitle": "Snimci generisanih ponuda i istorija izvoza.",
         "title": "Ponude"
+      },
+      "billing": {
+        "subtitle": "Pristup planu, potrošnja i podaci profila za naplatu.",
+        "title": "Naplata"
+      },
+      "adminBilling": {
+        "subtitle": "Ručni računi i operacije naplate.",
+        "title": "Admin naplata"
       },
       "reviewRooms": {
         "subtitle": "Potvrdite prepoznate prostorije pre generisanja predloga materijala.",
@@ -340,6 +350,7 @@
   },
   "Navigation": {
     "contact": "Kontakt",
+    "billing": "Naplata",
     "dashboard": "Kontrolna tabla",
     "features": "Mogućnosti",
     "footerNavigation": "Navigacija u podnožju",
@@ -354,6 +365,103 @@
     "settings": "Podešavanja",
     "terms": "Uslovi",
     "toggleNavigationMenu": "Otvori ili zatvori navigaciju"
+  },
+  "Billing": {
+    "actions": {
+      "comingSoon": "Uskoro",
+      "description": "Stripe checkout i upravljanje pretplatom biće omogućeni u sledećoj fazi naplate.",
+      "manageSubscription": "Upravljanje pretplatom",
+      "title": "Radnje pretplate",
+      "upgradeBasic": "Nadogradi na Basic",
+      "upgradePro": "Nadogradi na Pro"
+    },
+    "errors": {
+      "saveProfileFailed": "Nije moguće sačuvati profil za naplatu."
+    },
+    "messages": {
+      "profileSaved": "Profil za naplatu je sačuvan."
+    },
+    "page": {
+      "description": "Pregledajte lokalni pristup planu, trenutnu potrošnju i podatke profila za naplatu pre uključivanja Stripe plaćanja.",
+      "eyebrow": "Temelji naplate",
+      "title": "Naplata"
+    },
+    "statuses": {
+      "active": "Aktivno",
+      "canceled": "Otkazano",
+      "free": "Besplatno",
+      "incomplete": "Nepotpuno",
+      "past_due": "Dospelo",
+      "paused": "Pauzirano",
+      "trialing": "Probni period",
+      "unpaid": "Neplaćeno"
+    },
+    "summary": {
+      "currentPlan": "Trenutni plan",
+      "periodEnd": "Kraj perioda",
+      "status": "Status"
+    }
+  },
+  "Plans": {
+    "basic": {
+      "name": "Basic",
+      "price": "10 EUR / mesec"
+    },
+    "free": {
+      "name": "Free",
+      "price": "0 EUR / mesec"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "Cena naknadno"
+    }
+  },
+  "Usage": {
+    "floorPlans": "Tlocrti",
+    "largePdfAnalyses": "Velike PDF analize",
+    "quotes": "Ponude"
+  },
+  "BillingProfile": {
+    "fields": {
+      "billingAddressLine1": "Adresa 1",
+      "billingAddressLine2": "Adresa 2",
+      "billingCity": "Grad",
+      "billingCountry": "Država",
+      "billingEmail": "E-pošta za naplatu",
+      "billingName": "Naziv za naplatu",
+      "billingPostalCode": "Poštanski broj",
+      "companyName": "Naziv firme",
+      "contactPerson": "Kontakt osoba",
+      "customerType": "Tip kupca",
+      "eInvoiceReference": "Referenca e-računa",
+      "notes": "Napomene",
+      "oib": "OIB",
+      "phone": "Telefon",
+      "procurementReference": "Referenca nabavke",
+      "purchaseOrderNumber": "Broj narudžbenice",
+      "taxId": "Poreski ID",
+      "vatId": "VAT ID"
+    },
+    "section": {
+      "description": "Minimalni lokalni podaci za naplatu potrebni pre uključivanja plaćenog Stripe checkouta.",
+      "title": "Profil za naplatu"
+    }
+  },
+  "CustomerTypes": {
+    "croatian_b2g": "Hrvatski B2G",
+    "croatian_business_b2b": "Hrvatska firma B2B",
+    "croatian_individual": "Hrvatsko fizičko lice",
+    "eu_b2g_needs_review": "EU B2G / potrebna provera",
+    "eu_business": "EU firma",
+    "outside_eu": "Van EU"
+  },
+  "Admin": {
+    "billing": {
+      "description": "Ovaj zaštićeni placeholder potvrđuje temelj admin autorizacije. Red za račune pripada fazi 3.",
+      "eyebrow": "Admin",
+      "placeholder": "Zadaci za račune, Synesis statusi i ručni pregled naplate biće implementirani u fazi reda za račune.",
+      "title": "Admin naplata"
+    }
   },
   "Marketing": {
     "cta": {

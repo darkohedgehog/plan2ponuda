@@ -2,6 +2,7 @@
 
 import {
   Bolt,
+  CreditCard,
   FileText,
   FolderOpen,
   LayoutDashboard,
@@ -291,6 +292,7 @@ type DashboardIconProps = {
 
 function DashboardIcon({ className, name }: DashboardIconProps) {
   const icons: Record<DashboardIconName, LucideIcon> = {
+    billing: CreditCard,
     dashboard: LayoutDashboard,
     folder: FolderOpen,
     materials: Package,

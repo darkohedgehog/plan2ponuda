@@ -3,6 +3,7 @@
     "actions": "Aktionen",
     "area": "Fläche",
     "appName": "Ploro AI",
+    "billing": "Abrechnung",
     "category": "Kategorie",
     "client": "Kunde",
     "code": "Code",
@@ -140,6 +141,7 @@
     "enterValidPrice": "Geben Sie einen gültigen Preis ein.",
     "invalidEmailOrPassword": "Ungültige E-Mail oder ungültiges Passwort.",
     "invalidInput": "Prüfen Sie die eingegebenen Daten.",
+    "invalidBillingProfileInput": "Geben Sie die erforderlichen Abrechnungsprofildaten ein.",
     "invalidProjectInput": "Geben Sie einen Projektnamen, Objekttyp und eine Fläche größer als 0 ein.",
     "invalidQuoteMaterialInput": "Prüfen Sie Materialnamen, Mengen und Preise.",
     "invalidSettingsInput": "Geben Sie gültige Profil-, Unternehmens- und Schätzungseinstellungen ein.",
@@ -190,6 +192,14 @@
       "quotes": {
         "subtitle": "Generierte Angebotsstände und Exportverlauf.",
         "title": "Angebote"
+      },
+      "billing": {
+        "subtitle": "Planzugriff, Nutzung und Abrechnungsprofildaten.",
+        "title": "Abrechnung"
+      },
+      "adminBilling": {
+        "subtitle": "Manuelle Rechnungen und Abrechnungsvorgänge.",
+        "title": "Admin-Abrechnung"
       },
       "reviewRooms": {
         "subtitle": "Bestätigen Sie erkannte Räume vor dem Erstellen von Materialvorschlägen.",
@@ -340,6 +350,7 @@
   },
   "Navigation": {
     "contact": "Kontakt",
+    "billing": "Abrechnung",
     "dashboard": "Dashboard",
     "features": "Funktionen",
     "footerNavigation": "Navigation im Footer",
@@ -354,6 +365,103 @@
     "settings": "Einstellungen",
     "terms": "Bedingungen",
     "toggleNavigationMenu": "Navigation öffnen oder schließen"
+  },
+  "Billing": {
+    "actions": {
+      "comingSoon": "Demnächst",
+      "description": "Stripe Checkout und Abonnementverwaltung werden in der nächsten Abrechnungsphase aktiviert.",
+      "manageSubscription": "Abonnement verwalten",
+      "title": "Abonnementaktionen",
+      "upgradeBasic": "Auf Basic upgraden",
+      "upgradePro": "Auf Pro upgraden"
+    },
+    "errors": {
+      "saveProfileFailed": "Abrechnungsprofil konnte nicht gespeichert werden."
+    },
+    "messages": {
+      "profileSaved": "Abrechnungsprofil gespeichert."
+    },
+    "page": {
+      "description": "Prüfen Sie lokalen Planzugriff, aktuelle Nutzung und Abrechnungsprofildaten, bevor Stripe-Zahlungen aktiviert werden.",
+      "eyebrow": "Abrechnungsgrundlage",
+      "title": "Abrechnung"
+    },
+    "statuses": {
+      "active": "Aktiv",
+      "canceled": "Gekündigt",
+      "free": "Kostenlos",
+      "incomplete": "Unvollständig",
+      "past_due": "Überfällig",
+      "paused": "Pausiert",
+      "trialing": "Testphase",
+      "unpaid": "Unbezahlt"
+    },
+    "summary": {
+      "currentPlan": "Aktueller Plan",
+      "periodEnd": "Periodenende",
+      "status": "Status"
+    }
+  },
+  "Plans": {
+    "basic": {
+      "name": "Basic",
+      "price": "10 EUR / Monat"
+    },
+    "free": {
+      "name": "Free",
+      "price": "0 EUR / Monat"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "Preis offen"
+    }
+  },
+  "Usage": {
+    "floorPlans": "Grundrisse",
+    "largePdfAnalyses": "Große PDF-Analysen",
+    "quotes": "Angebote"
+  },
+  "BillingProfile": {
+    "fields": {
+      "billingAddressLine1": "Adresszeile 1",
+      "billingAddressLine2": "Adresszeile 2",
+      "billingCity": "Stadt",
+      "billingCountry": "Land",
+      "billingEmail": "Abrechnungs-E-Mail",
+      "billingName": "Abrechnungsname",
+      "billingPostalCode": "Postleitzahl",
+      "companyName": "Firmenname",
+      "contactPerson": "Kontaktperson",
+      "customerType": "Kundentyp",
+      "eInvoiceReference": "E-Rechnungsreferenz",
+      "notes": "Notizen",
+      "oib": "OIB",
+      "phone": "Telefon",
+      "procurementReference": "Beschaffungsreferenz",
+      "purchaseOrderNumber": "Bestellnummer",
+      "taxId": "Steuer-ID",
+      "vatId": "USt-ID"
+    },
+    "section": {
+      "description": "Minimale lokale Abrechnungsdaten, die vor dem bezahlten Stripe Checkout benötigt werden.",
+      "title": "Abrechnungsprofil"
+    }
+  },
+  "CustomerTypes": {
+    "croatian_b2g": "Kroatien B2G",
+    "croatian_business_b2b": "Kroatisches Unternehmen B2B",
+    "croatian_individual": "Kroatische Privatperson",
+    "eu_b2g_needs_review": "EU B2G / Prüfung nötig",
+    "eu_business": "EU-Unternehmen",
+    "outside_eu": "Außerhalb der EU"
+  },
+  "Admin": {
+    "billing": {
+      "description": "Dieser geschützte Platzhalter bestätigt die Admin-Autorisierungsgrundlage. Die Rechnungsaufgaben-Warteschlange gehört zu Phase 3.",
+      "eyebrow": "Admin",
+      "placeholder": "Rechnungsaufgaben, Synesis-Statusaktualisierungen und manuelle Abrechnungsprüfung werden in der Rechnungswarteschlangenphase implementiert.",
+      "title": "Admin-Abrechnung"
+    }
   },
   "Marketing": {
     "cta": {

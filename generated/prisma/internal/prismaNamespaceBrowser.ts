@@ -58,7 +58,12 @@ export const ModelName = {
   Material: 'Material',
   ProjectMaterial: 'ProjectMaterial',
   Analysis: 'Analysis',
-  Quote: 'Quote'
+  Quote: 'Quote',
+  Subscription: 'Subscription',
+  BillingProfile: 'BillingProfile',
+  BillingEvent: 'BillingEvent',
+  InvoiceTask: 'InvoiceTask',
+  UsageCounter: 'UsageCounter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -83,6 +88,7 @@ export const UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   fullName: 'fullName',
   companyName: 'companyName',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -227,6 +233,108 @@ export const QuoteScalarFieldEnum = {
 export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
 
 
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  plan: 'plan',
+  status: 'status',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripePriceId: 'stripePriceId',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  canceledAt: 'canceledAt',
+  trialEndsAt: 'trialEndsAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const BillingProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  customerType: 'customerType',
+  billingName: 'billingName',
+  billingEmail: 'billingEmail',
+  billingAddressLine1: 'billingAddressLine1',
+  billingAddressLine2: 'billingAddressLine2',
+  billingCity: 'billingCity',
+  billingPostalCode: 'billingPostalCode',
+  billingCountry: 'billingCountry',
+  companyName: 'companyName',
+  contactPerson: 'contactPerson',
+  vatId: 'vatId',
+  taxId: 'taxId',
+  oib: 'oib',
+  phone: 'phone',
+  purchaseOrderNumber: 'purchaseOrderNumber',
+  eInvoiceReference: 'eInvoiceReference',
+  procurementReference: 'procurementReference',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BillingProfileScalarFieldEnum = (typeof BillingProfileScalarFieldEnum)[keyof typeof BillingProfileScalarFieldEnum]
+
+
+export const BillingEventScalarFieldEnum = {
+  id: 'id',
+  stripeEventId: 'stripeEventId',
+  eventType: 'eventType',
+  processedAt: 'processedAt',
+  processingError: 'processingError',
+  payload: 'payload',
+  createdAt: 'createdAt'
+} as const
+
+export type BillingEventScalarFieldEnum = (typeof BillingEventScalarFieldEnum)[keyof typeof BillingEventScalarFieldEnum]
+
+
+export const InvoiceTaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripeInvoiceId: 'stripeInvoiceId',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  stripeEventId: 'stripeEventId',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  amountPaid: 'amountPaid',
+  currency: 'currency',
+  customerType: 'customerType',
+  billingSnapshot: 'billingSnapshot',
+  synesisInvoiceNumber: 'synesisInvoiceNumber',
+  adminNotes: 'adminNotes',
+  reviewedAt: 'reviewedAt',
+  issuedAt: 'issuedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InvoiceTaskScalarFieldEnum = (typeof InvoiceTaskScalarFieldEnum)[keyof typeof InvoiceTaskScalarFieldEnum]
+
+
+export const UsageCounterScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  periodKey: 'periodKey',
+  count: 'count',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UsageCounterScalarFieldEnum = (typeof UsageCounterScalarFieldEnum)[keyof typeof UsageCounterScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -241,6 +349,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

@@ -3,6 +3,7 @@
     "actions": "Actions",
     "area": "Area",
     "appName": "Ploro AI",
+    "billing": "Billing",
     "category": "Category",
     "client": "Client",
     "code": "Code",
@@ -140,6 +141,7 @@
     "enterValidPrice": "Enter a valid price.",
     "invalidEmailOrPassword": "Invalid email or password.",
     "invalidInput": "Check the entered information.",
+    "invalidBillingProfileInput": "Enter the required billing profile fields.",
     "invalidProjectInput": "Enter a project name, object type, and area greater than 0.",
     "invalidQuoteMaterialInput": "Check material names, quantities, and prices.",
     "invalidSettingsInput": "Enter valid profile, company, and estimating preference values.",
@@ -190,6 +192,14 @@
       "quotes": {
         "subtitle": "Generated quote snapshots and export history.",
         "title": "Quotes"
+      },
+      "billing": {
+        "subtitle": "Plan access, usage, and billing profile details.",
+        "title": "Billing"
+      },
+      "adminBilling": {
+        "subtitle": "Manual invoicing and billing operations.",
+        "title": "Admin billing"
       },
       "reviewRooms": {
         "subtitle": "Confirm detected spaces before generating material suggestions.",
@@ -340,6 +350,7 @@
   },
   "Navigation": {
     "contact": "Contact",
+    "billing": "Billing",
     "dashboard": "Dashboard",
     "features": "Features",
     "footerNavigation": "Footer navigation",
@@ -354,6 +365,103 @@
     "settings": "Settings",
     "terms": "Terms",
     "toggleNavigationMenu": "Toggle navigation menu"
+  },
+  "Billing": {
+    "actions": {
+      "comingSoon": "Coming soon",
+      "description": "Stripe checkout and subscription management will be enabled in the next billing phase.",
+      "manageSubscription": "Manage subscription",
+      "title": "Subscription actions",
+      "upgradeBasic": "Upgrade to Basic",
+      "upgradePro": "Upgrade to Pro"
+    },
+    "errors": {
+      "saveProfileFailed": "Unable to save billing profile."
+    },
+    "messages": {
+      "profileSaved": "Billing profile saved."
+    },
+    "page": {
+      "description": "Review local plan access, current usage, and billing profile data before Stripe payments are enabled.",
+      "eyebrow": "Billing foundation",
+      "title": "Billing"
+    },
+    "statuses": {
+      "active": "Active",
+      "canceled": "Canceled",
+      "free": "Free",
+      "incomplete": "Incomplete",
+      "past_due": "Past due",
+      "paused": "Paused",
+      "trialing": "Trialing",
+      "unpaid": "Unpaid"
+    },
+    "summary": {
+      "currentPlan": "Current plan",
+      "periodEnd": "Period end",
+      "status": "Status"
+    }
+  },
+  "Plans": {
+    "basic": {
+      "name": "Basic",
+      "price": "10 EUR / month"
+    },
+    "free": {
+      "name": "Free",
+      "price": "0 EUR / month"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "Price TBD"
+    }
+  },
+  "Usage": {
+    "floorPlans": "Floor plans",
+    "largePdfAnalyses": "Large PDF analyses",
+    "quotes": "Quotes"
+  },
+  "BillingProfile": {
+    "fields": {
+      "billingAddressLine1": "Address line 1",
+      "billingAddressLine2": "Address line 2",
+      "billingCity": "City",
+      "billingCountry": "Country",
+      "billingEmail": "Billing email",
+      "billingName": "Billing name",
+      "billingPostalCode": "Postal code",
+      "companyName": "Company name",
+      "contactPerson": "Contact person",
+      "customerType": "Customer type",
+      "eInvoiceReference": "E-invoice reference",
+      "notes": "Notes",
+      "oib": "OIB",
+      "phone": "Phone",
+      "procurementReference": "Procurement reference",
+      "purchaseOrderNumber": "Purchase order number",
+      "taxId": "Tax ID",
+      "vatId": "VAT ID"
+    },
+    "section": {
+      "description": "Minimum local billing details needed before paid Stripe checkout is enabled.",
+      "title": "Billing profile"
+    }
+  },
+  "CustomerTypes": {
+    "croatian_b2g": "Croatian B2G",
+    "croatian_business_b2b": "Croatian business B2B",
+    "croatian_individual": "Croatian individual",
+    "eu_b2g_needs_review": "EU B2G / needs review",
+    "eu_business": "EU business",
+    "outside_eu": "Outside EU"
+  },
+  "Admin": {
+    "billing": {
+      "description": "This protected placeholder confirms the admin authorization foundation. The invoice task queue belongs to Phase 3.",
+      "eyebrow": "Admin",
+      "placeholder": "Invoice tasks, Synesis status updates, and manual billing review will be implemented in the invoice queue phase.",
+      "title": "Admin billing"
+    }
   },
   "Marketing": {
     "cta": {
