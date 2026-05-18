@@ -4,9 +4,19 @@ import type {
   BillingProfile as DbBillingProfile,
   Subscription as DbSubscription,
 } from "../../../generated/prisma/client";
+import type Stripe from "stripe";
 
 import { prisma } from "@/lib/db/prisma";
-import type { BillingProfileInput } from "@/lib/validations/billing.schema";
+import { getStripeClient } from "@/lib/stripe/client";
+import { getStripeBillingEnv } from "@/lib/utils/env";
+import {
+  billingProfileSchema,
+  getMissingBillingProfileFields,
+} from "@/lib/validations/billing.schema";
+import type {
+  BillingProfileInput,
+  CheckoutBillingPlanInput,
+} from "@/lib/validations/billing.schema";
 import {
   BILLING_PLAN_LIMITS,
   canUsePlanFeature,
@@ -19,10 +29,12 @@ import {
 } from "@/server/services/billing-limits";
 import type {
   BillingProfile,
+  BillingProfileFieldKey,
   FeatureAccess,
   SubscriptionSummary,
   UsageSummary,
 } from "@/types/billing";
+import type { Locale } from "@/i18n/routing";
 
 const LIFETIME_PERIOD_KEY = "lifetime";
 
@@ -31,6 +43,61 @@ type UsagePeriod = {
   periodEnd: Date | null;
   periodStart: Date | null;
 };
+
+type StripeBillingPriceEnv = {
+  stripeBasicPriceId: string;
+  stripeProPriceId: string;
+};
+
+type StripeCustomerResult =
+  | {
+      ok: true;
+      stripeCustomerId: string;
+    }
+  | {
+      missingFields?: BillingProfileFieldKey[];
+      ok: false;
+      reason:
+        | "billing_profile_incomplete"
+        | "billing_profile_missing"
+        | "user_missing";
+    };
+
+type CreateCheckoutSessionInput = {
+  locale: Locale;
+  plan: CheckoutBillingPlanInput;
+  userId: string;
+};
+
+type CreateCheckoutSessionResult =
+  | {
+      ok: true;
+      url: string;
+    }
+  | {
+      missingFields?: BillingProfileFieldKey[];
+      ok: false;
+      reason:
+        | "billing_profile_incomplete"
+        | "billing_profile_missing"
+        | "stripe_session_url_missing"
+        | "user_missing";
+    };
+
+type CreatePortalSessionInput = {
+  locale: Locale;
+  userId: string;
+};
+
+type CreatePortalSessionResult =
+  | {
+      ok: true;
+      url: string;
+    }
+  | {
+      ok: false;
+      reason: "stripe_customer_missing";
+    };
 
 function toIsoString(value: Date | null): string | null {
   return value ? value.toISOString() : null;
@@ -69,7 +136,49 @@ function mapSubscription(
     currentPeriodStart: toIsoString(subscription.currentPeriodStart),
     plan: subscription.plan,
     status: subscription.status,
+    stripeCustomerId: subscription.stripeCustomerId,
     trialEndsAt: toIsoString(subscription.trialEndsAt),
+  };
+}
+
+function getBillingPageUrl(
+  appUrl: string,
+  locale: Locale,
+  checkoutResult?: "cancelled" | "success",
+): string {
+  const url = new URL(`/${locale}/dashboard/billing`, appUrl);
+
+  if (checkoutResult) {
+    url.searchParams.set("checkout", checkoutResult);
+  }
+
+  return url.toString();
+}
+
+function getStripeCustomerAddress(
+  profile: BillingProfileInput,
+): Stripe.AddressParam {
+  return {
+    city: profile.billingCity,
+    country: profile.billingCountry,
+    line1: profile.billingAddressLine1,
+    line2: profile.billingAddressLine2 ?? undefined,
+    postal_code: profile.billingPostalCode,
+  };
+}
+
+function getStripeCustomerParams(
+  userId: string,
+  profile: BillingProfileInput,
+): Stripe.CustomerCreateParams {
+  return {
+    address: getStripeCustomerAddress(profile),
+    email: profile.billingEmail,
+    metadata: {
+      userId,
+    },
+    name: profile.billingName,
+    phone: profile.phone ?? undefined,
   };
 }
 
@@ -169,6 +278,180 @@ export async function getSubscription(
   });
 
   return subscription ? mapSubscription(subscription) : null;
+}
+
+export function getStripePriceIdForPlan(
+  plan: CheckoutBillingPlanInput,
+  env: StripeBillingPriceEnv = getStripeBillingEnv(),
+): string {
+  switch (plan) {
+    case "basic":
+      return env.stripeBasicPriceId;
+    case "pro":
+      return env.stripeProPriceId;
+  }
+}
+
+export async function updateSubscriptionStripeCustomerId(
+  userId: string,
+  stripeCustomerId: string,
+): Promise<SubscriptionSummary> {
+  const subscription = await prisma.subscription.upsert({
+    create: {
+      plan: "free",
+      status: "active",
+      stripeCustomerId,
+      userId,
+    },
+    update: {
+      stripeCustomerId,
+    },
+    where: {
+      userId,
+    },
+  });
+
+  return mapSubscription(subscription);
+}
+
+export async function getOrCreateStripeCustomerForUser(
+  userId: string,
+): Promise<StripeCustomerResult> {
+  const user = await prisma.user.findUnique({
+    select: {
+      billingProfile: true,
+      subscription: {
+        select: {
+          stripeCustomerId: true,
+        },
+      },
+    },
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return {
+      ok: false,
+      reason: "user_missing",
+    };
+  }
+
+  const existingStripeCustomerId = user.subscription?.stripeCustomerId;
+
+  if (existingStripeCustomerId) {
+    return {
+      ok: true,
+      stripeCustomerId: existingStripeCustomerId,
+    };
+  }
+
+  if (!user.billingProfile) {
+    return {
+      ok: false,
+      reason: "billing_profile_missing",
+    };
+  }
+
+  const parsedProfile = billingProfileSchema.safeParse(user.billingProfile);
+
+  if (!parsedProfile.success) {
+    return {
+      missingFields: getMissingBillingProfileFields(user.billingProfile),
+      ok: false,
+      reason: "billing_profile_incomplete",
+    };
+  }
+
+  const customer = await getStripeClient().customers.create(
+    getStripeCustomerParams(userId, parsedProfile.data),
+  );
+  await updateSubscriptionStripeCustomerId(userId, customer.id);
+
+  return {
+    ok: true,
+    stripeCustomerId: customer.id,
+  };
+}
+
+export async function createBillingCheckoutSession({
+  locale,
+  plan,
+  userId,
+}: CreateCheckoutSessionInput): Promise<CreateCheckoutSessionResult> {
+  const customerResult = await getOrCreateStripeCustomerForUser(userId);
+
+  if (!customerResult.ok) {
+    return customerResult;
+  }
+
+  const env = getStripeBillingEnv();
+  const session = await getStripeClient().checkout.sessions.create({
+    cancel_url: getBillingPageUrl(env.appUrl, locale, "cancelled"),
+    customer: customerResult.stripeCustomerId,
+    line_items: [
+      {
+        price: getStripePriceIdForPlan(plan, env),
+        quantity: 1,
+      },
+    ],
+    metadata: {
+      plan,
+      userId,
+    },
+    mode: "subscription",
+    subscription_data: {
+      metadata: {
+        plan,
+        userId,
+      },
+    },
+    success_url: getBillingPageUrl(env.appUrl, locale, "success"),
+  });
+
+  if (!session.url) {
+    return {
+      ok: false,
+      reason: "stripe_session_url_missing",
+    };
+  }
+
+  return {
+    ok: true,
+    url: session.url,
+  };
+}
+
+export async function createBillingPortalSession({
+  locale,
+  userId,
+}: CreatePortalSessionInput): Promise<CreatePortalSessionResult> {
+  const subscription = await prisma.subscription.findUnique({
+    select: {
+      stripeCustomerId: true,
+    },
+    where: {
+      userId,
+    },
+  });
+
+  if (!subscription?.stripeCustomerId) {
+    return {
+      ok: false,
+      reason: "stripe_customer_missing",
+    };
+  }
+
+  const session = await getStripeClient().billingPortal.sessions.create({
+    customer: subscription.stripeCustomerId,
+    return_url: getBillingPageUrl(getStripeBillingEnv().appUrl, locale),
+  });
+
+  return {
+    ok: true,
+    url: session.url,
+  };
 }
 
 export async function getEffectivePlan(

@@ -142,6 +142,7 @@
     "invalidEmailOrPassword": "Invalid email or password.",
     "invalidInput": "Check the entered information.",
     "invalidBillingProfileInput": "Enter the required billing profile fields.",
+    "missingBillingProfileFields": "Complete these required fields: {fields}.",
     "invalidProjectInput": "Enter a project name, object type, and area greater than 0.",
     "invalidQuoteMaterialInput": "Check material names, quantities, and prices.",
     "invalidSettingsInput": "Enter valid profile, company, and estimating preference values.",
@@ -369,16 +370,24 @@
   "Billing": {
     "actions": {
       "comingSoon": "Coming soon",
-      "description": "Stripe checkout and subscription management will be enabled in the next billing phase.",
+      "description": "Start Stripe-hosted checkout or manage your subscription in Stripe.",
       "manageSubscription": "Manage subscription",
+      "openingPortal": "Opening portal...",
+      "preparingCheckout": "Preparing checkout...",
       "title": "Subscription actions",
       "upgradeBasic": "Upgrade to Basic",
       "upgradePro": "Upgrade to Pro"
     },
     "errors": {
+      "checkoutFailed": "Unable to start checkout. Please try again.",
+      "completeBillingProfileBeforeCheckout": "Complete your billing profile before starting checkout.",
+      "completeRequiredBillingProfileFields": "Complete these required billing profile fields before checkout: {fields}.",
+      "portalFailed": "Unable to open the billing portal. Please try again.",
       "saveProfileFailed": "Unable to save billing profile."
     },
     "messages": {
+      "checkoutCancelled": "Checkout was cancelled. No changes were made.",
+      "checkoutConfirmationPending": "Payment confirmation may take a moment. Your plan will update after payment is confirmed.",
       "profileSaved": "Billing profile saved."
     },
     "page": {
@@ -430,7 +439,7 @@
       "billingEmail": "Billing email",
       "billingName": "Billing name",
       "billingPostalCode": "Postal code",
-      "companyName": "Company name",
+      "companyName": "Company or institution name",
       "contactPerson": "Contact person",
       "customerType": "Customer type",
       "eInvoiceReference": "E-invoice reference",
@@ -442,9 +451,47 @@
       "taxId": "Tax ID",
       "vatId": "VAT ID"
     },
-    "section": {
-      "description": "Minimum local billing details needed before paid Stripe checkout is enabled.",
-      "title": "Billing profile"
+    "helpers": {
+      "eInvoiceReference": "Use this only if your institution requires a specific e-invoice reference.",
+      "notes": "Additional instructions for manual invoice issuance.",
+      "oib": "Croatian company or institution identification number.",
+      "procurementReference": "Optional procurement or contract reference used by public-sector buyers.",
+      "purchaseOrderNumber": "Use this if your company or institution requires a purchase order reference on the invoice.",
+      "taxId": "Optional tax identification number for customers outside the EU.",
+      "vatId": "EU VAT number for business customers."
+    },
+    "labels": {
+      "optional": "Optional",
+      "required": "Required"
+    },
+    "messages": {
+      "manualInvoiceReview": "This customer type requires manual invoice review before issuance."
+    },
+    "sections": {
+      "address": {
+        "description": "Address printed on invoices and used for billing records.",
+        "title": "Address"
+      },
+      "billingContact": {
+        "description": "Who the invoice should be issued to and where billing messages should go.",
+        "title": "Billing contact"
+      },
+      "companyTax": {
+        "description": "Only fields relevant to the selected customer type are shown.",
+        "title": "Company and tax details"
+      },
+      "customerType": {
+        "description": "Select the customer type first so the form can show the right invoice fields. * Required field.",
+        "title": "Customer type"
+      },
+      "notes": {
+        "description": "Optional instructions for manual invoice processing.",
+        "title": "Notes"
+      },
+      "publicSector": {
+        "description": "Use these only when your company or institution needs references on the invoice.",
+        "title": "Public-sector references"
+      }
     }
   },
   "CustomerTypes": {

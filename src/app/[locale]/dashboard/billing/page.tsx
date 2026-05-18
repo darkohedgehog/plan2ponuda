@@ -1,8 +1,8 @@
 import { CreditCard, Gauge, LockKeyhole } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import { BillingActions } from "@/components/billing/billing-actions";
 import { BillingProfileForm } from "@/components/billing/billing-profile-form";
-import { Button } from "@/components/ui/button";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale, type Locale } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -17,6 +17,9 @@ type BillingPageProps = {
   params: Promise<{
     locale: string;
   }>;
+  searchParams: Promise<{
+    checkout?: string;
+  }>;
 };
 
 function formatDate(value: string | null, locale: Locale): string {
@@ -27,8 +30,12 @@ function formatDate(value: string | null, locale: Locale): string {
   return new Intl.DateTimeFormat(locale).format(new Date(value));
 }
 
-export default async function BillingPage({ params }: BillingPageProps) {
+export default async function BillingPage({
+  params,
+  searchParams,
+}: BillingPageProps) {
   const { locale: rawLocale } = await params;
+  const { checkout } = await searchParams;
   const locale = resolveLocale(rawLocale);
   const user = await getCurrentUser();
 
@@ -44,7 +51,10 @@ export default async function BillingPage({ params }: BillingPageProps) {
   const tBilling = await getTranslations("Billing");
   const tPlans = await getTranslations("Plans");
   const tUsage = await getTranslations("Usage");
-  const currentStatus = subscription?.status ?? "free";
+  const currentStatus =
+    usage.plan === "free" ? "free" : subscription?.status ?? "free";
+  const checkoutStatus =
+    checkout === "success" || checkout === "cancelled" ? checkout : null;
 
   return (
     <main className="flex flex-col gap-6">
@@ -127,20 +137,11 @@ export default async function BillingPage({ params }: BillingPageProps) {
               </p>
             </div>
           </div>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Button disabled type="button">
-              {tBilling("actions.upgradeBasic")}
-            </Button>
-            <Button disabled type="button">
-              {tBilling("actions.upgradePro")}
-            </Button>
-            <Button disabled type="button" variant="secondary">
-              {tBilling("actions.manageSubscription")}
-            </Button>
-            <span className="self-center text-sm font-medium text-deep-twilight-700/70">
-              {tBilling("actions.comingSoon")}
-            </span>
-          </div>
+          <BillingActions
+            canManageSubscription={Boolean(subscription?.stripeCustomerId)}
+            checkoutStatus={checkoutStatus}
+            hasBillingProfile={Boolean(profile)}
+          />
         </div>
       </section>
 

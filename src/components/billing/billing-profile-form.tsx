@@ -12,8 +12,14 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
+import {
+  getRequiredBillingProfileFields,
+  usesCompanyBillingName,
+  usesPublicSectorReferences,
+} from "@/lib/billing/profile-fields";
 import type {
   BillingProfile,
+  BillingProfileFieldKey,
   CustomerType,
   SaveBillingProfileResponse,
 } from "@/types/billing";
@@ -31,28 +37,16 @@ type BillingProfileFormProps = {
   initialProfile: BillingProfile | null;
 };
 
-type BillingProfileFormState = {
-  billingAddressLine1: string;
-  billingAddressLine2: string;
-  billingCity: string;
-  billingCountry: string;
-  billingEmail: string;
-  billingName: string;
-  billingPostalCode: string;
-  companyName: string;
-  contactPerson: string;
+type BillingProfileFormState = Record<BillingProfileFieldKey, string> & {
   customerType: CustomerType;
-  eInvoiceReference: string;
-  notes: string;
-  oib: string;
-  phone: string;
-  procurementReference: string;
-  purchaseOrderNumber: string;
-  taxId: string;
-  vatId: string;
 };
 
 type BillingProfileErrorKey = "invalidInput" | "saveFailed";
+
+type BillingProfileErrorState = {
+  key: BillingProfileErrorKey;
+  missingFields: BillingProfileFieldKey[];
+};
 
 function toFormState(
   profile: BillingProfile | null,
@@ -79,6 +73,13 @@ function toFormState(
   };
 }
 
+function getMissingFieldNames(
+  fields: BillingProfileFieldKey[],
+  translateField: (key: string) => string,
+): string {
+  return fields.map((field) => translateField(`fields.${field}`)).join(", ");
+}
+
 export function BillingProfileForm({
   initialProfile,
 }: BillingProfileFormProps) {
@@ -91,15 +92,51 @@ export function BillingProfileForm({
   const [formState, setFormState] = useState<BillingProfileFormState>(
     toFormState(initialProfile),
   );
-  const [errorKey, setErrorKey] = useState<BillingProfileErrorKey | null>(null);
+  const [errorState, setErrorState] =
+    useState<BillingProfileErrorState | null>(null);
   const [showSaved, setShowSaved] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const requiredFields = getRequiredBillingProfileFields(
+    formState.customerType,
+  );
+  const isCompanyProfile = usesCompanyBillingName(formState.customerType);
+  const isPublicSectorProfile = usesPublicSectorReferences(
+    formState.customerType,
+  );
+  const showOib =
+    formState.customerType === "croatian_business_b2b" ||
+    formState.customerType === "croatian_b2g";
+  const showVat =
+    formState.customerType === "eu_business" ||
+    formState.customerType === "eu_b2g_needs_review";
+  const showTaxId = formState.customerType === "outside_eu";
+  const showPhone =
+    formState.customerType === "croatian_individual" ||
+    formState.customerType === "croatian_business_b2b" ||
+    formState.customerType === "eu_business" ||
+    formState.customerType === "outside_eu";
+  const showContactPerson = formState.customerType !== "croatian_individual";
+
+  function isRequired(field: BillingProfileFieldKey): boolean {
+    return requiredFields.includes(field);
+  }
+
+  function isMissing(field: BillingProfileFieldKey): boolean {
+    return errorState?.missingFields.includes(field) ?? false;
+  }
+
+  function getInputClassName(field: BillingProfileFieldKey): string {
+    return isMissing(field)
+      ? `${formControlClassName} border-red-300 focus:border-red-400 focus:ring-red-100`
+      : formControlClassName;
+  }
 
   function updateField(
     field: keyof BillingProfileFormState,
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) {
-    setErrorKey(null);
+    setErrorState(null);
     setShowSaved(false);
     setFormState((currentState) => ({
       ...currentState,
@@ -109,7 +146,7 @@ export function BillingProfileForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setErrorKey(null);
+    setErrorState(null);
     setShowSaved(false);
     setIsSubmitting(true);
 
@@ -129,11 +166,13 @@ export function BillingProfileForm({
     setIsSubmitting(false);
 
     if (!response.ok || !payload?.ok) {
-      setErrorKey(
-        payload && !payload.ok && payload.error.code === "invalid_input"
-          ? "invalidInput"
-          : "saveFailed",
-      );
+      setErrorState({
+        key:
+          payload && !payload.ok && payload.error.code === "invalid_input"
+            ? "invalidInput"
+            : "saveFailed",
+        missingFields: payload && !payload.ok ? payload.error.missingFields ?? [] : [],
+      });
       return;
     }
 
@@ -142,16 +181,32 @@ export function BillingProfileForm({
     router.refresh();
   }
 
+  const invalidInputMessage =
+    errorState?.key === "invalidInput" && errorState.missingFields.length > 0
+      ? tValidation("missingBillingProfileFields", {
+          fields: getMissingFieldNames(
+            errorState.missingFields,
+            tBillingProfile,
+          ),
+        })
+      : tValidation("invalidBillingProfileInput");
+
   return (
     <form className="grid gap-5" onSubmit={handleSubmit}>
       <BillingSection
-        description={tBillingProfile("section.description")}
-        title={tBillingProfile("section.title")}
+        description={tBillingProfile("sections.customerType.description")}
+        title={tBillingProfile("sections.customerType.title")}
       >
-        <BillingField label={tBillingProfile("fields.customerType")}>
+        <BillingField
+          field="customerType"
+          isRequired
+          label={tBillingProfile("fields.customerType")}
+          requiredLabel={tBillingProfile("labels.required")}
+        >
           <select
-            className={formControlClassName}
+            className={getInputClassName("customerType")}
             onChange={(event) => updateField("customerType", event)}
+            required
             value={formState.customerType}
           >
             {customerTypeOptions.map((customerType) => (
@@ -161,147 +216,259 @@ export function BillingProfileForm({
             ))}
           </select>
         </BillingField>
-        <BillingField label={tBillingProfile("fields.billingName")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingName", event)}
-            type="text"
-            value={formState.billingName}
+        {formState.customerType === "eu_b2g_needs_review" ? (
+          <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900 md:col-span-2">
+            {tBillingProfile("messages.manualInvoiceReview")}
+          </div>
+        ) : null}
+      </BillingSection>
+
+      <BillingSection
+        description={tBillingProfile("sections.billingContact.description")}
+        title={tBillingProfile("sections.billingContact.title")}
+      >
+        {isCompanyProfile ? (
+          <BillingInput
+            field="companyName"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            isRequired={isRequired("companyName")}
+            label={tBillingProfile("fields.companyName")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.billingEmail")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingEmail", event)}
-            type="email"
-            value={formState.billingEmail}
+        ) : (
+          <BillingInput
+            field="billingName"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            isRequired={isRequired("billingName")}
+            label={tBillingProfile("fields.billingName")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.companyName")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("companyName", event)}
-            type="text"
-            value={formState.companyName}
+        )}
+        {formState.customerType === "outside_eu" ? (
+          <BillingInput
+            field="companyName"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            isRequired={false}
+            label={tBillingProfile("fields.companyName")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.billingAddressLine1")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingAddressLine1", event)}
-            type="text"
-            value={formState.billingAddressLine1}
+        ) : null}
+        <BillingInput
+          field="billingEmail"
+          formState={formState}
+          getInputClassName={getInputClassName}
+          inputType="email"
+          isRequired={isRequired("billingEmail")}
+          label={tBillingProfile("fields.billingEmail")}
+          onChange={updateField}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        />
+        {showContactPerson ? (
+          <BillingInput
+            field="contactPerson"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            isRequired={isRequired("contactPerson")}
+            label={tBillingProfile("fields.contactPerson")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.billingAddressLine2")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingAddressLine2", event)}
-            type="text"
-            value={formState.billingAddressLine2}
+        ) : null}
+        {showPhone ? (
+          <BillingInput
+            field="phone"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            inputType="tel"
+            isRequired={isRequired("phone")}
+            label={tBillingProfile("fields.phone")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.billingCity")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingCity", event)}
-            type="text"
-            value={formState.billingCity}
+        ) : null}
+      </BillingSection>
+
+      <BillingSection
+        description={tBillingProfile("sections.address.description")}
+        title={tBillingProfile("sections.address.title")}
+      >
+        <BillingInput
+          field="billingAddressLine1"
+          formState={formState}
+          getInputClassName={getInputClassName}
+          isRequired={isRequired("billingAddressLine1")}
+          label={tBillingProfile("fields.billingAddressLine1")}
+          onChange={updateField}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        />
+        <BillingInput
+          field="billingAddressLine2"
+          formState={formState}
+          getInputClassName={getInputClassName}
+          isRequired={isRequired("billingAddressLine2")}
+          label={tBillingProfile("fields.billingAddressLine2")}
+          onChange={updateField}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        />
+        <BillingInput
+          field="billingCity"
+          formState={formState}
+          getInputClassName={getInputClassName}
+          isRequired={isRequired("billingCity")}
+          label={tBillingProfile("fields.billingCity")}
+          onChange={updateField}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        />
+        <BillingInput
+          field="billingPostalCode"
+          formState={formState}
+          getInputClassName={getInputClassName}
+          isRequired={isRequired("billingPostalCode")}
+          label={tBillingProfile("fields.billingPostalCode")}
+          onChange={updateField}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        />
+        <BillingInput
+          field="billingCountry"
+          formState={formState}
+          getInputClassName={getInputClassName}
+          isRequired={isRequired("billingCountry")}
+          label={tBillingProfile("fields.billingCountry")}
+          onChange={updateField}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        />
+      </BillingSection>
+
+      {showOib || showVat || showTaxId ? (
+        <BillingSection
+          description={tBillingProfile("sections.companyTax.description")}
+          title={tBillingProfile("sections.companyTax.title")}
+        >
+          {showOib ? (
+            <BillingInput
+              field="oib"
+              formState={formState}
+              getInputClassName={getInputClassName}
+              helperText={tBillingProfile("helpers.oib")}
+              isRequired={isRequired("oib")}
+              label={tBillingProfile("fields.oib")}
+              onChange={updateField}
+              optionalLabel={tBillingProfile("labels.optional")}
+              requiredLabel={tBillingProfile("labels.required")}
+            />
+          ) : null}
+          {showVat ? (
+            <BillingInput
+              field="vatId"
+              formState={formState}
+              getInputClassName={getInputClassName}
+              helperText={tBillingProfile("helpers.vatId")}
+              isRequired={isRequired("vatId")}
+              label={tBillingProfile("fields.vatId")}
+              onChange={updateField}
+              optionalLabel={tBillingProfile("labels.optional")}
+              requiredLabel={tBillingProfile("labels.required")}
+            />
+          ) : null}
+          {showTaxId ? (
+            <BillingInput
+              field="taxId"
+              formState={formState}
+              getInputClassName={getInputClassName}
+              helperText={tBillingProfile("helpers.taxId")}
+              isRequired={isRequired("taxId")}
+              label={tBillingProfile("fields.taxId")}
+              onChange={updateField}
+              optionalLabel={tBillingProfile("labels.optional")}
+              requiredLabel={tBillingProfile("labels.required")}
+            />
+          ) : null}
+        </BillingSection>
+      ) : null}
+
+      {isPublicSectorProfile ? (
+        <BillingSection
+          description={tBillingProfile("sections.publicSector.description")}
+          title={tBillingProfile("sections.publicSector.title")}
+        >
+          <BillingInput
+            field="purchaseOrderNumber"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            helperText={tBillingProfile("helpers.purchaseOrderNumber")}
+            isRequired={isRequired("purchaseOrderNumber")}
+            label={tBillingProfile("fields.purchaseOrderNumber")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.billingPostalCode")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingPostalCode", event)}
-            type="text"
-            value={formState.billingPostalCode}
+          <BillingInput
+            field="eInvoiceReference"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            helperText={tBillingProfile("helpers.eInvoiceReference")}
+            isRequired={isRequired("eInvoiceReference")}
+            label={tBillingProfile("fields.eInvoiceReference")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.billingCountry")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("billingCountry", event)}
-            type="text"
-            value={formState.billingCountry}
+          <BillingInput
+            field="procurementReference"
+            formState={formState}
+            getInputClassName={getInputClassName}
+            helperText={tBillingProfile("helpers.procurementReference")}
+            isRequired={isRequired("procurementReference")}
+            label={tBillingProfile("fields.procurementReference")}
+            onChange={updateField}
+            optionalLabel={tBillingProfile("labels.optional")}
+            requiredLabel={tBillingProfile("labels.required")}
           />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.oib")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("oib", event)}
-            type="text"
-            value={formState.oib}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.vatId")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("vatId", event)}
-            type="text"
-            value={formState.vatId}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.taxId")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("taxId", event)}
-            type="text"
-            value={formState.taxId}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.contactPerson")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("contactPerson", event)}
-            type="text"
-            value={formState.contactPerson}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.phone")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("phone", event)}
-            type="tel"
-            value={formState.phone}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.purchaseOrderNumber")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("purchaseOrderNumber", event)}
-            type="text"
-            value={formState.purchaseOrderNumber}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.eInvoiceReference")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("eInvoiceReference", event)}
-            type="text"
-            value={formState.eInvoiceReference}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.procurementReference")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("procurementReference", event)}
-            type="text"
-            value={formState.procurementReference}
-          />
-        </BillingField>
-        <BillingField label={tBillingProfile("fields.notes")}>
+        </BillingSection>
+      ) : null}
+
+      <BillingSection
+        description={tBillingProfile("sections.notes.description")}
+        title={tBillingProfile("sections.notes.title")}
+      >
+        <BillingField
+          field="notes"
+          helperText={tBillingProfile("helpers.notes")}
+          isRequired={isRequired("notes")}
+          label={tBillingProfile("fields.notes")}
+          optionalLabel={tBillingProfile("labels.optional")}
+          requiredLabel={tBillingProfile("labels.required")}
+        >
           <textarea
-            className={`${formControlClassName} min-h-24 py-2`}
+            className={`${getInputClassName("notes")} min-h-24 py-2 md:col-span-2`}
             onChange={(event) => updateField("notes", event)}
+            required={isRequired("notes")}
             value={formState.notes}
           />
         </BillingField>
       </BillingSection>
 
-      {errorKey ? (
+      {errorState ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
-          {errorKey === "invalidInput"
-            ? tValidation("invalidBillingProfileInput")
+          {errorState.key === "invalidInput"
+            ? invalidInputMessage
             : tBilling("errors.saveProfileFailed")}
         </div>
       ) : null}
@@ -347,14 +514,87 @@ function BillingSection({
 
 type BillingFieldProps = {
   children: ReactNode;
+  field: BillingProfileFieldKey;
+  helperText?: string;
+  isRequired: boolean;
   label: string;
+  optionalLabel?: string;
+  requiredLabel: string;
 };
 
-function BillingField({ children, label }: BillingFieldProps) {
+function BillingField({
+  children,
+  helperText,
+  isRequired,
+  label,
+  optionalLabel,
+  requiredLabel,
+}: BillingFieldProps) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-semibold text-deep-twilight-800">{label}</span>
+      <span className="flex flex-wrap items-center gap-2 text-sm font-semibold text-deep-twilight-800">
+        <span>
+          {label}
+          {isRequired ? <span aria-hidden="true"> *</span> : null}
+        </span>
+        <span className="rounded-sm bg-frosted-blue-100 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-normal text-deep-twilight-600">
+          {isRequired ? requiredLabel : optionalLabel}
+        </span>
+      </span>
       {children}
+      {helperText ? (
+        <span className="text-xs leading-5 text-deep-twilight-600">
+          {helperText}
+        </span>
+      ) : null}
     </label>
+  );
+}
+
+type BillingInputProps = {
+  field: Exclude<BillingProfileFieldKey, "customerType" | "notes">;
+  formState: BillingProfileFormState;
+  getInputClassName: (field: BillingProfileFieldKey) => string;
+  helperText?: string;
+  inputType?: "email" | "tel" | "text";
+  isRequired: boolean;
+  label: string;
+  onChange: (
+    field: keyof BillingProfileFormState,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => void;
+  optionalLabel: string;
+  requiredLabel: string;
+};
+
+function BillingInput({
+  field,
+  formState,
+  getInputClassName,
+  helperText,
+  inputType = "text",
+  isRequired,
+  label,
+  onChange,
+  optionalLabel,
+  requiredLabel,
+}: BillingInputProps) {
+  return (
+    <BillingField
+      field={field}
+      helperText={helperText}
+      isRequired={isRequired}
+      label={label}
+      optionalLabel={optionalLabel}
+      requiredLabel={requiredLabel}
+    >
+      <input
+        className={getInputClassName(field)}
+        onChange={(event) => onChange(field, event)}
+        required={isRequired}
+        type={inputType}
+        value={formState[field]}
+      />
+    </BillingField>
   );
 }

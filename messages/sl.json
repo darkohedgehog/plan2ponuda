@@ -142,6 +142,7 @@
     "invalidEmailOrPassword": "Neveljavna e-pošta ali geslo.",
     "invalidInput": "Preverite vnesene podatke.",
     "invalidBillingProfileInput": "Vnesite obvezna polja profila za obračun.",
+    "missingBillingProfileFields": "Izpolnite ta obvezna polja: {fields}.",
     "invalidProjectInput": "Vnesite ime projekta, vrsto objekta in površino, večjo od 0.",
     "invalidQuoteMaterialInput": "Preverite imena materialov, količine in cene.",
     "invalidSettingsInput": "Vnesite veljavne podatke profila, podjetja in nastavitev ocenjevanja.",
@@ -369,16 +370,24 @@
   "Billing": {
     "actions": {
       "comingSoon": "Kmalu",
-      "description": "Stripe checkout in upravljanje naročnine bosta omogočena v naslednji fazi obračuna.",
+      "description": "Zaženite Stripe checkout ali upravljajte naročnino v Stripeu.",
       "manageSubscription": "Upravljanje naročnine",
+      "openingPortal": "Odpiranje portala...",
+      "preparingCheckout": "Priprava checkouta...",
       "title": "Dejanja naročnine",
       "upgradeBasic": "Nadgradi na Basic",
       "upgradePro": "Nadgradi na Pro"
     },
     "errors": {
+      "checkoutFailed": "Checkouta ni mogoče začeti. Poskusite znova.",
+      "completeBillingProfileBeforeCheckout": "Pred začetkom checkouta izpolnite profil za obračun.",
+      "completeRequiredBillingProfileFields": "Pred checkoutom izpolnite ta obvezna polja profila za obračun: {fields}.",
+      "portalFailed": "Portala za obračun ni mogoče odpreti. Poskusite znova.",
       "saveProfileFailed": "Profila za obračun ni mogoče shraniti."
     },
     "messages": {
+      "checkoutCancelled": "Checkout je bil preklican. Spremembe niso bile narejene.",
+      "checkoutConfirmationPending": "Potrditev plačila lahko traja nekaj trenutkov. Vaš paket bo posodobljen po potrditvi plačila.",
       "profileSaved": "Profil za obračun je shranjen."
     },
     "page": {
@@ -430,7 +439,7 @@
       "billingEmail": "E-pošta za obračun",
       "billingName": "Naziv za obračun",
       "billingPostalCode": "Poštna številka",
-      "companyName": "Naziv podjetja",
+      "companyName": "Naziv podjetja ali institucije",
       "contactPerson": "Kontaktna oseba",
       "customerType": "Vrsta stranke",
       "eInvoiceReference": "Referenca e-računa",
@@ -442,9 +451,47 @@
       "taxId": "Davčna ID",
       "vatId": "ID za DDV"
     },
-    "section": {
-      "description": "Minimalni lokalni podatki za obračun, potrebni pred omogočanjem plačanega Stripe checkouta.",
-      "title": "Profil za obračun"
+    "helpers": {
+      "eInvoiceReference": "Uporabite samo, če vaša institucija zahteva posebno referenco e-računa.",
+      "notes": "Dodatna navodila za ročno izdajo računa.",
+      "oib": "Identifikacijska številka hrvaškega podjetja ali institucije.",
+      "procurementReference": "Opcijska referenca nabave ali pogodbe za javne naročnike.",
+      "purchaseOrderNumber": "Uporabite, če vaše podjetje ali institucija zahteva referenco naročilnice na računu.",
+      "taxId": "Opcijska davčna identifikacijska številka za stranke zunaj EU.",
+      "vatId": "EU DDV številka za poslovne stranke."
+    },
+    "labels": {
+      "optional": "Opcijsko",
+      "required": "Obvezno"
+    },
+    "messages": {
+      "manualInvoiceReview": "Ta vrsta stranke zahteva ročni pregled računa pred izdajo."
+    },
+    "sections": {
+      "address": {
+        "description": "Naslov, ki se izpiše na računih in uporablja v evidenci obračuna.",
+        "title": "Naslov"
+      },
+      "billingContact": {
+        "description": "Komu naj bo račun izdan in kam naj gredo sporočila o obračunu.",
+        "title": "Kontakt za obračun"
+      },
+      "companyTax": {
+        "description": "Prikazana so samo polja, relevantna za izbrano vrsto stranke.",
+        "title": "Podatki podjetja in davčni podatki"
+      },
+      "customerType": {
+        "description": "Najprej izberite vrsto stranke, da obrazec prikaže prava polja za račun. * Obvezno polje.",
+        "title": "Vrsta stranke"
+      },
+      "notes": {
+        "description": "Opcijska navodila za ročno obdelavo računa.",
+        "title": "Opombe"
+      },
+      "publicSector": {
+        "description": "Uporabite samo, kadar vaše podjetje ali institucija potrebuje reference na računu.",
+        "title": "Reference javnega sektorja"
+      }
     }
   },
   "CustomerTypes": {

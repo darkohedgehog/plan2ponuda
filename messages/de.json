@@ -142,6 +142,7 @@
     "invalidEmailOrPassword": "Ungültige E-Mail oder ungültiges Passwort.",
     "invalidInput": "Prüfen Sie die eingegebenen Daten.",
     "invalidBillingProfileInput": "Geben Sie die erforderlichen Abrechnungsprofildaten ein.",
+    "missingBillingProfileFields": "Vervollständigen Sie diese erforderlichen Felder: {fields}.",
     "invalidProjectInput": "Geben Sie einen Projektnamen, Objekttyp und eine Fläche größer als 0 ein.",
     "invalidQuoteMaterialInput": "Prüfen Sie Materialnamen, Mengen und Preise.",
     "invalidSettingsInput": "Geben Sie gültige Profil-, Unternehmens- und Schätzungseinstellungen ein.",
@@ -369,16 +370,24 @@
   "Billing": {
     "actions": {
       "comingSoon": "Demnächst",
-      "description": "Stripe Checkout und Abonnementverwaltung werden in der nächsten Abrechnungsphase aktiviert.",
+      "description": "Starten Sie Stripe Checkout oder verwalten Sie Ihr Abonnement in Stripe.",
       "manageSubscription": "Abonnement verwalten",
+      "openingPortal": "Portal wird geöffnet...",
+      "preparingCheckout": "Checkout wird vorbereitet...",
       "title": "Abonnementaktionen",
       "upgradeBasic": "Auf Basic upgraden",
       "upgradePro": "Auf Pro upgraden"
     },
     "errors": {
+      "checkoutFailed": "Checkout konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+      "completeBillingProfileBeforeCheckout": "Vervollständigen Sie Ihr Abrechnungsprofil, bevor Sie den Checkout starten.",
+      "completeRequiredBillingProfileFields": "Vervollständigen Sie diese erforderlichen Abrechnungsprofilfelder vor dem Checkout: {fields}.",
+      "portalFailed": "Abrechnungsportal konnte nicht geöffnet werden. Bitte versuchen Sie es erneut.",
       "saveProfileFailed": "Abrechnungsprofil konnte nicht gespeichert werden."
     },
     "messages": {
+      "checkoutCancelled": "Checkout wurde abgebrochen. Es wurden keine Änderungen vorgenommen.",
+      "checkoutConfirmationPending": "Die Zahlungsbestätigung kann einen Moment dauern. Ihr Plan wird nach der Zahlungsbestätigung aktualisiert.",
       "profileSaved": "Abrechnungsprofil gespeichert."
     },
     "page": {
@@ -430,7 +439,7 @@
       "billingEmail": "Abrechnungs-E-Mail",
       "billingName": "Abrechnungsname",
       "billingPostalCode": "Postleitzahl",
-      "companyName": "Firmenname",
+      "companyName": "Firmen- oder Institutionsname",
       "contactPerson": "Kontaktperson",
       "customerType": "Kundentyp",
       "eInvoiceReference": "E-Rechnungsreferenz",
@@ -442,9 +451,47 @@
       "taxId": "Steuer-ID",
       "vatId": "USt-ID"
     },
-    "section": {
-      "description": "Minimale lokale Abrechnungsdaten, die vor dem bezahlten Stripe Checkout benötigt werden.",
-      "title": "Abrechnungsprofil"
+    "helpers": {
+      "eInvoiceReference": "Nur verwenden, wenn Ihre Institution eine bestimmte E-Rechnungsreferenz benötigt.",
+      "notes": "Zusätzliche Hinweise für die manuelle Rechnungsausstellung.",
+      "oib": "Identifikationsnummer kroatischer Unternehmen oder Institutionen.",
+      "procurementReference": "Optionale Beschaffungs- oder Vertragsreferenz für öffentliche Auftraggeber.",
+      "purchaseOrderNumber": "Verwenden Sie dies, wenn Ihr Unternehmen oder Ihre Institution eine Bestellreferenz auf der Rechnung benötigt.",
+      "taxId": "Optionale Steueridentifikationsnummer für Kunden außerhalb der EU.",
+      "vatId": "EU-USt-IdNr. für Geschäftskunden."
+    },
+    "labels": {
+      "optional": "Optional",
+      "required": "Erforderlich"
+    },
+    "messages": {
+      "manualInvoiceReview": "Dieser Kundentyp erfordert vor der Ausstellung eine manuelle Rechnungsprüfung."
+    },
+    "sections": {
+      "address": {
+        "description": "Adresse, die auf Rechnungen erscheint und für Abrechnungsunterlagen verwendet wird.",
+        "title": "Adresse"
+      },
+      "billingContact": {
+        "description": "An wen die Rechnung ausgestellt wird und wohin Abrechnungsnachrichten gehen.",
+        "title": "Abrechnungskontakt"
+      },
+      "companyTax": {
+        "description": "Es werden nur Felder angezeigt, die für den ausgewählten Kundentyp relevant sind.",
+        "title": "Unternehmens- und Steuerdaten"
+      },
+      "customerType": {
+        "description": "Wählen Sie zuerst den Kundentyp aus, damit das Formular die richtigen Rechnungsfelder zeigt. * Erforderliches Feld.",
+        "title": "Kundentyp"
+      },
+      "notes": {
+        "description": "Optionale Hinweise für die manuelle Rechnungsverarbeitung.",
+        "title": "Notizen"
+      },
+      "publicSector": {
+        "description": "Nur verwenden, wenn Ihr Unternehmen oder Ihre Institution Referenzen auf der Rechnung benötigt.",
+        "title": "Referenzen öffentlicher Auftraggeber"
+      }
     }
   },
   "CustomerTypes": {

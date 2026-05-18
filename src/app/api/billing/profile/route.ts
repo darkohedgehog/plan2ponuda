@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { requireApiUser } from "@/lib/auth/guards";
-import { updateBillingProfileSchema } from "@/lib/validations/billing.schema";
+import {
+  getMissingBillingProfileFields,
+  updateBillingProfileSchema,
+} from "@/lib/validations/billing.schema";
 import {
   getBillingProfile,
   upsertBillingProfile,
@@ -11,13 +14,21 @@ import type {
   SaveBillingProfileResponse,
 } from "@/types/billing";
 
-const invalidInputResponse: SaveBillingProfileResponse = {
-  error: {
-    code: "invalid_input",
-    message: "Enter valid billing profile values.",
-  },
-  ok: false,
-};
+function getInvalidInputResponse(body: unknown): SaveBillingProfileResponse {
+  const missingFields = getMissingBillingProfileFields(body);
+
+  return {
+    error: {
+      code: "invalid_input",
+      message:
+        missingFields.length > 0
+          ? "Complete the required billing profile fields."
+          : "Enter valid billing profile values.",
+      missingFields,
+    },
+    ok: false,
+  };
+}
 
 export async function GET() {
   const auth = await requireApiUser();
@@ -65,7 +76,7 @@ export async function PUT(request: Request) {
   const parsedInput = updateBillingProfileSchema.safeParse(body);
 
   if (!parsedInput.success) {
-    return NextResponse.json(invalidInputResponse, { status: 400 });
+    return NextResponse.json(getInvalidInputResponse(body), { status: 400 });
   }
 
   const profile = await upsertBillingProfile(auth.user.id, parsedInput.data).catch(

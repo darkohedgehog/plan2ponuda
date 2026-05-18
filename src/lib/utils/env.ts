@@ -34,6 +34,31 @@ export function getServerEnv() {
   };
 }
 
+function requiredUrlEnv(name: string): string {
+  const value = requiredEnv(name);
+
+  try {
+    return new URL(value).origin;
+  } catch {
+    throw new Error(`Invalid URL environment variable: ${name}`);
+  }
+}
+
+export function getStripeBillingEnv() {
+  return {
+    appUrl: requiredUrlEnv("NEXT_PUBLIC_APP_URL"),
+    stripeBasicPriceId: requiredEnv("STRIPE_BASIC_PRICE_ID"),
+    stripeProPriceId: requiredEnv("STRIPE_PRO_PRICE_ID"),
+    stripeSecretKey: requiredEnv("STRIPE_SECRET_KEY"),
+  };
+}
+
+export function getStripeWebhookEnv() {
+  return {
+    stripeWebhookSecret: requiredEnv("STRIPE_WEBHOOK_SECRET"),
+  };
+}
+
 export function getSupabaseServerEnv() {
   return {
     supabaseUrl: requiredEnv("NEXT_PUBLIC_SUPABASE_URL"),
