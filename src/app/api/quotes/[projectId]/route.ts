@@ -75,12 +75,16 @@ export async function PUT(request: Request, context: QuoteRouteContext) {
             ? "Project not found."
             : result.reason === "invalid_material_reference"
               ? "One or more materials do not belong to this project."
+              : result.reason === "quote_limit_reached"
+                ? "You have reached your quote limit for this plan."
               : "Unable to save materials.",
       },
       {
         status:
           result.reason === "not_found"
             ? 404
+            : result.reason === "quote_limit_reached"
+              ? 403
             : result.reason === "server_error"
               ? 500
               : 400,

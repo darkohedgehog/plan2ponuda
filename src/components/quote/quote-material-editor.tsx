@@ -49,7 +49,10 @@ type SaveMaterialsResponse =
       error: string;
     };
 
-type QuoteMaterialErrorKey = "invalidInput" | "saveFailed";
+type QuoteMaterialErrorKey =
+  | "invalidInput"
+  | "quoteLimitReached"
+  | "saveFailed";
 
 const categoryOptions: MaterialCategory[] = [
   "cable",
@@ -139,6 +142,7 @@ export function QuoteMaterialEditor({
   onSaved,
   projectId,
 }: QuoteMaterialEditorProps) {
+  const locale = useLocale();
   const router = useRouter();
   const tActions = useTranslations("Actions");
   const tCommon = useTranslations("Common");
@@ -256,7 +260,13 @@ export function QuoteMaterialEditor({
     setIsSubmitting(false);
 
     if (!response.ok || !payload || "error" in payload) {
-      setErrorKey(response.status === 400 ? "invalidInput" : "saveFailed");
+      setErrorKey(
+        response.status === 400
+          ? "invalidInput"
+          : response.status === 403
+            ? "quoteLimitReached"
+            : "saveFailed",
+      );
       return;
     }
 
@@ -311,9 +321,21 @@ export function QuoteMaterialEditor({
 
       {errorKey ? (
         <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
-          {errorKey === "invalidInput"
-            ? tValidation("invalidQuoteMaterialInput")
-            : tValidation("unableSaveMaterials")}
+          <p>
+            {errorKey === "invalidInput"
+              ? tValidation("invalidQuoteMaterialInput")
+              : errorKey === "quoteLimitReached"
+                ? tWorkspace("limit.quoteDescription")
+                : tValidation("unableSaveMaterials")}
+          </p>
+          {errorKey === "quoteLimitReached" ? (
+            <a
+              className="mt-2 inline-flex font-semibold text-red-800 underline underline-offset-4"
+              href={`/${locale}/dashboard/billing`}
+            >
+              {tWorkspace("limit.upgradeCta")}
+            </a>
+          ) : null}
         </div>
       ) : null}
 

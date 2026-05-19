@@ -428,7 +428,9 @@
   "Usage": {
     "floorPlans": "Tlorisi",
     "largePdfAnalyses": "Velike PDF analize",
-    "quotes": "Ponudbe"
+    "limitReached": "Omejitev dosežena",
+    "quotes": "Ponudbe",
+    "remaining": "Preostalo: {count}"
   },
   "BillingProfile": {
     "fields": {
@@ -504,9 +506,75 @@
   },
   "Admin": {
     "billing": {
-      "description": "Ta zaščiteni placeholder potrjuje temelj admin avtorizacije. Čakalna vrsta računov spada v fazo 3.",
+      "actions": {
+        "closeReview": "Zapri",
+        "markFailed": "Označi neuspešno",
+        "markIssued": "Označi izdano",
+        "markNeedsReview": "Potreben pregled",
+        "markNotRequired": "Ni potrebno",
+        "openReview": "Pregled"
+      },
+      "description": "Preglejte plačane Stripe račune in spremljajte ročno izdajo v Synesisu.",
+      "detail": {
+        "billingSnapshot": "Posnetek obračunskih podatkov",
+        "missingFields": "Manjkajoča polja: {fields}",
+        "noSnapshot": "Posnetek obračunskih podatkov ni na voljo.",
+        "review": "Podrobnosti pregleda"
+      },
       "eyebrow": "Admin",
-      "placeholder": "Naloge za račune, statusi Synesis in ročni pregled obračuna bodo implementirani v fazi čakalne vrste računov.",
+      "empty": {
+        "description": "Nobena naloga za račun ne ustreza trenutnim filtrom.",
+        "title": "Ni nalog za račune"
+      },
+      "errors": {
+        "issuedStatusLocked": "Izdane naloge za račune ni mogoče premakniti v drug status.",
+        "saveFailed": "Naloge za račun ni mogoče posodobiti.",
+        "synesisInvoiceNumberRequired": "Vnesite številko računa Synesis, preden nalogo označite kot izdano."
+      },
+      "fields": {
+        "adminNotes": "Admin opombe",
+        "amountPaid": "Plačani znesek",
+        "billingName": "Naziv za obračun / podjetje",
+        "billingPeriod": "Obračunsko obdobje",
+        "createdAt": "Ustvarjeno",
+        "currency": "Valuta",
+        "customerType": "Vrsta stranke",
+        "issuedAt": "Izdano",
+        "review": "Pregled",
+        "reviewedAt": "Pregledano",
+        "status": "Status",
+        "stripeCustomerId": "Stripe ID stranke",
+        "stripeInvoiceId": "Stripe ID računa",
+        "stripePaymentIntentId": "Stripe ID namere plačila",
+        "stripeSubscriptionId": "Stripe ID naročnine",
+        "subscription": "Paket / naročnina",
+        "synesisInvoiceNumber": "Številka računa Synesis",
+        "userEmail": "E-pošta uporabnika"
+      },
+      "filters": {
+        "allCustomerTypes": "Vse vrste strank",
+        "allStatuses": "Vsi statusi",
+        "apply": "Uporabi",
+        "clear": "Počisti",
+        "customerType": "Vrsta stranke",
+        "status": "Status"
+      },
+      "messages": {
+        "saved": "Naloga za račun je posodobljena."
+      },
+      "statuses": {
+        "failed": "Neuspešno",
+        "issued": "Izdano",
+        "needs_review": "Potreben pregled",
+        "not_required": "Ni potrebno",
+        "pending": "Na čakanju"
+      },
+      "summary": {
+        "failed": "Neuspešno",
+        "issued": "Izdano",
+        "needsReview": "Potreben pregled",
+        "pending": "Na čakanju"
+      },
       "title": "Admin obračun"
     }
   },
@@ -827,6 +895,11 @@
       "subtitle": "Količine so ustvarjene iz razrešenih predlogov po prostorih in jih lahko prilagodite pred izvozom.",
       "title": "Seznam materialov"
     },
+    "limit": {
+      "quoteDescription": "Dosegli ste omejitev ponudb za ta paket. Nadgradite paket za ustvarjanje dodatnih ponudb.",
+      "quoteTitle": "Omejitev ponudb dosežena",
+      "upgradeCta": "Nadgradi paket"
+    },
     "messages": {
       "materialsSaved": "Materiali so shranjeni."
     },
@@ -1010,6 +1083,7 @@
     "errors": {
       "fallback": "Tlorisa ni mogoče naložiti.",
       "fileTooLarge": "Datoteka tlorisa mora biti velika največ 10 MB.",
+      "floorPlanLimitReached": "Dosegli ste omejitev tlorisov za ta paket. Nadgradite paket za nalaganje dodatnih tlorisov.",
       "invalidFile": "Izbrana datoteka ni veljaven tloris.",
       "invalidInput": "Preverite izbrano datoteko.",
       "invalidType": "Naložite tloris v formatu PDF, PNG, JPG ali JPEG.",
@@ -1017,6 +1091,7 @@
       "required": "Izberite datoteko tlorisa za nalaganje.",
       "serverError": "Tlorisa ni mogoče naložiti.",
       "tooLarge": "Datoteka tlorisa mora biti velika največ 10 MB.",
+      "upgradeCta": "Na obračun",
       "unsupportedFileType": "Naložite tloris v formatu PDF, PNG, JPG ali JPEG.",
       "uploadFailed": "Nalaganje tlorisa ni uspelo."
     },

@@ -428,7 +428,9 @@
   "Usage": {
     "floorPlans": "Grundrisse",
     "largePdfAnalyses": "Große PDF-Analysen",
-    "quotes": "Angebote"
+    "limitReached": "Limit erreicht",
+    "quotes": "Angebote",
+    "remaining": "{count} verbleibend"
   },
   "BillingProfile": {
     "fields": {
@@ -504,9 +506,75 @@
   },
   "Admin": {
     "billing": {
-      "description": "Dieser geschützte Platzhalter bestätigt die Admin-Autorisierungsgrundlage. Die Rechnungsaufgaben-Warteschlange gehört zu Phase 3.",
+      "actions": {
+        "closeReview": "Schließen",
+        "markFailed": "Als fehlgeschlagen markieren",
+        "markIssued": "Als ausgestellt markieren",
+        "markNeedsReview": "Prüfung nötig",
+        "markNotRequired": "Nicht erforderlich",
+        "openReview": "Prüfen"
+      },
+      "description": "Prüfen Sie bezahlte Stripe-Rechnungen und verfolgen Sie die manuelle Ausstellung in Synesis.",
+      "detail": {
+        "billingSnapshot": "Abrechnungs-Snapshot",
+        "missingFields": "Fehlende Felder: {fields}",
+        "noSnapshot": "Kein Abrechnungs-Snapshot verfügbar.",
+        "review": "Prüfdetails"
+      },
       "eyebrow": "Admin",
-      "placeholder": "Rechnungsaufgaben, Synesis-Statusaktualisierungen und manuelle Abrechnungsprüfung werden in der Rechnungswarteschlangenphase implementiert.",
+      "empty": {
+        "description": "Keine Rechnungsaufgaben entsprechen den aktuellen Filtern.",
+        "title": "Keine Rechnungsaufgaben"
+      },
+      "errors": {
+        "issuedStatusLocked": "Ausgestellte Rechnungsaufgaben können nicht in einen anderen Status verschoben werden.",
+        "saveFailed": "Rechnungsaufgabe konnte nicht aktualisiert werden.",
+        "synesisInvoiceNumberRequired": "Geben Sie eine Synesis-Rechnungsnummer ein, bevor Sie diese Aufgabe als ausgestellt markieren."
+      },
+      "fields": {
+        "adminNotes": "Admin-Notizen",
+        "amountPaid": "Bezahlter Betrag",
+        "billingName": "Abrechnungsname / Unternehmen",
+        "billingPeriod": "Abrechnungszeitraum",
+        "createdAt": "Erstellt",
+        "currency": "Währung",
+        "customerType": "Kundentyp",
+        "issuedAt": "Ausgestellt am",
+        "review": "Prüfung",
+        "reviewedAt": "Geprüft am",
+        "status": "Status",
+        "stripeCustomerId": "Stripe-Kunden-ID",
+        "stripeInvoiceId": "Stripe-Rechnungs-ID",
+        "stripePaymentIntentId": "Stripe-Payment-Intent-ID",
+        "stripeSubscriptionId": "Stripe-Abonnement-ID",
+        "subscription": "Plan / Abonnement",
+        "synesisInvoiceNumber": "Synesis-Rechnungsnummer",
+        "userEmail": "Benutzer-E-Mail"
+      },
+      "filters": {
+        "allCustomerTypes": "Alle Kundentypen",
+        "allStatuses": "Alle Status",
+        "apply": "Anwenden",
+        "clear": "Zurücksetzen",
+        "customerType": "Kundentyp",
+        "status": "Status"
+      },
+      "messages": {
+        "saved": "Rechnungsaufgabe aktualisiert."
+      },
+      "statuses": {
+        "failed": "Fehlgeschlagen",
+        "issued": "Ausgestellt",
+        "needs_review": "Prüfung nötig",
+        "not_required": "Nicht erforderlich",
+        "pending": "Ausstehend"
+      },
+      "summary": {
+        "failed": "Fehlgeschlagen",
+        "issued": "Ausgestellt",
+        "needsReview": "Prüfung nötig",
+        "pending": "Ausstehend"
+      },
       "title": "Admin-Abrechnung"
     }
   },
@@ -827,6 +895,11 @@
       "subtitle": "Mengen werden aus aufgelösten Raumvorschlägen generiert und können vor dem Export angepasst werden.",
       "title": "Materialliste"
     },
+    "limit": {
+      "quoteDescription": "Sie haben das Angebotslimit für diesen Plan erreicht. Wechseln Sie zu einem höheren Plan, um weitere Angebote zu erstellen.",
+      "quoteTitle": "Angebotslimit erreicht",
+      "upgradeCta": "Plan upgraden"
+    },
     "messages": {
       "materialsSaved": "Materialien wurden gespeichert."
     },
@@ -1010,6 +1083,7 @@
     "errors": {
       "fallback": "Grundriss konnte nicht hochgeladen werden.",
       "fileTooLarge": "Grundrissdateien dürfen höchstens 10 MB groß sein.",
+      "floorPlanLimitReached": "Sie haben das Grundrisslimit für diesen Plan erreicht. Wechseln Sie zu einem höheren Plan, um weitere Grundrisse hochzuladen.",
       "invalidFile": "Die ausgewählte Datei ist kein gültiger Grundriss.",
       "invalidInput": "Prüfen Sie die ausgewählte Datei.",
       "invalidType": "Laden Sie einen Grundriss als PDF, PNG, JPG oder JPEG hoch.",
@@ -1017,6 +1091,7 @@
       "required": "Wählen Sie eine Grundrissdatei zum Hochladen aus.",
       "serverError": "Grundriss konnte nicht hochgeladen werden.",
       "tooLarge": "Grundrissdateien dürfen höchstens 10 MB groß sein.",
+      "upgradeCta": "Zur Abrechnung",
       "unsupportedFileType": "Laden Sie einen Grundriss als PDF, PNG, JPG oder JPEG hoch.",
       "uploadFailed": "Grundriss-Upload fehlgeschlagen."
     },

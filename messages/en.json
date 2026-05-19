@@ -428,7 +428,9 @@
   "Usage": {
     "floorPlans": "Floor plans",
     "largePdfAnalyses": "Large PDF analyses",
-    "quotes": "Quotes"
+    "limitReached": "Limit reached",
+    "quotes": "Quotes",
+    "remaining": "{count} remaining"
   },
   "BillingProfile": {
     "fields": {
@@ -504,9 +506,75 @@
   },
   "Admin": {
     "billing": {
-      "description": "This protected placeholder confirms the admin authorization foundation. The invoice task queue belongs to Phase 3.",
+      "actions": {
+        "closeReview": "Close",
+        "markFailed": "Mark failed",
+        "markIssued": "Mark issued",
+        "markNeedsReview": "Needs review",
+        "markNotRequired": "Not required",
+        "openReview": "Review"
+      },
+      "description": "Review paid Stripe invoices and track manual Synesis issuance.",
+      "detail": {
+        "billingSnapshot": "Billing snapshot",
+        "missingFields": "Missing fields: {fields}",
+        "noSnapshot": "No billing snapshot is available.",
+        "review": "Review details"
+      },
       "eyebrow": "Admin",
-      "placeholder": "Invoice tasks, Synesis status updates, and manual billing review will be implemented in the invoice queue phase.",
+      "empty": {
+        "description": "No invoice tasks match the current filters.",
+        "title": "No invoice tasks"
+      },
+      "errors": {
+        "issuedStatusLocked": "Issued invoice tasks cannot be moved to another status.",
+        "saveFailed": "Unable to update invoice task.",
+        "synesisInvoiceNumberRequired": "Enter a Synesis invoice number before marking this task issued."
+      },
+      "fields": {
+        "adminNotes": "Admin notes",
+        "amountPaid": "Amount paid",
+        "billingName": "Billing name / company",
+        "billingPeriod": "Billing period",
+        "createdAt": "Created",
+        "currency": "Currency",
+        "customerType": "Customer type",
+        "issuedAt": "Issued at",
+        "review": "Review",
+        "reviewedAt": "Reviewed at",
+        "status": "Status",
+        "stripeCustomerId": "Stripe customer ID",
+        "stripeInvoiceId": "Stripe invoice ID",
+        "stripePaymentIntentId": "Stripe payment intent ID",
+        "stripeSubscriptionId": "Stripe subscription ID",
+        "subscription": "Plan / subscription",
+        "synesisInvoiceNumber": "Synesis invoice number",
+        "userEmail": "User email"
+      },
+      "filters": {
+        "allCustomerTypes": "All customer types",
+        "allStatuses": "All statuses",
+        "apply": "Apply",
+        "clear": "Clear",
+        "customerType": "Customer type",
+        "status": "Status"
+      },
+      "messages": {
+        "saved": "Invoice task updated."
+      },
+      "statuses": {
+        "failed": "Failed",
+        "issued": "Issued",
+        "needs_review": "Needs review",
+        "not_required": "Not required",
+        "pending": "Pending"
+      },
+      "summary": {
+        "failed": "Failed",
+        "issued": "Issued",
+        "needsReview": "Needs review",
+        "pending": "Pending"
+      },
       "title": "Admin billing"
     }
   },
@@ -827,6 +895,11 @@
       "subtitle": "Quantities are generated from resolved room suggestions and can be adjusted before export.",
       "title": "Material list"
     },
+    "limit": {
+      "quoteDescription": "You have reached your quote limit for this plan. Upgrade your plan to generate more quotes.",
+      "quoteTitle": "Quote limit reached",
+      "upgradeCta": "Upgrade plan"
+    },
     "messages": {
       "materialsSaved": "Materials saved."
     },
@@ -1010,6 +1083,7 @@
     "errors": {
       "fallback": "Unable to upload floor plan.",
       "fileTooLarge": "Floor plan files must be 10MB or smaller.",
+      "floorPlanLimitReached": "You have reached your floor plan limit for this plan. Upgrade your plan to upload more floor plans.",
       "invalidFile": "The selected file is not a valid floor plan.",
       "invalidInput": "Check the selected file.",
       "invalidType": "Upload a PDF, PNG, JPG, or JPEG floor plan.",
@@ -1017,6 +1091,7 @@
       "required": "Select a floor plan file to upload.",
       "serverError": "Unable to upload floor plan.",
       "tooLarge": "Floor plan files must be 10MB or smaller.",
+      "upgradeCta": "Go to billing",
       "unsupportedFileType": "Upload a PDF, PNG, JPG, or JPEG floor plan.",
       "uploadFailed": "Floor plan upload failed."
     },

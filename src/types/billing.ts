@@ -17,6 +17,13 @@ export type CustomerType =
   | "eu_b2g_needs_review"
   | "outside_eu";
 
+export type InvoiceTaskStatus =
+  | "pending"
+  | "issued"
+  | "failed"
+  | "needs_review"
+  | "not_required";
+
 export type UsageCounterType =
   | "floor_plans_created"
   | "quotes_created"
@@ -149,6 +156,81 @@ export type BillingPortalResponse =
   | {
       error: {
         code: "server_error" | "stripe_customer_required";
+        message: string;
+      };
+      ok: false;
+    };
+
+export type AdminInvoiceTaskBillingSnapshot = {
+  billingProfile: BillingProfile | null;
+  capturedAt: string | null;
+  missingFields: BillingProfileFieldKey[];
+  snapshotVersion: number | null;
+};
+
+export type AdminInvoiceTask = {
+  adminNotes: string | null;
+  amountPaid: string | null;
+  billingName: string | null;
+  billingSnapshot: AdminInvoiceTaskBillingSnapshot;
+  companyName: string | null;
+  createdAt: string;
+  currency: string;
+  customerType: CustomerType;
+  id: string;
+  issuedAt: string | null;
+  periodEnd: string | null;
+  periodStart: string | null;
+  reviewedAt: string | null;
+  status: InvoiceTaskStatus;
+  stripeCustomerId: string | null;
+  stripeInvoiceId: string | null;
+  stripePaymentIntentId: string | null;
+  stripeSubscriptionId: string | null;
+  subscriptionPlan: BillingPlan | null;
+  subscriptionStatus: SubscriptionStatus | null;
+  synesisInvoiceNumber: string | null;
+  updatedAt: string;
+  userEmail: string;
+};
+
+export type AdminInvoiceTaskSummaryStatus =
+  | "failed"
+  | "issued"
+  | "needs_review"
+  | "pending";
+
+export type AdminInvoiceTaskSummary = Record<
+  AdminInvoiceTaskSummaryStatus,
+  number
+>;
+
+export type AdminInvoiceTaskFilters = {
+  customerType?: CustomerType;
+  status?: InvoiceTaskStatus;
+};
+
+export type AdminInvoiceTaskQueue = {
+  filters: AdminInvoiceTaskFilters;
+  summary: AdminInvoiceTaskSummary;
+  tasks: AdminInvoiceTask[];
+};
+
+export type UpdateAdminInvoiceTaskResponse =
+  | {
+      ok: true;
+      task: AdminInvoiceTask;
+    }
+  | {
+      error: {
+        code:
+          | "forbidden"
+          | "invalid_input"
+          | "invoice_task_not_found"
+          | "issued_status_locked"
+          | "server_error"
+          | "synesis_invoice_number_required"
+          | "unauthorized";
         message: string;
       };
       ok: false;

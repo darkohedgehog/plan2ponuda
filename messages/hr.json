@@ -428,7 +428,9 @@
   "Usage": {
     "floorPlans": "Tlocrti",
     "largePdfAnalyses": "Velike PDF analize",
-    "quotes": "Ponude"
+    "limitReached": "Dosegnuto ograničenje",
+    "quotes": "Ponude",
+    "remaining": "Preostalo: {count}"
   },
   "BillingProfile": {
     "fields": {
@@ -504,9 +506,75 @@
   },
   "Admin": {
     "billing": {
-      "description": "Ovaj zaštićeni placeholder potvrđuje temelj admin autorizacije. Red za račune pripada fazi 3.",
+      "actions": {
+        "closeReview": "Zatvori",
+        "markFailed": "Označi neuspješno",
+        "markIssued": "Označi izdano",
+        "markNeedsReview": "Potrebna provjera",
+        "markNotRequired": "Nije potrebno",
+        "openReview": "Pregled"
+      },
+      "description": "Pregledajte plaćene Stripe račune i pratite ručno izdavanje u Synesisu.",
+      "detail": {
+        "billingSnapshot": "Snimka podataka za naplatu",
+        "missingFields": "Nedostaju polja: {fields}",
+        "noSnapshot": "Snimka podataka za naplatu nije dostupna.",
+        "review": "Detalji pregleda"
+      },
       "eyebrow": "Admin",
-      "placeholder": "Zadaci za račune, Synesis statusi i ručni pregled naplate bit će implementirani u fazi reda za račune.",
+      "empty": {
+        "description": "Nijedan zadatak za račun ne odgovara trenutnim filtrima.",
+        "title": "Nema zadataka za račune"
+      },
+      "errors": {
+        "issuedStatusLocked": "Izdani zadaci za račune ne mogu se premjestiti u drugi status.",
+        "saveFailed": "Nije moguće ažurirati zadatak za račun.",
+        "synesisInvoiceNumberRequired": "Unesite Synesis broj računa prije označavanja zadatka kao izdanog."
+      },
+      "fields": {
+        "adminNotes": "Admin bilješke",
+        "amountPaid": "Plaćeni iznos",
+        "billingName": "Naziv za naplatu / tvrtka",
+        "billingPeriod": "Razdoblje naplate",
+        "createdAt": "Kreirano",
+        "currency": "Valuta",
+        "customerType": "Vrsta kupca",
+        "issuedAt": "Izdano",
+        "review": "Pregled",
+        "reviewedAt": "Pregledano",
+        "status": "Status",
+        "stripeCustomerId": "Stripe ID kupca",
+        "stripeInvoiceId": "Stripe ID računa",
+        "stripePaymentIntentId": "Stripe ID namjere plaćanja",
+        "stripeSubscriptionId": "Stripe ID pretplate",
+        "subscription": "Plan / pretplata",
+        "synesisInvoiceNumber": "Synesis broj računa",
+        "userEmail": "E-pošta korisnika"
+      },
+      "filters": {
+        "allCustomerTypes": "Sve vrste kupaca",
+        "allStatuses": "Svi statusi",
+        "apply": "Primijeni",
+        "clear": "Očisti",
+        "customerType": "Vrsta kupca",
+        "status": "Status"
+      },
+      "messages": {
+        "saved": "Zadatak za račun je ažuriran."
+      },
+      "statuses": {
+        "failed": "Neuspješno",
+        "issued": "Izdano",
+        "needs_review": "Potrebna provjera",
+        "not_required": "Nije potrebno",
+        "pending": "Na čekanju"
+      },
+      "summary": {
+        "failed": "Neuspješno",
+        "issued": "Izdano",
+        "needsReview": "Potrebna provjera",
+        "pending": "Na čekanju"
+      },
       "title": "Admin naplata"
     }
   },
@@ -827,6 +895,11 @@
       "subtitle": "Količine se generiraju iz razriješenih prijedloga po prostorijama i mogu se prilagoditi prije izvoza.",
       "title": "Popis materijala"
     },
+    "limit": {
+      "quoteDescription": "Dosegnuli ste ograničenje ponuda za ovaj plan. Nadogradite plan za generiranje dodatnih ponuda.",
+      "quoteTitle": "Dosegnuto ograničenje ponuda",
+      "upgradeCta": "Nadogradite plan"
+    },
     "messages": {
       "materialsSaved": "Materijali su spremljeni."
     },
@@ -1010,6 +1083,7 @@
     "errors": {
       "fallback": "Nije moguće učitati tlocrt.",
       "fileTooLarge": "Datoteka tlocrta mora biti 10 MB ili manja.",
+      "floorPlanLimitReached": "Dosegnuli ste ograničenje tlocrta za ovaj plan. Nadogradite plan za učitavanje dodatnih tlocrta.",
       "invalidFile": "Odabrana datoteka nije valjani tlocrt.",
       "invalidInput": "Provjerite odabranu datoteku.",
       "invalidType": "Učitajte tlocrt u PDF, PNG, JPG ili JPEG formatu.",
@@ -1017,6 +1091,7 @@
       "required": "Odaberite datoteku tlocrta za učitavanje.",
       "serverError": "Nije moguće učitati tlocrt.",
       "tooLarge": "Datoteka tlocrta mora biti 10 MB ili manja.",
+      "upgradeCta": "Idi na naplatu",
       "unsupportedFileType": "Učitajte tlocrt u PDF, PNG, JPG ili JPEG formatu.",
       "uploadFailed": "Učitavanje tlocrta nije uspjelo."
     },

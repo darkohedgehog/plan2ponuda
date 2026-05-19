@@ -43,6 +43,7 @@ export type FloorPlanPreview =
 
 export type ProjectErrorCode =
   | "file_too_large"
+  | "floor_plan_limit_reached"
   | "invalid_input"
   | "invalid_file"
   | "not_found"

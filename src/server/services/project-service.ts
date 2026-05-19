@@ -16,6 +16,11 @@ import type {
   Project,
   UploadFloorPlanResponse,
 } from "@/types/project";
+import {
+  canUseFeature,
+  incrementUsage,
+} from "@/server/services/billing-service";
+import { shouldCountFloorPlanUpload } from "@/server/services/usage-limit-policy";
 import { getProjectStoragePathsToDelete } from "./project-storage-paths";
 
 const PROJECT_FILES_BUCKET = "project-files";
@@ -377,6 +382,7 @@ export async function uploadFloorPlan({
     },
     select: {
       id: true,
+      sourceFilePath: true,
     },
   });
 
@@ -388,6 +394,20 @@ export async function uploadFloorPlan({
         message: "Project not found.",
       },
     };
+  }
+
+  if (shouldCountFloorPlanUpload(project.sourceFilePath)) {
+    const access = await canUseFeature(userId, "floorPlans");
+
+    if (!access.allowed) {
+      return {
+        ok: false,
+        error: {
+          code: "floor_plan_limit_reached",
+          message: "You have reached your floor plan limit for this plan.",
+        },
+      };
+    }
   }
 
   const extension = getFloorPlanFileExtension(file.type);
@@ -412,16 +432,51 @@ export async function uploadFloorPlan({
     };
   }
 
-  const updatedProject = await prisma.project.update({
-    where: {
-      id: project.id,
-    },
-    data: {
-      sourceFilePath: filePath,
-      previewPath: null,
-      status: "uploaded",
-    },
+  const updatedProject = await prisma.$transaction(async (transaction) => {
+    const currentProject = await transaction.project.findFirst({
+      where: {
+        id: project.id,
+        userId,
+      },
+      select: {
+        sourceFilePath: true,
+      },
+    });
+
+    if (!currentProject) {
+      return null;
+    }
+
+    const shouldIncrementUsage = shouldCountFloorPlanUpload(
+      currentProject.sourceFilePath,
+    );
+    const nextProject = await transaction.project.update({
+      where: {
+        id: project.id,
+      },
+      data: {
+        sourceFilePath: filePath,
+        previewPath: null,
+        status: "uploaded",
+      },
+    });
+
+    if (shouldIncrementUsage) {
+      await incrementUsage(userId, "floor_plans_created", transaction);
+    }
+
+    return nextProject;
   });
+
+  if (!updatedProject) {
+    return {
+      ok: false,
+      error: {
+        code: "not_found",
+        message: "Project not found.",
+      },
+    };
+  }
 
   return {
     ok: true,

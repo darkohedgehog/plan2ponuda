@@ -1,4 +1,4 @@
-import { ArrowRight, ClipboardCheck } from "lucide-react";
+import { ArrowRight, ClipboardCheck, CreditCard } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
@@ -52,6 +52,10 @@ export default async function ProjectQuotePage({
       );
     }
 
+    if (quoteResult.reason === "quote_limit_reached") {
+      return <QuoteLimitReached locale={locale} />;
+    }
+
     notFound();
   }
 
@@ -64,6 +68,41 @@ export default async function ProjectQuotePage({
         projectName={project.name}
         quote={quoteResult.quote}
       />
+    </main>
+  );
+}
+
+type QuoteLimitReachedProps = {
+  locale: string;
+};
+
+async function QuoteLimitReached({ locale }: QuoteLimitReachedProps) {
+  const tWorkspace = await getTranslations("QuoteWorkspace");
+
+  return (
+    <main className="flex flex-col gap-4">
+      <section className="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-amber-200 bg-white text-amber-700">
+              <CreditCard aria-hidden="true" className="h-5 w-5" />
+            </div>
+            <h1 className="mt-4 text-2xl font-semibold tracking-tight text-deep-twilight-950">
+              {tWorkspace("limit.quoteTitle")}
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-deep-twilight-700">
+              {tWorkspace("limit.quoteDescription")}
+            </p>
+          </div>
+          <Link
+            className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
+            href={`/${locale}/dashboard/billing`}
+          >
+            {tWorkspace("limit.upgradeCta")}
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

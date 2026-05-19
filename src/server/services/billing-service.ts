@@ -44,6 +44,13 @@ type UsagePeriod = {
   periodStart: Date | null;
 };
 
+type UsageCounterWriteClient = Pick<
+  typeof prisma,
+  "subscription" | "usageCounter"
+>;
+
+type UsageCounterReadClient = UsageCounterWriteClient;
+
 type StripeBillingPriceEnv = {
   stripeBasicPriceId: string;
   stripeProPriceId: string;
@@ -468,15 +475,16 @@ export async function getEffectivePlan(
 
 export async function getUsageForCurrentPeriod(
   userId: string,
+  db: UsageCounterReadClient = prisma,
 ): Promise<UsageSummary> {
-  const subscription = await prisma.subscription.findUnique({
+  const subscription = await db.subscription.findUnique({
     where: {
       userId,
     },
   });
   const plan = getEffectivePlanFromSubscription(subscription);
   const period = getUsagePeriod(subscription, plan);
-  const counters = await prisma.usageCounter.findMany({
+  const counters = await db.usageCounter.findMany({
     where: {
       periodKey: period.key,
       type: {
@@ -521,8 +529,9 @@ export async function getUsageForCurrentPeriod(
 export async function canUseFeature(
   userId: string,
   feature: BillingFeature,
+  db: UsageCounterReadClient = prisma,
 ): Promise<FeatureAccess> {
-  const usage = await getUsageForCurrentPeriod(userId);
+  const usage = await getUsageForCurrentPeriod(userId, db);
   const item = usage.items[feature];
 
   return {
@@ -540,8 +549,9 @@ export async function canUseFeature(
 export async function incrementUsage(
   userId: string,
   type: UsageCounterTypeValue,
+  db: UsageCounterWriteClient = prisma,
 ): Promise<FeatureAccess> {
-  const subscription = await prisma.subscription.findUnique({
+  const subscription = await db.subscription.findUnique({
     where: {
       userId,
     },
@@ -549,7 +559,7 @@ export async function incrementUsage(
   const plan = getEffectivePlanFromSubscription(subscription);
   const period = getUsagePeriod(subscription, plan);
   const feature = getFeatureForUsageCounterType(type);
-  const counter = await prisma.usageCounter.upsert({
+  const counter = await db.usageCounter.upsert({
     create: {
       count: 1,
       periodEnd: period.periodEnd,

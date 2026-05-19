@@ -109,11 +109,22 @@ export default async function BillingPage({
           feature="floorPlans"
           item={usage.items.floorPlans}
           label={tUsage("floorPlans")}
+          limitReachedLabel={tUsage("limitReached")}
+          remainingLabel={tUsage("remaining", {
+            count: Math.max(
+              0,
+              usage.items.floorPlans.limit - usage.items.floorPlans.current,
+            ),
+          })}
         />
         <UsageCard
           feature="quotes"
           item={usage.items.quotes}
           label={tUsage("quotes")}
+          limitReachedLabel={tUsage("limitReached")}
+          remainingLabel={tUsage("remaining", {
+            count: Math.max(0, usage.items.quotes.limit - usage.items.quotes.current),
+          })}
         />
       </section>
 
@@ -122,6 +133,14 @@ export default async function BillingPage({
           feature="largePdfAnalyses"
           item={usage.items.largePdfAnalyses}
           label={tUsage("largePdfAnalyses")}
+          limitReachedLabel={tUsage("limitReached")}
+          remainingLabel={tUsage("remaining", {
+            count: Math.max(
+              0,
+              usage.items.largePdfAnalyses.limit -
+                usage.items.largePdfAnalyses.current,
+            ),
+          })}
         />
         <div className="rounded-lg border border-frosted-blue-200 bg-white p-5 shadow-sm lg:col-span-2">
           <div className="flex items-center gap-3">
@@ -154,11 +173,20 @@ type UsageCardProps = {
   feature: BillingFeature;
   item: UsageItem;
   label: string;
+  limitReachedLabel: string;
+  remainingLabel: string;
 };
 
-function UsageCard({ feature, item, label }: UsageCardProps) {
+function UsageCard({
+  feature,
+  item,
+  label,
+  limitReachedLabel,
+  remainingLabel,
+}: UsageCardProps) {
   const percentage =
     item.limit > 0 ? Math.min(100, Math.round((item.current / item.limit) * 100)) : 0;
+  const isLimitReached = item.current >= item.limit;
 
   return (
     <div className="rounded-lg border border-frosted-blue-200 bg-white p-5 shadow-sm">
@@ -182,6 +210,9 @@ function UsageCard({ feature, item, label }: UsageCardProps) {
           style={{ width: `${percentage}%` }}
         />
       </div>
+      <p className="mt-3 text-sm font-medium text-deep-twilight-700">
+        {isLimitReached ? limitReachedLabel : remainingLabel}
+      </p>
     </div>
   );
 }

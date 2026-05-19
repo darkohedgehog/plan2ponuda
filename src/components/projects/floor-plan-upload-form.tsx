@@ -1,7 +1,7 @@
 "use client";
 
 import { Upload } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 
@@ -23,6 +23,7 @@ type FloorPlanUploadFormProps = {
 type UploadErrorMessageKey =
   | "errors.fallback"
   | "errors.fileTooLarge"
+  | "errors.floorPlanLimitReached"
   | "errors.invalidFile"
   | "errors.invalidInput"
   | "errors.invalidType"
@@ -42,6 +43,7 @@ type FloorPlanUploadState = {
 
 const uploadErrorKeysByCode: Record<ProjectErrorCode, UploadErrorMessageKey> = {
   file_too_large: "errors.fileTooLarge",
+  floor_plan_limit_reached: "errors.floorPlanLimitReached",
   invalid_file: "errors.invalidFile",
   invalid_input: "errors.invalidInput",
   not_found: "errors.notFound",
@@ -63,6 +65,7 @@ function validateSelectedFile(file: File): UploadErrorMessageKey | null {
 }
 
 export function FloorPlanUploadForm({ projectId }: FloorPlanUploadFormProps) {
+  const locale = useLocale();
   const router = useRouter();
   const tUpload = useTranslations("Upload");
   const [state, setState] = useState<FloorPlanUploadState>({
@@ -164,7 +167,17 @@ export function FloorPlanUploadForm({ projectId }: FloorPlanUploadFormProps) {
         type="file"
       />
       {state.errorKey ? (
-        <p className="text-sm text-red-600">{tUpload(state.errorKey)}</p>
+        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p>{tUpload(state.errorKey)}</p>
+          {state.errorKey === "errors.floorPlanLimitReached" ? (
+            <a
+              className="mt-2 inline-flex font-semibold text-red-800 underline underline-offset-4"
+              href={`/${locale}/dashboard/billing`}
+            >
+              {tUpload("errors.upgradeCta")}
+            </a>
+          ) : null}
+        </div>
       ) : null}
       {state.uploadedPath ? (
         <p className="text-sm text-deep-twilight-700">

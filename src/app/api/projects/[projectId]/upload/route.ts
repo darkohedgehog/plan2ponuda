@@ -33,6 +33,8 @@ function getUploadErrorStatus(error: ProjectError): number {
   switch (error.code) {
     case "file_too_large":
       return 413;
+    case "floor_plan_limit_reached":
+      return 403;
     case "not_found":
       return 404;
     case "server_error":

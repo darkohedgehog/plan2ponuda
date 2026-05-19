@@ -18,6 +18,14 @@ export const customerTypeValues = [
   "outside_eu",
 ] as const;
 
+export const invoiceTaskStatusValues = [
+  "pending",
+  "issued",
+  "failed",
+  "needs_review",
+  "not_required",
+] as const;
+
 const optionalTextSchema = (maxLength: number) =>
   z
     .string()
@@ -38,8 +46,24 @@ const optionalEmailSchema = z
     (value) => value === null || z.string().email().safeParse(value).success,
   );
 
+const optionalPatchTextSchema = (maxLength: number) =>
+  z
+    .string()
+    .trim()
+    .max(maxLength)
+    .nullable()
+    .optional()
+    .transform((value) => {
+      if (value === undefined) {
+        return undefined;
+      }
+
+      return value && value.length > 0 ? value : null;
+    });
+
 export const customerTypeSchema = z.enum(customerTypeValues);
 export const checkoutBillingPlanSchema = z.enum(["basic", "pro"]);
+export const invoiceTaskStatusSchema = z.enum(invoiceTaskStatusValues);
 
 type BillingProfileBaseInput = z.infer<typeof billingProfileBaseSchema>;
 
@@ -143,6 +167,40 @@ export const updateBillingProfileSchema = billingProfileSchema;
 export const createBillingCheckoutSessionSchema = z.object({
   plan: checkoutBillingPlanSchema,
 });
+export const invoiceTaskIdParamSchema = z.object({
+  invoiceTaskId: z.string().trim().min(1).max(120),
+});
+export const invoiceTaskFiltersSchema = z.object({
+  customerType: customerTypeSchema.optional(),
+  status: invoiceTaskStatusSchema.optional(),
+});
+export const updateInvoiceTaskSchema = z
+  .object({
+    adminNotes: optionalPatchTextSchema(2000),
+    status: invoiceTaskStatusSchema.optional(),
+    synesisInvoiceNumber: optionalPatchTextSchema(120),
+  })
+  .superRefine((input, context) => {
+    if (
+      input.status === "issued" &&
+      (!input.synesisInvoiceNumber || input.synesisInvoiceNumber.length === 0)
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: "Synesis invoice number is required when marking issued.",
+        path: ["synesisInvoiceNumber"],
+      });
+    }
+  })
+  .refine(
+    (input) =>
+      input.adminNotes !== undefined ||
+      input.status !== undefined ||
+      input.synesisInvoiceNumber !== undefined,
+    {
+      message: "At least one invoice task field must be provided.",
+    },
+  );
 
 export type CustomerTypeInput = z.infer<typeof customerTypeSchema>;
 export type BillingProfileInput = z.infer<typeof billingProfileSchema>;
@@ -152,3 +210,7 @@ export type CheckoutBillingPlanInput = z.infer<
 export type CreateBillingCheckoutSessionInput = z.infer<
   typeof createBillingCheckoutSessionSchema
 >;
+export type InvoiceTaskFiltersInput = z.infer<
+  typeof invoiceTaskFiltersSchema
+>;
+export type UpdateInvoiceTaskInput = z.infer<typeof updateInvoiceTaskSchema>;

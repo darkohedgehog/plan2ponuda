@@ -20,11 +20,16 @@ import {
 } from "@/lib/rules/room-rules";
 import type { UpdateProjectMaterialsInput } from "@/lib/validations/quote.schema";
 import {
+  canUseFeature,
+  incrementUsage,
+} from "@/server/services/billing-service";
+import {
   DEFAULT_CURRENCY,
   DEFAULT_LABOR_FACTOR,
   getUserLaborFactor,
 } from "@/server/services/settings-service";
 import { getQuoteWorkspaceMaterialState } from "@/server/services/quote-workspace-state";
+import { shouldCountQuoteCreation } from "@/server/services/usage-limit-policy";
 import type {
   Material,
   ProjectMaterial,
@@ -60,14 +65,14 @@ type QuoteGenerationResult =
     }
   | {
       ok: false;
-      reason: "not_found";
+      reason: "not_found" | "quote_limit_reached";
     };
 
 type QuoteWorkspaceResult =
   | QuoteGenerationResult
   | {
       ok: false;
-      reason: "needs_room_review";
+      reason: "needs_room_review" | "quote_limit_reached";
     };
 
 type ProjectMaterialUpdateResult =
@@ -78,7 +83,7 @@ type ProjectMaterialUpdateResult =
     }
   | {
       ok: false;
-      reason: "invalid_material_reference" | "not_found";
+      reason: "invalid_material_reference" | "not_found" | "quote_limit_reached";
     };
 
 type ProjectMaterialReadClient = Pick<typeof prisma, "projectMaterial">;
@@ -551,6 +556,11 @@ export async function generateQuote(
     select: {
       areaM2: true,
       id: true,
+      quote: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 
@@ -561,6 +571,19 @@ export async function generateQuote(
     };
   }
 
+  const shouldCountQuote = shouldCountQuoteCreation(project.quote?.id ?? null);
+
+  if (shouldCountQuote) {
+    const access = await canUseFeature(userId, "quotes");
+
+    if (!access.allowed) {
+      return {
+        ok: false,
+        reason: "quote_limit_reached",
+      };
+    }
+  }
+
   const materialResult = await generateProjectMaterialList(project.id, userId);
 
   if (!materialResult.ok) {
@@ -568,11 +591,28 @@ export async function generateQuote(
   }
 
   const laborFactor = await getUserLaborFactor(userId);
-  const quote = await recalculateQuoteFromPersistedMaterials(
-    project.id,
-    project.areaM2,
-    laborFactor,
-  );
+  const quote = await prisma.$transaction(async (transaction) => {
+    const currentQuote = await transaction.quote.findUnique({
+      where: {
+        projectId: project.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    const nextQuote = await recalculateQuoteFromPersistedMaterials(
+      project.id,
+      project.areaM2,
+      laborFactor,
+      transaction,
+    );
+
+    if (shouldCountQuoteCreation(currentQuote?.id ?? null)) {
+      await incrementUsage(userId, "quotes_created", transaction);
+    }
+
+    return nextQuote;
+  });
 
   return {
     ok: true,
@@ -593,6 +633,11 @@ export async function getQuoteWorkspace(
     select: {
       areaM2: true,
       id: true,
+      quote: {
+        select: {
+          id: true,
+        },
+      },
       status: true,
       _count: {
         select: {
@@ -627,12 +672,42 @@ export async function getQuoteWorkspace(
     return generateQuote(project.id, userId);
   }
 
+  const shouldCountQuote = shouldCountQuoteCreation(project.quote?.id ?? null);
+
+  if (shouldCountQuote) {
+    const access = await canUseFeature(userId, "quotes");
+
+    if (!access.allowed) {
+      return {
+        ok: false,
+        reason: "quote_limit_reached",
+      };
+    }
+  }
+
   const laborFactor = await getUserLaborFactor(userId);
-  const quote = await recalculateQuoteFromPersistedMaterials(
-    project.id,
-    project.areaM2,
-    laborFactor,
-  );
+  const quote = await prisma.$transaction(async (transaction) => {
+    const currentQuote = await transaction.quote.findUnique({
+      where: {
+        projectId: project.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    const nextQuote = await recalculateQuoteFromPersistedMaterials(
+      project.id,
+      project.areaM2,
+      laborFactor,
+      transaction,
+    );
+
+    if (shouldCountQuoteCreation(currentQuote?.id ?? null)) {
+      await incrementUsage(userId, "quotes_created", transaction);
+    }
+
+    return nextQuote;
+  });
   const materials = await getProjectMaterials(project.id);
 
   return {
@@ -656,6 +731,11 @@ export async function updateProjectMaterials(
       select: {
         areaM2: true,
         id: true,
+        quote: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
@@ -664,6 +744,19 @@ export async function updateProjectMaterials(
         ok: false,
         reason: "not_found",
       };
+    }
+
+    const shouldCountQuote = shouldCountQuoteCreation(project.quote?.id ?? null);
+
+    if (shouldCountQuote) {
+      const access = await canUseFeature(userId, "quotes", transaction);
+
+      if (!access.allowed) {
+        return {
+          ok: false,
+          reason: "quote_limit_reached",
+        };
+      }
     }
 
     const existingMaterialIds = input.existingMaterials.map(
@@ -771,6 +864,11 @@ export async function updateProjectMaterials(
       laborFactor,
       transaction,
     );
+
+    if (shouldCountQuote) {
+      await incrementUsage(userId, "quotes_created", transaction);
+    }
+
     const materials = await getProjectMaterials(project.id, transaction);
 
     return {
