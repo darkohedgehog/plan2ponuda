@@ -100,6 +100,8 @@
     "createProject": "Create Project",
     "creatingProject": "Creating project...",
     "delete": "Delete",
+    "exportExcel": "Export Excel",
+    "exportExcelFailed": "Failed to export Excel.",
     "exportPdf": "Export PDF",
     "generate": "Generate",
     "generateQuote": "Generate Quote",
@@ -370,8 +372,10 @@
   "Billing": {
     "actions": {
       "comingSoon": "Coming soon",
-      "description": "Start Stripe-hosted checkout or manage your subscription in Stripe.",
+      "description": "Upgrade your plan or open Stripe subscription management.",
+      "manageUnavailable": "Subscription management is unavailable until Stripe customer details are connected.",
       "manageSubscription": "Manage subscription",
+      "noActions": "No billing actions are available right now.",
       "openingPortal": "Opening portal...",
       "preparingCheckout": "Preparing checkout...",
       "title": "Subscription actions",
@@ -391,8 +395,8 @@
       "profileSaved": "Billing profile saved."
     },
     "page": {
-      "description": "Review local plan access, current usage, and billing profile data before Stripe payments are enabled.",
-      "eyebrow": "Billing foundation",
+      "description": "Track your plan, renewal state, and usage limits in one place.",
+      "eyebrow": "Subscription",
       "title": "Billing"
     },
     "statuses": {
@@ -406,9 +410,18 @@
       "unpaid": "Unpaid"
     },
     "summary": {
+      "billingPeriod": "Billing period",
+      "canceledUntil": "Your subscription is canceled and remains active until {date}.",
+      "currentPeriodEnd": "Current period end",
       "currentPlan": "Current plan",
+      "noPeriod": "No active billing period",
       "periodEnd": "Period end",
-      "status": "Status"
+      "periodEndsOn": "Period ends {date}",
+      "status": "Status",
+      "subscriptionDescription": "Stripe subscription state and renewal timing.",
+      "subscriptionTitle": "Subscription details",
+      "usageDescription": "Usage resets with the active billing period for paid plans. Free usage is lifetime usage.",
+      "usageTitle": "Plan usage"
     }
   },
   "Plans": {
@@ -429,8 +442,10 @@
     "floorPlans": "Floor plans",
     "largePdfAnalyses": "Large PDF analyses",
     "limitReached": "Limit reached",
+    "progressLabel": "{feature} usage",
     "quotes": "Quotes",
-    "remaining": "{count} remaining"
+    "remaining": "{count} remaining",
+    "usedOfLimit": "{used} of {limit} used"
   },
   "BillingProfile": {
     "fields": {
@@ -870,6 +885,22 @@
       "title": "Workflow"
     }
   },
+  "ProjectDocumentationAnalysis": {
+    "availableOnPro": "Available on Pro.",
+    "betaFeature": "Beta feature",
+    "comingSoon": "Coming soon. Uploads are not enabled yet.",
+    "currentPlan": "Current plan: {plan}",
+    "description": "Pro users will be able to upload complete project PDFs and extract material and labor candidates from project documentation.",
+    "lockedBadge": "Locked",
+    "lockedStatus": "Pro required",
+    "proBadge": "Pro",
+    "statusTitle": "Status",
+    "title": "Project documentation analysis",
+    "upgradeToPro": "Upgrade to Pro",
+    "uploadProjectPdf": "Upload project PDF",
+    "usageTitle": "PDF analyses usage",
+    "usageValue": "{used} / {limit}"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Newest quote updates are shown first.",
@@ -962,6 +993,53 @@
       "subtotal": "Subtotal",
       "total": "Total"
     }
+  },
+  "QuoteExcel": {
+    "fields": {
+      "area": "Area m2",
+      "category": "Category",
+      "client": "Client",
+      "code": "Code",
+      "confidence": "Confidence",
+      "generatedDate": "Generated date",
+      "laborCost": "Labor cost",
+      "material": "Material name",
+      "materialCost": "Material cost",
+      "objectType": "Object type",
+      "project": "Project",
+      "provider": "Provider",
+      "quantity": "Quantity",
+      "resolvedLights": "Resolved lights",
+      "resolvedSockets": "Resolved sockets",
+      "resolvedSwitches": "Resolved switches",
+      "room": "Room name",
+      "roomType": "Room type",
+      "source": "Source",
+      "subtotal": "Subtotal",
+      "suggestedLights": "Suggested lights",
+      "suggestedSockets": "Suggested sockets",
+      "suggestedSwitches": "Suggested switches",
+      "total": "Total",
+      "totalPrice": "Total price",
+      "unit": "Unit",
+      "unitPrice": "Unit price"
+    },
+    "materialSources": {
+      "ai": "AI",
+      "manual": "Manual",
+      "rule": "Rule"
+    },
+    "notes": {
+      "empty": "Assumptions / notes",
+      "reviewStatement": "Generated quantities are an estimate and should be reviewed before ordering materials or starting work."
+    },
+    "sheets": {
+      "materials": "Materials",
+      "notes": "Notes",
+      "rooms": "Rooms",
+      "summary": "Summary"
+    },
+    "title": "Excel export"
   },
   "Settings": {
     "errors": {

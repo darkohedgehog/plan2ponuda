@@ -5,8 +5,10 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { getBillingActionVisibility } from "@/lib/billing/billing-page-view";
 import type { CheckoutBillingPlanInput } from "@/lib/validations/billing.schema";
 import type {
+  BillingPlan,
   BillingCheckoutResponse,
   BillingProfileFieldKey,
   BillingPortalResponse,
@@ -24,6 +26,7 @@ type BillingActionsProps = {
   canManageSubscription: boolean;
   checkoutStatus: CheckoutStatus;
   hasBillingProfile: boolean;
+  plan: BillingPlan;
 };
 
 async function parseJsonResponse<T>(response: Response): Promise<T | null> {
@@ -34,6 +37,7 @@ export function BillingActions({
   canManageSubscription,
   checkoutStatus,
   hasBillingProfile,
+  plan,
 }: BillingActionsProps) {
   const tBilling = useTranslations("Billing");
   const tBillingProfile = useTranslations("BillingProfile");
@@ -125,6 +129,14 @@ export function BillingActions({
   }
 
   const isPending = pendingAction !== null;
+  const actionVisibility = getBillingActionVisibility(
+    plan,
+    canManageSubscription,
+  );
+  const hasVisibleActions =
+    actionVisibility.showUpgradeBasic ||
+    actionVisibility.showUpgradePro ||
+    actionVisibility.showManageSubscription;
 
   return (
     <div className="mt-5 grid gap-3">
@@ -132,7 +144,7 @@ export function BillingActions({
         <div
           className={
             checkoutStatus === "success"
-              ? "rounded-md border border-bright-teal-blue-200 bg-bright-teal-blue-50 px-4 py-3 text-sm font-medium text-deep-twilight-800"
+              ? "rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900"
               : "rounded-md border border-frosted-blue-200 bg-frosted-blue-50 px-4 py-3 text-sm font-medium text-deep-twilight-700"
           }
         >
@@ -162,51 +174,71 @@ export function BillingActions({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap gap-3">
-        <Button
-          disabled={isPending}
-          onClick={() => void startCheckout("basic")}
-          type="button"
-        >
-          {pendingAction === "basic" ? (
-            <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-          ) : (
-            <CreditCard aria-hidden="true" className="h-4 w-4" />
-          )}
-          {pendingAction === "basic"
-            ? tBilling("actions.preparingCheckout")
-            : tBilling("actions.upgradeBasic")}
-        </Button>
-        <Button
-          disabled={isPending}
-          onClick={() => void startCheckout("pro")}
-          type="button"
-        >
-          {pendingAction === "pro" ? (
-            <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-          ) : (
-            <CreditCard aria-hidden="true" className="h-4 w-4" />
-          )}
-          {pendingAction === "pro"
-            ? tBilling("actions.preparingCheckout")
-            : tBilling("actions.upgradePro")}
-        </Button>
-        <Button
-          disabled={isPending || !canManageSubscription}
-          onClick={() => void openBillingPortal()}
-          type="button"
-          variant="secondary"
-        >
-          {pendingAction === "portal" ? (
-            <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-          ) : (
-            <ExternalLink aria-hidden="true" className="h-4 w-4" />
-          )}
-          {pendingAction === "portal"
-            ? tBilling("actions.openingPortal")
-            : tBilling("actions.manageSubscription")}
-        </Button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {actionVisibility.showUpgradeBasic ? (
+          <Button
+            className="w-full sm:w-auto"
+            disabled={isPending}
+            onClick={() => void startCheckout("basic")}
+            type="button"
+          >
+            {pendingAction === "basic" ? (
+              <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
+            ) : (
+              <CreditCard aria-hidden="true" className="h-4 w-4" />
+            )}
+            {pendingAction === "basic"
+              ? tBilling("actions.preparingCheckout")
+              : tBilling("actions.upgradeBasic")}
+          </Button>
+        ) : null}
+        {actionVisibility.showUpgradePro ? (
+          <Button
+            className="w-full sm:w-auto"
+            disabled={isPending}
+            onClick={() => void startCheckout("pro")}
+            type="button"
+          >
+            {pendingAction === "pro" ? (
+              <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
+            ) : (
+              <CreditCard aria-hidden="true" className="h-4 w-4" />
+            )}
+            {pendingAction === "pro"
+              ? tBilling("actions.preparingCheckout")
+              : tBilling("actions.upgradePro")}
+          </Button>
+        ) : null}
+        {actionVisibility.showManageSubscription ? (
+          <Button
+            className="w-full sm:w-auto"
+            disabled={isPending || !canManageSubscription}
+            onClick={() => void openBillingPortal()}
+            title={
+              canManageSubscription
+                ? undefined
+                : tBilling("actions.manageUnavailable")
+            }
+            type="button"
+            variant="secondary"
+          >
+            {pendingAction === "portal" ? (
+              <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
+            ) : (
+              <ExternalLink aria-hidden="true" className="h-4 w-4" />
+            )}
+            {pendingAction === "portal"
+              ? tBilling("actions.openingPortal")
+              : tBilling("actions.manageSubscription")}
+          </Button>
+        ) : null}
       </div>
+
+      {!hasVisibleActions ? (
+        <p className="text-sm leading-6 text-deep-twilight-600">
+          {tBilling("actions.noActions")}
+        </p>
+      ) : null}
     </div>
   );
 }

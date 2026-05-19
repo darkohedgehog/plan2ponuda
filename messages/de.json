@@ -100,6 +100,8 @@
     "createProject": "Projekt erstellen",
     "creatingProject": "Projekt wird erstellt...",
     "delete": "Löschen",
+    "exportExcel": "Excel exportieren",
+    "exportExcelFailed": "Excel-Export fehlgeschlagen.",
     "exportPdf": "PDF exportieren",
     "generate": "Erstellen",
     "generateQuote": "Angebot erstellen",
@@ -370,8 +372,10 @@
   "Billing": {
     "actions": {
       "comingSoon": "Demnächst",
-      "description": "Starten Sie Stripe Checkout oder verwalten Sie Ihr Abonnement in Stripe.",
+      "description": "Upgraden Sie Ihren Plan oder öffnen Sie die Stripe-Abonnementverwaltung.",
+      "manageUnavailable": "Die Abonnementverwaltung ist erst verfügbar, wenn Stripe-Kundendaten verbunden sind.",
       "manageSubscription": "Abonnement verwalten",
+      "noActions": "Derzeit sind keine Abrechnungsaktionen verfügbar.",
       "openingPortal": "Portal wird geöffnet...",
       "preparingCheckout": "Checkout wird vorbereitet...",
       "title": "Abonnementaktionen",
@@ -391,8 +395,8 @@
       "profileSaved": "Abrechnungsprofil gespeichert."
     },
     "page": {
-      "description": "Prüfen Sie lokalen Planzugriff, aktuelle Nutzung und Abrechnungsprofildaten, bevor Stripe-Zahlungen aktiviert werden.",
-      "eyebrow": "Abrechnungsgrundlage",
+      "description": "Behalten Sie Plan, Verlängerungsstatus und Nutzungslimits an einem Ort im Blick.",
+      "eyebrow": "Abonnement",
       "title": "Abrechnung"
     },
     "statuses": {
@@ -406,9 +410,18 @@
       "unpaid": "Unbezahlt"
     },
     "summary": {
+      "billingPeriod": "Abrechnungszeitraum",
+      "canceledUntil": "Ihr Abonnement ist gekündigt und bleibt bis {date} aktiv.",
+      "currentPeriodEnd": "Ende des aktuellen Zeitraums",
       "currentPlan": "Aktueller Plan",
+      "noPeriod": "Kein aktiver Abrechnungszeitraum",
       "periodEnd": "Periodenende",
-      "status": "Status"
+      "periodEndsOn": "Zeitraum endet am {date}",
+      "status": "Status",
+      "subscriptionDescription": "Stripe-Abonnementstatus und Zeitpunkt der Verlängerung.",
+      "subscriptionTitle": "Abonnementdetails",
+      "usageDescription": "Die Nutzung wird bei bezahlten Plänen mit dem aktiven Abrechnungszeitraum zurückgesetzt. Kostenlose Nutzung ist lebenszeitbezogen.",
+      "usageTitle": "Plannutzung"
     }
   },
   "Plans": {
@@ -429,8 +442,10 @@
     "floorPlans": "Grundrisse",
     "largePdfAnalyses": "Große PDF-Analysen",
     "limitReached": "Limit erreicht",
+    "progressLabel": "{feature}-Nutzung",
     "quotes": "Angebote",
-    "remaining": "{count} verbleibend"
+    "remaining": "{count} verbleibend",
+    "usedOfLimit": "{used} von {limit} genutzt"
   },
   "BillingProfile": {
     "fields": {
@@ -870,6 +885,22 @@
       "title": "Workflow"
     }
   },
+  "ProjectDocumentationAnalysis": {
+    "availableOnPro": "Verfügbar im Pro-Plan.",
+    "betaFeature": "Beta-Funktion",
+    "comingSoon": "Demnächst. Uploads sind noch nicht aktiviert.",
+    "currentPlan": "Aktueller Plan: {plan}",
+    "description": "Pro-Nutzer können künftig vollständige Projekt-PDFs hochladen und Kandidaten für Material und Arbeit aus der Projektdokumentation extrahieren.",
+    "lockedBadge": "Gesperrt",
+    "lockedStatus": "Pro erforderlich",
+    "proBadge": "Pro",
+    "statusTitle": "Status",
+    "title": "Analyse der Projektdokumentation",
+    "upgradeToPro": "Auf Pro upgraden",
+    "uploadProjectPdf": "Projekt-PDF hochladen",
+    "usageTitle": "Nutzung der PDF-Analysen",
+    "usageValue": "{used} / {limit}"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Die neuesten Angebotsaktualisierungen werden zuerst angezeigt.",
@@ -962,6 +993,53 @@
       "subtotal": "Zwischensumme",
       "total": "Gesamt"
     }
+  },
+  "QuoteExcel": {
+    "fields": {
+      "area": "Fläche m2",
+      "category": "Kategorie",
+      "client": "Kunde",
+      "code": "Code",
+      "confidence": "Konfidenz",
+      "generatedDate": "Exportdatum",
+      "laborCost": "Arbeitskosten",
+      "material": "Materialname",
+      "materialCost": "Materialkosten",
+      "objectType": "Objekttyp",
+      "project": "Projekt",
+      "provider": "Anbieter",
+      "quantity": "Menge",
+      "resolvedLights": "Finale Lichtpunkte",
+      "resolvedSockets": "Finale Steckdosen",
+      "resolvedSwitches": "Finale Schalter",
+      "room": "Raumname",
+      "roomType": "Raumtyp",
+      "source": "Quelle",
+      "subtotal": "Zwischensumme",
+      "suggestedLights": "Vorgeschlagene Lichtpunkte",
+      "suggestedSockets": "Vorgeschlagene Steckdosen",
+      "suggestedSwitches": "Vorgeschlagene Schalter",
+      "total": "Gesamt",
+      "totalPrice": "Gesamtpreis",
+      "unit": "Einheit",
+      "unitPrice": "Einzelpreis"
+    },
+    "materialSources": {
+      "ai": "KI",
+      "manual": "Manuell",
+      "rule": "Regel"
+    },
+    "notes": {
+      "empty": "Annahmen / Notizen",
+      "reviewStatement": "Generierte Mengen sind eine Schätzung und sollten vor Materialbestellung oder Arbeitsbeginn geprüft werden."
+    },
+    "sheets": {
+      "materials": "Materialien",
+      "notes": "Notizen",
+      "rooms": "Räume",
+      "summary": "Übersicht"
+    },
+    "title": "Excel-Export"
   },
   "Settings": {
     "errors": {

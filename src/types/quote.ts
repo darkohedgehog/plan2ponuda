@@ -70,12 +70,17 @@ export type QuoteIndexItem = Quote & {
 };
 
 export type QuoteExportRoom = {
+  confidence: number | null;
+  estimatedAreaM2: number | null;
   id: string;
   name: string;
   type: string;
   resolvedSockets: number;
   resolvedSwitches: number;
   resolvedLights: number;
+  suggestedSockets: number;
+  suggestedSwitches: number;
+  suggestedLights: number;
 };
 
 export type QuoteExportCompany = {

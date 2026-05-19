@@ -100,6 +100,8 @@
     "createProject": "Kreiraj projekat",
     "creatingProject": "Kreiranje projekta...",
     "delete": "Izbriši",
+    "exportExcel": "Izvezi Excel",
+    "exportExcelFailed": "Izvoz Excela nije uspeo.",
     "exportPdf": "Izvezi PDF",
     "generate": "Generiši",
     "generateQuote": "Generiši ponudu",
@@ -370,8 +372,10 @@
   "Billing": {
     "actions": {
       "comingSoon": "Uskoro",
-      "description": "Pokrenite Stripe checkout ili upravljajte pretplatom u Stripeu.",
+      "description": "Nadogradite plan ili otvorite upravljanje pretplatom u Stripeu.",
+      "manageUnavailable": "Upravljanje pretplatom nije dostupno dok Stripe podaci kupca nisu povezani.",
       "manageSubscription": "Upravljanje pretplatom",
+      "noActions": "Trenutno nema dostupnih radnji naplate.",
       "openingPortal": "Otvaranje portala...",
       "preparingCheckout": "Priprema checkouta...",
       "title": "Radnje pretplate",
@@ -391,8 +395,8 @@
       "profileSaved": "Profil za naplatu je sačuvan."
     },
     "page": {
-      "description": "Pregledajte lokalni pristup planu, trenutnu potrošnju i podatke profila za naplatu pre uključivanja Stripe plaćanja.",
-      "eyebrow": "Temelji naplate",
+      "description": "Pratite plan, stanje obnove i ograničenja potrošnje na jednom mestu.",
+      "eyebrow": "Pretplata",
       "title": "Naplata"
     },
     "statuses": {
@@ -406,9 +410,18 @@
       "unpaid": "Neplaćeno"
     },
     "summary": {
+      "billingPeriod": "Obračunski period",
+      "canceledUntil": "Vaša pretplata je otkazana i ostaje aktivna do {date}.",
+      "currentPeriodEnd": "Kraj trenutnog perioda",
       "currentPlan": "Trenutni plan",
+      "noPeriod": "Nema aktivnog obračunskog perioda",
       "periodEnd": "Kraj perioda",
-      "status": "Status"
+      "periodEndsOn": "Period se završava {date}",
+      "status": "Status",
+      "subscriptionDescription": "Stanje Stripe pretplate i vreme obnove.",
+      "subscriptionTitle": "Detalji pretplate",
+      "usageDescription": "Potrošnja se resetuje sa aktivnim obračunskim periodom za plaćene planove. Besplatna potrošnja je doživotna.",
+      "usageTitle": "Potrošnja plana"
     }
   },
   "Plans": {
@@ -429,8 +442,10 @@
     "floorPlans": "Tlocrti",
     "largePdfAnalyses": "Velike PDF analize",
     "limitReached": "Dostignuto ograničenje",
+    "progressLabel": "Potrošnja za {feature}",
     "quotes": "Ponude",
-    "remaining": "Preostalo: {count}"
+    "remaining": "Preostalo: {count}",
+    "usedOfLimit": "Iskorišćeno {used} od {limit}"
   },
   "BillingProfile": {
     "fields": {
@@ -870,6 +885,22 @@
       "title": "Tok rada"
     }
   },
+  "ProjectDocumentationAnalysis": {
+    "availableOnPro": "Dostupno na Pro planu.",
+    "betaFeature": "Beta funkcija",
+    "comingSoon": "Uskoro. Učitavanje još nije omogućeno.",
+    "currentPlan": "Trenutni plan: {plan}",
+    "description": "Pro korisnici će moći da učitaju kompletne projektne PDF dokumente i iz projektne dokumentacije izdvoje kandidate za materijale i rad.",
+    "lockedBadge": "Zaključano",
+    "lockedStatus": "Potreban je Pro",
+    "proBadge": "Pro",
+    "statusTitle": "Status",
+    "title": "Analiza projektne dokumentacije",
+    "upgradeToPro": "Nadogradi na Pro",
+    "uploadProjectPdf": "Učitaj projektni PDF",
+    "usageTitle": "Potrošnja PDF analiza",
+    "usageValue": "{used} / {limit}"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Najnovije ažurirane ponude prikazane su prve.",
@@ -962,6 +993,53 @@
       "subtotal": "Međuzbir",
       "total": "Ukupno"
     }
+  },
+  "QuoteExcel": {
+    "fields": {
+      "area": "Površina m2",
+      "category": "Kategorija",
+      "client": "Klijent",
+      "code": "Šifra",
+      "confidence": "Pouzdanost",
+      "generatedDate": "Datum izvoza",
+      "laborCost": "Trošak rada",
+      "material": "Naziv materijala",
+      "materialCost": "Trošak materijala",
+      "objectType": "Vrsta objekta",
+      "project": "Projekat",
+      "provider": "Izvođač",
+      "quantity": "Količina",
+      "resolvedLights": "Konačna rasveta",
+      "resolvedSockets": "Konačne utičnice",
+      "resolvedSwitches": "Konačni prekidači",
+      "room": "Naziv prostorije",
+      "roomType": "Vrsta prostorije",
+      "source": "Izvor",
+      "subtotal": "Međuzbir",
+      "suggestedLights": "Predložena rasveta",
+      "suggestedSockets": "Predložene utičnice",
+      "suggestedSwitches": "Predloženi prekidači",
+      "total": "Ukupno",
+      "totalPrice": "Ukupna cena",
+      "unit": "Jedinica",
+      "unitPrice": "Jedinična cena"
+    },
+    "materialSources": {
+      "ai": "AI",
+      "manual": "Ručno",
+      "rule": "Pravilo"
+    },
+    "notes": {
+      "empty": "Pretpostavke / napomene",
+      "reviewStatement": "Generisane količine su procena i treba ih pregledati pre naručivanja materijala ili početka rada."
+    },
+    "sheets": {
+      "materials": "Materijali",
+      "notes": "Napomene",
+      "rooms": "Prostorije",
+      "summary": "Sažetak"
+    },
+    "title": "Excel izvoz"
   },
   "Settings": {
     "errors": {

@@ -2,11 +2,15 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { DeleteProjectDangerZone } from "@/components/projects/delete-project-danger-zone";
 import { FloorPlanUploadForm } from "@/components/projects/floor-plan-upload-form";
+import { ProjectDocumentationAnalysisCard } from "@/components/projects/project-documentation-analysis-card";
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { Link } from "@/i18n/navigation";
+import type { BillingPlan, UsageItem } from "@/types/billing";
 import type { Project, ProjectStatus } from "@/types/project";
 
 type ProjectWorkspaceProps = {
+  documentationAnalysisUsage: UsageItem;
+  effectivePlan: BillingPlan;
   project: ProjectWorkspaceProject;
 };
 
@@ -59,7 +63,11 @@ const workflowStateLabelKeys: Record<
   ready: "ready",
 };
 
-export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
+export function ProjectWorkspace({
+  documentationAnalysisUsage,
+  effectivePlan,
+  project,
+}: ProjectWorkspaceProps) {
   const locale = useLocale();
   const tActions = useTranslations("Actions");
   const tCommon = useTranslations("Common");
@@ -170,6 +178,11 @@ export function ProjectWorkspace({ project }: ProjectWorkspaceProps) {
           </div>
         </div>
       </section>
+
+      <ProjectDocumentationAnalysisCard
+        currentPlan={effectivePlan}
+        usage={documentationAnalysisUsage}
+      />
 
       <section className="min-w-0 overflow-hidden rounded-lg border border-frosted-blue-200 bg-white p-4 shadow-sm sm:p-5">
         <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center md:justify-between">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { Download, FileSpreadsheet } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -17,6 +17,7 @@ type QuoteTotals = Pick<
 
 type QuoteWorkspaceClientProps = {
   areaM2: number;
+  excelHref: string;
   exportHref: string;
   initialMaterials: QuoteMaterialEditorMaterial[];
   initialQuote: QuoteTotals;
@@ -25,6 +26,7 @@ type QuoteWorkspaceClientProps = {
 
 export function QuoteWorkspaceClient({
   areaM2,
+  excelHref,
   exportHref,
   initialMaterials,
   initialQuote,
@@ -68,7 +70,7 @@ export function QuoteWorkspaceClient({
               })}
             </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-end">
             <div className="rounded-md border border-frosted-blue-200 bg-frosted-blue-50 px-4 py-3">
               <p className="text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55">
                 {tWorkspace("metrics.quoteTotal")}
@@ -77,6 +79,13 @@ export function QuoteWorkspaceClient({
                 {formatMoney(Number(quote.total), locale)}
               </p>
             </div>
+            <a
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:border-bright-teal-blue-200 hover:bg-frosted-blue-50 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
+              href={excelHref}
+            >
+              <FileSpreadsheet aria-hidden="true" className="h-4 w-4" />
+              {tActions("exportExcel")}
+            </a>
             <a
               className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
               href={exportHref}

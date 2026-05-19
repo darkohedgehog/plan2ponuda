@@ -216,6 +216,8 @@ function getResolvedRoomPoints(
 }
 
 function mapQuoteExportRoom(room: {
+  confidence: number | null;
+  estimatedAreaM2: number | null;
   id: string;
   name: string;
   suggestion: {
@@ -227,14 +229,28 @@ function mapQuoteExportRoom(room: {
     userSwitches: number | null;
   } | null;
   type: Parameters<typeof generateRoomSuggestions>[0]["type"];
-  estimatedAreaM2: number | null;
 }): QuoteExportRoom {
+  const generatedSuggestion = room.suggestion
+    ? {
+        suggestedLights: room.suggestion.suggestedLights,
+        suggestedSockets: room.suggestion.suggestedSockets,
+        suggestedSwitches: room.suggestion.suggestedSwitches,
+      }
+    : generateRoomSuggestions({
+        estimatedAreaM2: room.estimatedAreaM2 ?? undefined,
+        type: room.type,
+      });
   const resolvedPoints = getResolvedRoomPoints(room);
 
   return {
+    confidence: room.confidence,
+    estimatedAreaM2: room.estimatedAreaM2,
     id: room.id,
     name: room.name,
     type: room.type,
+    suggestedLights: generatedSuggestion.suggestedLights,
+    suggestedSockets: generatedSuggestion.suggestedSockets,
+    suggestedSwitches: generatedSuggestion.suggestedSwitches,
     ...resolvedPoints,
   };
 }

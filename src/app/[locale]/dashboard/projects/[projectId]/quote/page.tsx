@@ -63,6 +63,7 @@ export default async function ProjectQuotePage({
     <main className="flex flex-col gap-4">
       <QuoteSummary
         areaM2={project.areaM2}
+        excelHref={`/api/excel/${project.id}?locale=${locale}`}
         exportHref={`/api/pdf/${project.id}?locale=${locale}`}
         materials={quoteResult.materials}
         projectName={project.name}

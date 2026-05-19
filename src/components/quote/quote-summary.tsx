@@ -6,6 +6,7 @@ import type { ProjectMaterial, Quote } from "@/types/quote";
 
 type QuoteSummaryProps = {
   areaM2: number;
+  excelHref: string;
   exportHref: string;
   materials: ProjectMaterial[];
   projectName: string;
@@ -14,6 +15,7 @@ type QuoteSummaryProps = {
 
 export async function QuoteSummary({
   areaM2,
+  excelHref,
   exportHref,
   materials,
   projectName,
@@ -25,6 +27,7 @@ export async function QuoteSummary({
   return (
     <QuoteWorkspaceClient
       areaM2={areaM2}
+      excelHref={excelHref}
       exportHref={exportHref}
       initialMaterials={materials.map((material) =>
         toEditorMaterial(material, fallbackMaterialName),

@@ -100,6 +100,8 @@
     "createProject": "Ustvari projekt",
     "creatingProject": "Ustvarjanje projekta...",
     "delete": "Izbriši",
+    "exportExcel": "Izvozi Excel",
+    "exportExcelFailed": "Izvoz Excela ni uspel.",
     "exportPdf": "Izvozi PDF",
     "generate": "Ustvari",
     "generateQuote": "Ustvari ponudbo",
@@ -370,8 +372,10 @@
   "Billing": {
     "actions": {
       "comingSoon": "Kmalu",
-      "description": "Zaženite Stripe checkout ali upravljajte naročnino v Stripeu.",
+      "description": "Nadgradite paket ali odprite upravljanje naročnine v Stripeu.",
+      "manageUnavailable": "Upravljanje naročnine ni na voljo, dokler Stripe podatki kupca niso povezani.",
       "manageSubscription": "Upravljanje naročnine",
+      "noActions": "Trenutno ni razpoložljivih obračunskih dejanj.",
       "openingPortal": "Odpiranje portala...",
       "preparingCheckout": "Priprava checkouta...",
       "title": "Dejanja naročnine",
@@ -391,8 +395,8 @@
       "profileSaved": "Profil za obračun je shranjen."
     },
     "page": {
-      "description": "Preglejte lokalni dostop do paketa, trenutno porabo in podatke profila za obračun pred omogočanjem Stripe plačil.",
-      "eyebrow": "Temelji obračuna",
+      "description": "Spremljajte paket, stanje podaljšanja in omejitve porabe na enem mestu.",
+      "eyebrow": "Naročnina",
       "title": "Obračun"
     },
     "statuses": {
@@ -406,9 +410,18 @@
       "unpaid": "Neplačano"
     },
     "summary": {
+      "billingPeriod": "Obračunsko obdobje",
+      "canceledUntil": "Vaša naročnina je preklicana in ostane aktivna do {date}.",
+      "currentPeriodEnd": "Konec trenutnega obdobja",
       "currentPlan": "Trenutni paket",
+      "noPeriod": "Ni aktivnega obračunskega obdobja",
       "periodEnd": "Konec obdobja",
-      "status": "Status"
+      "periodEndsOn": "Obdobje se konča {date}",
+      "status": "Status",
+      "subscriptionDescription": "Stanje Stripe naročnine in čas podaljšanja.",
+      "subscriptionTitle": "Podrobnosti naročnine",
+      "usageDescription": "Poraba se pri plačljivih paketih ponastavi z aktivnim obračunskim obdobjem. Brezplačna poraba je doživljenjska.",
+      "usageTitle": "Poraba paketa"
     }
   },
   "Plans": {
@@ -429,8 +442,10 @@
     "floorPlans": "Tlorisi",
     "largePdfAnalyses": "Velike PDF analize",
     "limitReached": "Omejitev dosežena",
+    "progressLabel": "Poraba za {feature}",
     "quotes": "Ponudbe",
-    "remaining": "Preostalo: {count}"
+    "remaining": "Preostalo: {count}",
+    "usedOfLimit": "Porabljeno {used} od {limit}"
   },
   "BillingProfile": {
     "fields": {
@@ -870,6 +885,22 @@
       "title": "Potek dela"
     }
   },
+  "ProjectDocumentationAnalysis": {
+    "availableOnPro": "Na voljo v paketu Pro.",
+    "betaFeature": "Beta funkcija",
+    "comingSoon": "Kmalu. Nalaganje še ni omogočeno.",
+    "currentPlan": "Trenutni paket: {plan}",
+    "description": "Uporabniki paketa Pro bodo lahko naložili celotne projektne PDF dokumente in iz projektne dokumentacije izluščili kandidate za materiale in delo.",
+    "lockedBadge": "Zaklenjeno",
+    "lockedStatus": "Potreben je Pro",
+    "proBadge": "Pro",
+    "statusTitle": "Status",
+    "title": "Analiza projektne dokumentacije",
+    "upgradeToPro": "Nadgradi na Pro",
+    "uploadProjectPdf": "Naloži projektni PDF",
+    "usageTitle": "Poraba PDF analiz",
+    "usageValue": "{used} / {limit}"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Najnovejše posodobitve ponudb so prikazane prve.",
@@ -962,6 +993,53 @@
       "subtotal": "Vmesni znesek",
       "total": "Skupaj"
     }
+  },
+  "QuoteExcel": {
+    "fields": {
+      "area": "Površina m2",
+      "category": "Kategorija",
+      "client": "Stranka",
+      "code": "Koda",
+      "confidence": "Zanesljivost",
+      "generatedDate": "Datum izvoza",
+      "laborCost": "Strošek dela",
+      "material": "Naziv materiala",
+      "materialCost": "Strošek materiala",
+      "objectType": "Vrsta objekta",
+      "project": "Projekt",
+      "provider": "Izvajalec",
+      "quantity": "Količina",
+      "resolvedLights": "Končne luči",
+      "resolvedSockets": "Končne vtičnice",
+      "resolvedSwitches": "Končna stikala",
+      "room": "Naziv prostora",
+      "roomType": "Vrsta prostora",
+      "source": "Vir",
+      "subtotal": "Vmesni znesek",
+      "suggestedLights": "Predlagane luči",
+      "suggestedSockets": "Predlagane vtičnice",
+      "suggestedSwitches": "Predlagana stikala",
+      "total": "Skupaj",
+      "totalPrice": "Skupna cena",
+      "unit": "Enota",
+      "unitPrice": "Cena enote"
+    },
+    "materialSources": {
+      "ai": "AI",
+      "manual": "Ročno",
+      "rule": "Pravilo"
+    },
+    "notes": {
+      "empty": "Predpostavke / opombe",
+      "reviewStatement": "Ustvarjene količine so ocena in jih je treba pregledati pred naročilom materiala ali začetkom dela."
+    },
+    "sheets": {
+      "materials": "Materiali",
+      "notes": "Opombe",
+      "rooms": "Prostori",
+      "summary": "Povzetek"
+    },
+    "title": "Excel izvoz"
   },
   "Settings": {
     "errors": {

@@ -4,6 +4,7 @@ import { ProjectWorkspace } from "@/components/projects/project-workspace";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/auth/session";
+import { getUsageForCurrentPeriod } from "@/server/services/billing-service";
 import { getProjectWorkspaceData } from "@/server/services/project-service";
 
 type ProjectPageProps = {
@@ -22,11 +23,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     return redirect({ href: "/sign-in", locale });
   }
 
-  const project = await getProjectWorkspaceData(projectId, user.id);
+  const [project, usage] = await Promise.all([
+    getProjectWorkspaceData(projectId, user.id),
+    getUsageForCurrentPeriod(user.id),
+  ]);
 
   if (!project) {
     notFound();
   }
 
-  return <ProjectWorkspace project={project} />;
+  return (
+    <ProjectWorkspace
+      documentationAnalysisUsage={usage.items.largePdfAnalyses}
+      effectivePlan={usage.plan}
+      project={project}
+    />
+  );
 }
