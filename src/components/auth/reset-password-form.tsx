@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import {
   PasswordInput,
@@ -18,6 +18,10 @@ type ResetPasswordFormProps = {
   token: string;
 };
 
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
+
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const tActions = useTranslations("Actions");
   const tAuth = useTranslations("Auth");
@@ -32,7 +36,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const passwordsDoNotMatch =
     confirmPassword.length > 0 && password !== confirmPassword;
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     setError(null);
     setSuccessMessage(null);

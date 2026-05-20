@@ -10,8 +10,8 @@ import {
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
+  type ComponentProps,
   type ComponentType,
-  type FormEvent,
   type SVGProps,
   useState,
 } from "react";
@@ -39,6 +39,9 @@ type InvoiceTaskUpdateErrorKey =
   | "issuedLocked"
   | "saveFailed"
   | "synesisRequired";
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 const statusBadgeClassNames: Record<InvoiceTaskStatus, string> = {
   failed: "border-red-200 bg-red-50 text-red-700",
@@ -253,7 +256,7 @@ function InvoiceTaskRow({ locale, task }: InvoiceTaskRowProps) {
     router.refresh();
   }
 
-  function handleSave(event: FormEvent<HTMLFormElement>) {
+  function handleSave(event: FormSubmitEvent) {
     event.preventDefault();
     void updateTask();
   }

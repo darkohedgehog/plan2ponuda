@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   type ChangeEvent,
-  type FormEvent,
+  type ComponentProps,
   type ReactNode,
   useState,
 } from "react";
@@ -47,6 +47,9 @@ type BillingProfileErrorState = {
   key: BillingProfileErrorKey;
   missingFields: BillingProfileFieldKey[];
 };
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 function toFormState(
   profile: BillingProfile | null,
@@ -144,7 +147,7 @@ export function BillingProfileForm({
     }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     setErrorState(null);
     setShowSaved(false);

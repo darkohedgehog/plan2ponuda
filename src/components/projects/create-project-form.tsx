@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
@@ -19,6 +19,9 @@ type CreateProjectFormState = {
 };
 
 type CreateProjectErrorKey = "invalidInput" | "serverError";
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 const createProjectErrorKeysByCode: Partial<
   Record<ProjectErrorCode, CreateProjectErrorKey>
@@ -37,7 +40,7 @@ export function CreateProjectForm() {
     isSubmitting: false,
   });
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     setState({ errorKey: null, isSubmitting: true });
 

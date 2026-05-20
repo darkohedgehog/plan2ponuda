@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
@@ -12,6 +12,10 @@ import {
   PasswordStrengthIndicator,
 } from "@/components/auth/password-input";
 import type { SignUpErrorCode, SignUpResponse } from "@/types/auth";
+
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 export function SignUpForm() {
   const locale = useLocale();
@@ -30,7 +34,7 @@ export function SignUpForm() {
   const passwordsDoNotMatch =
     confirmPassword.length > 0 && password !== confirmPassword;
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     setError(null);
 

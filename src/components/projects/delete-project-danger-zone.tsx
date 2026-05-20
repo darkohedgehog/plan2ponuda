@@ -2,7 +2,7 @@
 
 import { Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
@@ -22,6 +22,9 @@ type DeleteProjectState = {
   isDialogOpen: boolean;
   status: DeleteProjectStatus;
 };
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 const initialState: DeleteProjectState = {
   confirmationName: "",
@@ -57,7 +60,7 @@ export function DeleteProjectDangerZone({
     setState(initialState);
   }
 
-  async function handleDelete(event: FormEvent<HTMLFormElement>) {
+  async function handleDelete(event: FormSubmitEvent) {
     event.preventDefault();
 
     if (!canDelete) {

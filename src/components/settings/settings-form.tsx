@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   type ChangeEvent,
-  type FormEvent,
+  type ComponentProps,
   type ReactNode,
   useState,
 } from "react";
@@ -32,6 +32,7 @@ type SettingsFormState = {
 };
 
 type SettingsErrorKey = "invalidInput" | "laborFactor" | "saveFailed";
+type FormSubmitHandler = NonNullable<ComponentProps<"form">["onSubmit"]>;
 
 function toFormState(settings: UserSettingsProfile): SettingsFormState {
   return {
@@ -75,7 +76,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const handleSubmit: FormSubmitHandler = async (event) => {
     event.preventDefault();
 
     const laborFactor = Number(formState.laborFactor);
@@ -120,7 +121,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     setFormState(toFormState(payload.settings));
     setShowSaved(true);
     router.refresh();
-  }
+  };
 
   return (
     <form className="grid gap-5" onSubmit={handleSubmit}>

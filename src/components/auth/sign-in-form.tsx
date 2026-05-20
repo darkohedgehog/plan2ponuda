@@ -3,12 +3,16 @@
 import { useLocale, useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
 import { PasswordInput } from "@/components/auth/password-input";
+
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 function getSafeCallbackUrl(value: string | null, fallbackUrl: string): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
@@ -34,7 +38,7 @@ export function SignInForm() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     setError(null);
     setIsSubmitting(true);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
@@ -10,6 +10,10 @@ import type {
   ForgotPasswordErrorCode,
   ForgotPasswordResponse,
 } from "@/types/auth";
+
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 export function ForgotPasswordForm() {
   const tActions = useTranslations("Actions");
@@ -21,7 +25,7 @@ export function ForgotPasswordForm() {
   const [hasSuccessMessage, setHasSuccessMessage] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     setError(null);
     setDevResetUrl(null);

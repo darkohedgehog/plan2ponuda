@@ -3,7 +3,7 @@
 import { Save } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useState } from "react";
+import { type ComponentProps, useState } from "react";
 
 import { formControlClassName } from "@/components/ui/form-control";
 import { cn } from "@/lib/utils/helpers";
@@ -23,6 +23,9 @@ type SaveMaterialResponse =
     };
 
 type MaterialPriceErrorKey = "invalidPrice" | "notFound" | "saveFailed";
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 const MONEY_INPUT_PATTERN = /^\d+(?:[.,]\d{1,2})?$/;
 
@@ -57,7 +60,7 @@ export function MaterialPriceEditor({
     return tValidation("unableSavePrice");
   }
 
-  async function savePrice(event: FormEvent<HTMLFormElement>) {
+  async function savePrice(event: FormSubmitEvent) {
     event.preventDefault();
 
     if (!isValidPriceInput(price)) {

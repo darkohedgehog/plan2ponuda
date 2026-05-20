@@ -3,7 +3,7 @@
 import { Upload } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { type ChangeEvent, type FormEvent, useState } from "react";
+import { type ChangeEvent, type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { fileControlClassName } from "@/components/ui/form-control";
@@ -40,6 +40,9 @@ type FloorPlanUploadState = {
   isSubmitting: boolean;
   uploadedPath: string | null;
 };
+type FormSubmitEvent = Parameters<
+  NonNullable<ComponentProps<"form">["onSubmit"]>
+>[0];
 
 const uploadErrorKeysByCode: Record<ProjectErrorCode, UploadErrorMessageKey> = {
   file_too_large: "errors.fileTooLarge",
@@ -96,7 +99,7 @@ export function FloorPlanUploadForm({ projectId }: FloorPlanUploadFormProps) {
     }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
     const form = event.currentTarget;
 
