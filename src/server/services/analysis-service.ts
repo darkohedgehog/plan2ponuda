@@ -21,6 +21,7 @@ import {
   isAllowedFloorPlanMimeType,
   type AllowedFloorPlanMimeType,
 } from "@/lib/validations/project.schema";
+import { isProjectOwnedStoragePath } from "@/server/services/project-storage-paths";
 import type { SaveProjectRoomsInput } from "@/lib/validations/room.schema";
 import type {
   Room,
@@ -190,7 +191,10 @@ export async function getAnalyzeProjectPreflight(
     };
   }
 
-  if (!project.sourceFilePath) {
+  if (
+    !project.sourceFilePath ||
+    !isProjectOwnedStoragePath(project.id, project.sourceFilePath)
+  ) {
     return {
       ok: false,
       reason: "missing_floor_plan",
@@ -243,6 +247,15 @@ export async function analyzeProject(
     };
   }
 
+  if (!isProjectOwnedStoragePath(project.id, project.sourceFilePath)) {
+    warnInvalidStoredProjectPath("analysis", project.id);
+
+    return {
+      ok: false,
+      reason: "missing_floor_plan",
+    };
+  }
+
   // Re-check after route preflight to avoid overwriting rooms created meanwhile.
   if (project._count.rooms > 0) {
     return {
@@ -275,7 +288,10 @@ export async function analyzeProject(
     return createdAnalysis;
   });
 
-  const floorPlan = await readFloorPlanFromStorage(project.sourceFilePath);
+  const floorPlan = await readFloorPlanFromStorage(
+    project.id,
+    project.sourceFilePath,
+  );
 
   if (!floorPlan.ok) {
     await markAnalysisFailed(analysis.id, project.id, floorPlan.reason);
@@ -425,8 +441,18 @@ async function markAnalysisFailed(
 }
 
 async function readFloorPlanFromStorage(
+  projectId: string,
   sourceFilePath: string,
 ): Promise<FloorPlanStorageReadResult> {
+  if (!isProjectOwnedStoragePath(projectId, sourceFilePath)) {
+    warnInvalidStoredProjectPath("storage_download", projectId);
+
+    return {
+      ok: false,
+      reason: "storage_download_failed",
+    };
+  }
+
   try {
     const supabase = createSupabaseServerClient();
     const { data, error } = await supabase.storage
@@ -466,6 +492,15 @@ async function readFloorPlanFromStorage(
       ok: false,
       reason: "storage_download_failed",
     };
+  }
+}
+
+function warnInvalidStoredProjectPath(context: string, projectId: string) {
+  if (process.env.NODE_ENV !== "production") {
+    console.warn("Ignored invalid project storage path", {
+      context,
+      projectId,
+    });
   }
 }
 

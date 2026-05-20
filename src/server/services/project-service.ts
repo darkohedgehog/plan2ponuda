@@ -21,7 +21,11 @@ import {
   incrementUsage,
 } from "@/server/services/billing-service";
 import { shouldCountFloorPlanUpload } from "@/server/services/usage-limit-policy";
-import { getProjectStoragePathsToDelete } from "./project-storage-paths";
+import {
+  assertProjectOwnedStoragePath,
+  getProjectStoragePathsToDelete,
+  isProjectOwnedStoragePath,
+} from "./project-storage-paths";
 
 const PROJECT_FILES_BUCKET = "project-files";
 const FLOOR_PLAN_PREVIEW_URL_TTL_SECONDS = 5 * 60;
@@ -114,8 +118,8 @@ export async function createProject(
       clientName: input.clientName,
       objectType: input.objectType,
       areaM2: input.areaM2,
-      sourceFilePath: input.sourceFilePath,
-      previewPath: input.previewPath,
+      sourceFilePath: null,
+      previewPath: null,
     },
   });
 
@@ -273,9 +277,19 @@ function getFloorPlanPreviewKind(
 }
 
 export async function createSignedFloorPlanUrl(
+  projectId: string,
   sourceFilePath?: string,
 ): Promise<FloorPlanPreview> {
   if (!sourceFilePath) {
+    return {
+      kind: "unavailable",
+      reason: "missing_file",
+    };
+  }
+
+  if (!isProjectOwnedStoragePath(projectId, sourceFilePath)) {
+    warnInvalidStoredProjectPath("preview", projectId);
+
     return {
       kind: "unavailable",
       reason: "missing_file",
@@ -323,6 +337,15 @@ export async function createSignedFloorPlanUrl(
       kind: "unavailable",
       reason: "signing_failed",
     };
+  }
+}
+
+function warnInvalidStoredProjectPath(context: string, projectId: string) {
+  if (process.env.NODE_ENV !== "production") {
+    console.warn("Ignored invalid project storage path", {
+      context,
+      projectId,
+    });
   }
 }
 
@@ -396,7 +419,16 @@ export async function uploadFloorPlan({
     };
   }
 
-  if (shouldCountFloorPlanUpload(project.sourceFilePath)) {
+  const hasExistingProjectOwnedFloorPlan = isProjectOwnedStoragePath(
+    project.id,
+    project.sourceFilePath,
+  );
+
+  if (
+    shouldCountFloorPlanUpload(
+      hasExistingProjectOwnedFloorPlan ? project.sourceFilePath : null,
+    )
+  ) {
     const access = await canUseFeature(userId, "floorPlans");
 
     if (!access.allowed) {
@@ -411,7 +443,10 @@ export async function uploadFloorPlan({
   }
 
   const extension = getFloorPlanFileExtension(file.type);
-  const filePath = `projects/${projectId}/floor-plan.${extension}`;
+  const filePath = assertProjectOwnedStoragePath(
+    project.id,
+    `projects/${project.id}/floor-plan.${extension}`,
+  );
   const supabase = createSupabaseServerClient();
   const { error: uploadError } = await supabase.storage
     .from(PROJECT_FILES_BUCKET)
@@ -447,8 +482,12 @@ export async function uploadFloorPlan({
       return null;
     }
 
-    const shouldIncrementUsage = shouldCountFloorPlanUpload(
+    const hasCurrentProjectOwnedFloorPlan = isProjectOwnedStoragePath(
+      project.id,
       currentProject.sourceFilePath,
+    );
+    const shouldIncrementUsage = shouldCountFloorPlanUpload(
+      hasCurrentProjectOwnedFloorPlan ? currentProject.sourceFilePath : null,
     );
     const nextProject = await transaction.project.update({
       where: {

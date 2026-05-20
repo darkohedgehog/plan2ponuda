@@ -35,7 +35,7 @@ export default async function ProjectReviewPage({
   }
 
   const [floorPlanPreview, rooms] = await Promise.all([
-    createSignedFloorPlanUrl(project.sourceFilePath),
+    createSignedFloorPlanUrl(project.id, project.sourceFilePath),
     getProjectRoomsForReview(project.id, user.id),
   ]);
 

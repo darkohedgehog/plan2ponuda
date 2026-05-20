@@ -27,14 +27,14 @@ export const projectStatusSchema = z.enum([
 
 export const objectTypeSchema = z.enum(["apartment", "house", "office"]);
 
-export const createProjectSchema = z.object({
-  name: z.string().trim().min(3).max(120),
-  clientName: z.string().trim().min(1).max(120).optional(),
-  objectType: objectTypeSchema,
-  areaM2: z.number().positive(),
-  sourceFilePath: z.string().trim().min(1).optional(),
-  previewPath: z.string().trim().min(1).optional(),
-});
+export const createProjectSchema = z
+  .object({
+    name: z.string().trim().min(3).max(120),
+    clientName: z.string().trim().min(1).max(120).optional(),
+    objectType: objectTypeSchema,
+    areaM2: z.number().positive(),
+  })
+  .strip();
 
 export const projectIdSchema = z.object({
   projectId: z.string().min(1),
