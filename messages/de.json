@@ -532,7 +532,10 @@
       "description": "Prüfen Sie bezahlte Stripe-Rechnungen und verfolgen Sie die manuelle Ausstellung in Synesis.",
       "detail": {
         "billingSnapshot": "Abrechnungs-Snapshot",
+        "euB2gReviewNotice": "EU-B2G-Rechnungsaufgaben erfordern vor der Ausstellung in Synesis eine manuelle Prüfung von USt.-ID und Beschaffung.",
+        "missingValue": "Fehlt",
         "missingFields": "Fehlende Felder: {fields}",
+        "notProvidedValue": "Nicht angegeben",
         "noSnapshot": "Kein Abrechnungs-Snapshot verfügbar.",
         "review": "Prüfdetails"
       },

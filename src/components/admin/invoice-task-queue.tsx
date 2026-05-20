@@ -19,10 +19,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
 import type { Locale } from "@/i18n/routing";
+import {
+  getInvoiceTaskSnapshotFields,
+  shouldShowEuB2gReviewNotice,
+} from "@/lib/billing/invoice-task-snapshot-fields";
 import { cn } from "@/lib/utils/helpers";
 import type {
   AdminInvoiceTask,
-  BillingProfile,
   InvoiceTaskStatus,
   UpdateAdminInvoiceTaskResponse,
 } from "@/types/billing";
@@ -36,12 +39,6 @@ type InvoiceTaskUpdateErrorKey =
   | "issuedLocked"
   | "saveFailed"
   | "synesisRequired";
-
-type SnapshotField = {
-  key: keyof BillingProfile;
-  labelKey: string;
-  value: string | null;
-};
 
 const statusBadgeClassNames: Record<InvoiceTaskStatus, string> = {
   failed: "border-red-200 bg-red-50 text-red-700",
@@ -86,95 +83,6 @@ function formatBillingPeriod(task: AdminInvoiceTask, locale: Locale): string {
 
 function getBillingDisplayName(task: AdminInvoiceTask): string {
   return task.companyName ?? task.billingName ?? "-";
-}
-
-function getSnapshotFields(profile: BillingProfile | null): SnapshotField[] {
-  if (!profile) {
-    return [];
-  }
-
-  return [
-    {
-      key: "billingName",
-      labelKey: "billingName",
-      value: profile.billingName,
-    },
-    {
-      key: "companyName",
-      labelKey: "companyName",
-      value: profile.companyName,
-    },
-    {
-      key: "billingEmail",
-      labelKey: "billingEmail",
-      value: profile.billingEmail,
-    },
-    {
-      key: "billingAddressLine1",
-      labelKey: "billingAddressLine1",
-      value: profile.billingAddressLine1,
-    },
-    {
-      key: "billingAddressLine2",
-      labelKey: "billingAddressLine2",
-      value: profile.billingAddressLine2,
-    },
-    {
-      key: "billingCity",
-      labelKey: "billingCity",
-      value: profile.billingCity,
-    },
-    {
-      key: "billingPostalCode",
-      labelKey: "billingPostalCode",
-      value: profile.billingPostalCode,
-    },
-    {
-      key: "billingCountry",
-      labelKey: "billingCountry",
-      value: profile.billingCountry,
-    },
-    {
-      key: "oib",
-      labelKey: "oib",
-      value: profile.oib,
-    },
-    {
-      key: "vatId",
-      labelKey: "vatId",
-      value: profile.vatId,
-    },
-    {
-      key: "taxId",
-      labelKey: "taxId",
-      value: profile.taxId,
-    },
-    {
-      key: "contactPerson",
-      labelKey: "contactPerson",
-      value: profile.contactPerson,
-    },
-    {
-      key: "purchaseOrderNumber",
-      labelKey: "purchaseOrderNumber",
-      value: profile.purchaseOrderNumber,
-    },
-    {
-      key: "eInvoiceReference",
-      labelKey: "eInvoiceReference",
-      value: profile.eInvoiceReference,
-    },
-    {
-      key: "procurementReference",
-      labelKey: "procurementReference",
-      value: profile.procurementReference,
-    },
-    {
-      key: "notes",
-      labelKey: "notes",
-      value: profile.notes,
-    },
-  ];
 }
 
 export function InvoiceTaskQueue({ locale, tasks }: InvoiceTaskQueueProps) {
@@ -273,7 +181,10 @@ function InvoiceTaskRow({ locale, task }: InvoiceTaskRowProps) {
     task.synesisInvoiceNumber ?? "",
   );
   const billingProfile = currentTask.billingSnapshot.billingProfile;
-  const snapshotFields = getSnapshotFields(billingProfile);
+  const snapshotFields = getInvoiceTaskSnapshotFields(billingProfile);
+  const showEuB2gReviewNotice = shouldShowEuB2gReviewNotice(
+    currentTask.customerType,
+  );
   const subscriptionLabel = currentTask.subscriptionPlan
     ? `${tPlans(`${currentTask.subscriptionPlan}.name`)} / ${tBilling(
         `statuses.${currentTask.subscriptionStatus ?? "free"}`,
@@ -419,12 +330,35 @@ function InvoiceTaskRow({ locale, task }: InvoiceTaskRowProps) {
                 {snapshotFields.length > 0 ? (
                   <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                     {snapshotFields.map((field) => (
-                      <div className="min-w-0" key={field.key}>
+                      <div
+                        className={cn(
+                          "min-w-0",
+                          field.isImportant || field.isMissing
+                            ? "rounded-md border px-3 py-2"
+                            : "",
+                          field.isMissing
+                            ? "border-amber-300 bg-amber-50"
+                            : field.isImportant
+                              ? "border-bright-teal-blue-100 bg-bright-teal-blue-50/55"
+                              : "",
+                        )}
+                        key={field.key}
+                      >
                         <dt className="text-xs font-medium uppercase text-deep-twilight-700/55">
                           {tBillingProfile(`fields.${field.labelKey}`)}
                         </dt>
-                        <dd className="mt-1 break-words text-sm font-medium text-deep-twilight-950">
-                          {field.value ?? "-"}
+                        <dd
+                          className={cn(
+                            "mt-1 break-words text-sm font-medium",
+                            field.isMissing
+                              ? "text-amber-950"
+                              : "text-deep-twilight-950",
+                          )}
+                        >
+                          {field.value ??
+                            (field.isMissing
+                              ? tAdmin("detail.missingValue")
+                              : tAdmin("detail.notProvidedValue"))}
                         </dd>
                       </div>
                     ))}
@@ -434,6 +368,11 @@ function InvoiceTaskRow({ locale, task }: InvoiceTaskRowProps) {
                     {tAdmin("detail.noSnapshot")}
                   </p>
                 )}
+                {showEuB2gReviewNotice ? (
+                  <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900">
+                    {tAdmin("detail.euB2gReviewNotice")}
+                  </p>
+                ) : null}
                 {currentTask.billingSnapshot.missingFields.length > 0 ? (
                   <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900">
                     {tAdmin("detail.missingFields", {

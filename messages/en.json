@@ -532,7 +532,10 @@
       "description": "Review paid Stripe invoices and track manual Synesis issuance.",
       "detail": {
         "billingSnapshot": "Billing snapshot",
+        "euB2gReviewNotice": "EU B2G invoice tasks require manual VAT and procurement review before Synesis issuance.",
+        "missingValue": "Missing",
         "missingFields": "Missing fields: {fields}",
+        "notProvidedValue": "Not provided",
         "noSnapshot": "No billing snapshot is available.",
         "review": "Review details"
       },

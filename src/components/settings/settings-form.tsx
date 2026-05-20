@@ -223,28 +223,30 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
         description={tEstimating("section.description")}
         title={tEstimating("section.title")}
       >
-        <SettingsField
-          helperText={tEstimating("helpers.laborFactor")}
-          label={tEstimating("fields.laborFactor")}
-        >
-          <input
-            className={formControlClassName}
-            min="0.01"
-            onChange={(event) => updateField("laborFactor", event)}
-            step="0.01"
-            type="number"
-            value={formState.laborFactor}
-          />
-        </SettingsField>
-        <SettingsField label={tEstimating("fields.currency")}>
-          <input
-            className={formControlClassName}
-            onChange={(event) => updateField("currency", event)}
-            placeholder={tEstimating("placeholders.currency")}
-            type="text"
-            value={formState.currency}
-          />
-        </SettingsField>
+        <div className="flex-1 items-center justify-center gap-4 sm:max-w-lg sm:grid-cols-2 md:col-span-2">
+          <SettingsField
+            helperText={tEstimating("helpers.laborFactor")}
+            label={tEstimating("fields.laborFactor")}
+          >
+            <input
+              className={`${formControlClassName} w-24`}
+              min="0.01"
+              onChange={(event) => updateField("laborFactor", event)}
+              step="0.01"
+              type="number"
+              value={formState.laborFactor}
+            />
+          </SettingsField>
+          <SettingsField label={tEstimating("fields.currency")}>
+            <input
+              className={`${formControlClassName} w-24`}
+              onChange={(event) => updateField("currency", event)}
+              placeholder={tEstimating("placeholders.currency")}
+              type="text"
+              value={formState.currency}
+            />
+          </SettingsField>
+        </div>
       </SettingsSection>
 
       {errorKey ? (

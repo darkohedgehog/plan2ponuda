@@ -532,7 +532,10 @@
       "description": "Preglejte plačane Stripe račune in spremljajte ročno izdajo v Synesisu.",
       "detail": {
         "billingSnapshot": "Posnetek obračunskih podatkov",
+        "euB2gReviewNotice": "EU B2G naloge za račun zahtevajo ročni pregled DDV ID-ja in nabave pred izdajo v Synesisu.",
+        "missingValue": "Manjka",
         "missingFields": "Manjkajoča polja: {fields}",
+        "notProvidedValue": "Ni navedeno",
         "noSnapshot": "Posnetek obračunskih podatkov ni na voljo.",
         "review": "Podrobnosti pregleda"
       },

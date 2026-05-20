@@ -532,7 +532,10 @@
       "description": "Pregledajte plaćene Stripe račune i pratite ručno izdavanje u Synesisu.",
       "detail": {
         "billingSnapshot": "Snimak podataka za naplatu",
+        "euB2gReviewNotice": "EU B2G zadaci za račun zahtevaju ručnu proveru PDV-a i nabavke pre izdavanja u Synesisu.",
+        "missingValue": "Nedostaje",
         "missingFields": "Nedostaju polja: {fields}",
+        "notProvidedValue": "Nije navedeno",
         "noSnapshot": "Snimak podataka za naplatu nije dostupan.",
         "review": "Detalji pregleda"
       },

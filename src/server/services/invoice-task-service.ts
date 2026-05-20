@@ -7,9 +7,10 @@ import type {
 import { Prisma } from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/db/prisma";
-import type {
-  InvoiceTaskFiltersInput,
-  UpdateInvoiceTaskInput,
+import {
+  getMissingBillingProfileFields,
+  type InvoiceTaskFiltersInput,
+  type UpdateInvoiceTaskInput,
 } from "@/lib/validations/billing.schema";
 import type {
   AdminInvoiceTask,
@@ -172,6 +173,13 @@ function getSnapshotMissingFields(
   return missingFields.filter(isBillingProfileFieldKey);
 }
 
+function mergeMissingFields(
+  storedMissingFields: BillingProfileFieldKey[],
+  derivedMissingFields: BillingProfileFieldKey[],
+): BillingProfileFieldKey[] {
+  return Array.from(new Set([...storedMissingFields, ...derivedMissingFields]));
+}
+
 function getSnapshotVersion(
   snapshotRecord: Record<string, Prisma.JsonValue>,
 ): number | null {
@@ -192,11 +200,15 @@ function mapBillingSnapshot(
       snapshotVersion: null,
     };
   }
+  const billingProfile = getSnapshotBillingProfile(value, fallbackCustomerType);
 
   return {
-    billingProfile: getSnapshotBillingProfile(value, fallbackCustomerType),
+    billingProfile,
     capturedAt: getStringValue(value, "capturedAt"),
-    missingFields: getSnapshotMissingFields(value),
+    missingFields: mergeMissingFields(
+      getSnapshotMissingFields(value),
+      billingProfile ? getMissingBillingProfileFields(billingProfile) : [],
+    ),
     snapshotVersion: getSnapshotVersion(value),
   };
 }
