@@ -42,6 +42,9 @@ export type ProjectMaterialMinAggregateOutputType = {
   id: string | null
   projectId: string | null
   materialId: string | null
+  manualName: string | null
+  manualUnit: $Enums.MaterialUnit | null
+  manualCategory: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | null
   unitPrice: runtime.Decimal | null
   totalPrice: runtime.Decimal | null
@@ -54,6 +57,9 @@ export type ProjectMaterialMaxAggregateOutputType = {
   id: string | null
   projectId: string | null
   materialId: string | null
+  manualName: string | null
+  manualUnit: $Enums.MaterialUnit | null
+  manualCategory: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | null
   unitPrice: runtime.Decimal | null
   totalPrice: runtime.Decimal | null
@@ -66,6 +72,9 @@ export type ProjectMaterialCountAggregateOutputType = {
   id: number
   projectId: number
   materialId: number
+  manualName: number
+  manualUnit: number
+  manualCategory: number
   quantity: number
   unitPrice: number
   totalPrice: number
@@ -92,6 +101,9 @@ export type ProjectMaterialMinAggregateInputType = {
   id?: true
   projectId?: true
   materialId?: true
+  manualName?: true
+  manualUnit?: true
+  manualCategory?: true
   quantity?: true
   unitPrice?: true
   totalPrice?: true
@@ -104,6 +116,9 @@ export type ProjectMaterialMaxAggregateInputType = {
   id?: true
   projectId?: true
   materialId?: true
+  manualName?: true
+  manualUnit?: true
+  manualCategory?: true
   quantity?: true
   unitPrice?: true
   totalPrice?: true
@@ -116,6 +131,9 @@ export type ProjectMaterialCountAggregateInputType = {
   id?: true
   projectId?: true
   materialId?: true
+  manualName?: true
+  manualUnit?: true
+  manualCategory?: true
   quantity?: true
   unitPrice?: true
   totalPrice?: true
@@ -214,7 +232,10 @@ export type ProjectMaterialGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type ProjectMaterialGroupByOutputType = {
   id: string
   projectId: string
-  materialId: string
+  materialId: string | null
+  manualName: string | null
+  manualUnit: $Enums.MaterialUnit | null
+  manualCategory: $Enums.MaterialCategory | null
   quantity: runtime.Decimal
   unitPrice: runtime.Decimal
   totalPrice: runtime.Decimal
@@ -249,7 +270,10 @@ export type ProjectMaterialWhereInput = {
   NOT?: Prisma.ProjectMaterialWhereInput | Prisma.ProjectMaterialWhereInput[]
   id?: Prisma.StringFilter<"ProjectMaterial"> | string
   projectId?: Prisma.StringFilter<"ProjectMaterial"> | string
-  materialId?: Prisma.StringFilter<"ProjectMaterial"> | string
+  materialId?: Prisma.StringNullableFilter<"ProjectMaterial"> | string | null
+  manualName?: Prisma.StringNullableFilter<"ProjectMaterial"> | string | null
+  manualUnit?: Prisma.EnumMaterialUnitNullableFilter<"ProjectMaterial"> | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.EnumMaterialCategoryNullableFilter<"ProjectMaterial"> | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -257,13 +281,16 @@ export type ProjectMaterialWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ProjectMaterial"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectMaterial"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
-  material?: Prisma.XOR<Prisma.MaterialScalarRelationFilter, Prisma.MaterialWhereInput>
+  material?: Prisma.XOR<Prisma.MaterialNullableScalarRelationFilter, Prisma.MaterialWhereInput> | null
 }
 
 export type ProjectMaterialOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  materialId?: Prisma.SortOrder
+  materialId?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualName?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualUnit?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualCategory?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
@@ -281,7 +308,10 @@ export type ProjectMaterialWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProjectMaterialWhereInput[]
   NOT?: Prisma.ProjectMaterialWhereInput | Prisma.ProjectMaterialWhereInput[]
   projectId?: Prisma.StringFilter<"ProjectMaterial"> | string
-  materialId?: Prisma.StringFilter<"ProjectMaterial"> | string
+  materialId?: Prisma.StringNullableFilter<"ProjectMaterial"> | string | null
+  manualName?: Prisma.StringNullableFilter<"ProjectMaterial"> | string | null
+  manualUnit?: Prisma.EnumMaterialUnitNullableFilter<"ProjectMaterial"> | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.EnumMaterialCategoryNullableFilter<"ProjectMaterial"> | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -289,13 +319,16 @@ export type ProjectMaterialWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ProjectMaterial"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectMaterial"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
-  material?: Prisma.XOR<Prisma.MaterialScalarRelationFilter, Prisma.MaterialWhereInput>
+  material?: Prisma.XOR<Prisma.MaterialNullableScalarRelationFilter, Prisma.MaterialWhereInput> | null
 }, "id" | "projectId_materialId">
 
 export type ProjectMaterialOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  materialId?: Prisma.SortOrder
+  materialId?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualName?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualUnit?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualCategory?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
@@ -315,7 +348,10 @@ export type ProjectMaterialScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProjectMaterialScalarWhereWithAggregatesInput | Prisma.ProjectMaterialScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ProjectMaterial"> | string
   projectId?: Prisma.StringWithAggregatesFilter<"ProjectMaterial"> | string
-  materialId?: Prisma.StringWithAggregatesFilter<"ProjectMaterial"> | string
+  materialId?: Prisma.StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
+  manualName?: Prisma.StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
+  manualUnit?: Prisma.EnumMaterialUnitNullableWithAggregatesFilter<"ProjectMaterial"> | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.EnumMaterialCategoryNullableWithAggregatesFilter<"ProjectMaterial"> | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalWithAggregatesFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalWithAggregatesFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalWithAggregatesFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -326,6 +362,9 @@ export type ProjectMaterialScalarWhereWithAggregatesInput = {
 
 export type ProjectMaterialCreateInput = {
   id?: string
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -333,13 +372,16 @@ export type ProjectMaterialCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutMaterialsInput
-  material: Prisma.MaterialCreateNestedOneWithoutProjectItemsInput
+  material?: Prisma.MaterialCreateNestedOneWithoutProjectItemsInput
 }
 
 export type ProjectMaterialUncheckedCreateInput = {
   id?: string
   projectId: string
-  materialId: string
+  materialId?: string | null
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -350,6 +392,9 @@ export type ProjectMaterialUncheckedCreateInput = {
 
 export type ProjectMaterialUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -357,13 +402,16 @@ export type ProjectMaterialUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutMaterialsNestedInput
-  material?: Prisma.MaterialUpdateOneRequiredWithoutProjectItemsNestedInput
+  material?: Prisma.MaterialUpdateOneWithoutProjectItemsNestedInput
 }
 
 export type ProjectMaterialUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  materialId?: Prisma.StringFieldUpdateOperationsInput | string
+  materialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -375,7 +423,10 @@ export type ProjectMaterialUncheckedUpdateInput = {
 export type ProjectMaterialCreateManyInput = {
   id?: string
   projectId: string
-  materialId: string
+  materialId?: string | null
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -386,6 +437,9 @@ export type ProjectMaterialCreateManyInput = {
 
 export type ProjectMaterialUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -397,7 +451,10 @@ export type ProjectMaterialUpdateManyMutationInput = {
 export type ProjectMaterialUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  materialId?: Prisma.StringFieldUpdateOperationsInput | string
+  materialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -425,6 +482,9 @@ export type ProjectMaterialCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   materialId?: Prisma.SortOrder
+  manualName?: Prisma.SortOrder
+  manualUnit?: Prisma.SortOrder
+  manualCategory?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
@@ -443,6 +503,9 @@ export type ProjectMaterialMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   materialId?: Prisma.SortOrder
+  manualName?: Prisma.SortOrder
+  manualUnit?: Prisma.SortOrder
+  manualCategory?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
@@ -455,6 +518,9 @@ export type ProjectMaterialMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   materialId?: Prisma.SortOrder
+  manualName?: Prisma.SortOrder
+  manualUnit?: Prisma.SortOrder
+  manualCategory?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
@@ -553,20 +619,34 @@ export type ProjectMaterialUncheckedUpdateManyWithoutMaterialNestedInput = {
   deleteMany?: Prisma.ProjectMaterialScalarWhereInput | Prisma.ProjectMaterialScalarWhereInput[]
 }
 
+export type NullableEnumMaterialUnitFieldUpdateOperationsInput = {
+  set?: $Enums.MaterialUnit | null
+}
+
+export type NullableEnumMaterialCategoryFieldUpdateOperationsInput = {
+  set?: $Enums.MaterialCategory | null
+}
+
 export type ProjectMaterialCreateWithoutProjectInput = {
   id?: string
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  material: Prisma.MaterialCreateNestedOneWithoutProjectItemsInput
+  material?: Prisma.MaterialCreateNestedOneWithoutProjectItemsInput
 }
 
 export type ProjectMaterialUncheckedCreateWithoutProjectInput = {
   id?: string
-  materialId: string
+  materialId?: string | null
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -607,7 +687,10 @@ export type ProjectMaterialScalarWhereInput = {
   NOT?: Prisma.ProjectMaterialScalarWhereInput | Prisma.ProjectMaterialScalarWhereInput[]
   id?: Prisma.StringFilter<"ProjectMaterial"> | string
   projectId?: Prisma.StringFilter<"ProjectMaterial"> | string
-  materialId?: Prisma.StringFilter<"ProjectMaterial"> | string
+  materialId?: Prisma.StringNullableFilter<"ProjectMaterial"> | string | null
+  manualName?: Prisma.StringNullableFilter<"ProjectMaterial"> | string | null
+  manualUnit?: Prisma.EnumMaterialUnitNullableFilter<"ProjectMaterial"> | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.EnumMaterialCategoryNullableFilter<"ProjectMaterial"> | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFilter<"ProjectMaterial"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -618,6 +701,9 @@ export type ProjectMaterialScalarWhereInput = {
 
 export type ProjectMaterialCreateWithoutMaterialInput = {
   id?: string
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -630,6 +716,9 @@ export type ProjectMaterialCreateWithoutMaterialInput = {
 export type ProjectMaterialUncheckedCreateWithoutMaterialInput = {
   id?: string
   projectId: string
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -666,7 +755,10 @@ export type ProjectMaterialUpdateManyWithWhereWithoutMaterialInput = {
 
 export type ProjectMaterialCreateManyProjectInput = {
   id?: string
-  materialId: string
+  materialId?: string | null
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -677,18 +769,24 @@ export type ProjectMaterialCreateManyProjectInput = {
 
 export type ProjectMaterialUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  material?: Prisma.MaterialUpdateOneRequiredWithoutProjectItemsNestedInput
+  material?: Prisma.MaterialUpdateOneWithoutProjectItemsNestedInput
 }
 
 export type ProjectMaterialUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  materialId?: Prisma.StringFieldUpdateOperationsInput | string
+  materialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -699,7 +797,10 @@ export type ProjectMaterialUncheckedUpdateWithoutProjectInput = {
 
 export type ProjectMaterialUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  materialId?: Prisma.StringFieldUpdateOperationsInput | string
+  materialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -711,6 +812,9 @@ export type ProjectMaterialUncheckedUpdateManyWithoutProjectInput = {
 export type ProjectMaterialCreateManyMaterialInput = {
   id?: string
   projectId: string
+  manualName?: string | null
+  manualUnit?: $Enums.MaterialUnit | null
+  manualCategory?: $Enums.MaterialCategory | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -721,6 +825,9 @@ export type ProjectMaterialCreateManyMaterialInput = {
 
 export type ProjectMaterialUpdateWithoutMaterialInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -733,6 +840,9 @@ export type ProjectMaterialUpdateWithoutMaterialInput = {
 export type ProjectMaterialUncheckedUpdateWithoutMaterialInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -744,6 +854,9 @@ export type ProjectMaterialUncheckedUpdateWithoutMaterialInput = {
 export type ProjectMaterialUncheckedUpdateManyWithoutMaterialInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  manualName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manualUnit?: Prisma.NullableEnumMaterialUnitFieldUpdateOperationsInput | $Enums.MaterialUnit | null
+  manualCategory?: Prisma.NullableEnumMaterialCategoryFieldUpdateOperationsInput | $Enums.MaterialCategory | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   totalPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -758,6 +871,9 @@ export type ProjectMaterialSelect<ExtArgs extends runtime.Types.Extensions.Inter
   id?: boolean
   projectId?: boolean
   materialId?: boolean
+  manualName?: boolean
+  manualUnit?: boolean
+  manualCategory?: boolean
   quantity?: boolean
   unitPrice?: boolean
   totalPrice?: boolean
@@ -765,13 +881,16 @@ export type ProjectMaterialSelect<ExtArgs extends runtime.Types.Extensions.Inter
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>
+  material?: boolean | Prisma.ProjectMaterial$materialArgs<ExtArgs>
 }, ExtArgs["result"]["projectMaterial"]>
 
 export type ProjectMaterialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
   materialId?: boolean
+  manualName?: boolean
+  manualUnit?: boolean
+  manualCategory?: boolean
   quantity?: boolean
   unitPrice?: boolean
   totalPrice?: boolean
@@ -779,13 +898,16 @@ export type ProjectMaterialSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>
+  material?: boolean | Prisma.ProjectMaterial$materialArgs<ExtArgs>
 }, ExtArgs["result"]["projectMaterial"]>
 
 export type ProjectMaterialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
   materialId?: boolean
+  manualName?: boolean
+  manualUnit?: boolean
+  manualCategory?: boolean
   quantity?: boolean
   unitPrice?: boolean
   totalPrice?: boolean
@@ -793,13 +915,16 @@ export type ProjectMaterialSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>
+  material?: boolean | Prisma.ProjectMaterial$materialArgs<ExtArgs>
 }, ExtArgs["result"]["projectMaterial"]>
 
 export type ProjectMaterialSelectScalar = {
   id?: boolean
   projectId?: boolean
   materialId?: boolean
+  manualName?: boolean
+  manualUnit?: boolean
+  manualCategory?: boolean
   quantity?: boolean
   unitPrice?: boolean
   totalPrice?: boolean
@@ -808,30 +933,33 @@ export type ProjectMaterialSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectMaterialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "materialId" | "quantity" | "unitPrice" | "totalPrice" | "source" | "createdAt" | "updatedAt", ExtArgs["result"]["projectMaterial"]>
+export type ProjectMaterialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "materialId" | "manualName" | "manualUnit" | "manualCategory" | "quantity" | "unitPrice" | "totalPrice" | "source" | "createdAt" | "updatedAt", ExtArgs["result"]["projectMaterial"]>
 export type ProjectMaterialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>
+  material?: boolean | Prisma.ProjectMaterial$materialArgs<ExtArgs>
 }
 export type ProjectMaterialIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>
+  material?: boolean | Prisma.ProjectMaterial$materialArgs<ExtArgs>
 }
 export type ProjectMaterialIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>
+  material?: boolean | Prisma.ProjectMaterial$materialArgs<ExtArgs>
 }
 
 export type $ProjectMaterialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProjectMaterial"
   objects: {
     project: Prisma.$ProjectPayload<ExtArgs>
-    material: Prisma.$MaterialPayload<ExtArgs>
+    material: Prisma.$MaterialPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     projectId: string
-    materialId: string
+    materialId: string | null
+    manualName: string | null
+    manualUnit: $Enums.MaterialUnit | null
+    manualCategory: $Enums.MaterialCategory | null
     quantity: runtime.Decimal
     unitPrice: runtime.Decimal
     totalPrice: runtime.Decimal
@@ -1233,7 +1361,7 @@ readonly fields: ProjectMaterialFieldRefs;
 export interface Prisma__ProjectMaterialClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  material<T extends Prisma.MaterialDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaterialDefaultArgs<ExtArgs>>): Prisma.Prisma__MaterialClient<runtime.Types.Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  material<T extends Prisma.ProjectMaterial$materialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectMaterial$materialArgs<ExtArgs>>): Prisma.Prisma__MaterialClient<runtime.Types.Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1266,6 +1394,9 @@ export interface ProjectMaterialFieldRefs {
   readonly id: Prisma.FieldRef<"ProjectMaterial", 'String'>
   readonly projectId: Prisma.FieldRef<"ProjectMaterial", 'String'>
   readonly materialId: Prisma.FieldRef<"ProjectMaterial", 'String'>
+  readonly manualName: Prisma.FieldRef<"ProjectMaterial", 'String'>
+  readonly manualUnit: Prisma.FieldRef<"ProjectMaterial", 'MaterialUnit'>
+  readonly manualCategory: Prisma.FieldRef<"ProjectMaterial", 'MaterialCategory'>
   readonly quantity: Prisma.FieldRef<"ProjectMaterial", 'Decimal'>
   readonly unitPrice: Prisma.FieldRef<"ProjectMaterial", 'Decimal'>
   readonly totalPrice: Prisma.FieldRef<"ProjectMaterial", 'Decimal'>
@@ -1665,6 +1796,25 @@ export type ProjectMaterialDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many ProjectMaterials to delete.
    */
   limit?: number
+}
+
+/**
+ * ProjectMaterial.material
+ */
+export type ProjectMaterial$materialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Material
+   */
+  select?: Prisma.MaterialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Material
+   */
+  omit?: Prisma.MaterialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaterialInclude<ExtArgs> | null
+  where?: Prisma.MaterialWhereInput
 }
 
 /**

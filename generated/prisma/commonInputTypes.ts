@@ -372,6 +372,40 @@ export type EnumMaterialCategoryWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumMaterialCategoryFilter<$PrismaModel>
 }
 
+export type EnumMaterialUnitNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialUnit | Prisma.EnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialUnitNullableFilter<$PrismaModel> | $Enums.MaterialUnit | null
+}
+
+export type EnumMaterialCategoryNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialCategory | Prisma.EnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialCategoryNullableFilter<$PrismaModel> | $Enums.MaterialCategory | null
+}
+
+export type EnumMaterialUnitNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialUnit | Prisma.EnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialUnitNullableWithAggregatesFilter<$PrismaModel> | $Enums.MaterialUnit | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMaterialUnitNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMaterialUnitNullableFilter<$PrismaModel>
+}
+
+export type EnumMaterialCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialCategory | Prisma.EnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.MaterialCategory | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMaterialCategoryNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMaterialCategoryNullableFilter<$PrismaModel>
+}
+
 export type JsonNullableFilter<$PrismaModel = never> =
 | Prisma.PatchUndefined<
     Prisma.Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -963,6 +997,40 @@ export type NestedEnumMaterialCategoryWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumMaterialCategoryFilter<$PrismaModel>
   _max?: Prisma.NestedEnumMaterialCategoryFilter<$PrismaModel>
+}
+
+export type NestedEnumMaterialUnitNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialUnit | Prisma.EnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialUnitNullableFilter<$PrismaModel> | $Enums.MaterialUnit | null
+}
+
+export type NestedEnumMaterialCategoryNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialCategory | Prisma.EnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialCategoryNullableFilter<$PrismaModel> | $Enums.MaterialCategory | null
+}
+
+export type NestedEnumMaterialUnitNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialUnit | Prisma.EnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialUnit[] | Prisma.ListEnumMaterialUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialUnitNullableWithAggregatesFilter<$PrismaModel> | $Enums.MaterialUnit | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMaterialUnitNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMaterialUnitNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumMaterialCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MaterialCategory | Prisma.EnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  in?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.MaterialCategory[] | Prisma.ListEnumMaterialCategoryFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumMaterialCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.MaterialCategory | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMaterialCategoryNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMaterialCategoryNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumAnalysisStatusFilter<$PrismaModel = never> = {

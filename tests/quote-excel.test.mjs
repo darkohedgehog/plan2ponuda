@@ -112,6 +112,19 @@ const quoteData = {
       unitPrice: "2.5",
       updatedAt: new Date("2026-05-18T10:00:00.000Z"),
     },
+    {
+      createdAt: new Date("2026-05-18T10:00:00.000Z"),
+      id: "pm_2",
+      manualCategory: "other",
+      manualName: "Project-only cable",
+      manualUnit: "m",
+      projectId: "project_1",
+      quantity: "5",
+      source: "manual",
+      totalPrice: "25",
+      unitPrice: "5",
+      updatedAt: new Date("2026-05-18T10:00:00.000Z"),
+    },
   ],
   project: {
     areaM2: 88,
@@ -162,6 +175,9 @@ test("generates quote workbook with summary, materials, rooms, and notes sheets"
   );
   assert.equal(workbook.getWorksheet("Summary")?.getCell("B3").value, "Family House");
   assert.equal(workbook.getWorksheet("Materials")?.getCell("B2").value, "Cable 3x2.5");
+  assert.equal(workbook.getWorksheet("Materials")?.getCell("B3").value, "Project-only cable");
+  assert.equal(workbook.getWorksheet("Materials")?.getCell("A3").value, "");
+  assert.equal(workbook.getWorksheet("Materials")?.getCell("F3").value, "m");
   assert.equal(workbook.getWorksheet("Rooms")?.getCell("H2").value, 8);
 });
 

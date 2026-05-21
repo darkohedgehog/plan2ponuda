@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { Link } from "@/i18n/navigation";
 import { getLocalizedMaterialName } from "@/lib/i18n/material-name";
+import { getProjectMaterialDisplaySnapshot } from "@/lib/materials/project-materials";
 import type {
   MaterialCategory,
   ProjectMaterialOverviewItem,
@@ -86,12 +87,14 @@ function ProjectMaterialRow({ material }: ProjectMaterialRowProps) {
   const tMaterials = useTranslations("Materials");
   const tProjectMaterials = useTranslations("ProjectMaterials");
   const tUnits = useTranslations("MaterialUnits");
-  const category = material.material?.category ?? "other";
-  const unit = material.material?.unit ?? "pcs";
+  const displayMaterial = getProjectMaterialDisplaySnapshot(
+    material,
+    tMaterials("fallbackName"),
+  );
   const materialName = getLocalizedMaterialName(
     {
-      code: material.material?.code,
-      name: material.material?.name ?? tMaterials("fallbackName"),
+      code: displayMaterial.code,
+      name: displayMaterial.name,
       source: material.source,
     },
     (key) => tCatalogItems(key),
@@ -120,16 +123,16 @@ function ProjectMaterialRow({ material }: ProjectMaterialRowProps) {
           <p className="wrap-break-word text-sm font-semibold leading-5 text-deep-twilight-950 2xl:truncate">
             {materialName}
           </p>
-          {material.material?.code ? (
+          {displayMaterial.code ? (
             <p className="mt-1 break-all font-mono text-xs text-deep-twilight-700/70">
-              {material.material.code}
+              {displayMaterial.code}
             </p>
           ) : null}
         </div>
       </ProjectMaterialField>
 
       <ProjectMaterialField label={tCommon("category")}>
-        <CategoryBadge category={category} />
+        <CategoryBadge category={displayMaterial.category} />
       </ProjectMaterialField>
 
       <ProjectMaterialField align="right" label={tCommon("quantity")}>
@@ -138,7 +141,7 @@ function ProjectMaterialRow({ material }: ProjectMaterialRowProps) {
             {formatDecimal(material.quantity, locale)}
           </span>
           <span className="inline-flex shrink-0 rounded-md bg-frosted-blue-50 px-2 py-1 text-xs font-semibold text-deep-twilight-700 ring-1 ring-frosted-blue-200">
-            {tUnits(unit)}
+            {tUnits(displayMaterial.unit)}
           </span>
         </div>
       </ProjectMaterialField>

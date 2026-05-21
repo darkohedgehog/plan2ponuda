@@ -17,8 +17,8 @@ import type {
   UploadFloorPlanResponse,
 } from "@/types/project";
 import {
-  canUseFeature,
-  incrementUsage,
+  consumeUsageOrThrow,
+  UsageLimitExceededError,
 } from "@/server/services/billing-service";
 import { shouldCountFloorPlanUpload } from "@/server/services/usage-limit-policy";
 import {
@@ -29,6 +29,16 @@ import {
 
 const PROJECT_FILES_BUCKET = "project-files";
 const FLOOR_PLAN_PREVIEW_URL_TTL_SECONDS = 5 * 60;
+
+type ProjectUploadWriteClient = Pick<
+  typeof prisma,
+  "$queryRaw" | "project" | "subscription" | "usageCounter"
+>;
+
+type LockedProjectUploadRow = {
+  id: string;
+  sourceFilePath: string | null;
+};
 
 function mapProject(project: DbProject): Project {
   return {
@@ -368,6 +378,21 @@ async function removeProjectStorageFiles(filePaths: string[]): Promise<void> {
   }
 }
 
+async function findAndLockProjectForFloorPlanUpload(
+  db: ProjectUploadWriteClient,
+  projectId: string,
+  userId: string,
+): Promise<LockedProjectUploadRow | null> {
+  const rows = await db.$queryRaw<LockedProjectUploadRow[]>`
+    SELECT id, "sourceFilePath"
+    FROM "Project"
+    WHERE id = ${projectId} AND "userId" = ${userId}
+    FOR UPDATE
+  `;
+
+  return rows[0] ?? null;
+}
+
 type UploadFloorPlanInput = {
   projectId: string;
   userId: string;
@@ -405,7 +430,6 @@ export async function uploadFloorPlan({
     },
     select: {
       id: true,
-      sourceFilePath: true,
     },
   });
 
@@ -417,29 +441,6 @@ export async function uploadFloorPlan({
         message: "Project not found.",
       },
     };
-  }
-
-  const hasExistingProjectOwnedFloorPlan = isProjectOwnedStoragePath(
-    project.id,
-    project.sourceFilePath,
-  );
-
-  if (
-    shouldCountFloorPlanUpload(
-      hasExistingProjectOwnedFloorPlan ? project.sourceFilePath : null,
-    )
-  ) {
-    const access = await canUseFeature(userId, "floorPlans");
-
-    if (!access.allowed) {
-      return {
-        ok: false,
-        error: {
-          code: "floor_plan_limit_reached",
-          message: "You have reached your floor plan limit for this plan.",
-        },
-      };
-    }
   }
 
   const extension = getFloorPlanFileExtension(file.type);
@@ -467,47 +468,72 @@ export async function uploadFloorPlan({
     };
   }
 
-  const updatedProject = await prisma.$transaction(async (transaction) => {
-    const currentProject = await transaction.project.findFirst({
-      where: {
-        id: project.id,
+  const updateResult = await prisma
+    .$transaction(async (transaction) => {
+      const currentProject = await findAndLockProjectForFloorPlanUpload(
+        transaction,
+        project.id,
         userId,
-      },
-      select: {
-        sourceFilePath: true,
-      },
+      );
+
+      if (!currentProject) {
+        return {
+          ok: false as const,
+          reason: "not_found" as const,
+        };
+      }
+
+      const hasCurrentProjectOwnedFloorPlan = isProjectOwnedStoragePath(
+        project.id,
+        currentProject.sourceFilePath,
+      );
+
+      if (
+        shouldCountFloorPlanUpload(
+          hasCurrentProjectOwnedFloorPlan
+            ? currentProject.sourceFilePath
+            : null,
+        )
+      ) {
+        await consumeUsageOrThrow(
+          transaction,
+          userId,
+          "floor_plans_created",
+        );
+      }
+
+      const nextProject = await transaction.project.update({
+        where: {
+          id: project.id,
+        },
+        data: {
+          sourceFilePath: filePath,
+          previewPath: null,
+          status: "uploaded",
+        },
+      });
+
+      return {
+        ok: true as const,
+        project: nextProject,
+      };
+    })
+    .catch(async (error: unknown) => {
+      await removeProjectStorageFiles([filePath]);
+
+      if (error instanceof UsageLimitExceededError) {
+        return {
+          ok: false as const,
+          reason: "floor_plan_limit_reached" as const,
+        };
+      }
+
+      throw error;
     });
 
-    if (!currentProject) {
-      return null;
-    }
+  if (!updateResult.ok && updateResult.reason === "not_found") {
+    await removeProjectStorageFiles([filePath]);
 
-    const hasCurrentProjectOwnedFloorPlan = isProjectOwnedStoragePath(
-      project.id,
-      currentProject.sourceFilePath,
-    );
-    const shouldIncrementUsage = shouldCountFloorPlanUpload(
-      hasCurrentProjectOwnedFloorPlan ? currentProject.sourceFilePath : null,
-    );
-    const nextProject = await transaction.project.update({
-      where: {
-        id: project.id,
-      },
-      data: {
-        sourceFilePath: filePath,
-        previewPath: null,
-        status: "uploaded",
-      },
-    });
-
-    if (shouldIncrementUsage) {
-      await incrementUsage(userId, "floor_plans_created", transaction);
-    }
-
-    return nextProject;
-  });
-
-  if (!updatedProject) {
     return {
       ok: false,
       error: {
@@ -517,11 +543,21 @@ export async function uploadFloorPlan({
     };
   }
 
+  if (!updateResult.ok) {
+    return {
+      ok: false,
+      error: {
+        code: "floor_plan_limit_reached",
+        message: "You have reached your floor plan limit for this plan.",
+      },
+    };
+  }
+
   return {
     ok: true,
     success: true,
     filePath,
-    project: mapProject(updatedProject),
+    project: mapProject(updateResult.project),
   };
 }
 

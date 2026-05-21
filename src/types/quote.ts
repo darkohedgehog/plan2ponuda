@@ -23,7 +23,10 @@ export type Material = {
 export type ProjectMaterial = {
   id: string;
   projectId: string;
-  materialId: string;
+  materialId?: string;
+  manualCategory?: MaterialCategory;
+  manualName?: string;
+  manualUnit?: MaterialUnit;
   quantity: string;
   unitPrice: string;
   totalPrice: string;

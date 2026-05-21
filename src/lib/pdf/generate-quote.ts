@@ -388,28 +388,47 @@ function formatMaterialRow(
   locale: string,
   currency: string,
 ): string[] {
-  const material = projectMaterial.material;
-  const unit = material?.unit ? formatMaterialUnit(material.unit, labels) : "";
-  const name = material
-    ? getLocalizedMaterialName(
-        {
-          code: material.code,
-          name: material.name,
-          source: projectMaterial.source,
-        },
-        (key) => labels.materialCatalogItems[key],
-      )
-    : labels.fallbacks.material;
+  const material = getDisplayMaterial(
+    projectMaterial,
+    labels.fallbacks.material,
+  );
+  const unit = formatMaterialUnit(material.unit, labels);
+  const name = getLocalizedMaterialName(
+    {
+      code: material.code,
+      name: material.name,
+      source: projectMaterial.source,
+    },
+    (key) => labels.materialCatalogItems[key],
+  );
 
   return [
     name,
-    material?.category
-      ? formatMaterialCategory(material.category, labels)
-      : labels.materialCategories.other,
+    formatMaterialCategory(material.category, labels),
     `${formatQuantity(projectMaterial.quantity, locale)} ${unit}`.trim(),
     formatMoney(projectMaterial.unitPrice, locale, currency),
     formatMoney(projectMaterial.totalPrice, locale, currency),
   ];
+}
+
+function getDisplayMaterial(
+  projectMaterial: ProjectMaterial,
+  fallbackName: string,
+) {
+  if (projectMaterial.material) {
+    return {
+      category: projectMaterial.material.category,
+      code: projectMaterial.material.code,
+      name: projectMaterial.material.name,
+      unit: projectMaterial.material.unit,
+    };
+  }
+
+  return {
+    category: projectMaterial.manualCategory ?? "other",
+    name: projectMaterial.manualName ?? fallbackName,
+    unit: projectMaterial.manualUnit ?? "pcs",
+  };
 }
 
 export function getCompanyDetailRows(

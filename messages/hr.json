@@ -717,6 +717,8 @@
   },
   "Materials": {
     "catalog": {
+      "adminOnlyPriceNote": "Cijene kataloga mogu uređivati samo administratori.",
+      "readOnlyLabel": "Katalog samo za čitanje",
       "subtitle": "Zadane cijene kataloga ostaju osnova za buduće generirane projektne materijale.",
       "title": "Katalog materijala"
     },
@@ -754,6 +756,7 @@
       "projectMaterials": "Projektni materijali"
     },
     "errors": {
+      "catalogAdminOnly": "Cijene kataloga mogu uređivati samo administratori.",
       "materialNotFound": "Materijal nije pronađen."
     }
   },

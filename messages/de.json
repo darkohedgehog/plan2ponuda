@@ -717,6 +717,8 @@
   },
   "Materials": {
     "catalog": {
+      "adminOnlyPriceNote": "Katalogpreise können nur von Administratoren bearbeitet werden.",
+      "readOnlyLabel": "Schreibgeschützter Katalog",
       "subtitle": "Standardpreise im Katalog bleiben die Basis für künftig generierte Projektmaterialien.",
       "title": "Materialkatalog"
     },
@@ -754,6 +756,7 @@
       "projectMaterials": "Projektmaterialien"
     },
     "errors": {
+      "catalogAdminOnly": "Katalogpreise können nur von Administratoren bearbeitet werden.",
       "materialNotFound": "Material nicht gefunden."
     }
   },

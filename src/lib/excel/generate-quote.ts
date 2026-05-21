@@ -3,6 +3,7 @@ import ExcelJS from "exceljs";
 import type {
   MaterialCategory,
   MaterialUnit,
+  ProjectMaterial,
   QuoteExportCompany,
   QuoteExportData,
 } from "../../types/quote";
@@ -299,18 +300,19 @@ function addMaterialsSheet(
   ];
 
   for (const material of data.materials) {
+    const displayMaterial = getDisplayMaterial(
+      material,
+      labels.fallbacks.material,
+    );
+
     sheet.addRow({
-      category: material.material
-        ? translate(labels.materialCategories, material.material.category)
-        : labels.fallbacks.notSpecified,
-      code: material.material?.code ?? "",
-      material: material.material?.name ?? labels.fallbacks.material,
+      category: translate(labels.materialCategories, displayMaterial.category),
+      code: displayMaterial.code ?? "",
+      material: displayMaterial.name,
       quantity: toNumber(material.quantity),
       source: translate(labels.materialSources, material.source),
       totalPrice: toNumber(material.totalPrice),
-      unit: material.material
-        ? translate(labels.materialUnits, material.material.unit)
-        : labels.fallbacks.notSpecified,
+      unit: translate(labels.materialUnits, displayMaterial.unit),
       unitPrice: toNumber(material.unitPrice),
     });
   }
@@ -318,6 +320,26 @@ function addMaterialsSheet(
   styleTableSheet(sheet, 1);
   sheet.getColumn("G").numFmt = currencyFormat;
   sheet.getColumn("H").numFmt = currencyFormat;
+}
+
+function getDisplayMaterial(
+  projectMaterial: ProjectMaterial,
+  fallbackName: string,
+) {
+  if (projectMaterial.material) {
+    return {
+      category: projectMaterial.material.category,
+      code: projectMaterial.material.code,
+      name: projectMaterial.material.name,
+      unit: projectMaterial.material.unit,
+    };
+  }
+
+  return {
+    category: projectMaterial.manualCategory ?? "other",
+    name: projectMaterial.manualName ?? fallbackName,
+    unit: projectMaterial.manualUnit ?? "pcs",
+  };
 }
 
 function addRoomsSheet(

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ReactNode, useState } from "react";
 
 import { getLocalizedMaterialName } from "@/lib/i18n/material-name";
+import { getProjectMaterialDisplaySnapshot } from "@/lib/materials/project-materials";
 import type {
   MaterialCategory,
   MaterialUnit,
@@ -82,22 +83,26 @@ function toEditorMaterial(
   material: ProjectMaterial,
   fallbackMaterialName: string,
 ): QuoteMaterialEditorMaterial {
+  const displayMaterial = getProjectMaterialDisplaySnapshot(
+    material,
+    fallbackMaterialName,
+  );
   const editorMaterial: QuoteMaterialEditorMaterial = {
-    category: material.material?.category ?? "other",
+    category: displayMaterial.category,
     id: material.id,
-    materialId: material.materialId,
-    name: material.material?.name ?? fallbackMaterialName,
+    materialId: material.materialId ?? "",
+    name: displayMaterial.name,
     quantity: material.quantity,
     source: material.source,
     totalPrice: material.totalPrice,
-    unit: material.material?.unit ?? "pcs",
+    unit: displayMaterial.unit,
     unitPrice: material.unitPrice,
   };
 
-  if (material.material?.code) {
+  if (displayMaterial.code) {
     return {
       ...editorMaterial,
-      code: material.material.code,
+      code: displayMaterial.code,
     };
   }
 

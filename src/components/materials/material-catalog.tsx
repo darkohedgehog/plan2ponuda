@@ -7,6 +7,7 @@ import { getLocalizedMaterialName } from "@/lib/i18n/material-name";
 import type { Material, MaterialCategory } from "@/types/quote";
 
 type MaterialCatalogProps = {
+  canEditPrices: boolean;
   materials: Material[];
 };
 
@@ -20,7 +21,10 @@ const categoryStyles: Record<MaterialCategory, string> = {
   switch: "border-turquoise-surf-200 bg-turquoise-surf-50 text-turquoise-surf-800",
 };
 
-export function MaterialCatalog({ materials }: MaterialCatalogProps) {
+export function MaterialCatalog({
+  canEditPrices,
+  materials,
+}: MaterialCatalogProps) {
   const tCommon = useTranslations("Common");
   const tMaterials = useTranslations("Materials");
 
@@ -39,6 +43,16 @@ export function MaterialCatalog({ materials }: MaterialCatalogProps) {
             {tMaterials("catalog.subtitle")}
           </p>
         </div>
+        {!canEditPrices ? (
+          <div className="rounded-md border border-frosted-blue-200 bg-frosted-blue-50 px-3 py-2 text-sm font-medium text-deep-twilight-700">
+            <p className="font-semibold text-deep-twilight-900">
+              {tMaterials("catalog.readOnlyLabel")}
+            </p>
+            <p className="mt-1 text-xs leading-5 text-deep-twilight-700/75">
+              {tMaterials("catalog.adminOnlyPriceNote")}
+            </p>
+          </div>
+        ) : null}
       </div>
 
       <div className="hidden border-b border-frosted-blue-200 bg-frosted-blue-50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-deep-twilight-700/55 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(8rem,0.8fr)_7rem_13rem_9rem] lg:gap-5">
@@ -51,7 +65,11 @@ export function MaterialCatalog({ materials }: MaterialCatalogProps) {
 
       <div className="divide-y divide-frosted-blue-200">
         {materials.map((material) => (
-          <MaterialCatalogRow key={material.id} material={material} />
+          <MaterialCatalogRow
+            canEditPrice={canEditPrices}
+            key={material.id}
+            material={material}
+          />
         ))}
       </div>
     </section>
@@ -59,10 +77,14 @@ export function MaterialCatalog({ materials }: MaterialCatalogProps) {
 }
 
 type MaterialCatalogRowProps = {
+  canEditPrice: boolean;
   material: Material;
 };
 
-function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
+function MaterialCatalogRow({
+  canEditPrice,
+  material,
+}: MaterialCatalogRowProps) {
   const locale = useLocale();
   const tCommon = useTranslations("Common");
   const tCatalogItems = useTranslations("Materials.catalogItems");
@@ -94,10 +116,16 @@ function MaterialCatalogRow({ material }: MaterialCatalogRowProps) {
         </span>
       </MaterialMobileField>
       <MaterialMobileField align="right" label={tCommon("defaultPrice")}>
-        <MaterialPriceEditor
-          defaultPrice={material.defaultPrice}
-          materialId={material.id}
-        />
+        {canEditPrice ? (
+          <MaterialPriceEditor
+            defaultPrice={material.defaultPrice}
+            materialId={material.id}
+          />
+        ) : (
+          <span className="text-sm font-semibold tabular-nums text-deep-twilight-950">
+            {formatMoney(material.defaultPrice, locale)}
+          </span>
+        )}
       </MaterialMobileField>
       <MaterialMobileField align="right" label={tCommon("updated")}>
         <span className="text-sm font-medium text-deep-twilight-700">
@@ -169,4 +197,11 @@ function formatDate(date: Date, locale: string): string {
     month: "short",
     year: "numeric",
   }).format(date);
+}
+
+function formatMoney(value: string, locale: string): string {
+  return new Intl.NumberFormat(locale, {
+    currency: "EUR",
+    style: "currency",
+  }).format(Number(value));
 }

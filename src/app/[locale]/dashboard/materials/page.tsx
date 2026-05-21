@@ -6,7 +6,9 @@ import { MaterialsDashboardTabs } from "@/components/materials/materials-dashboa
 import { ProjectMaterialsOverview } from "@/components/materials/project-materials-overview";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
+import { getCurrentAdminUser } from "@/lib/auth/admin";
 import { getCurrentUser } from "@/lib/auth/session";
+import { canEditGlobalMaterialCatalog } from "@/lib/materials/project-materials";
 import {
   getMaterialCatalog,
   getUserMaterialSummary,
@@ -28,11 +30,14 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
     return redirect({ href: "/sign-in", locale });
   }
 
-  const [materials, projectMaterials, materialSummary] = await Promise.all([
-    getMaterialCatalog(),
-    getUserProjectMaterials(user.id),
-    getUserMaterialSummary(user.id),
-  ]);
+  const [admin, materials, projectMaterials, materialSummary] =
+    await Promise.all([
+      getCurrentAdminUser(),
+      getMaterialCatalog(),
+      getUserProjectMaterials(user.id),
+      getUserMaterialSummary(user.id),
+    ]);
+  const canEditCatalogPrices = canEditGlobalMaterialCatalog(admin?.role);
   const tMaterials = await getTranslations("Materials");
 
   return (
@@ -52,7 +57,12 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
       <MaterialSummaryCards summary={materialSummary} />
 
       <MaterialsDashboardTabs
-        catalog={<MaterialCatalog materials={materials} />}
+        catalog={
+          <MaterialCatalog
+            canEditPrices={canEditCatalogPrices}
+            materials={materials}
+          />
+        }
         catalogCount={materials.length}
         projectMaterialCount={projectMaterials.length}
         projectMaterials={

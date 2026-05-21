@@ -422,9 +422,9 @@ export type MaterialSumOrderByAggregateInput = {
   defaultPrice?: Prisma.SortOrder
 }
 
-export type MaterialScalarRelationFilter = {
-  is?: Prisma.MaterialWhereInput
-  isNot?: Prisma.MaterialWhereInput
+export type MaterialNullableScalarRelationFilter = {
+  is?: Prisma.MaterialWhereInput | null
+  isNot?: Prisma.MaterialWhereInput | null
 }
 
 export type EnumMaterialUnitFieldUpdateOperationsInput = {
@@ -441,10 +441,12 @@ export type MaterialCreateNestedOneWithoutProjectItemsInput = {
   connect?: Prisma.MaterialWhereUniqueInput
 }
 
-export type MaterialUpdateOneRequiredWithoutProjectItemsNestedInput = {
+export type MaterialUpdateOneWithoutProjectItemsNestedInput = {
   create?: Prisma.XOR<Prisma.MaterialCreateWithoutProjectItemsInput, Prisma.MaterialUncheckedCreateWithoutProjectItemsInput>
   connectOrCreate?: Prisma.MaterialCreateOrConnectWithoutProjectItemsInput
   upsert?: Prisma.MaterialUpsertWithoutProjectItemsInput
+  disconnect?: Prisma.MaterialWhereInput | boolean
+  delete?: Prisma.MaterialWhereInput | boolean
   connect?: Prisma.MaterialWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.MaterialUpdateToOneWithWhereWithoutProjectItemsInput, Prisma.MaterialUpdateWithoutProjectItemsInput>, Prisma.MaterialUncheckedUpdateWithoutProjectItemsInput>
 }

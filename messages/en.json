@@ -717,6 +717,8 @@
   },
   "Materials": {
     "catalog": {
+      "adminOnlyPriceNote": "Catalog prices can be edited by administrators only.",
+      "readOnlyLabel": "Read-only catalog",
       "subtitle": "Default catalog prices remain the baseline for future generated project materials.",
       "title": "Material catalog"
     },
@@ -754,6 +756,7 @@
       "projectMaterials": "Project materials"
     },
     "errors": {
+      "catalogAdminOnly": "Catalog prices can be edited by administrators only.",
       "materialNotFound": "Material not found."
     }
   },

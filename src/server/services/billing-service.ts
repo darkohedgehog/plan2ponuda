@@ -106,6 +106,18 @@ type CreatePortalSessionResult =
       reason: "stripe_customer_missing";
     };
 
+export class UsageLimitExceededError extends Error {
+  readonly access: FeatureAccess;
+  readonly type: UsageCounterTypeValue;
+
+  constructor(access: FeatureAccess) {
+    super(`Usage limit exceeded for ${access.type}.`);
+    this.name = "UsageLimitExceededError";
+    this.access = access;
+    this.type = access.type;
+  }
+}
+
 function toIsoString(value: Date | null): string | null {
   return value ? value.toISOString() : null;
 }
@@ -551,6 +563,14 @@ export async function incrementUsage(
   type: UsageCounterTypeValue,
   db: UsageCounterWriteClient = prisma,
 ): Promise<FeatureAccess> {
+  return consumeUsageOrThrow(db, userId, type);
+}
+
+export async function consumeUsageOrThrow(
+  db: UsageCounterWriteClient,
+  userId: string,
+  type: UsageCounterTypeValue,
+): Promise<FeatureAccess> {
   const subscription = await db.subscription.findUnique({
     where: {
       userId,
@@ -559,9 +579,11 @@ export async function incrementUsage(
   const plan = getEffectivePlanFromSubscription(subscription);
   const period = getUsagePeriod(subscription, plan);
   const feature = getFeatureForUsageCounterType(type);
-  const counter = await db.usageCounter.upsert({
+  const limit = BILLING_PLAN_LIMITS[plan][feature];
+
+  await db.usageCounter.upsert({
     create: {
-      count: 1,
+      count: 0,
       periodEnd: period.periodEnd,
       periodKey: period.key,
       periodStart: period.periodStart,
@@ -569,9 +591,6 @@ export async function incrementUsage(
       userId,
     },
     update: {
-      count: {
-        increment: 1,
-      },
       periodEnd: period.periodEnd,
       periodStart: period.periodStart,
     },
@@ -583,15 +602,64 @@ export async function incrementUsage(
       },
     },
   });
+  const updated = await db.usageCounter.updateMany({
+    data: {
+      count: {
+        increment: 1,
+      },
+      periodEnd: period.periodEnd,
+      periodStart: period.periodStart,
+    },
+    where: {
+      count: {
+        lt: limit,
+      },
+      periodKey: period.key,
+      type,
+      userId,
+    },
+  });
+
+  if (updated.count !== 1) {
+    const counter = await db.usageCounter.findUnique({
+      select: {
+        count: true,
+      },
+      where: {
+        userId_type_periodKey: {
+          periodKey: period.key,
+          type,
+          userId,
+        },
+      },
+    });
+
+    throw new UsageLimitExceededError({
+      allowed: false,
+      current: counter?.count ?? 0,
+      feature,
+      limit,
+      plan,
+      type,
+    });
+  }
+
+  const counter = await db.usageCounter.findUniqueOrThrow({
+    select: {
+      count: true,
+    },
+    where: {
+      userId_type_periodKey: {
+        periodKey: period.key,
+        type,
+        userId,
+      },
+    },
+  });
   const current = counter.count;
-  const limit = BILLING_PLAN_LIMITS[plan][feature];
 
   return {
-    allowed: canUsePlanFeature({
-      feature,
-      plan,
-      usage: current,
-    }),
+    allowed: true,
     current,
     feature,
     limit,

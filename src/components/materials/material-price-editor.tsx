@@ -22,7 +22,11 @@ type SaveMaterialResponse =
       error: string;
     };
 
-type MaterialPriceErrorKey = "invalidPrice" | "notFound" | "saveFailed";
+type MaterialPriceErrorKey =
+  | "forbidden"
+  | "invalidPrice"
+  | "notFound"
+  | "saveFailed";
 type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
 >[0];
@@ -55,6 +59,10 @@ export function MaterialPriceEditor({
 
     if (key === "notFound") {
       return tMaterials("errors.materialNotFound");
+    }
+
+    if (key === "forbidden") {
+      return tMaterials("errors.catalogAdminOnly");
     }
 
     return tValidation("unableSavePrice");
@@ -91,7 +99,13 @@ export function MaterialPriceEditor({
     setIsSaving(false);
 
     if (!response.ok || !payload || "error" in payload) {
-      setErrorKey(response.status === 404 ? "notFound" : "saveFailed");
+      setErrorKey(
+        response.status === 403
+          ? "forbidden"
+          : response.status === 404
+            ? "notFound"
+            : "saveFailed",
+      );
       return;
     }
 

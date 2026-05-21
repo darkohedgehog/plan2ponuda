@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import { QuoteWorkspaceClient } from "@/components/quote/quote-workspace-client";
 import type { QuoteMaterialEditorMaterial } from "@/components/quote/quote-material-editor";
+import { getProjectMaterialDisplaySnapshot } from "@/lib/materials/project-materials";
 import type { ProjectMaterial, Quote } from "@/types/quote";
 
 type QuoteSummaryProps = {
@@ -48,22 +49,26 @@ function toEditorMaterial(
   projectMaterial: ProjectMaterial,
   fallbackMaterialName: string,
 ): QuoteMaterialEditorMaterial {
+  const displayMaterial = getProjectMaterialDisplaySnapshot(
+    projectMaterial,
+    fallbackMaterialName,
+  );
   const editorMaterial: QuoteMaterialEditorMaterial = {
-    category: projectMaterial.material?.category ?? "other",
+    category: displayMaterial.category,
     id: projectMaterial.id,
-    materialId: projectMaterial.materialId,
-    name: projectMaterial.material?.name ?? fallbackMaterialName,
+    materialId: projectMaterial.materialId ?? "",
+    name: displayMaterial.name,
     quantity: projectMaterial.quantity,
     source: projectMaterial.source,
     totalPrice: projectMaterial.totalPrice,
-    unit: projectMaterial.material?.unit ?? "pcs",
+    unit: displayMaterial.unit,
     unitPrice: projectMaterial.unitPrice,
   };
 
-  if (projectMaterial.material?.code) {
+  if (displayMaterial.code) {
     return {
       ...editorMaterial,
-      code: projectMaterial.material.code,
+      code: displayMaterial.code,
     };
   }
 

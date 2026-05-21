@@ -8,6 +8,7 @@ import type {
 import { Prisma } from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/db/prisma";
+import { isGlobalCatalogMaterial } from "@/lib/materials/project-materials";
 import type { UpdateMaterialInput } from "@/lib/validations/material.schema";
 import type {
   Material,
@@ -16,7 +17,7 @@ import type {
 } from "@/types/quote";
 
 type DbProjectMaterialWithProjectAndMaterial = DbProjectMaterial & {
-  material: DbMaterial;
+  material: DbMaterial | null;
   project: Pick<DbProject, "clientName" | "id" | "name">;
 };
 
@@ -45,12 +46,17 @@ function mapProjectMaterialOverviewItem(
   return {
     id: projectMaterial.id,
     projectId: projectMaterial.projectId,
-    materialId: projectMaterial.materialId,
+    materialId: projectMaterial.materialId ?? undefined,
+    manualCategory: projectMaterial.manualCategory ?? undefined,
+    manualName: projectMaterial.manualName ?? undefined,
+    manualUnit: projectMaterial.manualUnit ?? undefined,
     quantity: projectMaterial.quantity.toString(),
     unitPrice: projectMaterial.unitPrice.toString(),
     totalPrice: projectMaterial.totalPrice.toString(),
     source: projectMaterial.source,
-    material: mapMaterial(projectMaterial.material),
+    material: projectMaterial.material
+      ? mapMaterial(projectMaterial.material)
+      : undefined,
     project: {
       id: projectMaterial.project.id,
       name: projectMaterial.project.name,
@@ -88,6 +94,11 @@ export function summarizeProjectMaterials(
 
 export async function getMaterialCatalog(): Promise<Material[]> {
   const materials = await prisma.material.findMany({
+    where: {
+      code: {
+        not: null,
+      },
+    },
     orderBy: [
       {
         category: "asc",
@@ -98,7 +109,7 @@ export async function getMaterialCatalog(): Promise<Material[]> {
     ],
   });
 
-  return materials.map(mapMaterial);
+  return materials.filter(isGlobalCatalogMaterial).map(mapMaterial);
 }
 
 export async function getUserProjectMaterials(
@@ -123,6 +134,12 @@ export async function getUserProjectMaterials(
     orderBy: [
       {
         updatedAt: "desc",
+      },
+      {
+        manualCategory: "asc",
+      },
+      {
+        manualName: "asc",
       },
       {
         material: {

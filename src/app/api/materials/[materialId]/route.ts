@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiAdmin } from "@/lib/auth/guards";
 import {
   materialIdSchema,
   updateMaterialSchema,
@@ -14,7 +14,7 @@ type MaterialRouteContext = {
 };
 
 export async function PUT(request: Request, context: MaterialRouteContext) {
-  const auth = await requireApiUser();
+  const auth = await requireApiAdmin();
 
   if (!auth.ok) {
     return auth.response;

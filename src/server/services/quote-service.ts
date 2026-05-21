@@ -8,6 +8,10 @@ import { Prisma } from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/db/prisma";
 import {
+  getManualProjectMaterialSnapshot,
+  resolveGeneratedProjectMaterialUnitPrice,
+} from "@/lib/materials/project-materials";
+import {
   aggregateProjectPoints,
   calculateMaterialTotals,
   generateProjectMaterials,
@@ -20,8 +24,8 @@ import {
 } from "@/lib/rules/room-rules";
 import type { UpdateProjectMaterialsInput } from "@/lib/validations/quote.schema";
 import {
-  canUseFeature,
-  incrementUsage,
+  consumeUsageOrThrow,
+  UsageLimitExceededError,
 } from "@/server/services/billing-service";
 import {
   DEFAULT_CURRENCY,
@@ -29,7 +33,6 @@ import {
   getUserLaborFactor,
 } from "@/server/services/settings-service";
 import { getQuoteWorkspaceMaterialState } from "@/server/services/quote-workspace-state";
-import { shouldCountQuoteCreation } from "@/server/services/usage-limit-policy";
 import type {
   Material,
   ProjectMaterial,
@@ -40,7 +43,7 @@ import type {
 } from "@/types/quote";
 
 type DbProjectMaterialWithMaterial = DbProjectMaterial & {
-  material: DbMaterial;
+  material: DbMaterial | null;
 };
 
 type DbQuoteWithProject = DbQuote & {
@@ -89,8 +92,23 @@ type ProjectMaterialUpdateResult =
 type ProjectMaterialReadClient = Pick<typeof prisma, "projectMaterial">;
 type QuoteWriteClient = Pick<
   typeof prisma,
-  "project" | "projectMaterial" | "quote"
+  | "$queryRaw"
+  | "project"
+  | "projectMaterial"
+  | "quote"
+  | "subscription"
+  | "usageCounter"
 >;
+
+type LockedQuoteProject = {
+  areaM2: number;
+  id: string;
+};
+
+type LockedQuoteProjectRow = {
+  areaM2: number;
+  id: string;
+};
 
 function mapQuote(quote: DbQuote): Quote {
   return {
@@ -137,12 +155,17 @@ function mapProjectMaterial(
   return {
     id: projectMaterial.id,
     projectId: projectMaterial.projectId,
-    materialId: projectMaterial.materialId,
+    materialId: projectMaterial.materialId ?? undefined,
+    manualCategory: projectMaterial.manualCategory ?? undefined,
+    manualName: projectMaterial.manualName ?? undefined,
+    manualUnit: projectMaterial.manualUnit ?? undefined,
     quantity: projectMaterial.quantity.toString(),
     unitPrice: projectMaterial.unitPrice.toString(),
     totalPrice: projectMaterial.totalPrice.toString(),
     source: projectMaterial.source,
-    material: mapMaterial(projectMaterial.material),
+    material: projectMaterial.material
+      ? mapMaterial(projectMaterial.material)
+      : undefined,
     createdAt: projectMaterial.createdAt,
     updatedAt: projectMaterial.updatedAt,
   };
@@ -176,6 +199,36 @@ function calculateLineTotal(quantity: number, unitPrice: number): Prisma.Decimal
 
 function hasDuplicateIds(ids: string[]): boolean {
   return new Set(ids).size !== ids.length;
+}
+
+function isQuoteLimitExceededError(error: unknown): boolean {
+  return (
+    error instanceof UsageLimitExceededError &&
+    error.type === "quotes_created"
+  );
+}
+
+async function findAndLockProjectForQuote(
+  db: QuoteWriteClient,
+  projectId: string,
+  userId: string,
+): Promise<LockedQuoteProject | null> {
+  const rows = await db.$queryRaw<LockedQuoteProjectRow[]>`
+    SELECT id, "areaM2"
+    FROM "Project"
+    WHERE id = ${projectId} AND "userId" = ${userId}
+    FOR UPDATE
+  `;
+  const project = rows[0];
+
+  if (!project) {
+    return null;
+  }
+
+  return {
+    areaM2: project.areaM2,
+    id: project.id,
+  };
 }
 
 function getResolvedRoomPoints(
@@ -298,6 +351,12 @@ async function getProjectMaterials(
     },
     orderBy: [
       {
+        manualCategory: "asc",
+      },
+      {
+        manualName: "asc",
+      },
+      {
         material: {
           category: "asc",
         },
@@ -316,6 +375,9 @@ async function recalculateQuoteFromPersistedMaterials(
   areaM2: number,
   laborFactor: number | string | Prisma.Decimal,
   db: QuoteWriteClient = prisma,
+  options: {
+    consumeFirstQuoteForUserId?: string;
+  } = {},
 ): Promise<DbQuote> {
   const persistedMaterials = await db.projectMaterial.findMany({
     where: {
@@ -329,25 +391,42 @@ async function recalculateQuoteFromPersistedMaterials(
   const laborCost = calculateLaborCost(areaM2, laborFactor);
   const subtotal = materialCost.add(laborCost);
   const total = subtotal;
-
-  const quote = await db.quote.upsert({
+  const currentQuote = await db.quote.findUnique({
+    select: {
+      id: true,
+    },
     where: {
       projectId,
     },
-    update: {
-      laborCost,
-      materialCost,
-      subtotal,
-      total,
-    },
-    create: {
-      laborCost,
-      materialCost,
-      projectId,
-      subtotal,
-      total,
-    },
   });
+
+  if (!currentQuote && options.consumeFirstQuoteForUserId) {
+    await consumeUsageOrThrow(
+      db,
+      options.consumeFirstQuoteForUserId,
+      "quotes_created",
+    );
+  }
+
+  const quoteData = {
+    laborCost,
+    materialCost,
+    subtotal,
+    total,
+  };
+  const quote = currentQuote
+    ? await db.quote.update({
+        data: quoteData,
+        where: {
+          projectId,
+        },
+      })
+    : await db.quote.create({
+        data: {
+          ...quoteData,
+          projectId,
+        },
+      });
 
   await db.project.update({
     where: {
@@ -477,7 +556,9 @@ export async function generateProjectMaterialList(
     },
   });
   const existingMaterialByMaterialId = new Map(
-    existingMaterials.map((material) => [material.materialId, material]),
+    existingMaterials.flatMap((material) =>
+      material.materialId ? [[material.materialId, material] as const] : [],
+    ),
   );
   const pricedLines = calculateMaterialTotals(
     ruleLines.map((line) => {
@@ -490,10 +571,12 @@ export async function generateProjectMaterialList(
       const existingProjectMaterial = existingMaterialByMaterialId.get(
         material.id,
       );
-      const unitPrice =
-        existingProjectMaterial?.source === "manual"
+      const unitPrice = resolveGeneratedProjectMaterialUnitPrice({
+        catalogDefaultPrice: Number(material.defaultPrice),
+        existingUnitPrice: existingProjectMaterial
           ? Number(existingProjectMaterial.unitPrice)
-          : Number(material.defaultPrice);
+          : undefined,
+      });
 
       return {
         ...line,
@@ -570,13 +653,7 @@ export async function generateQuote(
       userId,
     },
     select: {
-      areaM2: true,
       id: true,
-      quote: {
-        select: {
-          id: true,
-        },
-      },
     },
   });
 
@@ -587,19 +664,6 @@ export async function generateQuote(
     };
   }
 
-  const shouldCountQuote = shouldCountQuoteCreation(project.quote?.id ?? null);
-
-  if (shouldCountQuote) {
-    const access = await canUseFeature(userId, "quotes");
-
-    if (!access.allowed) {
-      return {
-        ok: false,
-        reason: "quote_limit_reached",
-      };
-    }
-  }
-
   const materialResult = await generateProjectMaterialList(project.id, userId);
 
   if (!materialResult.ok) {
@@ -607,28 +671,49 @@ export async function generateQuote(
   }
 
   const laborFactor = await getUserLaborFactor(userId);
-  const quote = await prisma.$transaction(async (transaction) => {
-    const currentQuote = await transaction.quote.findUnique({
-      where: {
-        projectId: project.id,
-      },
-      select: {
-        id: true,
-      },
+  const quote = await prisma
+    .$transaction(async (transaction) => {
+      const lockedProject = await findAndLockProjectForQuote(
+        transaction,
+        project.id,
+        userId,
+      );
+
+      if (!lockedProject) {
+        return null;
+      }
+
+      return recalculateQuoteFromPersistedMaterials(
+        lockedProject.id,
+        lockedProject.areaM2,
+        laborFactor,
+        transaction,
+        {
+          consumeFirstQuoteForUserId: userId,
+        },
+      );
+    })
+    .catch((error: unknown) => {
+      if (isQuoteLimitExceededError(error)) {
+        return "quote_limit_reached" as const;
+      }
+
+      throw error;
     });
-    const nextQuote = await recalculateQuoteFromPersistedMaterials(
-      project.id,
-      project.areaM2,
-      laborFactor,
-      transaction,
-    );
 
-    if (shouldCountQuoteCreation(currentQuote?.id ?? null)) {
-      await incrementUsage(userId, "quotes_created", transaction);
-    }
+  if (quote === "quote_limit_reached") {
+    return {
+      ok: false,
+      reason: "quote_limit_reached",
+    };
+  }
 
-    return nextQuote;
-  });
+  if (!quote) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
 
   return {
     ok: true,
@@ -647,13 +732,7 @@ export async function getQuoteWorkspace(
       userId,
     },
     select: {
-      areaM2: true,
       id: true,
-      quote: {
-        select: {
-          id: true,
-        },
-      },
       status: true,
       _count: {
         select: {
@@ -688,42 +767,51 @@ export async function getQuoteWorkspace(
     return generateQuote(project.id, userId);
   }
 
-  const shouldCountQuote = shouldCountQuoteCreation(project.quote?.id ?? null);
+  const laborFactor = await getUserLaborFactor(userId);
+  const quote = await prisma
+    .$transaction(async (transaction) => {
+      const lockedProject = await findAndLockProjectForQuote(
+        transaction,
+        project.id,
+        userId,
+      );
 
-  if (shouldCountQuote) {
-    const access = await canUseFeature(userId, "quotes");
+      if (!lockedProject) {
+        return null;
+      }
 
-    if (!access.allowed) {
-      return {
-        ok: false,
-        reason: "quote_limit_reached",
-      };
-    }
+      return recalculateQuoteFromPersistedMaterials(
+        lockedProject.id,
+        lockedProject.areaM2,
+        laborFactor,
+        transaction,
+        {
+          consumeFirstQuoteForUserId: userId,
+        },
+      );
+    })
+    .catch((error: unknown) => {
+      if (isQuoteLimitExceededError(error)) {
+        return "quote_limit_reached" as const;
+      }
+
+      throw error;
+    });
+
+  if (quote === "quote_limit_reached") {
+    return {
+      ok: false,
+      reason: "quote_limit_reached",
+    };
   }
 
-  const laborFactor = await getUserLaborFactor(userId);
-  const quote = await prisma.$transaction(async (transaction) => {
-    const currentQuote = await transaction.quote.findUnique({
-      where: {
-        projectId: project.id,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const nextQuote = await recalculateQuoteFromPersistedMaterials(
-      project.id,
-      project.areaM2,
-      laborFactor,
-      transaction,
-    );
+  if (!quote) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
 
-    if (shouldCountQuoteCreation(currentQuote?.id ?? null)) {
-      await incrementUsage(userId, "quotes_created", transaction);
-    }
-
-    return nextQuote;
-  });
   const materials = await getProjectMaterials(project.id);
 
   return {
@@ -738,161 +826,147 @@ export async function updateProjectMaterials(
   userId: string,
   input: UpdateProjectMaterialsInput,
 ): Promise<ProjectMaterialUpdateResult> {
-  return prisma.$transaction(async (transaction) => {
-    const project = await transaction.project.findFirst({
-      where: {
-        id: projectId,
+  return prisma
+    .$transaction(async (transaction): Promise<ProjectMaterialUpdateResult> => {
+      const project = await findAndLockProjectForQuote(
+        transaction,
+        projectId,
         userId,
-      },
-      select: {
-        areaM2: true,
-        id: true,
-        quote: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-
-    if (!project) {
-      return {
-        ok: false,
-        reason: "not_found",
-      };
-    }
-
-    const shouldCountQuote = shouldCountQuoteCreation(project.quote?.id ?? null);
-
-    if (shouldCountQuote) {
-      const access = await canUseFeature(userId, "quotes", transaction);
-
-      if (!access.allowed) {
-        return {
-          ok: false,
-          reason: "quote_limit_reached",
-        };
-      }
-    }
-
-    const existingMaterialIds = input.existingMaterials.map(
-      (material) => material.id,
-    );
-    const referencedMaterialIds = [
-      ...existingMaterialIds,
-      ...input.deletedMaterialIds,
-    ];
-
-    if (
-      hasDuplicateIds(existingMaterialIds) ||
-      hasDuplicateIds(input.deletedMaterialIds)
-    ) {
-      return {
-        ok: false,
-        reason: "invalid_material_reference",
-      };
-    }
-
-    if (referencedMaterialIds.length > 0) {
-      const referencedMaterials = await transaction.projectMaterial.findMany({
-        where: {
-          id: {
-            in: referencedMaterialIds,
-          },
-          projectId: project.id,
-        },
-        select: {
-          id: true,
-        },
-      });
-      const validMaterialIds = new Set(
-        referencedMaterials.map((material) => material.id),
       );
 
+      if (!project) {
+        return {
+          ok: false,
+          reason: "not_found",
+        };
+      }
+
+      const existingMaterialIds = input.existingMaterials.map(
+        (material) => material.id,
+      );
+      const referencedMaterialIds = [
+        ...existingMaterialIds,
+        ...input.deletedMaterialIds,
+      ];
+
       if (
-        referencedMaterialIds.some(
-          (materialId) => !validMaterialIds.has(materialId),
-        )
+        hasDuplicateIds(existingMaterialIds) ||
+        hasDuplicateIds(input.deletedMaterialIds)
       ) {
         return {
           ok: false,
           reason: "invalid_material_reference",
         };
       }
-    }
 
-    if (input.deletedMaterialIds.length > 0) {
-      await transaction.projectMaterial.deleteMany({
-        where: {
-          id: {
-            in: input.deletedMaterialIds,
+      if (referencedMaterialIds.length > 0) {
+        const referencedMaterials = await transaction.projectMaterial.findMany({
+          where: {
+            id: {
+              in: referencedMaterialIds,
+            },
+            projectId: project.id,
           },
-          projectId: project.id,
-        },
-      });
-    }
+          select: {
+            id: true,
+          },
+        });
+        const validMaterialIds = new Set(
+          referencedMaterials.map((material) => material.id),
+        );
 
-    const deletedMaterialIds = new Set(input.deletedMaterialIds);
-
-    for (const material of input.existingMaterials) {
-      if (deletedMaterialIds.has(material.id)) {
-        continue;
+        if (
+          referencedMaterialIds.some(
+            (materialId) => !validMaterialIds.has(materialId),
+          )
+        ) {
+          return {
+            ok: false,
+            reason: "invalid_material_reference",
+          };
+        }
       }
 
-      await transaction.projectMaterial.update({
-        where: {
-          id: material.id,
+      if (input.deletedMaterialIds.length > 0) {
+        await transaction.projectMaterial.deleteMany({
+          where: {
+            id: {
+              in: input.deletedMaterialIds,
+            },
+            projectId: project.id,
+          },
+        });
+      }
+
+      const deletedMaterialIds = new Set(input.deletedMaterialIds);
+
+      for (const material of input.existingMaterials) {
+        if (deletedMaterialIds.has(material.id)) {
+          continue;
+        }
+
+        await transaction.projectMaterial.update({
+          where: {
+            id: material.id,
+          },
+          data: {
+            quantity: toMoneyDecimal(material.quantity),
+            totalPrice: calculateLineTotal(
+              material.quantity,
+              material.unitPrice,
+            ),
+            unitPrice: toMoneyDecimal(material.unitPrice),
+          },
+        });
+      }
+
+      for (const material of input.manualMaterials) {
+        const manualSnapshot = getManualProjectMaterialSnapshot(material);
+
+        await transaction.projectMaterial.create({
+          data: {
+            ...manualSnapshot,
+            projectId: project.id,
+            quantity: toMoneyDecimal(material.quantity),
+            source: "manual",
+            totalPrice: calculateLineTotal(
+              material.quantity,
+              material.unitPrice,
+            ),
+            unitPrice: toMoneyDecimal(material.unitPrice),
+          },
+        });
+      }
+
+      const laborFactor = await getUserLaborFactor(userId, transaction);
+      const quote = await recalculateQuoteFromPersistedMaterials(
+        project.id,
+        project.areaM2,
+        laborFactor,
+        transaction,
+        {
+          consumeFirstQuoteForUserId: userId,
         },
-        data: {
-          quantity: toMoneyDecimal(material.quantity),
-          totalPrice: calculateLineTotal(material.quantity, material.unitPrice),
-          unitPrice: toMoneyDecimal(material.unitPrice),
-        },
-      });
-    }
+      );
 
-    for (const material of input.manualMaterials) {
-      const catalogMaterial = await transaction.material.create({
-        data: {
-          category: material.category,
-          defaultPrice: toMoneyDecimal(material.unitPrice),
-          name: material.name,
-          unit: material.unit,
-        },
-      });
+      const materials = await getProjectMaterials(project.id, transaction);
 
-      await transaction.projectMaterial.create({
-        data: {
-          materialId: catalogMaterial.id,
-          projectId: project.id,
-          quantity: toMoneyDecimal(material.quantity),
-          source: "manual",
-          totalPrice: calculateLineTotal(material.quantity, material.unitPrice),
-          unitPrice: toMoneyDecimal(material.unitPrice),
-        },
-      });
-    }
+      return {
+        ok: true,
+        materials: materials.map(mapProjectMaterial),
+        quote: mapQuote(quote),
+      };
+    })
+    .catch((error: unknown) => {
+      if (isQuoteLimitExceededError(error)) {
+        return {
+          ok: false as const,
+          reason: "quote_limit_reached" as const,
+        };
+      }
 
-    const laborFactor = await getUserLaborFactor(userId, transaction);
-    const quote = await recalculateQuoteFromPersistedMaterials(
-      project.id,
-      project.areaM2,
-      laborFactor,
-      transaction,
-    );
-
-    if (shouldCountQuote) {
-      await incrementUsage(userId, "quotes_created", transaction);
-    }
-
-    const materials = await getProjectMaterials(project.id, transaction);
-
-    return {
-      ok: true,
-      materials: materials.map(mapProjectMaterial),
-      quote: mapQuote(quote),
-    };
-  });
+      throw error;
+    });
 }
 
 export async function getQuoteExportData(
