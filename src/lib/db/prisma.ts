@@ -1,7 +1,8 @@
 // src/lib/db/prisma.ts
 import { PrismaClient } from "../../../generated/prisma/client";
 
-const PRISMA_CLIENT_SCHEMA_VERSION = "20260514112248_add_billing_foundation";
+const PRISMA_CLIENT_SCHEMA_VERSION =
+  "20260521120000_project_local_manual_materials";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
