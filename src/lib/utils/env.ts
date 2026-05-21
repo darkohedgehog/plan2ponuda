@@ -1,5 +1,10 @@
 import "server-only";
 
+import {
+  parseSmtpServerEnv,
+  type SmtpServerEnv,
+} from "@/lib/utils/smtp-env";
+
 export function requiredEnv(name: string): string {
   const value = process.env[name];
 
@@ -57,6 +62,10 @@ export function getStripeWebhookEnv() {
   return {
     stripeWebhookSecret: requiredEnv("STRIPE_WEBHOOK_SECRET"),
   };
+}
+
+export function getSmtpServerEnv(): SmtpServerEnv {
+  return parseSmtpServerEnv(process.env);
 }
 
 export function getSupabaseServerEnv() {

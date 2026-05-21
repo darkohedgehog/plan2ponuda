@@ -391,3 +391,17 @@ model UsageCounter {
   @@index([periodEnd])
   @@unique([userId, type, periodKey])
 }
+
+model RateLimitBucket {
+  id          String   @id @default(cuid())
+  key         String
+  scope       String
+  windowStart DateTime
+  count       Int      @default(0)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([key, scope, windowStart])
+  @@index([expiresAt])
+}

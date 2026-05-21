@@ -119,3 +119,8 @@ export type InvoiceTask = Prisma.InvoiceTaskModel
  * 
  */
 export type UsageCounter = Prisma.UsageCounterModel
+/**
+ * Model RateLimitBucket
+ *
+ */
+export type RateLimitBucket = Prisma.RateLimitBucketModel

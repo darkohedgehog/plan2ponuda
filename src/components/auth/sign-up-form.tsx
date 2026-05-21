@@ -62,6 +62,7 @@ export function SignUpForm() {
       const signUpErrorMessages = {
         email_already_exists: tValidation("emailAlreadyExists"),
         invalid_input: tValidation("invalidInput"),
+        rate_limited: tValidation("tooManyAttempts"),
         server_error: tValidation("unableCreateAccount"),
       } satisfies Record<SignUpErrorCode, string>;
       const message = "error" in payload

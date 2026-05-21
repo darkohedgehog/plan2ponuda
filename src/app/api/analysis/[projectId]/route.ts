@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 
 import { requireApiUser } from "@/lib/auth/guards";
 import {
-  AI_RATE_LIMIT,
-  checkRateLimit,
   createAiRateLimitKey,
   getRateLimitHeaders,
-} from "@/lib/ai/rate-limit";
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+} from "@/server/services/rate-limit-service";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import {
   analyzeProject,
@@ -46,6 +48,37 @@ export async function POST(_request: Request, context: AnalysisRouteContext) {
   }
 
   const params = parsedParams.data;
+  const rateLimit = await checkRateLimitOrThrow({
+    key: createAiRateLimitKey({
+      userId: auth.user.id,
+    }),
+    scope: RATE_LIMIT_SCOPES.aiAnalysis,
+    ...RATE_LIMIT_POLICIES.aiAnalysis,
+  }).catch((error: unknown) => {
+    if (error instanceof RateLimitExceededError) {
+      return error.status;
+    }
+
+    console.error("AI analysis rate limit failed", error);
+
+    return null;
+  });
+
+  if (!rateLimit) {
+    return NextResponse.json(createErrorResponse("server_error"), {
+      status: 500,
+    });
+  }
+
+  const rateLimitHeaders = getRateLimitHeaders(rateLimit);
+
+  if (!rateLimit.ok) {
+    return NextResponse.json(createErrorResponse("rate_limited"), {
+      headers: rateLimitHeaders,
+      status: 429,
+    });
+  }
+
   const preflight = await getAnalyzeProjectPreflight(
     params.projectId,
     auth.user.id,
@@ -53,27 +86,9 @@ export async function POST(_request: Request, context: AnalysisRouteContext) {
 
   if (!preflight.ok) {
     return NextResponse.json(createErrorResponse(preflight.reason), {
+      headers: rateLimitHeaders,
       status: getErrorStatus(preflight.reason),
     });
-  }
-
-  const rateLimit = checkRateLimit({
-    key: createAiRateLimitKey({
-      endpoint: "analysis",
-      userId: auth.user.id,
-    }),
-    ...AI_RATE_LIMIT,
-  });
-  const rateLimitHeaders = getRateLimitHeaders(rateLimit);
-
-  if (!rateLimit.ok) {
-    return NextResponse.json(
-      createErrorResponse("rate_limited"),
-      {
-        headers: rateLimitHeaders,
-        status: 429,
-      },
-    );
   }
 
   const analysis: AnalyzeProjectResult = await analyzeProject(

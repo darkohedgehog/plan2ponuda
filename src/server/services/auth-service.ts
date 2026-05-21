@@ -5,49 +5,26 @@ import { Prisma } from "../../../generated/prisma/client";
 import { normalizeEmail } from "@/lib/auth/email";
 import { hashPassword } from "@/lib/auth/password";
 import { prisma } from "@/lib/db/prisma";
+import { hasCompleteSmtpServerEnv } from "@/lib/utils/smtp-env";
 import type {
   ForgotPasswordInput,
   ResetPasswordInput,
   SignUpInput,
 } from "@/lib/validations/auth.schema";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createCompositeRateLimitKey,
+} from "@/server/services/rate-limit-service";
+import { sendPasswordResetEmail } from "@/server/services/mail-service";
 import type { SignUpResponse } from "@/types/auth";
 
-const FORGOT_PASSWORD_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-const FORGOT_PASSWORD_RATE_LIMIT_MAX_ATTEMPTS = 5;
 const PASSWORD_RESET_SUCCESS_MESSAGE =
   "If an account exists for this email, password reset instructions will be sent.";
 const PASSWORD_RESET_TOKEN_BYTES = 32;
 const PASSWORD_RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
-
-type ForgotPasswordRateLimitEntry = {
-  attempts: number;
-  resetAt: number;
-};
-
-const forgotPasswordRateLimits = new Map<string, ForgotPasswordRateLimitEntry>();
-
-function isForgotPasswordRateLimited(key: string): boolean {
-  const now = Date.now();
-  const existingEntry = forgotPasswordRateLimits.get(key);
-
-  if (!existingEntry || existingEntry.resetAt <= now) {
-    forgotPasswordRateLimits.set(key, {
-      attempts: 1,
-      resetAt: now + FORGOT_PASSWORD_RATE_LIMIT_WINDOW_MS,
-    });
-    return false;
-  }
-
-  if (existingEntry.attempts >= FORGOT_PASSWORD_RATE_LIMIT_MAX_ATTEMPTS) {
-    return true;
-  }
-
-  forgotPasswordRateLimits.set(key, {
-    ...existingEntry,
-    attempts: existingEntry.attempts + 1,
-  });
-  return false;
-}
 
 function createPasswordResetToken(): string {
   return randomBytes(PASSWORD_RESET_TOKEN_BYTES).toString("base64url");
@@ -133,14 +110,34 @@ export type RequestPasswordResetResult =
 
 export async function requestPasswordReset(
   input: ForgotPasswordInput,
-  rateLimitKey: string,
+  ipAddress: string,
   baseUrl?: string,
 ): Promise<RequestPasswordResetResult> {
   const email = normalizeEmail(input.email);
-  const normalizedRateLimitKey = rateLimitKey.trim() || "unknown";
-  const rateLimitBucket = `${normalizedRateLimitKey}:${email}`;
+  const rateLimitKey = createCompositeRateLimitKey([
+    {
+      kind: "email",
+      value: email,
+    },
+    {
+      kind: "ip",
+      value: ipAddress,
+    },
+  ]);
 
-  if (isForgotPasswordRateLimited(rateLimitBucket)) {
+  const rateLimit = await checkRateLimitOrThrow({
+    key: rateLimitKey,
+    scope: RATE_LIMIT_SCOPES.forgotPassword,
+    ...RATE_LIMIT_POLICIES.forgotPassword,
+  }).catch((error: unknown) => {
+    if (error instanceof RateLimitExceededError) {
+      return null;
+    }
+
+    throw error;
+  });
+
+  if (!rateLimit) {
     return {
       ok: false,
       reason: "rate_limited",
@@ -152,6 +149,7 @@ export async function requestPasswordReset(
       email,
     },
     select: {
+      email: true,
       id: true,
     },
   });
@@ -176,18 +174,37 @@ export async function requestPasswordReset(
     },
   });
 
-  if (process.env.NODE_ENV !== "production" && baseUrl) {
-    const devResetUrl = buildResetUrl(baseUrl, rawToken);
-    console.info("Development password reset URL", devResetUrl);
+  if (!baseUrl) {
+    console.error("Password reset email delivery skipped: missing app URL");
 
+    return result;
+  }
+
+  const devResetUrl = buildResetUrl(baseUrl, rawToken);
+
+  if (process.env.NODE_ENV !== "production") {
+    console.info("Development password reset URL", devResetUrl);
+  }
+
+  if (shouldSendPasswordResetEmail()) {
+    await sendPasswordResetEmail({
+      resetUrl: devResetUrl,
+      toEmail: user.email,
+    }).catch((error: unknown) => {
+      console.error(
+        "Password reset email delivery failed",
+        getSafeEmailErrorDetails(error),
+      );
+    });
+  }
+
+  if (process.env.NODE_ENV !== "production") {
     return {
       ...result,
       devResetUrl,
     };
   }
 
-  // TODO: Send a reset email containing the raw token URL when an email
-  // provider is configured. Never log or return reset URLs in production.
   return result;
 }
 
@@ -267,4 +284,23 @@ export async function resetPassword(
       ok: true,
     };
   });
+}
+
+function shouldSendPasswordResetEmail(): boolean {
+  return (
+    process.env.NODE_ENV === "production" ||
+    hasCompleteSmtpServerEnv(process.env)
+  );
+}
+
+function getSafeEmailErrorDetails(error: unknown): { name: string } {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+    };
+  }
+
+  return {
+    name: "UnknownError",
+  };
 }

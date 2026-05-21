@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { forgotPasswordSchema } from "@/lib/validations/auth.schema";
 import { requestPasswordReset } from "@/server/services/auth-service";
+import { getClientIpAddress } from "@/server/services/rate-limit-service";
 import type { ForgotPasswordResponse } from "@/types/auth";
 
 const safeSuccessMessage =
@@ -14,16 +15,6 @@ const invalidInputResponse: ForgotPasswordResponse = {
   },
   ok: false,
 };
-
-function getRateLimitKey(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0]?.trim() ?? "unknown";
-  }
-
-  return request.headers.get("x-real-ip") ?? "unknown";
-}
 
 function getBaseUrl(request: Request): string {
   return process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin;
@@ -39,7 +30,7 @@ export async function POST(request: Request) {
 
   const result = await requestPasswordReset(
     parsedInput.data,
-    getRateLimitKey(request),
+    getClientIpAddress(request),
     getBaseUrl(request),
   ).catch((error: unknown) => {
     console.error("Password reset request failed", error);
@@ -63,7 +54,7 @@ export async function POST(request: Request) {
     const response: ForgotPasswordResponse = {
       error: {
         code: "rate_limited",
-        message: "Too many reset requests. Try again later.",
+        message: "Too many requests. Please try again later.",
       },
       ok: false,
     };

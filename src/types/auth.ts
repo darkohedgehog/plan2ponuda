@@ -7,6 +7,7 @@ export type SignUpUser = {
 export type SignUpErrorCode =
   | "invalid_input"
   | "email_already_exists"
+  | "rate_limited"
   | "server_error";
 
 export type SignUpError = {
