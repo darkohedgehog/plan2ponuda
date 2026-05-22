@@ -9,6 +9,7 @@ import {
   isGlobalCatalogMaterial,
   resolveGeneratedProjectMaterialUnitPrice,
 } from "../src/lib/materials/project-materials.ts";
+import { updateProjectMaterialsSchema } from "../src/lib/validations/quote.schema.ts";
 
 test("global material default-price updates are admin-only at the API boundary", () => {
   const routeSource = readFileSync(
@@ -53,6 +54,32 @@ test("manual project materials remain displayable without a catalog relation", (
     category: "other",
     name: "Project-only cable",
     unit: "m",
+  });
+});
+
+test("existing manual project material edits keep project-local identity fields", () => {
+  const parsed = updateProjectMaterialsSchema.parse({
+    deletedMaterialIds: [],
+    existingMaterials: [
+      {
+        category: "panel",
+        id: "project_material_1",
+        name: "Custom project panel",
+        quantity: 2,
+        unit: "set",
+        unitPrice: 45,
+      },
+    ],
+    manualMaterials: [],
+  });
+
+  assert.deepEqual(parsed.existingMaterials[0], {
+    category: "panel",
+    id: "project_material_1",
+    name: "Custom project panel",
+    quantity: 2,
+    unit: "set",
+    unitPrice: 45,
   });
 });
 

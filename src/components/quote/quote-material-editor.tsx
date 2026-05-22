@@ -125,6 +125,13 @@ function createManualMaterial(): DraftMaterial {
   };
 }
 
+function canEditMaterialIdentity(material: DraftMaterial): boolean {
+  return (
+    material.isNew ||
+    (material.source === "manual" && !material.materialId)
+  );
+}
+
 function parseDecimal(value: string): number | null {
   const parsedValue = Number(value);
 
@@ -240,11 +247,24 @@ export function QuoteMaterialEditor({
         deletedMaterialIds,
         existingMaterials: materials
           .filter((material) => !material.isNew)
-          .map((material) => ({
-            id: material.id,
-            quantity: parseDecimal(material.quantity) ?? 0,
-            unitPrice: parseDecimal(material.unitPrice) ?? 0,
-          })),
+          .map((material) => {
+            const baseMaterial = {
+              id: material.id,
+              quantity: parseDecimal(material.quantity) ?? 0,
+              unitPrice: parseDecimal(material.unitPrice) ?? 0,
+            };
+
+            if (!canEditMaterialIdentity(material)) {
+              return baseMaterial;
+            }
+
+            return {
+              ...baseMaterial,
+              category: material.category,
+              name: material.name.trim(),
+              unit: material.unit,
+            };
+          }),
         manualMaterials: materials
           .filter((material) => material.isNew)
           .map((material) => ({
@@ -409,6 +429,7 @@ function MaterialEditorRow({
   const tMaterials = useTranslations("Materials");
   const tUnits = useTranslations("MaterialUnits");
   const total = calculateTotal(material);
+  const canEditIdentity = canEditMaterialIdentity(material);
   const displayName = getLocalizedMaterialName(material, (key) =>
     tCatalogItems(key),
   );
@@ -433,7 +454,7 @@ function MaterialEditorRow({
         className="sm:col-span-2 lg:col-span-1 2xl:col-span-1"
         label={tMaterials("fields.materialName")}
       >
-        {material.isNew ? (
+        {canEditIdentity ? (
           <TextInput
             ariaLabel={tMaterials("fields.materialName")}
             onChange={(event) => onUpdate({ name: event.target.value })}
@@ -455,7 +476,7 @@ function MaterialEditorRow({
       </MaterialResponsiveField>
 
       <MaterialResponsiveField label={tCommon("category")}>
-        {material.isNew ? (
+        {canEditIdentity ? (
           <SelectInput
             ariaLabel={tCommon("category")}
             onChange={(event) =>
@@ -484,7 +505,7 @@ function MaterialEditorRow({
 
       <MaterialResponsiveField align="right" label={tCommon("quantity")}>
         <div className="flex min-w-0 items-center gap-2 sm:justify-end">
-          {material.isNew ? (
+          {canEditIdentity ? (
             <SelectInput
               ariaLabel={tCommon("unit")}
               compact

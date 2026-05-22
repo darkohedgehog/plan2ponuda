@@ -15,8 +15,11 @@ export const materialUnitSchema = z.enum(["pcs", "m", "set"]);
 const decimalInputSchema = z.number().finite().nonnegative().max(999999.99);
 
 export const updateExistingProjectMaterialSchema = z.object({
+  category: materialCategorySchema.optional(),
   id: z.string().min(1),
+  name: z.string().trim().min(1).max(120).optional(),
   quantity: decimalInputSchema,
+  unit: materialUnitSchema.optional(),
   unitPrice: decimalInputSchema,
 });
 

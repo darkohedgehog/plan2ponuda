@@ -848,6 +848,13 @@ export async function updateProjectMaterials(
         ...existingMaterialIds,
         ...input.deletedMaterialIds,
       ];
+      let existingProjectMaterialById = new Map<
+        string,
+        {
+          materialId: string | null;
+          source: string;
+        }
+      >();
 
       if (
         hasDuplicateIds(existingMaterialIds) ||
@@ -869,8 +876,19 @@ export async function updateProjectMaterials(
           },
           select: {
             id: true,
+            materialId: true,
+            source: true,
           },
         });
+        existingProjectMaterialById = new Map(
+          referencedMaterials.map((material) => [
+            material.id,
+            {
+              materialId: material.materialId,
+              source: material.source,
+            },
+          ]),
+        );
         const validMaterialIds = new Set(
           referencedMaterials.map((material) => material.id),
         );
@@ -905,18 +923,40 @@ export async function updateProjectMaterials(
           continue;
         }
 
+        const existingProjectMaterial = existingProjectMaterialById.get(
+          material.id,
+        );
+        const updateData: Prisma.ProjectMaterialUpdateInput = {
+          quantity: toMoneyDecimal(material.quantity),
+          totalPrice: calculateLineTotal(
+            material.quantity,
+            material.unitPrice,
+          ),
+          unitPrice: toMoneyDecimal(material.unitPrice),
+        };
+
+        if (
+          existingProjectMaterial?.materialId === null &&
+          existingProjectMaterial.source === "manual" &&
+          material.category &&
+          material.name &&
+          material.unit
+        ) {
+          Object.assign(
+            updateData,
+            getManualProjectMaterialSnapshot({
+              category: material.category,
+              name: material.name,
+              unit: material.unit,
+            }),
+          );
+        }
+
         await transaction.projectMaterial.update({
           where: {
             id: material.id,
           },
-          data: {
-            quantity: toMoneyDecimal(material.quantity),
-            totalPrice: calculateLineTotal(
-              material.quantity,
-              material.unitPrice,
-            ),
-            unitPrice: toMoneyDecimal(material.unitPrice),
-          },
+          data: updateData,
         });
       }
 
