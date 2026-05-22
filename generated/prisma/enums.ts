@@ -134,3 +134,24 @@ export const UsageCounterType = {
 } as const
 
 export type UsageCounterType = (typeof UsageCounterType)[keyof typeof UsageCounterType]
+
+
+export const ProjectDocumentStatus = {
+  uploaded: 'uploaded',
+  analysis_pending: 'analysis_pending',
+  analyzing: 'analyzing',
+  analyzed: 'analyzed',
+  failed: 'failed'
+} as const
+
+export type ProjectDocumentStatus = (typeof ProjectDocumentStatus)[keyof typeof ProjectDocumentStatus]
+
+
+export const ProjectDocumentAnalysisStatus = {
+  pending: 'pending',
+  analyzing: 'analyzing',
+  completed: 'completed',
+  failed: 'failed'
+} as const
+
+export type ProjectDocumentAnalysisStatus = (typeof ProjectDocumentAnalysisStatus)[keyof typeof ProjectDocumentAnalysisStatus]

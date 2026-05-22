@@ -14,9 +14,9 @@ test("locks project documentation analysis for free and basic plans", () => {
   });
 });
 
-test("unlocks project documentation analysis placeholder for pro plan", () => {
+test("allows project documentation uploads for pro plan", () => {
   assert.deepEqual(getProjectDocumentationAnalysisState("pro"), {
     isPro: true,
-    state: "coming_soon",
+    state: "available",
   });
 });

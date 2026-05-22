@@ -58,6 +58,8 @@ export const ModelName = {
   Material: 'Material',
   ProjectMaterial: 'ProjectMaterial',
   Analysis: 'Analysis',
+  ProjectDocument: 'ProjectDocument',
+  ProjectDocumentAnalysis: 'ProjectDocumentAnalysis',
   Quote: 'Quote',
   Subscription: 'Subscription',
   BillingProfile: 'BillingProfile',
@@ -220,6 +222,37 @@ export const AnalysisScalarFieldEnum = {
 } as const
 
 export type AnalysisScalarFieldEnum = (typeof AnalysisScalarFieldEnum)[keyof typeof AnalysisScalarFieldEnum]
+
+
+export const ProjectDocumentScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  filePath: 'filePath',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectDocumentScalarFieldEnum = (typeof ProjectDocumentScalarFieldEnum)[keyof typeof ProjectDocumentScalarFieldEnum]
+
+
+export const ProjectDocumentAnalysisScalarFieldEnum = {
+  id: 'id',
+  projectDocumentId: 'projectDocumentId',
+  provider: 'provider',
+  model: 'model',
+  status: 'status',
+  rawResponseJson: 'rawResponseJson',
+  parsedResponseJson: 'parsedResponseJson',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectDocumentAnalysisScalarFieldEnum = (typeof ProjectDocumentAnalysisScalarFieldEnum)[keyof typeof ProjectDocumentAnalysisScalarFieldEnum]
 
 
 export const QuoteScalarFieldEnum = {

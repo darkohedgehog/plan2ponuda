@@ -25,7 +25,7 @@ test("Prisma dev singleton schema version matches the latest migration", () => {
   assert.match(
     source,
     new RegExp(
-      `PRISMA_CLIENT_SCHEMA_VERSION\\s*=\\s*"${latestMigrationName}"`,
+      `PRISMA_CLIENT_SCHEMA_VERSION\\s*=\\s*\\n?\\s*"${latestMigrationName}"`,
     ),
   );
 });

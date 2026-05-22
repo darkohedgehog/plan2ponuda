@@ -399,6 +399,8 @@ export const ModelName = {
   Material: 'Material',
   ProjectMaterial: 'ProjectMaterial',
   Analysis: 'Analysis',
+  ProjectDocument: 'ProjectDocument',
+  ProjectDocumentAnalysis: 'ProjectDocumentAnalysis',
   Quote: 'Quote',
   Subscription: 'Subscription',
   BillingProfile: 'BillingProfile',
@@ -421,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "passwordResetToken" | "project" | "room" | "roomSuggestion" | "material" | "projectMaterial" | "analysis" | "quote" | "subscription" | "billingProfile" | "billingEvent" | "invoiceTask" | "usageCounter" | "rateLimitBucket"
+    modelProps: "user" | "userSettings" | "passwordResetToken" | "project" | "room" | "roomSuggestion" | "material" | "projectMaterial" | "analysis" | "projectDocument" | "projectDocumentAnalysis" | "quote" | "subscription" | "billingProfile" | "billingEvent" | "invoiceTask" | "usageCounter" | "rateLimitBucket"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1088,6 +1090,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AnalysisCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AnalysisCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProjectDocument: {
+      payload: Prisma.$ProjectDocumentPayload<ExtArgs>
+      fields: Prisma.ProjectDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>
+        }
+        update: {
+          args: Prisma.ProjectDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectDocument>
+        }
+        groupBy: {
+          args: Prisma.ProjectDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectDocumentCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProjectDocumentAnalysis: {
+      payload: Prisma.$ProjectDocumentAnalysisPayload<ExtArgs>
+      fields: Prisma.ProjectDocumentAnalysisFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectDocumentAnalysisFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectDocumentAnalysisFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectDocumentAnalysisFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectDocumentAnalysisFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectDocumentAnalysisFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectDocumentAnalysisCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectDocumentAnalysisCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectDocumentAnalysisCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectDocumentAnalysisDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>
+        }
+        update: {
+          args: Prisma.ProjectDocumentAnalysisUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectDocumentAnalysisDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectDocumentAnalysisUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectDocumentAnalysisUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectDocumentAnalysisUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDocumentAnalysisPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectDocumentAnalysisAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectDocumentAnalysis>
+        }
+        groupBy: {
+          args: Prisma.ProjectDocumentAnalysisGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectDocumentAnalysisGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectDocumentAnalysisCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectDocumentAnalysisCountAggregateOutputType> | number
         }
       }
     }
@@ -1787,6 +1937,37 @@ export const AnalysisScalarFieldEnum = {
 export type AnalysisScalarFieldEnum = (typeof AnalysisScalarFieldEnum)[keyof typeof AnalysisScalarFieldEnum]
 
 
+export const ProjectDocumentScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  filePath: 'filePath',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectDocumentScalarFieldEnum = (typeof ProjectDocumentScalarFieldEnum)[keyof typeof ProjectDocumentScalarFieldEnum]
+
+
+export const ProjectDocumentAnalysisScalarFieldEnum = {
+  id: 'id',
+  projectDocumentId: 'projectDocumentId',
+  provider: 'provider',
+  model: 'model',
+  status: 'status',
+  rawResponseJson: 'rawResponseJson',
+  parsedResponseJson: 'parsedResponseJson',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectDocumentAnalysisScalarFieldEnum = (typeof ProjectDocumentAnalysisScalarFieldEnum)[keyof typeof ProjectDocumentAnalysisScalarFieldEnum]
+
+
 export const QuoteScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
@@ -2155,6 +2336,34 @@ export type ListEnumAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
+ * Reference to a field of type 'ProjectDocumentStatus'
+ */
+export type EnumProjectDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectDocumentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectDocumentStatus[]'
+ */
+export type ListEnumProjectDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectDocumentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectDocumentAnalysisStatus'
+ */
+export type EnumProjectDocumentAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectDocumentAnalysisStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectDocumentAnalysisStatus[]'
+ */
+export type ListEnumProjectDocumentAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectDocumentAnalysisStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'BillingPlan'
  */
 export type EnumBillingPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingPlan'>
@@ -2326,6 +2535,8 @@ export type GlobalOmitConfig = {
   material?: Prisma.MaterialOmit
   projectMaterial?: Prisma.ProjectMaterialOmit
   analysis?: Prisma.AnalysisOmit
+  projectDocument?: Prisma.ProjectDocumentOmit
+  projectDocumentAnalysis?: Prisma.ProjectDocumentAnalysisOmit
   quote?: Prisma.QuoteOmit
   subscription?: Prisma.SubscriptionOmit
   billingProfile?: Prisma.BillingProfileOmit

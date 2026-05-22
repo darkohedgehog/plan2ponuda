@@ -63,6 +63,16 @@ export type ProjectMaterial = Prisma.ProjectMaterialModel
  */
 export type Analysis = Prisma.AnalysisModel
 /**
+ * Model ProjectDocument
+ * 
+ */
+export type ProjectDocument = Prisma.ProjectDocumentModel
+/**
+ * Model ProjectDocumentAnalysis
+ * 
+ */
+export type ProjectDocumentAnalysis = Prisma.ProjectDocumentAnalysisModel
+/**
  * Model Quote
  * 
  */
@@ -94,6 +104,6 @@ export type InvoiceTask = Prisma.InvoiceTaskModel
 export type UsageCounter = Prisma.UsageCounterModel
 /**
  * Model RateLimitBucket
- *
+ * 
  */
 export type RateLimitBucket = Prisma.RateLimitBucketModel

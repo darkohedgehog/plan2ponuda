@@ -170,6 +170,11 @@ export async function deleteProject(
       userId,
     },
     select: {
+      documents: {
+        select: {
+          filePath: true,
+        },
+      },
       id: true,
       previewPath: true,
       sourceFilePath: true,
@@ -184,6 +189,7 @@ export async function deleteProject(
   }
 
   const storagePaths = getProjectStoragePathsToDelete({
+    documentFilePaths: project.documents.map((document) => document.filePath),
     previewPath: project.previewPath,
     projectId: project.id,
     sourceFilePath: project.sourceFilePath,

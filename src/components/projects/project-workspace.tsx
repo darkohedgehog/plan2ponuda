@@ -6,10 +6,12 @@ import { ProjectDocumentationAnalysisCard } from "@/components/projects/project-
 import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { Link } from "@/i18n/navigation";
 import type { BillingPlan, UsageItem } from "@/types/billing";
+import type { ProjectDocument } from "@/types/project-document";
 import type { Project, ProjectStatus } from "@/types/project";
 
 type ProjectWorkspaceProps = {
   documentationAnalysisUsage: UsageItem;
+  documents: ProjectDocument[];
   effectivePlan: BillingPlan;
   project: ProjectWorkspaceProject;
 };
@@ -65,6 +67,7 @@ const workflowStateLabelKeys: Record<
 
 export function ProjectWorkspace({
   documentationAnalysisUsage,
+  documents,
   effectivePlan,
   project,
 }: ProjectWorkspaceProps) {
@@ -181,6 +184,8 @@ export function ProjectWorkspace({
 
       <ProjectDocumentationAnalysisCard
         currentPlan={effectivePlan}
+        documents={documents}
+        projectId={project.id}
         usage={documentationAnalysisUsage}
       />
 

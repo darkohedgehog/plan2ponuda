@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db/prisma";
 export const RATE_LIMIT_SCOPES = {
   aiAnalysis: "ai_analysis",
   forgotPassword: "forgot_password",
+  projectDocumentAnalysis: "project_document_analysis",
   signIn: "sign_in",
   signUp: "sign_up",
 } as const;
@@ -19,6 +20,10 @@ export const RATE_LIMIT_POLICIES = {
   forgotPassword: {
     limit: 3,
     windowSeconds: 15 * 60,
+  },
+  projectDocumentAnalysis: {
+    limit: 3,
+    windowSeconds: 60 * 60,
   },
   signIn: {
     limit: 10,

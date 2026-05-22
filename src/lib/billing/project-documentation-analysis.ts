@@ -2,7 +2,7 @@ import type { BillingPlan } from "@/types/billing";
 
 export type ProjectDocumentationAnalysisState = {
   isPro: boolean;
-  state: "coming_soon" | "locked";
+  state: "available" | "locked";
 };
 
 export function getProjectDocumentationAnalysisState(
@@ -12,6 +12,6 @@ export function getProjectDocumentationAnalysisState(
 
   return {
     isPro,
-    state: isPro ? "coming_soon" : "locked",
+    state: isPro ? "available" : "locked",
   };
 }

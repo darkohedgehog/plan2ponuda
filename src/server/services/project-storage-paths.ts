@@ -1,23 +1,62 @@
 type ProjectStoragePathInput = {
+  documentFilePaths?: string[];
   previewPath?: string | null;
   projectId: string;
   sourceFilePath?: string | null;
 };
 
 const MAX_DECODE_PASSES = 3;
+const SAFE_STORAGE_SEGMENT_PATTERN = /^[A-Za-z0-9_-]+$/;
 
 export function getExpectedProjectFilePrefix(projectId: string): string {
   return `projects/${projectId.trim()}/`;
 }
 
+function assertSafeStoragePathSegment(segment: string): string {
+  const normalizedSegment = segment.trim();
+
+  if (!SAFE_STORAGE_SEGMENT_PATTERN.test(normalizedSegment)) {
+    throw new Error("Invalid storage path segment.");
+  }
+
+  return normalizedSegment;
+}
+
+export function buildProjectDocumentStoragePath(
+  projectId: string,
+  documentId: string,
+): string {
+  const safeProjectId = assertSafeStoragePathSegment(projectId);
+  const safeDocumentId = assertSafeStoragePathSegment(documentId);
+
+  return assertProjectOwnedStoragePath(
+    safeProjectId,
+    `projects/${safeProjectId}/documents/${safeDocumentId}/source.pdf`,
+  );
+}
+
+export function getProjectDocumentStoragePathsToDelete(
+  projectId: string,
+  documentFilePaths: string[],
+): string[] {
+  return documentFilePaths.filter((filePath) =>
+    isProjectOwnedStoragePath(projectId, filePath),
+  );
+}
+
 export function getProjectStoragePathsToDelete({
+  documentFilePaths = [],
   previewPath,
   projectId,
   sourceFilePath,
 }: ProjectStoragePathInput): string[] {
   return Array.from(
     new Set(
-      [sourceFilePath, previewPath].filter((path): path is string =>
+      [
+        sourceFilePath,
+        previewPath,
+        ...getProjectDocumentStoragePathsToDelete(projectId, documentFilePaths),
+      ].filter((path): path is string =>
         isProjectOwnedStoragePath(projectId, path),
       ),
     ),

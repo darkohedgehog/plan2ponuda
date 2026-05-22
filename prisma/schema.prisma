@@ -102,6 +102,21 @@ enum UsageCounterType {
   large_pdf_analyses_used
 }
 
+enum ProjectDocumentStatus {
+  uploaded
+  analysis_pending
+  analyzing
+  analyzed
+  failed
+}
+
+enum ProjectDocumentAnalysisStatus {
+  pending
+  analyzing
+  completed
+  failed
+}
+
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
@@ -172,6 +187,7 @@ model Project {
   rooms          Room[]
   materials      ProjectMaterial[]
   analyses       Analysis[]
+  documents      ProjectDocument[]
   quote          Quote?
 
   @@index([userId, createdAt])
@@ -262,6 +278,44 @@ model Analysis {
   project            Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@index([projectId, createdAt])
+}
+
+model ProjectDocument {
+  id        String                @id @default(cuid())
+  projectId String
+  filePath  String
+  fileName  String
+  mimeType  String
+  sizeBytes Int
+  status    ProjectDocumentStatus @default(uploaded)
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+
+  project   Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  analyses  ProjectDocumentAnalysis[]
+
+  @@index([projectId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ProjectDocumentAnalysis {
+  id                 String                        @id @default(cuid())
+  projectDocumentId  String
+  provider           String
+  model              String?
+  status             ProjectDocumentAnalysisStatus @default(pending)
+  rawResponseJson    Json?
+  parsedResponseJson Json?
+  errorMessage       String?
+  createdAt          DateTime                      @default(now())
+  updatedAt          DateTime                      @updatedAt
+
+  document           ProjectDocument               @relation(fields: [projectDocumentId], references: [id], onDelete: Cascade)
+
+  @@index([projectDocumentId])
+  @@index([status])
+  @@index([createdAt])
 }
 
 model Quote {

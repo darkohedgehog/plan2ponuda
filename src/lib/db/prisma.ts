@@ -2,7 +2,7 @@
 import { PrismaClient } from "../../../generated/prisma/client";
 
 const PRISMA_CLIENT_SCHEMA_VERSION =
-  "20260521202738_add_rate_limit_buckets";
+  "20260522181109_add_project_document_analysis";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;

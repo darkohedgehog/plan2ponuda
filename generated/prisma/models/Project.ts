@@ -268,6 +268,7 @@ export type ProjectWhereInput = {
   rooms?: Prisma.RoomListRelationFilter
   materials?: Prisma.ProjectMaterialListRelationFilter
   analyses?: Prisma.AnalysisListRelationFilter
+  documents?: Prisma.ProjectDocumentListRelationFilter
   quote?: Prisma.XOR<Prisma.QuoteNullableScalarRelationFilter, Prisma.QuoteWhereInput> | null
 }
 
@@ -287,6 +288,7 @@ export type ProjectOrderByWithRelationInput = {
   rooms?: Prisma.RoomOrderByRelationAggregateInput
   materials?: Prisma.ProjectMaterialOrderByRelationAggregateInput
   analyses?: Prisma.AnalysisOrderByRelationAggregateInput
+  documents?: Prisma.ProjectDocumentOrderByRelationAggregateInput
   quote?: Prisma.QuoteOrderByWithRelationInput
 }
 
@@ -309,6 +311,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   rooms?: Prisma.RoomListRelationFilter
   materials?: Prisma.ProjectMaterialListRelationFilter
   analyses?: Prisma.AnalysisListRelationFilter
+  documents?: Prisma.ProjectDocumentListRelationFilter
   quote?: Prisma.XOR<Prisma.QuoteNullableScalarRelationFilter, Prisma.QuoteWhereInput> | null
 }, "id">
 
@@ -363,6 +366,7 @@ export type ProjectCreateInput = {
   rooms?: Prisma.RoomCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteCreateNestedOneWithoutProjectInput
 }
 
@@ -381,6 +385,7 @@ export type ProjectUncheckedCreateInput = {
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentUncheckedCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteUncheckedCreateNestedOneWithoutProjectInput
 }
 
@@ -399,6 +404,7 @@ export type ProjectUpdateInput = {
   rooms?: Prisma.RoomUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutProjectNestedInput
 }
 
@@ -417,6 +423,7 @@ export type ProjectUncheckedUpdateInput = {
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUncheckedUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUncheckedUpdateOneWithoutProjectNestedInput
 }
 
@@ -626,6 +633,20 @@ export type ProjectUpdateOneRequiredWithoutAnalysesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutAnalysesInput, Prisma.ProjectUpdateWithoutAnalysesInput>, Prisma.ProjectUncheckedUpdateWithoutAnalysesInput>
 }
 
+export type ProjectCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDocumentsInput, Prisma.ProjectUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneRequiredWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDocumentsInput, Prisma.ProjectUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.ProjectUpsertWithoutDocumentsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutDocumentsInput, Prisma.ProjectUpdateWithoutDocumentsInput>, Prisma.ProjectUncheckedUpdateWithoutDocumentsInput>
+}
+
 export type ProjectCreateNestedOneWithoutQuoteInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutQuoteInput, Prisma.ProjectUncheckedCreateWithoutQuoteInput>
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutQuoteInput
@@ -654,6 +675,7 @@ export type ProjectCreateWithoutUserInput = {
   rooms?: Prisma.RoomCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteCreateNestedOneWithoutProjectInput
 }
 
@@ -671,6 +693,7 @@ export type ProjectUncheckedCreateWithoutUserInput = {
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentUncheckedCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteUncheckedCreateNestedOneWithoutProjectInput
 }
 
@@ -731,6 +754,7 @@ export type ProjectCreateWithoutRoomsInput = {
   user: Prisma.UserCreateNestedOneWithoutProjectsInput
   materials?: Prisma.ProjectMaterialCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteCreateNestedOneWithoutProjectInput
 }
 
@@ -748,6 +772,7 @@ export type ProjectUncheckedCreateWithoutRoomsInput = {
   updatedAt?: Date | string
   materials?: Prisma.ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentUncheckedCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteUncheckedCreateNestedOneWithoutProjectInput
 }
 
@@ -781,6 +806,7 @@ export type ProjectUpdateWithoutRoomsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   materials?: Prisma.ProjectMaterialUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutProjectNestedInput
 }
 
@@ -798,6 +824,7 @@ export type ProjectUncheckedUpdateWithoutRoomsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   materials?: Prisma.ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUncheckedUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUncheckedUpdateOneWithoutProjectNestedInput
 }
 
@@ -815,6 +842,7 @@ export type ProjectCreateWithoutMaterialsInput = {
   user: Prisma.UserCreateNestedOneWithoutProjectsInput
   rooms?: Prisma.RoomCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteCreateNestedOneWithoutProjectInput
 }
 
@@ -832,6 +860,7 @@ export type ProjectUncheckedCreateWithoutMaterialsInput = {
   updatedAt?: Date | string
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentUncheckedCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteUncheckedCreateNestedOneWithoutProjectInput
 }
 
@@ -865,6 +894,7 @@ export type ProjectUpdateWithoutMaterialsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   rooms?: Prisma.RoomUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutProjectNestedInput
 }
 
@@ -882,6 +912,7 @@ export type ProjectUncheckedUpdateWithoutMaterialsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUncheckedUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUncheckedUpdateOneWithoutProjectNestedInput
 }
 
@@ -899,6 +930,7 @@ export type ProjectCreateWithoutAnalysesInput = {
   user: Prisma.UserCreateNestedOneWithoutProjectsInput
   rooms?: Prisma.RoomCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteCreateNestedOneWithoutProjectInput
 }
 
@@ -916,6 +948,7 @@ export type ProjectUncheckedCreateWithoutAnalysesInput = {
   updatedAt?: Date | string
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentUncheckedCreateNestedManyWithoutProjectInput
   quote?: Prisma.QuoteUncheckedCreateNestedOneWithoutProjectInput
 }
 
@@ -949,6 +982,7 @@ export type ProjectUpdateWithoutAnalysesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   rooms?: Prisma.RoomUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutProjectNestedInput
 }
 
@@ -966,6 +1000,95 @@ export type ProjectUncheckedUpdateWithoutAnalysesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUncheckedUpdateManyWithoutProjectNestedInput
+  quote?: Prisma.QuoteUncheckedUpdateOneWithoutProjectNestedInput
+}
+
+export type ProjectCreateWithoutDocumentsInput = {
+  id?: string
+  name: string
+  clientName?: string | null
+  objectType: $Enums.ObjectType
+  areaM2: number
+  status?: $Enums.ProjectStatus
+  sourceFilePath?: string | null
+  previewPath?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput
+  rooms?: Prisma.RoomCreateNestedManyWithoutProjectInput
+  materials?: Prisma.ProjectMaterialCreateNestedManyWithoutProjectInput
+  analyses?: Prisma.AnalysisCreateNestedManyWithoutProjectInput
+  quote?: Prisma.QuoteCreateNestedOneWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutDocumentsInput = {
+  id?: string
+  userId: string
+  name: string
+  clientName?: string | null
+  objectType: $Enums.ObjectType
+  areaM2: number
+  status?: $Enums.ProjectStatus
+  sourceFilePath?: string | null
+  previewPath?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutProjectInput
+  materials?: Prisma.ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+  analyses?: Prisma.AnalysisUncheckedCreateNestedManyWithoutProjectInput
+  quote?: Prisma.QuoteUncheckedCreateNestedOneWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutDocumentsInput, Prisma.ProjectUncheckedCreateWithoutDocumentsInput>
+}
+
+export type ProjectUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutDocumentsInput, Prisma.ProjectUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutDocumentsInput, Prisma.ProjectUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutDocumentsInput, Prisma.ProjectUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type ProjectUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objectType?: Prisma.EnumObjectTypeFieldUpdateOperationsInput | $Enums.ObjectType
+  areaM2?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  sourceFilePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
+  rooms?: Prisma.RoomUpdateManyWithoutProjectNestedInput
+  materials?: Prisma.ProjectMaterialUpdateManyWithoutProjectNestedInput
+  analyses?: Prisma.AnalysisUpdateManyWithoutProjectNestedInput
+  quote?: Prisma.QuoteUpdateOneWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objectType?: Prisma.EnumObjectTypeFieldUpdateOperationsInput | $Enums.ObjectType
+  areaM2?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  sourceFilePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rooms?: Prisma.RoomUncheckedUpdateManyWithoutProjectNestedInput
+  materials?: Prisma.ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+  analyses?: Prisma.AnalysisUncheckedUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUncheckedUpdateOneWithoutProjectNestedInput
 }
 
@@ -984,6 +1107,7 @@ export type ProjectCreateWithoutQuoteInput = {
   rooms?: Prisma.RoomCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutQuoteInput = {
@@ -1001,6 +1125,7 @@ export type ProjectUncheckedCreateWithoutQuoteInput = {
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutProjectInput
   materials?: Prisma.ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
   analyses?: Prisma.AnalysisUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.ProjectDocumentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutQuoteInput = {
@@ -1034,6 +1159,7 @@ export type ProjectUpdateWithoutQuoteInput = {
   rooms?: Prisma.RoomUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutQuoteInput = {
@@ -1051,6 +1177,7 @@ export type ProjectUncheckedUpdateWithoutQuoteInput = {
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyUserInput = {
@@ -1080,6 +1207,7 @@ export type ProjectUpdateWithoutUserInput = {
   rooms?: Prisma.RoomUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutProjectNestedInput
 }
 
@@ -1097,6 +1225,7 @@ export type ProjectUncheckedUpdateWithoutUserInput = {
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutProjectNestedInput
   materials?: Prisma.ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
   analyses?: Prisma.AnalysisUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.ProjectDocumentUncheckedUpdateManyWithoutProjectNestedInput
   quote?: Prisma.QuoteUncheckedUpdateOneWithoutProjectNestedInput
 }
 
@@ -1122,12 +1251,14 @@ export type ProjectCountOutputType = {
   rooms: number
   materials: number
   analyses: number
+  documents: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rooms?: boolean | ProjectCountOutputTypeCountRoomsArgs
   materials?: boolean | ProjectCountOutputTypeCountMaterialsArgs
   analyses?: boolean | ProjectCountOutputTypeCountAnalysesArgs
+  documents?: boolean | ProjectCountOutputTypeCountDocumentsArgs
 }
 
 /**
@@ -1161,6 +1292,13 @@ export type ProjectCountOutputTypeCountAnalysesArgs<ExtArgs extends runtime.Type
   where?: Prisma.AnalysisWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectDocumentWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1178,6 +1316,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   rooms?: boolean | Prisma.Project$roomsArgs<ExtArgs>
   materials?: boolean | Prisma.Project$materialsArgs<ExtArgs>
   analyses?: boolean | Prisma.Project$analysesArgs<ExtArgs>
+  documents?: boolean | Prisma.Project$documentsArgs<ExtArgs>
   quote?: boolean | Prisma.Project$quoteArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
@@ -1232,6 +1371,7 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   rooms?: boolean | Prisma.Project$roomsArgs<ExtArgs>
   materials?: boolean | Prisma.Project$materialsArgs<ExtArgs>
   analyses?: boolean | Prisma.Project$analysesArgs<ExtArgs>
+  documents?: boolean | Prisma.Project$documentsArgs<ExtArgs>
   quote?: boolean | Prisma.Project$quoteArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1249,6 +1389,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     rooms: Prisma.$RoomPayload<ExtArgs>[]
     materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
     analyses: Prisma.$AnalysisPayload<ExtArgs>[]
+    documents: Prisma.$ProjectDocumentPayload<ExtArgs>[]
     quote: Prisma.$QuotePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1661,6 +1802,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   rooms<T extends Prisma.Project$roomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   materials<T extends Prisma.Project$materialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   analyses<T extends Prisma.Project$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documents<T extends Prisma.Project$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   quote<T extends Prisma.Project$quoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$quoteArgs<ExtArgs>>): Prisma.Prisma__QuoteClient<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2167,6 +2309,30 @@ export type Project$analysesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.AnalysisScalarFieldEnum | Prisma.AnalysisScalarFieldEnum[]
+}
+
+/**
+ * Project.documents
+ */
+export type Project$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectDocument
+   */
+  select?: Prisma.ProjectDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectDocument
+   */
+  omit?: Prisma.ProjectDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectDocumentInclude<ExtArgs> | null
+  where?: Prisma.ProjectDocumentWhereInput
+  orderBy?: Prisma.ProjectDocumentOrderByWithRelationInput | Prisma.ProjectDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectDocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectDocumentScalarFieldEnum | Prisma.ProjectDocumentScalarFieldEnum[]
 }
 
 /**
