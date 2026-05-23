@@ -2,7 +2,7 @@
 import { PrismaClient } from "../../../generated/prisma/client";
 
 const PRISMA_CLIENT_SCHEMA_VERSION =
-  "20260522181109_add_project_document_analysis";
+  "20260523081705_add_document_candidate_import_tracking";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;

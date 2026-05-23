@@ -11,6 +11,13 @@ export type ProjectDocumentAnalysisStatus =
   | "completed"
   | "failed";
 
+export type ProjectDocumentCandidateType = "material" | "labor";
+
+export type ProjectDocumentCandidateStatus =
+  | "pending"
+  | "accepted"
+  | "rejected";
+
 export type ProjectDocumentDetectedSystem =
   | "power_distribution"
   | "lighting"
@@ -80,6 +87,29 @@ export type ProjectDocument = {
   updatedAt: Date;
 };
 
+export type ProjectDocumentCandidate = {
+  id: string;
+  projectDocumentAnalysisId: string;
+  type: ProjectDocumentCandidateType;
+  status: ProjectDocumentCandidateStatus;
+  name: string;
+  description: string | null;
+  category: string | null;
+  unit: string;
+  quantity: string | null;
+  unitPrice: string | null;
+  totalPrice: string | null;
+  sourceReference: string | null;
+  confidence: string | null;
+  notes: string | null;
+  sortOrder: number;
+  importedAt: Date | null;
+  importedProjectMaterialId: string | null;
+  importedLaborItemId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type ProjectDocumentErrorCode =
   | "ai_failed"
   | "already_analyzed"
@@ -90,8 +120,10 @@ export type ProjectDocumentErrorCode =
   | "invalid_file"
   | "invalid_input"
   | "invalid_storage_path"
+  | "no_accepted_materials"
   | "not_found"
   | "pro_plan_required"
+  | "quote_limit_reached"
   | "rate_limited"
   | "server_error"
   | "storage_download_failed"
@@ -139,6 +171,30 @@ export type AnalyzeProjectDocumentResponse =
       analysis: ProjectDocumentAnalysis;
       document: ProjectDocument;
       reusedExisting: boolean;
+    }
+  | {
+      ok: false;
+      error: ProjectDocumentError;
+    };
+
+export type ProjectDocumentCandidatesResponse =
+  | {
+      ok: true;
+      candidates: ProjectDocumentCandidate[];
+    }
+  | {
+      ok: false;
+      error: ProjectDocumentError;
+    };
+
+export type ImportProjectDocumentCandidatesResponse =
+  | {
+      ok: true;
+      importedMaterialsCount: number;
+      importedLaborCount: number;
+      laborSkippedCount: number;
+      skippedCount: number;
+      quoteId: string;
     }
   | {
       ok: false;

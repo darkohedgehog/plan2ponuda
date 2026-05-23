@@ -215,6 +215,7 @@ export type ProjectDocumentAnalysisWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ProjectDocumentAnalysis"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectDocumentAnalysis"> | Date | string
   document?: Prisma.XOR<Prisma.ProjectDocumentScalarRelationFilter, Prisma.ProjectDocumentWhereInput>
+  candidates?: Prisma.ProjectDocumentCandidateListRelationFilter
 }
 
 export type ProjectDocumentAnalysisOrderByWithRelationInput = {
@@ -229,6 +230,7 @@ export type ProjectDocumentAnalysisOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   document?: Prisma.ProjectDocumentOrderByWithRelationInput
+  candidates?: Prisma.ProjectDocumentCandidateOrderByRelationAggregateInput
 }
 
 export type ProjectDocumentAnalysisWhereUniqueInput = Prisma.AtLeast<{
@@ -246,6 +248,7 @@ export type ProjectDocumentAnalysisWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ProjectDocumentAnalysis"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectDocumentAnalysis"> | Date | string
   document?: Prisma.XOR<Prisma.ProjectDocumentScalarRelationFilter, Prisma.ProjectDocumentWhereInput>
+  candidates?: Prisma.ProjectDocumentCandidateListRelationFilter
 }, "id">
 
 export type ProjectDocumentAnalysisOrderByWithAggregationInput = {
@@ -291,6 +294,7 @@ export type ProjectDocumentAnalysisCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   document: Prisma.ProjectDocumentCreateNestedOneWithoutAnalysesInput
+  candidates?: Prisma.ProjectDocumentCandidateCreateNestedManyWithoutAnalysisInput
 }
 
 export type ProjectDocumentAnalysisUncheckedCreateInput = {
@@ -304,6 +308,7 @@ export type ProjectDocumentAnalysisUncheckedCreateInput = {
   errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  candidates?: Prisma.ProjectDocumentCandidateUncheckedCreateNestedManyWithoutAnalysisInput
 }
 
 export type ProjectDocumentAnalysisUpdateInput = {
@@ -317,6 +322,7 @@ export type ProjectDocumentAnalysisUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   document?: Prisma.ProjectDocumentUpdateOneRequiredWithoutAnalysesNestedInput
+  candidates?: Prisma.ProjectDocumentCandidateUpdateManyWithoutAnalysisNestedInput
 }
 
 export type ProjectDocumentAnalysisUncheckedUpdateInput = {
@@ -330,6 +336,7 @@ export type ProjectDocumentAnalysisUncheckedUpdateInput = {
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candidates?: Prisma.ProjectDocumentCandidateUncheckedUpdateManyWithoutAnalysisNestedInput
 }
 
 export type ProjectDocumentAnalysisCreateManyInput = {
@@ -415,6 +422,11 @@ export type ProjectDocumentAnalysisMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type ProjectDocumentAnalysisScalarRelationFilter = {
+  is?: Prisma.ProjectDocumentAnalysisWhereInput
+  isNot?: Prisma.ProjectDocumentAnalysisWhereInput
+}
+
 export type ProjectDocumentAnalysisCreateNestedManyWithoutDocumentInput = {
   create?: Prisma.XOR<Prisma.ProjectDocumentAnalysisCreateWithoutDocumentInput, Prisma.ProjectDocumentAnalysisUncheckedCreateWithoutDocumentInput> | Prisma.ProjectDocumentAnalysisCreateWithoutDocumentInput[] | Prisma.ProjectDocumentAnalysisUncheckedCreateWithoutDocumentInput[]
   connectOrCreate?: Prisma.ProjectDocumentAnalysisCreateOrConnectWithoutDocumentInput | Prisma.ProjectDocumentAnalysisCreateOrConnectWithoutDocumentInput[]
@@ -461,6 +473,20 @@ export type EnumProjectDocumentAnalysisStatusFieldUpdateOperationsInput = {
   set?: $Enums.ProjectDocumentAnalysisStatus
 }
 
+export type ProjectDocumentAnalysisCreateNestedOneWithoutCandidatesInput = {
+  create?: Prisma.XOR<Prisma.ProjectDocumentAnalysisCreateWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUncheckedCreateWithoutCandidatesInput>
+  connectOrCreate?: Prisma.ProjectDocumentAnalysisCreateOrConnectWithoutCandidatesInput
+  connect?: Prisma.ProjectDocumentAnalysisWhereUniqueInput
+}
+
+export type ProjectDocumentAnalysisUpdateOneRequiredWithoutCandidatesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectDocumentAnalysisCreateWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUncheckedCreateWithoutCandidatesInput>
+  connectOrCreate?: Prisma.ProjectDocumentAnalysisCreateOrConnectWithoutCandidatesInput
+  upsert?: Prisma.ProjectDocumentAnalysisUpsertWithoutCandidatesInput
+  connect?: Prisma.ProjectDocumentAnalysisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectDocumentAnalysisUpdateToOneWithWhereWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUpdateWithoutCandidatesInput>, Prisma.ProjectDocumentAnalysisUncheckedUpdateWithoutCandidatesInput>
+}
+
 export type ProjectDocumentAnalysisCreateWithoutDocumentInput = {
   id?: string
   provider: string
@@ -471,6 +497,7 @@ export type ProjectDocumentAnalysisCreateWithoutDocumentInput = {
   errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  candidates?: Prisma.ProjectDocumentCandidateCreateNestedManyWithoutAnalysisInput
 }
 
 export type ProjectDocumentAnalysisUncheckedCreateWithoutDocumentInput = {
@@ -483,6 +510,7 @@ export type ProjectDocumentAnalysisUncheckedCreateWithoutDocumentInput = {
   errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  candidates?: Prisma.ProjectDocumentCandidateUncheckedCreateNestedManyWithoutAnalysisInput
 }
 
 export type ProjectDocumentAnalysisCreateOrConnectWithoutDocumentInput = {
@@ -527,6 +555,74 @@ export type ProjectDocumentAnalysisScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"ProjectDocumentAnalysis"> | Date | string
 }
 
+export type ProjectDocumentAnalysisCreateWithoutCandidatesInput = {
+  id?: string
+  provider: string
+  model?: string | null
+  status?: $Enums.ProjectDocumentAnalysisStatus
+  rawResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  parsedResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  document: Prisma.ProjectDocumentCreateNestedOneWithoutAnalysesInput
+}
+
+export type ProjectDocumentAnalysisUncheckedCreateWithoutCandidatesInput = {
+  id?: string
+  projectDocumentId: string
+  provider: string
+  model?: string | null
+  status?: $Enums.ProjectDocumentAnalysisStatus
+  rawResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  parsedResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectDocumentAnalysisCreateOrConnectWithoutCandidatesInput = {
+  where: Prisma.ProjectDocumentAnalysisWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectDocumentAnalysisCreateWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUncheckedCreateWithoutCandidatesInput>
+}
+
+export type ProjectDocumentAnalysisUpsertWithoutCandidatesInput = {
+  update: Prisma.XOR<Prisma.ProjectDocumentAnalysisUpdateWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUncheckedUpdateWithoutCandidatesInput>
+  create: Prisma.XOR<Prisma.ProjectDocumentAnalysisCreateWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUncheckedCreateWithoutCandidatesInput>
+  where?: Prisma.ProjectDocumentAnalysisWhereInput
+}
+
+export type ProjectDocumentAnalysisUpdateToOneWithWhereWithoutCandidatesInput = {
+  where?: Prisma.ProjectDocumentAnalysisWhereInput
+  data: Prisma.XOR<Prisma.ProjectDocumentAnalysisUpdateWithoutCandidatesInput, Prisma.ProjectDocumentAnalysisUncheckedUpdateWithoutCandidatesInput>
+}
+
+export type ProjectDocumentAnalysisUpdateWithoutCandidatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumProjectDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.ProjectDocumentAnalysisStatus
+  rawResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  parsedResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  document?: Prisma.ProjectDocumentUpdateOneRequiredWithoutAnalysesNestedInput
+}
+
+export type ProjectDocumentAnalysisUncheckedUpdateWithoutCandidatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectDocumentId?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumProjectDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.ProjectDocumentAnalysisStatus
+  rawResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  parsedResponseJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ProjectDocumentAnalysisCreateManyDocumentInput = {
   id?: string
   provider: string
@@ -549,6 +645,7 @@ export type ProjectDocumentAnalysisUpdateWithoutDocumentInput = {
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candidates?: Prisma.ProjectDocumentCandidateUpdateManyWithoutAnalysisNestedInput
 }
 
 export type ProjectDocumentAnalysisUncheckedUpdateWithoutDocumentInput = {
@@ -561,6 +658,7 @@ export type ProjectDocumentAnalysisUncheckedUpdateWithoutDocumentInput = {
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candidates?: Prisma.ProjectDocumentCandidateUncheckedUpdateManyWithoutAnalysisNestedInput
 }
 
 export type ProjectDocumentAnalysisUncheckedUpdateManyWithoutDocumentInput = {
@@ -576,6 +674,35 @@ export type ProjectDocumentAnalysisUncheckedUpdateManyWithoutDocumentInput = {
 }
 
 
+/**
+ * Count Type ProjectDocumentAnalysisCountOutputType
+ */
+
+export type ProjectDocumentAnalysisCountOutputType = {
+  candidates: number
+}
+
+export type ProjectDocumentAnalysisCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  candidates?: boolean | ProjectDocumentAnalysisCountOutputTypeCountCandidatesArgs
+}
+
+/**
+ * ProjectDocumentAnalysisCountOutputType without action
+ */
+export type ProjectDocumentAnalysisCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectDocumentAnalysisCountOutputType
+   */
+  select?: Prisma.ProjectDocumentAnalysisCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProjectDocumentAnalysisCountOutputType without action
+ */
+export type ProjectDocumentAnalysisCountOutputTypeCountCandidatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectDocumentCandidateWhereInput
+}
+
 
 export type ProjectDocumentAnalysisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -589,6 +716,8 @@ export type ProjectDocumentAnalysisSelect<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   document?: boolean | Prisma.ProjectDocumentDefaultArgs<ExtArgs>
+  candidates?: boolean | Prisma.ProjectDocumentAnalysis$candidatesArgs<ExtArgs>
+  _count?: boolean | Prisma.ProjectDocumentAnalysisCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectDocumentAnalysis"]>
 
 export type ProjectDocumentAnalysisSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -635,6 +764,8 @@ export type ProjectDocumentAnalysisSelectScalar = {
 export type ProjectDocumentAnalysisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectDocumentId" | "provider" | "model" | "status" | "rawResponseJson" | "parsedResponseJson" | "errorMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["projectDocumentAnalysis"]>
 export type ProjectDocumentAnalysisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.ProjectDocumentDefaultArgs<ExtArgs>
+  candidates?: boolean | Prisma.ProjectDocumentAnalysis$candidatesArgs<ExtArgs>
+  _count?: boolean | Prisma.ProjectDocumentAnalysisCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectDocumentAnalysisIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.ProjectDocumentDefaultArgs<ExtArgs>
@@ -647,6 +778,7 @@ export type $ProjectDocumentAnalysisPayload<ExtArgs extends runtime.Types.Extens
   name: "ProjectDocumentAnalysis"
   objects: {
     document: Prisma.$ProjectDocumentPayload<ExtArgs>
+    candidates: Prisma.$ProjectDocumentCandidatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1054,6 +1186,7 @@ readonly fields: ProjectDocumentAnalysisFieldRefs;
 export interface Prisma__ProjectDocumentAnalysisClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   document<T extends Prisma.ProjectDocumentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDocumentDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectDocumentClient<runtime.Types.Result.GetResult<Prisma.$ProjectDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  candidates<T extends Prisma.ProjectDocumentAnalysis$candidatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDocumentAnalysis$candidatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectDocumentCandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1486,6 +1619,30 @@ export type ProjectDocumentAnalysisDeleteManyArgs<ExtArgs extends runtime.Types.
    * Limit how many ProjectDocumentAnalyses to delete.
    */
   limit?: number
+}
+
+/**
+ * ProjectDocumentAnalysis.candidates
+ */
+export type ProjectDocumentAnalysis$candidatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectDocumentCandidate
+   */
+  select?: Prisma.ProjectDocumentCandidateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectDocumentCandidate
+   */
+  omit?: Prisma.ProjectDocumentCandidateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectDocumentCandidateInclude<ExtArgs> | null
+  where?: Prisma.ProjectDocumentCandidateWhereInput
+  orderBy?: Prisma.ProjectDocumentCandidateOrderByWithRelationInput | Prisma.ProjectDocumentCandidateOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectDocumentCandidateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectDocumentCandidateScalarFieldEnum | Prisma.ProjectDocumentCandidateScalarFieldEnum[]
 }
 
 /**

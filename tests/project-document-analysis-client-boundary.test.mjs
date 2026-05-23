@@ -6,6 +6,7 @@ import test from "node:test";
 const clientComponentPaths = [
   "src/components/projects/project-document-upload-form.tsx",
   "src/components/projects/project-documentation-analysis-card.tsx",
+  "src/components/projects/project-document-candidate-review.tsx",
 ];
 
 test("project document client components do not import OpenAI or server AI modules", () => {

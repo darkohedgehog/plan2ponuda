@@ -208,7 +208,7 @@ function isQuoteLimitExceededError(error: unknown): boolean {
   );
 }
 
-async function findAndLockProjectForQuote(
+export async function findAndLockProjectForQuote(
   db: QuoteWriteClient,
   projectId: string,
   userId: string,
@@ -370,7 +370,7 @@ async function getProjectMaterials(
   });
 }
 
-async function recalculateQuoteFromPersistedMaterials(
+export async function recalculateQuoteFromPersistedMaterials(
   projectId: string,
   areaM2: number,
   laborFactor: number | string | Prisma.Decimal,

@@ -446,6 +446,8 @@ function MaterialEditorRow({
       ? tMaterials("sources.manual")
       : material.source === "rule"
         ? tMaterials("sources.rule")
+        : material.source === "document_ai"
+          ? tMaterials("sources.documentAi")
         : material.source;
 
   return (
@@ -688,6 +690,10 @@ function getSourceBadgeClassName(source: string): string {
 
   if (source === "rule") {
     return "border-emerald-200 bg-emerald-50 text-emerald-700";
+  }
+
+  if (source === "document_ai") {
+    return "border-bright-teal-blue-200 bg-bright-teal-blue-50 text-bright-teal-blue-800";
   }
 
   return "border-frosted-blue-200 bg-frosted-blue-50 text-deep-twilight-700";

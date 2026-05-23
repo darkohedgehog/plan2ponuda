@@ -155,3 +155,20 @@ export const ProjectDocumentAnalysisStatus = {
 } as const
 
 export type ProjectDocumentAnalysisStatus = (typeof ProjectDocumentAnalysisStatus)[keyof typeof ProjectDocumentAnalysisStatus]
+
+
+export const ProjectDocumentCandidateType = {
+  material: 'material',
+  labor: 'labor'
+} as const
+
+export type ProjectDocumentCandidateType = (typeof ProjectDocumentCandidateType)[keyof typeof ProjectDocumentCandidateType]
+
+
+export const ProjectDocumentCandidateStatus = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected'
+} as const
+
+export type ProjectDocumentCandidateStatus = (typeof ProjectDocumentCandidateStatus)[keyof typeof ProjectDocumentCandidateStatus]

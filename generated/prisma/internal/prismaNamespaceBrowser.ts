@@ -60,6 +60,7 @@ export const ModelName = {
   Analysis: 'Analysis',
   ProjectDocument: 'ProjectDocument',
   ProjectDocumentAnalysis: 'ProjectDocumentAnalysis',
+  ProjectDocumentCandidate: 'ProjectDocumentCandidate',
   Quote: 'Quote',
   Subscription: 'Subscription',
   BillingProfile: 'BillingProfile',
@@ -253,6 +254,33 @@ export const ProjectDocumentAnalysisScalarFieldEnum = {
 } as const
 
 export type ProjectDocumentAnalysisScalarFieldEnum = (typeof ProjectDocumentAnalysisScalarFieldEnum)[keyof typeof ProjectDocumentAnalysisScalarFieldEnum]
+
+
+export const ProjectDocumentCandidateScalarFieldEnum = {
+  id: 'id',
+  projectDocumentAnalysisId: 'projectDocumentAnalysisId',
+  type: 'type',
+  status: 'status',
+  name: 'name',
+  description: 'description',
+  category: 'category',
+  unit: 'unit',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  totalPrice: 'totalPrice',
+  sourceReference: 'sourceReference',
+  confidence: 'confidence',
+  notes: 'notes',
+  originalJson: 'originalJson',
+  sortOrder: 'sortOrder',
+  importedAt: 'importedAt',
+  importedProjectMaterialId: 'importedProjectMaterialId',
+  importedLaborItemId: 'importedLaborItemId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectDocumentCandidateScalarFieldEnum = (typeof ProjectDocumentCandidateScalarFieldEnum)[keyof typeof ProjectDocumentCandidateScalarFieldEnum]
 
 
 export const QuoteScalarFieldEnum = {

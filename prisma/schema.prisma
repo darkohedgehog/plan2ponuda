@@ -117,6 +117,17 @@ enum ProjectDocumentAnalysisStatus {
   failed
 }
 
+enum ProjectDocumentCandidateType {
+  material
+  labor
+}
+
+enum ProjectDocumentCandidateStatus {
+  pending
+  accepted
+  rejected
+}
+
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
@@ -312,10 +323,48 @@ model ProjectDocumentAnalysis {
   updatedAt          DateTime                      @updatedAt
 
   document           ProjectDocument               @relation(fields: [projectDocumentId], references: [id], onDelete: Cascade)
+  candidates         ProjectDocumentCandidate[]
 
   @@index([projectDocumentId])
   @@index([status])
   @@index([createdAt])
+}
+
+model ProjectDocumentCandidate {
+  id                        String                         @id @default(cuid())
+  projectDocumentAnalysisId String
+  type                      ProjectDocumentCandidateType
+  status                    ProjectDocumentCandidateStatus @default(pending)
+
+  name                      String
+  description               String?
+  category                  String?
+  unit                      String
+  quantity                  Decimal?
+  unitPrice                 Decimal?                       @db.Decimal(10, 2)
+  totalPrice                Decimal?                       @db.Decimal(10, 2)
+
+  sourceReference           String?
+  confidence                Decimal?                       @db.Decimal(4, 3)
+  notes                     String?
+
+  originalJson              Json?
+  sortOrder                 Int                            @default(0)
+  importedAt                DateTime?
+  importedProjectMaterialId String?
+  importedLaborItemId       String?
+
+  createdAt                 DateTime                       @default(now())
+  updatedAt                 DateTime                       @updatedAt
+
+  analysis                  ProjectDocumentAnalysis        @relation(fields: [projectDocumentAnalysisId], references: [id], onDelete: Cascade)
+
+  @@index([projectDocumentAnalysisId])
+  @@index([type])
+  @@index([status])
+  @@index([importedAt])
+  @@index([importedProjectMaterialId])
+  @@unique([projectDocumentAnalysisId, type, sortOrder])
 }
 
 model Quote {

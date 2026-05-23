@@ -18,6 +18,8 @@ import {
 } from "@/lib/validations/project-document.schema";
 import { projectDocumentAnalysisOutputSchema } from "@/lib/validations/project-document-analysis.schema";
 import * as billingService from "@/server/services/billing-service";
+import { buildProjectDocumentCandidateCreateInputs } from "@/server/services/project-document-candidate-builders";
+import { ensureCandidatesForAnalysis } from "@/server/services/project-document-candidate-service";
 import { assertProjectOwnedStoragePath } from "@/server/services/project-storage-paths";
 import type {
   AnalyzeProjectDocumentResponse,
@@ -146,6 +148,17 @@ async function persistSuccessfulProjectDocumentAnalysis(params: {
         id: params.analysisId,
       },
     });
+    const candidateCreateInputs = buildProjectDocumentCandidateCreateInputs(
+      analysis.id,
+      params.parsedResponse,
+    );
+
+    if (candidateCreateInputs.length > 0) {
+      await transaction.projectDocumentCandidate.createMany({
+        data: candidateCreateInputs,
+        skipDuplicates: true,
+      });
+    }
 
     const document = await transaction.projectDocument.update({
       data: {
@@ -236,6 +249,8 @@ export async function analyzeProjectDocument(
   if (completedAnalysis) {
     // already_analyzed: return the existing result without re-running AI or
     // consuming another large_pdf_analyses_used counter.
+    await ensureCandidatesForAnalysis(completedAnalysis.id);
+
     return {
       analysis: mapProjectDocumentAnalysis(completedAnalysis),
       document: mapProjectDocumentWithAnalysis(document),
@@ -284,6 +299,8 @@ export async function analyzeProjectDocument(
     );
 
     if (refreshedDocument && existingCompleted) {
+      await ensureCandidatesForAnalysis(existingCompleted.id);
+
       return {
         analysis: mapProjectDocumentAnalysis(existingCompleted),
         document: mapProjectDocumentWithAnalysis(refreshedDocument),

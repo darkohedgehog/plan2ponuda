@@ -16,6 +16,7 @@ import type {
   ProjectDocument,
   ProjectDocumentAnalysisResult,
 } from "@/types/project-document";
+import { ProjectDocumentCandidateReview } from "./project-document-candidate-review";
 import {
   ProjectDocumentAnalyzeButton,
   ProjectDocumentDeleteButton,
@@ -212,10 +213,19 @@ function ProjectDocumentListItem({
             {tDocs(`statuses.${document.status}`)}
           </span>
           {documentState.showSummary && analysis ? (
-            <ProjectDocumentAnalysisSummary
-              analysis={analysis}
-              locale={locale}
-            />
+            <>
+              <ProjectDocumentAnalysisSummary
+                analysis={analysis}
+                locale={locale}
+              />
+              {document.latestAnalysis ? (
+                <ProjectDocumentCandidateReview
+                  analysisId={document.latestAnalysis.id}
+                  documentId={document.id}
+                  projectId={projectId}
+                />
+              ) : null}
+            </>
           ) : documentState.state === "analyzed" ? (
             <p className="mt-3 text-sm text-deep-twilight-700">
               {tDocs("analysisCompleted")}
@@ -297,9 +307,6 @@ function ProjectDocumentAnalysisSummary({
           value={formatInteger(analysis.missingInformation.length, locale)}
         />
       </dl>
-      <p className="mt-3 text-sm font-medium text-bright-teal-blue-800">
-        {tDocs("reviewExtractedItemsComingSoon")}
-      </p>
     </div>
   );
 }
