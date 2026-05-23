@@ -958,6 +958,10 @@
     "description": "Pro-Nutzer können künftig vollständige Projekt-PDFs hochladen und Kandidaten für Material und Arbeit aus der Projektdokumentation extrahieren.",
     "documentMeta": "{size} MB - hochgeladen {date}",
     "documentUploaded": "Dokument hochgeladen.",
+    "fileInput": {
+      "chooseFile": "Datei auswählen",
+      "noFileSelected": "Keine Datei ausgewählt"
+    },
     "errors": {
       "analysisFailed": "Dokument konnte nicht analysiert werden.",
       "analysisInProgress": "Dokumentanalyse läuft bereits.",
@@ -1340,6 +1344,10 @@
       "emptyDescription": "Laden Sie eine PDF-, PNG-, JPG- oder JPEG-Datei bis 10 MB hoch, um den Analyseworkflow zu starten.",
       "title": "Grundriss",
       "uploadedFile": "Hochgeladene Datei"
+    },
+    "fileInput": {
+      "chooseFile": "Datei auswählen",
+      "noFileSelected": "Keine Datei ausgewählt"
     },
     "inputAriaLabel": "Grundrissdatei auswählen",
     "success": {

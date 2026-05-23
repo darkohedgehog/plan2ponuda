@@ -958,6 +958,10 @@
     "description": "Pro users will be able to upload complete project PDFs and extract material and labor candidates from project documentation.",
     "documentMeta": "{size} MB - uploaded {date}",
     "documentUploaded": "Document uploaded.",
+    "fileInput": {
+      "chooseFile": "Choose file",
+      "noFileSelected": "No file selected"
+    },
     "errors": {
       "analysisFailed": "Could not analyze document.",
       "analysisInProgress": "Document analysis is already in progress.",
@@ -1340,6 +1344,10 @@
       "emptyDescription": "Upload a PDF, PNG, JPG, or JPEG file up to 10MB to start the analysis workflow.",
       "title": "Floor plan",
       "uploadedFile": "Uploaded file"
+    },
+    "fileInput": {
+      "chooseFile": "Choose file",
+      "noFileSelected": "No file selected"
     },
     "inputAriaLabel": "Choose floor plan file",
     "success": {

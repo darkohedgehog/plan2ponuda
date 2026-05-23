@@ -958,6 +958,10 @@
     "description": "Pro korisnici će moći da učitaju kompletne projektne PDF dokumente i iz projektne dokumentacije izdvoje kandidate za materijale i rad.",
     "documentMeta": "{size} MB - učitano {date}",
     "documentUploaded": "Dokument je učitan.",
+    "fileInput": {
+      "chooseFile": "Odaberi datoteku",
+      "noFileSelected": "Nijedna datoteka nije odabrana"
+    },
     "errors": {
       "analysisFailed": "Nije moguće analizirati dokument.",
       "analysisInProgress": "Analiza dokumenta je već u toku.",
@@ -1340,6 +1344,10 @@
       "emptyDescription": "Učitajte PDF, PNG, JPG ili JPEG datoteku do 10 MB za početak toka analize.",
       "title": "Tlocrt",
       "uploadedFile": "Učitana datoteka"
+    },
+    "fileInput": {
+      "chooseFile": "Odaberi datoteku",
+      "noFileSelected": "Nijedna datoteka nije odabrana"
     },
     "inputAriaLabel": "Izaberite datoteku tlocrta",
     "success": {

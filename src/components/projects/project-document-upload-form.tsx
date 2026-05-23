@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { fileControlClassName } from "@/components/ui/form-control";
+import { LocalizedFileInput } from "@/components/ui/localized-file-input";
 import { validateProjectDocumentFile } from "@/lib/validations/project-document.schema";
 import type {
   AnalyzeProjectDocumentResponse,
@@ -185,13 +185,15 @@ export function ProjectDocumentUploadForm({
 
   return (
     <form className="flex min-w-0 flex-col gap-3" onSubmit={handleSubmit}>
-      <input
+      <LocalizedFileInput
         accept="application/pdf"
-        aria-label={tDocs("uploadInputAriaLabel")}
-        className={fileControlClassName}
+        ariaLabel={tDocs("uploadInputAriaLabel")}
+        chooseFileLabel={tDocs("fileInput.chooseFile")}
+        id="project-document-upload-file"
         name="file"
+        noFileSelectedLabel={tDocs("fileInput.noFileSelected")}
         onChange={handleFileChange}
-        type="file"
+        selectedFileName={state.file?.name}
       />
       {state.errorKey ? (
         <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">

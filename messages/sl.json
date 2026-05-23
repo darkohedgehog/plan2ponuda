@@ -958,6 +958,10 @@
     "description": "Uporabniki paketa Pro bodo lahko naložili celotne projektne PDF dokumente in iz projektne dokumentacije izluščili kandidate za materiale in delo.",
     "documentMeta": "{size} MB - naloženo {date}",
     "documentUploaded": "Dokument je naložen.",
+    "fileInput": {
+      "chooseFile": "Izberi datoteko",
+      "noFileSelected": "Nobena datoteka ni izbrana"
+    },
     "errors": {
       "analysisFailed": "Dokumenta ni mogoče analizirati.",
       "analysisInProgress": "Analiza dokumenta že poteka.",
@@ -1340,6 +1344,10 @@
       "emptyDescription": "Naložite datoteko PDF, PNG, JPG ali JPEG do 10 MB za začetek poteka analize.",
       "title": "Tloris",
       "uploadedFile": "Naložena datoteka"
+    },
+    "fileInput": {
+      "chooseFile": "Izberi datoteko",
+      "noFileSelected": "Nobena datoteka ni izbrana"
     },
     "inputAriaLabel": "Izberite datoteko tlorisa",
     "success": {

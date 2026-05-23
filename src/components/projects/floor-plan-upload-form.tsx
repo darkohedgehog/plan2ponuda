@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ComponentProps, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { fileControlClassName } from "@/components/ui/form-control";
+import { LocalizedFileInput } from "@/components/ui/localized-file-input";
 import {
   MAX_FLOOR_PLAN_FILE_SIZE_BYTES,
   isAllowedFloorPlanMimeType,
@@ -161,13 +161,15 @@ export function FloorPlanUploadForm({ projectId }: FloorPlanUploadFormProps) {
 
   return (
     <form className="mt-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-      <input
+      <LocalizedFileInput
         accept="application/pdf,image/png,image/jpeg"
-        aria-label={tUpload("inputAriaLabel")}
-        className={fileControlClassName}
+        ariaLabel={tUpload("inputAriaLabel")}
+        chooseFileLabel={tUpload("fileInput.chooseFile")}
+        id="floor-plan-upload-file"
         name="file"
+        noFileSelectedLabel={tUpload("fileInput.noFileSelected")}
         onChange={handleFileChange}
-        type="file"
+        selectedFileName={state.file?.name}
       />
       {state.errorKey ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
