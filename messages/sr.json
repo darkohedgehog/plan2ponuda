@@ -633,45 +633,41 @@
       "tagline": "Brže ponude za elektroinstalacije iz tlocrta."
     },
     "hero": {
-      "description": "Ploro AI pomaže električarima i manjim instalaterskim firmama da pretvore nacrte u predloge prostorija, liste materijala i PDF ili Excel ponude za klijente.",
-      "preview": {
-        "detectedRooms": "Prepoznate prostorije",
-        "exportQuote": "Izvezi ponudu",
-        "floorPlanReview": "Pregled tlocrta",
-        "materialList": "Lista materijala",
-        "materials": {
+      "description": "Učitajte tlocrt, pregledajte AI prepoznate prostorije, generišite predloge materijala i izvezite profesionalnu ponudu za klijenta.",
+      "mockup": {
+        "blueprintLabel": "Sken tlocrta",
+        "detectedRooms": "AI prepoznao prostorije",
+        "exportReady": "PDF/Excel spreman",
+        "labor": "Rad",
+        "materialItems": {
           "cable": "Kabl",
           "sockets": "Utičnice",
           "switches": "Prekidači"
         },
-        "projectLabel": "Projekat",
+        "materialSuggestions": "Predlozi materijala",
+        "materials": "Materijali",
+        "other": "Ostalo",
         "projectName": "Adaptacija stana",
-        "quoteDescription": "Materijali, rad i predlozi po prostorijama pripremljeni su za izvoz.",
-        "quoteTotal": "Ukupna ponuda",
-        "rooms": {
-          "bathroom": {
-            "name": "Kupatilo",
-            "points": "5 priključaka",
-            "status": "Spremno"
-          },
-          "kitchen": {
-            "name": "Kuhinja",
-            "points": "10 priključaka",
-            "status": "Za pregled"
-          },
-          "livingRoom": {
-            "name": "Dnevna soba",
-            "points": "9 priključaka",
-            "status": "Spremno"
-          }
+        "quoteSummary": "Sažetak ponude",
+        "roomList": {
+          "bathroom": "Kupatilo",
+          "kitchen": "Kuhinja",
+          "livingRoom": "Dnevna soba"
         },
-        "statusQuoted": "Ponuda izrađena",
-        "documentAnalysis": "Analiza projektnog PDF-a",
-        "documentDescription": "Pro izvlači kandidate materijala i rada za pregled pre uvoza.",
-        "candidateReview": "Pregled kandidata"
+        "rooms": "Prostorije",
+        "totalEstimate": "Ukupna procena"
       },
-      "title": "Elektro ponude iz tlocrta, uz vašu proveru",
-      "reviewNote": "AI rezultat je nacrt. Pre slanja ponude proverite prostorije, materijale, cene i pretpostavke."
+      "points": {
+        "export": "Izvoz PDF ili Excel",
+        "rooms": "Pregled AI prostorija",
+        "upload": "Učitajte tlocrt"
+      },
+      "primaryCta": "Kreni besplatno",
+      "primaryCtaAuthenticated": "Otvori projekte",
+      "reviewNote": "AI predlozi ostaju za uređivanje. Pre slanja proverite količine, materijale, cene i pretpostavke.",
+      "secondaryCta": "Pogledaj cene",
+      "title": "Izradite elektro ponude iz tlocrta za nekoliko minuta",
+      "titleAccent": "tlocrta"
     },
     "pages": {
       "contact": {

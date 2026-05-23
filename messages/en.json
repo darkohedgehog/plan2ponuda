@@ -633,45 +633,41 @@
       "tagline": "Faster electrical installation estimates from floor plans."
     },
     "hero": {
-      "description": "Ploro AI helps electricians and small installation companies turn plans into editable room suggestions, material lists, and client-ready PDF or Excel quotes.",
-      "preview": {
-        "detectedRooms": "Detected rooms",
-        "exportQuote": "Export quote",
-        "floorPlanReview": "Floor plan review",
-        "materialList": "Material list",
-        "materials": {
+      "description": "Upload a floor plan, review AI-detected rooms, generate material suggestions, and export a professional quote for your client.",
+      "mockup": {
+        "blueprintLabel": "Floor plan scan",
+        "detectedRooms": "AI detected rooms",
+        "exportReady": "PDF/Excel ready",
+        "labor": "Labor",
+        "materialItems": {
           "cable": "Cable",
           "sockets": "Sockets",
           "switches": "Switches"
         },
-        "projectLabel": "Project",
+        "materialSuggestions": "Material suggestions",
+        "materials": "Materials",
+        "other": "Other",
         "projectName": "Apartment renovation",
-        "quoteDescription": "Materials, labor, and room-level suggestions prepared for export.",
-        "quoteTotal": "Quote total",
-        "rooms": {
-          "bathroom": {
-            "name": "Bathroom",
-            "points": "5 points",
-            "status": "Ready"
-          },
-          "kitchen": {
-            "name": "Kitchen",
-            "points": "10 points",
-            "status": "Needs review"
-          },
-          "livingRoom": {
-            "name": "Living room",
-            "points": "9 points",
-            "status": "Ready"
-          }
+        "quoteSummary": "Quote summary",
+        "roomList": {
+          "bathroom": "Bathroom",
+          "kitchen": "Kitchen",
+          "livingRoom": "Living room"
         },
-        "statusQuoted": "Quoted",
-        "documentAnalysis": "Project PDF analysis",
-        "documentDescription": "Pro extracts material and labor candidates for review before import.",
-        "candidateReview": "Candidate review"
+        "rooms": "Rooms",
+        "totalEstimate": "Total estimate"
       },
-      "title": "Electrical quotes from floor plans, reviewed by you",
-      "reviewNote": "AI output is a draft. Review rooms, materials, prices, and assumptions before sending a quote."
+      "points": {
+        "export": "Export PDF or Excel",
+        "rooms": "Review AI rooms",
+        "upload": "Upload a floor plan"
+      },
+      "primaryCta": "Start free",
+      "primaryCtaAuthenticated": "Open projects",
+      "reviewNote": "AI suggestions stay editable. Review quantities, materials, prices, and assumptions before sending.",
+      "secondaryCta": "See pricing",
+      "title": "Create electrical quotes from floor plans in minutes",
+      "titleAccent": "floor plans"
     },
     "pages": {
       "contact": {

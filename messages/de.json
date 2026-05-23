@@ -633,45 +633,41 @@
       "tagline": "Schnellere Elektroangebote aus Grundrissen."
     },
     "hero": {
-      "description": "Ploro AI hilft Elektrikern und kleinen Installationsbetrieben, Pläne in bearbeitbare Raumvorschläge, Materiallisten sowie PDF- oder Excel-Angebote zu verwandeln.",
-      "preview": {
-        "detectedRooms": "Erkannte Räume",
-        "exportQuote": "Angebot exportieren",
-        "floorPlanReview": "Grundrissprüfung",
-        "materialList": "Materialliste",
-        "materials": {
+      "description": "Laden Sie einen Grundriss hoch, prüfen Sie KI-erkannte Räume, erstellen Sie Materialvorschläge und exportieren Sie ein professionelles Angebot für Ihren Kunden.",
+      "mockup": {
+        "blueprintLabel": "Grundriss-Scan",
+        "detectedRooms": "KI-erkannte Räume",
+        "exportReady": "PDF/Excel bereit",
+        "labor": "Arbeit",
+        "materialItems": {
           "cable": "Kabel",
           "sockets": "Steckdosen",
           "switches": "Schalter"
         },
-        "projectLabel": "Projekt",
+        "materialSuggestions": "Materialvorschläge",
+        "materials": "Materialien",
+        "other": "Sonstiges",
         "projectName": "Wohnungsrenovierung",
-        "quoteDescription": "Materialien, Arbeit und Vorschläge pro Raum sind für den Export vorbereitet.",
-        "quoteTotal": "Angebotssumme",
-        "rooms": {
-          "bathroom": {
-            "name": "Bad",
-            "points": "5 Punkte",
-            "status": "Bereit"
-          },
-          "kitchen": {
-            "name": "Küche",
-            "points": "10 Punkte",
-            "status": "Zu prüfen"
-          },
-          "livingRoom": {
-            "name": "Wohnzimmer",
-            "points": "9 Punkte",
-            "status": "Bereit"
-          }
+        "quoteSummary": "Angebotsübersicht",
+        "roomList": {
+          "bathroom": "Bad",
+          "kitchen": "Küche",
+          "livingRoom": "Wohnzimmer"
         },
-        "statusQuoted": "Angebot erstellt",
-        "documentAnalysis": "Projekt-PDF-Analyse",
-        "documentDescription": "Pro extrahiert Material- und Arbeitskandidaten zur Prüfung vor dem Import.",
-        "candidateReview": "Kandidatenprüfung"
+        "rooms": "Räume",
+        "totalEstimate": "Gesamtschätzung"
       },
-      "title": "Elektroangebote aus Grundrissen, von Ihnen geprüft",
-      "reviewNote": "KI-Ergebnisse sind Entwürfe. Prüfen Sie Räume, Materialien, Preise und Annahmen, bevor Sie ein Angebot senden."
+      "points": {
+        "export": "PDF oder Excel exportieren",
+        "rooms": "KI-Räume prüfen",
+        "upload": "Grundriss hochladen"
+      },
+      "primaryCta": "Kostenlos starten",
+      "primaryCtaAuthenticated": "Projekte öffnen",
+      "reviewNote": "KI-Vorschläge bleiben bearbeitbar. Prüfen Sie Mengen, Materialien, Preise und Annahmen vor dem Senden.",
+      "secondaryCta": "Preise ansehen",
+      "title": "Elektroangebote aus Grundrissen in Minuten erstellen",
+      "titleAccent": "Grundrissen"
     },
     "pages": {
       "contact": {
