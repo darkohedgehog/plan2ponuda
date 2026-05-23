@@ -695,27 +695,23 @@
         "title": "Bedingungen"
       }
     },
-    "workflow": {
-      "title": "Ein klarer Weg vom Plan-Upload zum Angebotsexport.",
-      "eyebrow": "So funktioniert es",
+    "howItWorks": {
+      "title": "Wie Ploro AI funktioniert",
       "steps": {
-        "uploadFloorPlan": {
-          "title": "Pläne hochladen",
-          "description": "Starten Sie mit einem PDF-Grundriss, einem Planbild oder mit Projektdokumentation im Pro-Plan."
+        "upload": {
+          "title": "Hochladen",
+          "description": "Laden Sie Ihren Grundriss oder Ihre Projektdokumentation hoch."
         },
-        "reviewRooms": {
-          "title": "KI-Vorschläge prüfen",
-          "description": "Bestätigen Sie Räume, Elektro-Punkte und Dokumentkandidaten vor der Kalkulation."
+        "analyze": {
+          "title": "Analysieren",
+          "description": "KI prüft Räume, Vorschläge und Materialbedarf."
         },
-        "reviewMaterials": {
-          "title": "Materialien vorbereiten",
-          "description": "Bearbeiten Sie Namen, Mengen, Preise und Quellpositionen vor dem finalen Angebot."
-        },
-        "exportQuote": {
-          "title": "Angebot exportieren",
-          "description": "Erzeugen Sie nach der Prüfung ein kundenfertiges Angebot als PDF oder Excel."
+        "quote": {
+          "title": "Angebot erhalten",
+          "description": "Erstellen Sie ein Angebot und exportieren Sie PDF oder Excel."
         }
-      }
+      },
+      "tagline": "Vom Plan zum Angebot in Sekunden."
     },
     "metadata": {
       "title": "Ploro AI - Elektroangebote aus Grundrissen",

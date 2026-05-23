@@ -695,27 +695,23 @@
         "title": "Pogoji"
       }
     },
-    "workflow": {
-      "title": "Jasna pot od nalaganja načrta do izvoza ponudbe.",
-      "eyebrow": "Kako deluje",
+    "howItWorks": {
+      "title": "Kako deluje Ploro AI",
       "steps": {
-        "uploadFloorPlan": {
-          "title": "Naložite načrte",
-          "description": "Začnite s PDF tlorisom, sliko načrta ali projektno dokumentacijo v Pro paketu."
+        "upload": {
+          "title": "Naloži",
+          "description": "Naložite tloris ali projektno dokumentacijo."
         },
-        "reviewRooms": {
-          "title": "Preglejte AI predloge",
-          "description": "Potrdite prostore, elektro točke in dokumentne kandidate pred oceno."
+        "analyze": {
+          "title": "Analiziraj",
+          "description": "AI pregleda prostore, predloge in potrebe po materialu."
         },
-        "reviewMaterials": {
-          "title": "Pripravite materiale",
-          "description": "Uredite nazive, količine, cene in izvorne vrstice pred končno ponudbo."
-        },
-        "exportQuote": {
-          "title": "Izvozite ponudbo",
-          "description": "Po pregledu ustvarite ponudbo za stranko kot PDF ali Excel."
+        "quote": {
+          "title": "Pridobi ponudbo",
+          "description": "Ustvarite ponudbo in izvozite PDF ali Excel."
         }
-      }
+      },
+      "tagline": "Od tlorisa do ponudbe v nekaj sekundah."
     },
     "metadata": {
       "title": "Ploro AI - Elektro ponudbe iz tlorisov",

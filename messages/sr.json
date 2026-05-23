@@ -695,27 +695,23 @@
         "title": "Uslovi"
       }
     },
-    "workflow": {
-      "title": "Jasan put od uploada nacrta do izvoza ponude.",
-      "eyebrow": "Kako radi",
+    "howItWorks": {
+      "title": "Kako Ploro AI radi",
       "steps": {
-        "uploadFloorPlan": {
-          "title": "Učitajte nacrte",
-          "description": "Krenite od PDF tlocrta, slike nacrta ili projektne dokumentacije na Pro planu."
+        "upload": {
+          "title": "Učitaj",
+          "description": "Učitaj tlocrt ili projektnu dokumentaciju."
         },
-        "reviewRooms": {
-          "title": "Pregledajte AI predloge",
-          "description": "Potvrdite prostorije, električne tačke i kandidate iz dokumenata pre obračuna."
+        "analyze": {
+          "title": "Analiziraj",
+          "description": "AI analizira prostorije, predloge i potrebe za materijalom."
         },
-        "reviewMaterials": {
-          "title": "Pripremite materijale",
-          "description": "Uredite nazive, količine, cene i izvorne stavke pre finalne ponude."
-        },
-        "exportQuote": {
-          "title": "Izvezite ponudu",
-          "description": "Generišite ponudu za klijenta kao PDF ili Excel nakon završene provere."
+        "quote": {
+          "title": "Dobij ponudu",
+          "description": "Generiši ponudu i izvezi PDF ili Excel."
         }
-      }
+      },
+      "tagline": "Od tlocrta do ponude za nekoliko sekundi."
     },
     "metadata": {
       "title": "Ploro AI - Elektro ponude iz tlocrta",

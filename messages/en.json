@@ -695,27 +695,23 @@
         "title": "Terms"
       }
     },
-    "workflow": {
-      "title": "A focused path from plan upload to quote export.",
-      "eyebrow": "How it works",
+    "howItWorks": {
+      "title": "How Ploro AI works",
       "steps": {
-        "uploadFloorPlan": {
-          "title": "Upload plans",
-          "description": "Start with a floor plan PDF, blueprint image, or project documentation PDF on Pro."
+        "upload": {
+          "title": "Upload",
+          "description": "Upload your floor plan or project documentation."
         },
-        "reviewRooms": {
-          "title": "Review AI suggestions",
-          "description": "Confirm rooms, electrical points, and extracted document candidates before estimating."
+        "analyze": {
+          "title": "Analyze",
+          "description": "AI reviews spaces, suggestions, and material needs."
         },
-        "reviewMaterials": {
-          "title": "Prepare materials",
-          "description": "Edit material names, quantities, prices, and source lines before finalizing the quote."
-        },
-        "exportQuote": {
-          "title": "Export the offer",
-          "description": "Generate a client-ready quote as PDF or Excel after your review is complete."
+        "quote": {
+          "title": "Get Quote",
+          "description": "Generate a quote and export PDF or Excel."
         }
-      }
+      },
+      "tagline": "From plan to quote in seconds."
     },
     "metadata": {
       "title": "Ploro AI - Electrical quotes from floor plans",
