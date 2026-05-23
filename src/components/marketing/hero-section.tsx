@@ -24,18 +24,18 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(135deg,#010223_0%,#020231_58%,#001724_100%)]">
       <div className="absolute inset-x-0 top-0 h-48 border-b border-white/10 bg-white/3" />
-      <div className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:py-20">
-        <div className="max-w-3xl">
+      <div className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl min-w-0 items-center gap-12 overflow-hidden px-5 py-16 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:py-20">
+        <div className="w-full min-w-0 max-w-[20rem] sm:max-w-3xl">
           <p className="text-sm font-semibold text-turquoise-surf-300">
             {tCommon("appName")}
           </p>
-          <h1 className="mt-5 max-w-3xl text-5xl font-semibold leading-[1.02] text-white sm:text-6xl">
+          <h1 className="mt-5 max-w-[20rem] break-words text-4xl font-semibold leading-[1.08] text-white sm:max-w-3xl sm:text-6xl sm:leading-[1.02]">
             {tHero("title")}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-deep-twilight-100">
+          <p className="mt-6 max-w-[20rem] break-words text-lg leading-8 text-deep-twilight-100 sm:max-w-2xl">
             {tHero("description")}
           </p>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-deep-twilight-100/85">
+          <p className="mt-4 max-w-[20rem] break-words text-sm leading-6 text-deep-twilight-100/85 sm:max-w-2xl">
             <ShieldCheck aria-hidden="true" className="mr-2 inline h-4 w-4 text-turquoise-surf-300" />
             {tHero("reviewNote")}
           </p>
@@ -66,23 +66,23 @@ function ProductPreview() {
   const tPreview = useTranslations("Marketing.hero.preview");
 
   return (
-    <div className="rounded-md border border-white/10 bg-white/10 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
-      <div className="rounded-md border border-frosted-blue-200 bg-deep-twilight-950 p-3">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
-          <div>
+    <div className="w-full max-w-[20rem] min-w-0 overflow-hidden rounded-md border border-white/10 bg-white/10 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.28)] sm:max-w-full">
+      <div className="min-w-0 overflow-hidden rounded-md border border-frosted-blue-200 bg-deep-twilight-950 p-3">
+        <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div className="min-w-0">
             <p className="text-xs font-medium text-slate-400">
               {tPreview("projectLabel")}
             </p>
-            <p className="mt-1 text-sm font-semibold text-white">
+            <p className="mt-1 truncate text-sm font-semibold text-white">
               {tPreview("projectName")}
             </p>
           </div>
-          <span className="rounded-md bg-bright-teal-blue-500 px-3 py-1 text-xs font-semibold text-white">
+          <span className="max-w-24 shrink-0 rounded-md bg-bright-teal-blue-500 px-3 py-1 text-center text-xs font-semibold leading-4 text-white sm:max-w-32">
             {tPreview("statusQuoted")}
           </span>
         </div>
 
-        <div className="grid gap-3 py-4 sm:grid-cols-[1.2fr_0.8fr]">
+        <div className="grid min-w-0 gap-3 py-4 sm:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-md bg-white p-3">
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold text-deep-twilight-700/70">
@@ -115,7 +115,7 @@ function ProductPreview() {
           </div>
         </div>
 
-        <div className="grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="grid min-w-0 gap-3 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="rounded-md border border-white/10 bg-white/5 p-3">
             <p className="text-xs font-semibold text-slate-300">
               {tPreview("detectedRooms")}
@@ -123,18 +123,18 @@ function ProductPreview() {
             <div className="mt-3 grid gap-2">
               {previewRooms.map((roomKey) => (
                 <div
-                  className="flex items-center justify-between rounded-md bg-white px-3 py-2"
+                  className="flex items-center justify-between gap-3 rounded-md bg-white px-3 py-2"
                   key={roomKey}
                 >
-                  <div>
-                    <p className="text-sm font-semibold text-deep-twilight-900">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-deep-twilight-900">
                       {tPreview(`rooms.${roomKey}.name`)}
                     </p>
-                    <p className="text-xs text-deep-twilight-700/70">
+                    <p className="truncate text-xs text-deep-twilight-700/70">
                       {tPreview(`rooms.${roomKey}.points`)}
                     </p>
                   </div>
-                  <span className="text-xs font-medium text-deep-twilight-700/70">
+                  <span className="shrink-0 text-right text-xs font-medium leading-4 text-deep-twilight-700/70">
                     {tPreview(`rooms.${roomKey}.status`)}
                   </span>
                 </div>
@@ -149,22 +149,23 @@ function ProductPreview() {
             <div className="mt-3 grid gap-2">
               {previewMaterials.map((material) => (
                 <div
-                  className="flex items-center justify-between border-b border-white/10 pb-2 last:border-0 last:pb-0"
+                  className="flex items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0"
                   key={material.key}
                 >
-                  <span className="text-xs text-slate-400">
+                  <span className="min-w-0 truncate text-xs text-slate-400">
                     {tPreview(`materials.${material.key}`)}
                   </span>
-                  <span className="text-sm font-semibold text-white">{material.value}</span>
+                  <span className="shrink-0 text-sm font-semibold text-white">
+                    {material.value}
+                  </span>
                 </div>
               ))}
             </div>
-            <button
-              className="mt-4 h-9 w-full rounded-md bg-white text-xs font-semibold text-deep-twilight-950 shadow-sm transition-colors hover:bg-frosted-blue-100"
-              type="button"
+            <span
+              className="mt-4 flex h-9 w-full items-center justify-center rounded-md bg-white text-xs font-semibold text-deep-twilight-950 shadow-sm"
             >
               {tPreview("exportQuote")}
-            </button>
+            </span>
           </div>
         </div>
 
@@ -178,7 +179,7 @@ function ProductPreview() {
                 {tPreview("documentDescription")}
               </p>
             </div>
-            <span className="inline-flex w-fit rounded-md border border-bright-teal-blue-300/40 bg-bright-teal-blue-500/15 px-3 py-1 text-xs font-semibold text-turquoise-surf-300">
+            <span className="inline-flex max-w-full rounded-md border border-bright-teal-blue-300/40 bg-bright-teal-blue-500/15 px-3 py-1 text-center text-xs font-semibold leading-4 text-turquoise-surf-300">
               {tPreview("candidateReview")}
             </span>
           </div>
