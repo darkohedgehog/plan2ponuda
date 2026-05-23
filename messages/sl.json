@@ -607,25 +607,34 @@
       "title": "Pripravite naslednjo elektro ponudbo z bolj čistim potekom."
     },
     "features": {
-      "title": "Narejeno za ocenjevanje, ki ga električarji ponavljajo vsak teden.",
-      "description": "Potek ostane praktičen: analizirajte načrt, preglejte predloge, prilagodite materiale in izvozite profesionalno ponudbo.",
       "eyebrow": "Funkcije",
+      "title": "Vse, kar potrebujete za pridobitev več projektov",
+      "titleAccent": "pridobitev več projektov",
+      "description": "Osredotočeno orodje za hitrejšo pretvorbo tlorisov v pregledane elektro ponudbe, pri čemer vsak AI predlog ostane uredljiv.",
       "items": {
-        "floorPlanWorkflow": {
-          "title": "Od tlorisa do ponudbe",
-          "description": "Free in Basic pokrivata standardno pot od naloženega tlorisa do pregledanih prostorov, materialov in izvoza ponudbe."
+        "floorPlan": {
+          "title": "Analiza tlorisa",
+          "description": "Naložite tloris in naj AI prepozna prostore ter strukturo."
         },
-        "editableSuggestions": {
-          "title": "Uredljivi AI predlogi",
-          "description": "Zaznava prostorov in elektro predlogi ostanejo pod vašim nadzorom, preden postanejo vhod v ponudbo."
+        "materialTakeoff": {
+          "title": "Izpis materiala",
+          "description": "Ustvarite uredljive predloge materiala iz pregledanih prostorov."
         },
-        "projectDocumentation": {
-          "title": "Pro analiza projektnih PDF-jev",
-          "description": "Pro uporabniki analizirajo projektno dokumentacijo, pregledajo kandidate in uvozijo sprejete materiale."
+        "estimates": {
+          "title": "Natančne ocene",
+          "description": "Ustvarite ponudbe za stranke s seštevki materiala in dela."
         },
-        "exports": {
-          "title": "PDF in Excel izvoz",
-          "description": "Pripravite dokumente za stranke in preglednice brez ponovnega ročnega sestavljanja ocene."
+        "export": {
+          "title": "Izvoz in deljenje",
+          "description": "Izvozite profesionalne ponudbe kot PDF in Excel dokumente."
+        },
+        "dashboard": {
+          "title": "Projektna nadzorna plošča",
+          "description": "Spremljajte projekte, ponudbe, materiale in obračun na enem mestu."
+        },
+        "timeSaving": {
+          "title": "Prihranek časa",
+          "description": "Zmanjšajte ročno pripravo ponudb in se osredotočite na nove projekte."
         }
       }
     },

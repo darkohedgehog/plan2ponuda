@@ -607,25 +607,34 @@
       "title": "Pripremite sljedeću elektro ponudu kroz čišći workflow."
     },
     "features": {
-      "title": "Napravljeno za procjene koje električari rade svaki tjedan.",
-      "description": "Workflow ostaje praktičan: analizirajte nacrt, pregledajte prijedloge, uredite materijale i izvezite profesionalnu ponudu.",
       "eyebrow": "Značajke",
+      "title": "Sve što trebate za osvojiti više projekata",
+      "titleAccent": "osvojiti više projekata",
+      "description": "Fokusiran alat za bržu pretvorbu nacrta u pregledane elektro ponude, pri čemu svaki AI prijedlog ostaje za uređivanje.",
       "items": {
-        "floorPlanWorkflow": {
-          "title": "Workflow od tlocrta do ponude",
-          "description": "Free i Basic pokrivaju standardni put od učitanog tlocrta do pregledanih prostorija, materijala i izvoza ponude."
+        "floorPlan": {
+          "title": "Analiza tlocrta",
+          "description": "Učitajte tlocrt i pustite da AI prepozna prostorije i strukturu."
         },
-        "editableSuggestions": {
-          "title": "AI prijedlozi koje uređujete",
-          "description": "Detekcija prostorija i električni prijedlozi ostaju pod vašom kontrolom prije ulaska u ponudu."
+        "materialTakeoff": {
+          "title": "Izvod materijala",
+          "description": "Generirajte prijedloge materijala iz pregledanih prostorija."
         },
-        "projectDocumentation": {
-          "title": "Pro analiza projektnih PDF-ova",
-          "description": "Pro korisnici analiziraju projektnu dokumentaciju, pregledavaju kandidate i uvoze prihvaćene materijale."
+        "estimates": {
+          "title": "Preciznije procjene",
+          "description": "Izradite ponude za klijente s ukupnim iznosima materijala i rada."
         },
-        "exports": {
-          "title": "PDF i Excel izvoz",
-          "description": "Pripremite dokumente za klijente i tablični pregled bez ponovnog ručnog slaganja procjene."
+        "export": {
+          "title": "Izvoz i dijeljenje",
+          "description": "Izvezite profesionalne dokumente ponude u PDF i Excel."
+        },
+        "dashboard": {
+          "title": "Projektna ploča",
+          "description": "Pratite projekte, ponude, materijale i naplatu na jednom mjestu."
+        },
+        "timeSaving": {
+          "title": "Ušteda vremena",
+          "description": "Smanjite ručni rad na ponudama i fokusirajte se na nove projekte."
         }
       }
     },

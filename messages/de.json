@@ -607,25 +607,34 @@
       "title": "Bereiten Sie das nächste Elektroangebot mit einem klareren Workflow vor."
     },
     "features": {
-      "title": "Gemacht für Schätzarbeit, die Elektriker jede Woche wiederholen.",
-      "description": "Der Workflow bleibt praktisch: Plan analysieren, Vorschläge prüfen, Materialien anpassen und ein professionelles Angebot exportieren.",
       "eyebrow": "Funktionen",
+      "title": "Alles, was Sie brauchen, um mehr Projekte zu gewinnen",
+      "titleAccent": "mehr Projekte zu gewinnen",
+      "description": "Ein fokussiertes Werkzeug, um Grundrisse schneller in geprüfte Elektroangebote zu verwandeln, während jeder KI-Vorschlag bearbeitbar bleibt.",
       "items": {
-        "floorPlanWorkflow": {
-          "title": "Vom Grundriss zum Angebot",
-          "description": "Free und Basic decken den Standardweg von Grundriss-Upload bis Raumprüfung, Materialien und Export ab."
+        "floorPlan": {
+          "title": "Grundrissanalyse",
+          "description": "Laden Sie einen Grundriss hoch und lassen Sie KI Räume und Struktur erkennen."
         },
-        "editableSuggestions": {
-          "title": "Bearbeitbare KI-Vorschläge",
-          "description": "Raumerkennung und Elektro-Vorschläge bleiben unter Ihrer Kontrolle, bevor sie Angebotsdaten werden."
+        "materialTakeoff": {
+          "title": "Materialermittlung",
+          "description": "Erstellen Sie bearbeitbare Materialvorschläge aus geprüften Räumen."
         },
-        "projectDocumentation": {
-          "title": "Pro-Analyse von Projekt-PDFs",
-          "description": "Pro-Nutzer analysieren Projektdokumentation, prüfen Kandidaten und importieren akzeptierte Materialpositionen."
+        "estimates": {
+          "title": "Genaue Schätzungen",
+          "description": "Erstellen Sie Kundenangebote mit Material- und Arbeitskosten."
         },
-        "exports": {
-          "title": "PDF- und Excel-Export",
-          "description": "Erstellen Sie Kundendokumente und Tabellenprüfungen, ohne die Kalkulation neu aufzubauen."
+        "export": {
+          "title": "Export & Teilen",
+          "description": "Exportieren Sie professionelle Angebotsdokumente als PDF und Excel."
+        },
+        "dashboard": {
+          "title": "Projekt-Dashboard",
+          "description": "Verfolgen Sie Projekte, Angebote, Materialien und Abrechnung an einem Ort."
+        },
+        "timeSaving": {
+          "title": "Zeit sparen",
+          "description": "Reduzieren Sie manuelle Angebotsarbeit und konzentrieren Sie sich auf neue Projekte."
         }
       }
     },

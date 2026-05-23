@@ -607,25 +607,34 @@
       "title": "Prepare the next electrical quote with a cleaner workflow."
     },
     "features": {
-      "title": "Built for estimate work electricians repeat every week.",
-      "description": "Keep the workflow practical: analyze the plan, review the suggestions, adjust materials, and export a professional quote.",
       "eyebrow": "Features",
+      "title": "Everything you need to win more projects",
+      "titleAccent": "win more projects",
+      "description": "A focused toolkit for turning plans into reviewed electrical quotes faster, with every AI suggestion kept editable.",
       "items": {
-        "floorPlanWorkflow": {
-          "title": "Floor plan to quote workflow",
-          "description": "Free and Basic plans cover the standard path from uploaded floor plan to reviewed rooms, materials, and quote export."
+        "floorPlan": {
+          "title": "Floor Plan Analysis",
+          "description": "Upload a floor plan and let AI detect spaces and structure."
         },
-        "editableSuggestions": {
-          "title": "Editable AI suggestions",
-          "description": "Room detection and electrical suggestions remain under your control before they become quote inputs."
+        "materialTakeoff": {
+          "title": "Material Takeoff",
+          "description": "Generate editable material suggestions from reviewed rooms."
         },
-        "projectDocumentation": {
-          "title": "Pro project PDF extraction",
-          "description": "Pro users can analyze project documentation PDFs, review extracted candidates, and import accepted material lines."
+        "estimates": {
+          "title": "Accurate Estimates",
+          "description": "Create client-ready quotes with material and labor totals."
         },
-        "exports": {
-          "title": "PDF and Excel exports",
-          "description": "Prepare quote documents for clients and spreadsheet review without rebuilding the estimate by hand."
+        "export": {
+          "title": "Export & Share",
+          "description": "Export professional PDF and Excel quote documents."
+        },
+        "dashboard": {
+          "title": "Project Dashboard",
+          "description": "Track projects, quotes, materials, and billing in one place."
+        },
+        "timeSaving": {
+          "title": "Time Saving",
+          "description": "Reduce manual quoting work and focus on winning projects."
         }
       }
     },
