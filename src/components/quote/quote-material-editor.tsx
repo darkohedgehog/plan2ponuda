@@ -11,6 +11,7 @@ import type {
   MaterialCategory,
   MaterialUnit,
   ProjectMaterial,
+  ProjectMaterialDocumentCandidateSource,
   Quote,
 } from "@/types/quote";
 
@@ -22,6 +23,7 @@ export type QuoteMaterialEditorMaterial = {
   name: string;
   quantity: string;
   source: string;
+  documentCandidateSource?: ProjectMaterialDocumentCandidateSource;
   totalPrice: string;
   unit: MaterialUnit;
   unitPrice: string;
@@ -94,6 +96,7 @@ function toEditorMaterial(
     name: displayMaterial.name,
     quantity: material.quantity,
     source: material.source,
+    documentCandidateSource: material.documentCandidateSource,
     totalPrice: material.totalPrice,
     unit: displayMaterial.unit,
     unitPrice: material.unitPrice,
@@ -449,6 +452,7 @@ function MaterialEditorRow({
         : material.source === "document_ai"
           ? tMaterials("sources.documentAi")
         : material.source;
+  const sourceDetail = getDocumentSourceDetail(material, tMaterials, locale);
 
   return (
     <article className="grid min-w-0 gap-4 overflow-hidden rounded-2xl border border-frosted-blue-200 bg-white p-4 text-sm shadow-sm shadow-frosted-blue-200/50 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(11rem,0.8fr)_minmax(10rem,0.7fr)] 2xl:grid-cols-[minmax(16rem,1.7fr)_minmax(8rem,0.75fr)_minmax(7rem,0.65fr)_minmax(11rem,0.9fr)_minmax(9rem,0.75fr)_minmax(9rem,0.75fr)_minmax(6rem,0.55fr)] 2xl:items-center 2xl:gap-4 2xl:rounded-none 2xl:border-0 2xl:shadow-none">
@@ -496,13 +500,20 @@ function MaterialEditorRow({
       </MaterialResponsiveField>
 
       <MaterialResponsiveField label={tCommon("source")}>
-        <span
-          className={`inline-flex max-w-full items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${getSourceBadgeClassName(
-            material.source,
-          )}`}
-        >
-          <span className="truncate">{sourceLabel}</span>
-        </span>
+        <div className="min-w-0">
+          <span
+            className={`inline-flex max-w-full items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${getSourceBadgeClassName(
+              material.source,
+            )}`}
+          >
+            <span className="truncate">{sourceLabel}</span>
+          </span>
+          {sourceDetail ? (
+            <p className="mt-1 wrap-break-word text-xs leading-5 text-deep-twilight-700/70">
+              {sourceDetail}
+            </p>
+          ) : null}
+        </div>
       </MaterialResponsiveField>
 
       <MaterialResponsiveField align="right" label={tCommon("quantity")}>
@@ -697,6 +708,39 @@ function getSourceBadgeClassName(source: string): string {
   }
 
   return "border-frosted-blue-200 bg-frosted-blue-50 text-deep-twilight-700";
+}
+
+function getDocumentSourceDetail(
+  material: DraftMaterial,
+  tMaterials: ReturnType<typeof useTranslations>,
+  locale: string,
+): string | null {
+  if (material.source !== "document_ai" || !material.documentCandidateSource) {
+    return null;
+  }
+
+  const source = material.documentCandidateSource;
+  const parts = [
+    source.documentName,
+    source.sourceReference
+      ? `${tMaterials("fields.sourceReference")}: ${source.sourceReference}`
+      : null,
+    source.confidence
+      ? `${tMaterials("fields.confidence")}: ${formatConfidence(
+          source.confidence,
+          locale,
+        )}`
+      : null,
+  ].filter((part): part is string => part !== null && part.length > 0);
+
+  return parts.length > 0 ? parts.join(" · ") : null;
+}
+
+function formatConfidence(value: string, locale: string): string {
+  return new Intl.NumberFormat(locale, {
+    maximumFractionDigits: 0,
+    style: "percent",
+  }).format(Number(value));
 }
 
 function formatMoney(value: number, locale: string): string {

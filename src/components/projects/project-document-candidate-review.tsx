@@ -2,8 +2,10 @@
 
 import {
   ArrowUpRight,
+  BadgeCheck,
   Check,
   Clock3,
+  Lock,
   Save,
   Upload,
   X,
@@ -386,10 +388,22 @@ export function ProjectDocumentCandidateReview({
             {tDocs("importedMaterials", {
               count: importSummary.importedMaterialsCount,
             })}
-            {" · "}
-            {tDocs("skippedItems", {
-              count: importSummary.skippedCount,
-            })}
+            {importSummary.laborSkippedCount > 0 ? (
+              <>
+                {" · "}
+                {tDocs("skippedLaborItems", {
+                  count: importSummary.laborSkippedCount,
+                })}
+              </>
+            ) : null}
+            {importSummary.alreadyImportedCount > 0 ? (
+              <>
+                {" · "}
+                {tDocs("alreadyImportedItems", {
+                  count: importSummary.alreadyImportedCount,
+                })}
+              </>
+            ) : null}
           </p>
         </div>
       ) : null}
@@ -484,6 +498,8 @@ function CandidateEditorCard({
   const tDocs = useTranslations("ProjectDocumentationAnalysis");
   const total = calculateDraftTotal(candidate);
   const unitOptions = getUnitOptions(type, candidate.unit);
+  const isImported = candidate.importedAt !== null;
+  const isImportedToQuote = candidate.importedProjectMaterialId !== null;
 
   return (
     <article className="grid min-w-0 gap-3 rounded-md border border-frosted-blue-200 bg-white p-3 text-sm shadow-sm sm:grid-cols-2 xl:grid-cols-[minmax(12rem,1.3fr)_minmax(8rem,0.7fr)_minmax(10rem,0.8fr)_minmax(8rem,0.65fr)_minmax(8rem,0.65fr)]">
@@ -493,15 +509,30 @@ function CandidateEditorCard({
           {statusOptions.map((status) => (
             <StatusButton
               active={candidate.status === status}
+              disabled={isImported}
               key={status}
               onClick={() => onUpdate({ status })}
               status={status}
             />
           ))}
+          {isImported ? (
+            <ImportedStateBadge label={tDocs("imported")} />
+          ) : null}
+          {isImportedToQuote ? (
+            <ImportedStateBadge label={tDocs("importedToQuote")} />
+          ) : null}
         </div>
+        {isImportedToQuote ? (
+          <p className="mb-3 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium leading-5 text-amber-800">
+            <Lock aria-hidden="true" className="mr-1 inline h-3.5 w-3.5" />
+            {tDocs("editImportedLineOnQuotePage")}{" "}
+            {tDocs("changesAfterImportDoNotUpdateQuoteLinesYet")}
+          </p>
+        ) : null}
         <FieldLabel label={tDocs("candidateName")} />
         <TextInput
           ariaLabel={tDocs("candidateName")}
+          disabled={isImported}
           onChange={(event) => onUpdate({ name: event.target.value })}
           value={candidate.name}
         />
@@ -512,6 +543,7 @@ function CandidateEditorCard({
           <FieldLabel label={tDocs("category")} />
           <SelectInput
             ariaLabel={tDocs("category")}
+            disabled={isImported}
             onChange={(event) => onUpdate({ category: event.target.value })}
             options={materialCategoryOptions.map((category) => ({
               label: tCategories(category),
@@ -536,6 +568,7 @@ function CandidateEditorCard({
         <FieldLabel label={tDocs("unit")} />
         <SelectInput
           ariaLabel={tDocs("unit")}
+          disabled={isImported}
           onChange={(event) => onUpdate({ unit: event.target.value })}
           options={unitOptions.map((unit) => ({
             label: getUnitLabel(unit, tDocs),
@@ -549,6 +582,7 @@ function CandidateEditorCard({
         <FieldLabel label={tDocs("quantity")} />
         <NumberInput
           ariaLabel={tDocs("quantity")}
+          disabled={isImported}
           onChange={(event) => onUpdate({ quantity: event.target.value })}
           value={candidate.quantity}
         />
@@ -558,6 +592,7 @@ function CandidateEditorCard({
         <FieldLabel label={tDocs("unitPrice")} />
         <NumberInput
           ariaLabel={tDocs("unitPrice")}
+          disabled={isImported}
           onChange={(event) => onUpdate({ unitPrice: event.target.value })}
           value={candidate.unitPrice}
         />
@@ -598,11 +633,17 @@ function CandidateEditorCard({
 
 type StatusButtonProps = {
   active: boolean;
+  disabled?: boolean;
   onClick: () => void;
   status: ProjectDocumentCandidateStatus;
 };
 
-function StatusButton({ active, onClick, status }: StatusButtonProps) {
+function StatusButton({
+  active,
+  disabled = false,
+  onClick,
+  status,
+}: StatusButtonProps) {
   const tDocs = useTranslations("ProjectDocumentationAnalysis");
   const Icon = status === "accepted" ? Check : status === "rejected" ? X : Clock3;
 
@@ -613,6 +654,7 @@ function StatusButton({ active, onClick, status }: StatusButtonProps) {
           ? "border-bright-teal-blue-500 bg-bright-teal-blue-50 text-bright-teal-blue-800"
           : "border-frosted-blue-200 bg-white text-deep-twilight-700 hover:bg-frosted-blue-50"
       }`}
+      disabled={disabled}
       onClick={onClick}
       type="button"
     >
@@ -622,17 +664,33 @@ function StatusButton({ active, onClick, status }: StatusButtonProps) {
   );
 }
 
+function ImportedStateBadge({ label }: { label: string }) {
+  return (
+    <span className="inline-flex h-9 items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-3 text-xs font-semibold text-emerald-700">
+      <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5" />
+      {label}
+    </span>
+  );
+}
+
 type TextInputProps = {
   ariaLabel: string;
+  disabled?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 };
 
-function TextInput({ ariaLabel, onChange, value }: TextInputProps) {
+function TextInput({
+  ariaLabel,
+  disabled = false,
+  onChange,
+  value,
+}: TextInputProps) {
   return (
     <input
       aria-label={ariaLabel}
-      className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-950 outline-none focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
+      className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-950 outline-none focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100 disabled:bg-frosted-blue-50 disabled:text-deep-twilight-700/60"
+      disabled={disabled}
       onChange={onChange}
       value={value}
     />
@@ -660,15 +718,22 @@ function TextArea({ ariaLabel, onChange, rows, value }: TextAreaProps) {
 
 type NumberInputProps = {
   ariaLabel: string;
+  disabled?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 };
 
-function NumberInput({ ariaLabel, onChange, value }: NumberInputProps) {
+function NumberInput({
+  ariaLabel,
+  disabled = false,
+  onChange,
+  value,
+}: NumberInputProps) {
   return (
     <input
       aria-label={ariaLabel}
-      className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-right text-sm tabular-nums text-deep-twilight-950 outline-none focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
+      className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-right text-sm tabular-nums text-deep-twilight-950 outline-none focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100 disabled:bg-frosted-blue-50 disabled:text-deep-twilight-700/60"
+      disabled={disabled}
       min="0"
       onChange={onChange}
       step="0.01"
@@ -680,6 +745,7 @@ function NumberInput({ ariaLabel, onChange, value }: NumberInputProps) {
 
 type SelectInputProps = {
   ariaLabel: string;
+  disabled?: boolean;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   options: Array<{
     label: string;
@@ -688,11 +754,18 @@ type SelectInputProps = {
   value: string;
 };
 
-function SelectInput({ ariaLabel, onChange, options, value }: SelectInputProps) {
+function SelectInput({
+  ariaLabel,
+  disabled = false,
+  onChange,
+  options,
+  value,
+}: SelectInputProps) {
   return (
     <select
       aria-label={ariaLabel}
-      className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-950 outline-none focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100"
+      className="h-10 w-full min-w-0 rounded-md border border-frosted-blue-200 bg-white px-3 text-sm text-deep-twilight-950 outline-none focus:border-bright-teal-blue-500 focus:ring-2 focus:ring-bright-teal-blue-100 disabled:bg-frosted-blue-50 disabled:text-deep-twilight-700/60"
+      disabled={disabled}
       onChange={onChange}
       value={value}
     >

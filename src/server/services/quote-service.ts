@@ -36,6 +36,7 @@ import { getQuoteWorkspaceMaterialState } from "@/server/services/quote-workspac
 import type {
   Material,
   ProjectMaterial,
+  ProjectMaterialDocumentCandidateSource,
   Quote,
   QuoteExportData,
   QuoteExportRoom,
@@ -89,11 +90,15 @@ type ProjectMaterialUpdateResult =
       reason: "invalid_material_reference" | "not_found" | "quote_limit_reached";
     };
 
-type ProjectMaterialReadClient = Pick<typeof prisma, "projectMaterial">;
+type ProjectMaterialReadClient = Pick<
+  typeof prisma,
+  "projectDocumentCandidate" | "projectMaterial"
+>;
 type QuoteWriteClient = Pick<
   typeof prisma,
   | "$queryRaw"
   | "project"
+  | "projectDocumentCandidate"
   | "projectMaterial"
   | "quote"
   | "subscription"
@@ -151,8 +156,9 @@ function mapMaterial(material: DbMaterial): Material {
 
 function mapProjectMaterial(
   projectMaterial: DbProjectMaterialWithMaterial,
+  documentCandidateSource?: ProjectMaterialDocumentCandidateSource,
 ): ProjectMaterial {
-  return {
+  const mappedMaterial: ProjectMaterial = {
     id: projectMaterial.id,
     projectId: projectMaterial.projectId,
     materialId: projectMaterial.materialId ?? undefined,
@@ -169,6 +175,15 @@ function mapProjectMaterial(
     createdAt: projectMaterial.createdAt,
     updatedAt: projectMaterial.updatedAt,
   };
+
+  if (documentCandidateSource) {
+    return {
+      ...mappedMaterial,
+      documentCandidateSource,
+    };
+  }
+
+  return mappedMaterial;
 }
 
 function toMoneyDecimal(
@@ -368,6 +383,76 @@ async function getProjectMaterials(
       },
     ],
   });
+}
+
+async function getProjectMaterialDocumentCandidateSources(
+  projectMaterialIds: string[],
+  db: ProjectMaterialReadClient = prisma,
+): Promise<Map<string, ProjectMaterialDocumentCandidateSource>> {
+  if (projectMaterialIds.length === 0) {
+    return new Map();
+  }
+
+  const candidates = await db.projectDocumentCandidate.findMany({
+    select: {
+      analysis: {
+        select: {
+          document: {
+            select: {
+              fileName: true,
+            },
+          },
+        },
+      },
+      confidence: true,
+      id: true,
+      importedAt: true,
+      importedProjectMaterialId: true,
+      projectDocumentAnalysisId: true,
+      sourceReference: true,
+    },
+    where: {
+      importedProjectMaterialId: {
+        in: projectMaterialIds,
+      },
+    },
+  });
+
+  return new Map(
+    candidates.flatMap((candidate) =>
+      candidate.importedProjectMaterialId
+        ? [
+            [
+              candidate.importedProjectMaterialId,
+              {
+                analysisId: candidate.projectDocumentAnalysisId,
+                candidateId: candidate.id,
+                confidence: candidate.confidence?.toString() ?? null,
+                documentName: candidate.analysis.document.fileName,
+                importedAt: candidate.importedAt,
+                sourceReference: candidate.sourceReference,
+              },
+            ] as const,
+          ]
+        : [],
+    ),
+  );
+}
+
+async function getMappedProjectMaterials(
+  projectId: string,
+  db: ProjectMaterialReadClient = prisma,
+): Promise<ProjectMaterial[]> {
+  const materials = await getProjectMaterials(projectId, db);
+  const sourceByProjectMaterialId =
+    await getProjectMaterialDocumentCandidateSources(
+      materials.map((material) => material.id),
+      db,
+    );
+
+  return materials.map((material) =>
+    mapProjectMaterial(material, sourceByProjectMaterialId.get(material.id)),
+  );
 }
 
 export async function recalculateQuoteFromPersistedMaterials(
@@ -635,11 +720,9 @@ export async function generateProjectMaterialList(
     },
   });
 
-  const materials = await getProjectMaterials(project.id);
-
   return {
     ok: true,
-    materials: materials.map(mapProjectMaterial),
+    materials: await getMappedProjectMaterials(project.id),
   };
 }
 
@@ -812,11 +895,9 @@ export async function getQuoteWorkspace(
     };
   }
 
-  const materials = await getProjectMaterials(project.id);
-
   return {
     ok: true,
-    materials: materials.map(mapProjectMaterial),
+    materials: await getMappedProjectMaterials(project.id),
     quote: mapQuote(quote),
   };
 }
@@ -989,11 +1070,9 @@ export async function updateProjectMaterials(
         },
       );
 
-      const materials = await getProjectMaterials(project.id, transaction);
-
       return {
         ok: true,
-        materials: materials.map(mapProjectMaterial),
+        materials: await getMappedProjectMaterials(project.id, transaction),
         quote: mapQuote(quote),
       };
     })
@@ -1074,6 +1153,11 @@ export async function getQuoteExportData(
     return null;
   }
 
+  const sourceByProjectMaterialId =
+    await getProjectMaterialDocumentCandidateSources(
+      project.materials.map((material) => material.id),
+    );
+
   return {
     company: {
       companyAddress: project.user.settings?.companyAddress ?? undefined,
@@ -1087,7 +1171,9 @@ export async function getQuoteExportData(
     },
     currency: project.user.settings?.currency ?? DEFAULT_CURRENCY,
     generatedAt: new Date(),
-    materials: project.materials.map(mapProjectMaterial),
+    materials: project.materials.map((material) =>
+      mapProjectMaterial(material, sourceByProjectMaterialId.get(material.id)),
+    ),
     project: {
       id: project.id,
       name: project.name,

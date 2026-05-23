@@ -738,7 +738,9 @@
     "fallbackName": "Materijal",
     "fields": {
       "codeValue": "Šifra: {code}",
-      "materialName": "Naziv materijala"
+      "confidence": "Pouzdanost",
+      "materialName": "Naziv materijala",
+      "sourceReference": "Izvorna referenca"
     },
     "page": {
       "description": "Upravljajte podrazumevanim cenama kataloga i pregledajte sačuvane stavke materijala iz projektnih ponuda.",
@@ -749,7 +751,7 @@
       "inputAriaLabel": "Podrazumevana cena materijala"
     },
     "sources": {
-      "documentAi": "AI dokumenta",
+      "documentAi": "Iz projektne dokumentacije",
       "manual": "Ručno",
       "rule": "Pravilo/generisano"
     },
@@ -900,9 +902,11 @@
     "analysisFailed": "Analiza nije uspela.",
     "analysisLimitReached": "Dostignuto je ograničenje analiza.",
     "accept": "Prihvati",
-    "acceptedLaborItemsNotImportedYet": "{count} prihvaćenih stavki rada još se ne uvozi.",
+    "acceptedLaborItemsNotImportedYet": "{count} prihvaćenih stavki rada pregledano je, ali još nije uvezeno u ukupne iznose ponude. Modul rada dolazi kasnije.",
     "acceptedMaterialsAlreadyImported": "Prihvaćeni materijali su već uvezeni.",
     "acceptedMaterialsReadyToImport": "{count} prihvaćenih materijala spremno je za uvoz.",
+    "alreadyImported": "Već uvezeno",
+    "alreadyImportedItems": "Već uvezeno: {count}",
     "analyzeDocument": "Analiziraj dokument",
     "analyzingDocument": "Analiza dokumenta...",
     "assumptions": "Pretpostavke",
@@ -944,16 +948,22 @@
     },
     "category": "Kategorija",
     "confidence": "Pouzdanost",
+    "changesAfterImportDoNotUpdateQuoteLinesYet": "Promene nakon uvoza još ne ažuriraju stavke ponude.",
     "descriptionField": "Opis",
+    "editImportedLineOnQuotePage": "Uvezenu stavku uredite na stranici ponude.",
     "extractedCandidates": "Izdvojeni kandidati",
     "extractedSummary": "Sažetak ekstrakcije",
+    "fromProjectDocument": "Iz projektne dokumentacije",
     "importAcceptedItemsToQuote": "Uvezi prihvaćene stavke u ponudu",
     "importCompleted": "Uvoz je završen",
+    "imported": "Uvezeno",
     "importedMaterials": "Uvezeni materijali: {count}",
+    "importedToQuote": "Uvezeno u ponudu",
     "importFailed": "Uvoz nije uspeo. Pokušajte ponovo.",
     "importing": "Uvoz...",
     "importToQuoteComingSoon": "Uvoz u ponudu dolazi uskoro",
     "laborCandidates": "Kandidati za rad",
+    "laborItemsReviewedButNotImportedYet": "{count} prihvaćenih stavki rada pregledano je, ali još nije uvezeno u ukupne iznose ponude. Modul rada dolazi kasnije.",
     "loadingCandidates": "Učitavanje izdvojenih kandidata...",
     "lockedBadge": "Zaključano",
     "lockedStatus": "Potreban je Pro",
@@ -970,6 +980,7 @@
     "pdfOnly": "Samo PDF",
     "pending": "Na čekanju",
     "proBadge": "Pro",
+    "projectDocumentAi": "AI projektne dokumentacije",
     "proPlanRequired": "Potreban je Pro plan.",
     "openQuote": "Otvori ponudu",
     "quoteLimitReached": "Dostignuto je ograničenje ponuda. Nadogradite plan za izradu dodatnih ponuda.",
@@ -980,6 +991,7 @@
     "reviewSaved": "Pregled je sačuvan",
     "saveReview": "Sačuvaj pregled",
     "savingReview": "Čuvanje...",
+    "skippedLaborItems": "Preskočene stavke rada: {count}",
     "skippedItems": "Preskočene stavke: {count}",
     "sourceReference": "Izvorna referenca",
     "quantity": "Količina",
@@ -1137,7 +1149,7 @@
     },
     "materialSources": {
       "ai": "AI",
-      "document_ai": "AI dokumenta",
+      "document_ai": "AI projektne dokumentacije",
       "manual": "Ručno",
       "rule": "Pravilo"
     },

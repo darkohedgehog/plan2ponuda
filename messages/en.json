@@ -738,7 +738,9 @@
     "fallbackName": "Material",
     "fields": {
       "codeValue": "Code: {code}",
-      "materialName": "Material name"
+      "confidence": "Confidence",
+      "materialName": "Material name",
+      "sourceReference": "Source reference"
     },
     "page": {
       "description": "Manage default catalog pricing and review persisted material lines from project quotes.",
@@ -749,7 +751,7 @@
       "inputAriaLabel": "Default material price"
     },
     "sources": {
-      "documentAi": "Document AI",
+      "documentAi": "From project document",
       "manual": "Manual",
       "rule": "Rule/generated"
     },
@@ -900,9 +902,11 @@
     "analysisFailed": "Analysis failed.",
     "analysisLimitReached": "Analysis limit reached.",
     "accept": "Accept",
-    "acceptedLaborItemsNotImportedYet": "{count} accepted labor items are not imported yet.",
+    "acceptedLaborItemsNotImportedYet": "{count} accepted labor items are reviewed but not imported into quote totals yet. Labor module is coming later.",
     "acceptedMaterialsAlreadyImported": "Accepted materials already imported.",
     "acceptedMaterialsReadyToImport": "{count} accepted materials ready to import.",
+    "alreadyImported": "Already imported",
+    "alreadyImportedItems": "Already imported: {count}",
     "analyzeDocument": "Analyze document",
     "analyzingDocument": "Analyzing document...",
     "assumptions": "Assumptions",
@@ -944,16 +948,22 @@
     },
     "category": "Category",
     "confidence": "Confidence",
+    "changesAfterImportDoNotUpdateQuoteLinesYet": "Changes after import do not update quote lines yet.",
     "descriptionField": "Description",
+    "editImportedLineOnQuotePage": "Edit imported line on quote page.",
     "extractedCandidates": "Extracted candidates",
     "extractedSummary": "Extracted summary",
+    "fromProjectDocument": "From project document",
     "importAcceptedItemsToQuote": "Import accepted items to quote",
     "importCompleted": "Import completed",
+    "imported": "Imported",
     "importedMaterials": "Imported materials: {count}",
+    "importedToQuote": "Imported to quote",
     "importFailed": "Import failed. Please try again.",
     "importing": "Importing...",
     "importToQuoteComingSoon": "Import to quote coming soon",
     "laborCandidates": "Labor candidates",
+    "laborItemsReviewedButNotImportedYet": "{count} accepted labor items are reviewed but not imported into quote totals yet. Labor module is coming later.",
     "loadingCandidates": "Loading extracted candidates...",
     "lockedBadge": "Locked",
     "lockedStatus": "Pro required",
@@ -970,6 +980,7 @@
     "pdfOnly": "PDF only",
     "pending": "Pending",
     "proBadge": "Pro",
+    "projectDocumentAi": "Project document AI",
     "proPlanRequired": "Pro plan required.",
     "openQuote": "Open quote",
     "quoteLimitReached": "Quote limit reached. Upgrade your plan to create more quotes.",
@@ -980,6 +991,7 @@
     "reviewSaved": "Review saved",
     "saveReview": "Save review",
     "savingReview": "Saving...",
+    "skippedLaborItems": "Skipped labor items: {count}",
     "skippedItems": "Skipped items: {count}",
     "sourceReference": "Source reference",
     "quantity": "Quantity",
@@ -1137,7 +1149,7 @@
     },
     "materialSources": {
       "ai": "AI",
-      "document_ai": "Document AI",
+      "document_ai": "Project document AI",
       "manual": "Manual",
       "rule": "Rule"
     },

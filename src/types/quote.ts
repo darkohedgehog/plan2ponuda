@@ -20,6 +20,15 @@ export type Material = {
   updatedAt: Date;
 };
 
+export type ProjectMaterialDocumentCandidateSource = {
+  analysisId: string;
+  candidateId: string;
+  confidence: string | null;
+  documentName: string;
+  importedAt: Date | null;
+  sourceReference: string | null;
+};
+
 export type ProjectMaterial = {
   id: string;
   projectId: string;
@@ -31,6 +40,7 @@ export type ProjectMaterial = {
   unitPrice: string;
   totalPrice: string;
   source: string;
+  documentCandidateSource?: ProjectMaterialDocumentCandidateSource;
   material?: Material;
   createdAt: Date;
   updatedAt: Date;

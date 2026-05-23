@@ -117,6 +117,7 @@ export async function POST(
   }
 
   return NextResponse.json({
+    alreadyImportedCount: result.alreadyImportedCount,
     importedLaborCount: result.importedLaborCount,
     importedMaterialsCount: result.importedMaterialsCount,
     laborSkippedCount: result.laborSkippedCount,

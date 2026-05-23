@@ -43,6 +43,7 @@ export type ImportAcceptedDocumentCandidatesToQuoteResult =
   | {
       importedLaborCount: number;
       importedMaterialsCount: number;
+      alreadyImportedCount: number;
       laborSkippedCount: number;
       ok: true;
       quoteId: string;
@@ -232,6 +233,7 @@ async function importAcceptedDocumentCandidatesToQuoteInTransaction(
   return {
     importedLaborCount: 0,
     importedMaterialsCount,
+    alreadyImportedCount,
     laborSkippedCount,
     ok: true,
     quoteId: quote.id,
@@ -246,6 +248,9 @@ async function getNoImportableMaterialsResult(
   skippedCount: number,
   db: ProjectDocumentCandidateImportClient,
 ): Promise<ImportAcceptedDocumentCandidatesToQuoteResult> {
+  const laborSkippedCount = acceptedCandidates.filter(
+    (candidate) => candidate.type === "labor" && candidate.importedAt === null,
+  ).length;
   const hasAcceptedImportedMaterial = acceptedCandidates.some(
     (candidate) => candidate.type === "material" && candidate.importedAt !== null,
   );
@@ -264,10 +269,8 @@ async function getNoImportableMaterialsResult(
       return {
         importedLaborCount: 0,
         importedMaterialsCount: 0,
-        laborSkippedCount: acceptedCandidates.filter(
-          (candidate) =>
-            candidate.type === "labor" && candidate.importedAt === null,
-        ).length,
+        alreadyImportedCount: Math.max(0, skippedCount - laborSkippedCount),
+        laborSkippedCount,
         ok: true,
         quoteId: quote.id,
         skippedCount,

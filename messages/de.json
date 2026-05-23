@@ -738,7 +738,9 @@
     "fallbackName": "Material",
     "fields": {
       "codeValue": "Code: {code}",
-      "materialName": "Materialname"
+      "confidence": "Konfidenz",
+      "materialName": "Materialname",
+      "sourceReference": "Quellenreferenz"
     },
     "page": {
       "description": "Verwalten Sie Standardpreise im Katalog und prüfen Sie gespeicherte Materialpositionen aus Projektangeboten.",
@@ -749,7 +751,7 @@
       "inputAriaLabel": "Standardpreis des Materials"
     },
     "sources": {
-      "documentAi": "Dokument-KI",
+      "documentAi": "Aus der Projektdokumentation",
       "manual": "Manuell",
       "rule": "Regel/generiert"
     },
@@ -900,9 +902,11 @@
     "analysisFailed": "Analyse fehlgeschlagen.",
     "analysisLimitReached": "Analyselimit erreicht.",
     "accept": "Akzeptieren",
-    "acceptedLaborItemsNotImportedYet": "{count} akzeptierte Arbeitspositionen werden noch nicht importiert.",
+    "acceptedLaborItemsNotImportedYet": "{count} akzeptierte Arbeitspositionen wurden geprüft, aber noch nicht in die Angebotssummen importiert. Das Arbeitsmodul kommt später.",
     "acceptedMaterialsAlreadyImported": "Akzeptierte Materialien wurden bereits importiert.",
     "acceptedMaterialsReadyToImport": "{count} akzeptierte Materialien bereit zum Import.",
+    "alreadyImported": "Bereits importiert",
+    "alreadyImportedItems": "Bereits importiert: {count}",
     "analyzeDocument": "Dokument analysieren",
     "analyzingDocument": "Dokument wird analysiert...",
     "assumptions": "Annahmen",
@@ -944,16 +948,22 @@
     },
     "category": "Kategorie",
     "confidence": "Konfidenz",
+    "changesAfterImportDoNotUpdateQuoteLinesYet": "Änderungen nach dem Import aktualisieren Angebotspositionen noch nicht.",
     "descriptionField": "Beschreibung",
+    "editImportedLineOnQuotePage": "Bearbeiten Sie die importierte Position auf der Angebotsseite.",
     "extractedCandidates": "Extrahierte Kandidaten",
     "extractedSummary": "Extrahierte Zusammenfassung",
+    "fromProjectDocument": "Aus der Projektdokumentation",
     "importAcceptedItemsToQuote": "Akzeptierte Positionen ins Angebot importieren",
     "importCompleted": "Import abgeschlossen",
+    "imported": "Importiert",
     "importedMaterials": "Importierte Materialien: {count}",
+    "importedToQuote": "Ins Angebot importiert",
     "importFailed": "Import fehlgeschlagen. Bitte versuchen Sie es erneut.",
     "importing": "Import läuft...",
     "importToQuoteComingSoon": "Import ins Angebot demnächst",
     "laborCandidates": "Arbeitskandidaten",
+    "laborItemsReviewedButNotImportedYet": "{count} akzeptierte Arbeitspositionen wurden geprüft, aber noch nicht in die Angebotssummen importiert. Das Arbeitsmodul kommt später.",
     "loadingCandidates": "Extrahierte Kandidaten werden geladen...",
     "lockedBadge": "Gesperrt",
     "lockedStatus": "Pro erforderlich",
@@ -970,6 +980,7 @@
     "pdfOnly": "Nur PDF",
     "pending": "Ausstehend",
     "proBadge": "Pro",
+    "projectDocumentAi": "Projektdokument-KI",
     "proPlanRequired": "Pro-Plan erforderlich.",
     "openQuote": "Angebot öffnen",
     "quoteLimitReached": "Angebotslimit erreicht. Aktualisieren Sie Ihren Plan, um weitere Angebote zu erstellen.",
@@ -980,6 +991,7 @@
     "reviewSaved": "Prüfung gespeichert",
     "saveReview": "Prüfung speichern",
     "savingReview": "Wird gespeichert...",
+    "skippedLaborItems": "Übersprungene Arbeitspositionen: {count}",
     "skippedItems": "Übersprungene Positionen: {count}",
     "sourceReference": "Quellenreferenz",
     "quantity": "Menge",
@@ -1137,7 +1149,7 @@
     },
     "materialSources": {
       "ai": "KI",
-      "document_ai": "Dokument-KI",
+      "document_ai": "Projektdokument-KI",
       "manual": "Manuell",
       "rule": "Regel"
     },

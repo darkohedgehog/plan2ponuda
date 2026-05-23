@@ -53,6 +53,9 @@ Record for each run:
   emails can be opened.
 - [ ] Billing profile data for at least one Croatian individual and one
   business/B2G-style customer, including required billing fields.
+- [ ] Sample project documentation PDF under 20 MB with readable material and
+  labor references.
+- [ ] Oversized project documentation PDF over 20 MB for upload validation.
 - [ ] Optional invalid upload file for negative checks, such as a `.txt` file.
 
 ## 4. Auth Flow Tests
@@ -133,14 +136,77 @@ Record for each run:
 - [ ] Sign in as a Basic user and confirm the same documentation analysis
   feature remains locked.
 - [ ] Sign in as a Pro user and confirm the documentation analysis area changes
-  from locked to the Pro "coming soon" placeholder.
-- [ ] Confirm the placeholder does not start real documentation analysis yet.
+  from locked to the upload and analysis workflow.
 - [ ] Confirm Pro usage limits show 20 floor plans, 20 quotes, and 3 large PDF
   analyses.
 - [ ] Confirm direct navigation or API attempts by non-Pro users do not bypass
   the gate.
 
-## 9. Project Workflow Tests
+## 9. Pro Project Documentation Analysis Tests
+
+- [ ] Free/Basic locked Pro card: sign in as a Free user and a Basic user,
+  open a project detail page, and confirm the project documentation analysis
+  card is locked, has an upgrade path, and cannot upload or analyze documents.
+- [ ] Pro PDF upload: sign in as a Pro user, open a project detail page, upload
+  the sample project documentation PDF, and confirm the document appears after
+  refresh.
+- [ ] PDF validation: attempt to upload a non-PDF file and confirm it is
+  rejected with a safe validation message.
+- [ ] PDF validation: attempt to upload the oversized PDF and confirm the
+  20 MB limit is enforced without creating a document row.
+- [ ] Pro AI document analysis success: run analysis on the uploaded PDF,
+  confirm loading state prevents duplicate clicks, and confirm the completed
+  analysis shows summary counts and extracted material/labor candidates.
+- [ ] Failed analysis behavior: simulate or use a known failing document/provider
+  condition and confirm the UI shows a recoverable failure without creating
+  candidates, importing materials, changing quote totals, or exposing provider
+  details.
+- [ ] Usage counting: record `large_pdf_analyses_used` before analysis, confirm
+  it increments only after successful completed analysis, and confirm failed
+  analysis does not increment it.
+- [ ] Existing completed analysis: refresh the page and reopen the document,
+  confirm the completed analysis is reused, does not re-run AI, and does not
+  double-count `large_pdf_analyses_used`.
+- [ ] Candidate review: edit a material candidate name, category, unit,
+  quantity, unit price, and notes.
+- [ ] Candidate review: mark one candidate accepted, mark one candidate
+  rejected, leave one candidate pending where available, and save review.
+- [ ] Candidate review: refresh the page and confirm edited fields and
+  pending/accepted/rejected statuses persist.
+- [ ] Import accepted items: click "Import accepted items to quote" and confirm
+  only accepted material candidates are imported.
+- [ ] Import accepted items: confirm pending and rejected candidates do not
+  create quote material rows.
+- [ ] Import accepted items: run import again and confirm imported materials are
+  not duplicated.
+- [ ] Import accepted items: confirm accepted labor candidates remain reviewed
+  but are not imported into quote totals.
+- [ ] Quote page: open the project quote page and confirm imported materials
+  appear as project-local material rows.
+- [ ] Quote page: confirm imported rows show a source label meaning "From
+  project document" or equivalent localized text.
+- [ ] Quote page: when source metadata is available, confirm the imported row
+  shows document name, source reference, and confidence.
+- [ ] PDF export: export the quote PDF and confirm imported document materials
+  appear naturally in the material list and totals match the on-screen quote.
+- [ ] Excel export: export the quote workbook and confirm imported document
+  materials appear naturally in the materials sheet and totals match the
+  on-screen quote.
+- [ ] Multi-tenant security: sign in as another user and confirm they cannot
+  access the document upload/list, document analysis, candidate review, or
+  import API routes for the Pro user's project/document/analysis IDs.
+- [ ] Delete project cleanup: delete a disposable project with uploaded project
+  documentation and confirm direct access to the project, document routes, and
+  uploaded document assets is no longer available.
+- [ ] Responsive check: review the document analysis card and candidate review
+  UI on mobile, tablet, and desktop widths; confirm inputs, status controls,
+  import summary, source metadata, and action buttons do not overflow or
+  overlap.
+- [ ] Current labor module TODO: confirm labor candidates are visible for
+  review but not imported, not included in quote totals, and clearly labeled as
+  future labor-module work.
+
+## 10. Project Workflow Tests
 
 - [ ] Sign in as a user with available floor plan quota.
 - [ ] Open `/hr/dashboard/projects` and confirm empty, loading, and populated
@@ -158,7 +224,7 @@ Record for each run:
 - [ ] Open another user's project URL while signed in and confirm access is
   denied or returns not found.
 
-## 10. AI Analysis Tests
+## 11. AI Analysis Tests
 
 - [ ] Use a project with a valid uploaded floor plan.
 - [ ] Start AI analysis from the project detail page.
@@ -173,7 +239,7 @@ Record for each run:
 - [ ] Confirm repeated analysis attempts remain within usage/rate-limit
   behavior and show safe errors when blocked.
 
-## 11. Room Review/Material/Quote Tests
+## 12. Room Review/Material/Quote Tests
 
 - [ ] Open `/hr/dashboard/projects/{projectId}/review`.
 - [ ] Confirm analyzed rooms are listed with editable names, types, dimensions,
@@ -191,7 +257,7 @@ Record for each run:
   internally consistent.
 - [ ] Confirm `/hr/dashboard/quotes` lists the project quote.
 
-## 12. PDF Export Tests
+## 13. PDF Export Tests
 
 - [ ] Use a reviewed project with a generated quote.
 - [ ] Click the PDF export action.
@@ -202,7 +268,7 @@ Record for each run:
 - [ ] Confirm exported amounts match the on-screen quote.
 - [ ] Confirm another user cannot export the PDF by guessing the project ID.
 
-## 13. Excel Export Tests
+## 14. Excel Export Tests
 
 - [ ] Use the same reviewed project with a generated quote.
 - [ ] Click the Excel export action.
@@ -214,7 +280,7 @@ Record for each run:
 - [ ] Confirm another user cannot export the Excel file by guessing the project
   ID.
 
-## 14. Delete Project Tests
+## 15. Delete Project Tests
 
 - [ ] Create a disposable project for deletion.
 - [ ] Confirm the delete action is clearly separated from normal project
@@ -224,11 +290,13 @@ Record for each run:
 - [ ] Confirm deletion with the required confirmation input or action.
 - [ ] Confirm the project disappears from the dashboard, projects list, quotes
   list, and direct URL access.
+- [ ] Confirm uploaded project documentation PDFs and related document records
+  are cleaned up or are no longer accessible after project deletion.
 - [ ] Confirm deleting one project does not affect another project for the same
   user.
 - [ ] Confirm another user cannot delete the project by guessing the project ID.
 
-## 15. Admin Invoice Queue Tests
+## 16. Admin Invoice Queue Tests
 
 - [ ] Sign in as a non-admin user and confirm
   `/hr/dashboard/admin/billing` is blocked.
@@ -248,13 +316,16 @@ Record for each run:
 - [ ] Mark a separate task as needs review, failed, or not required where
   appropriate and confirm status updates persist.
 
-## 16. Multi-Tenant Security Tests
+## 17. Multi-Tenant Security Tests
 
 - [ ] User A creates a project with upload, rooms, materials, quote, PDF, and
   Excel export.
 - [ ] User B signs in and confirms User A's project does not appear in any list.
 - [ ] User B directly opens User A's project, review, quote, PDF export, and
   Excel export URLs and confirms access is denied or returns not found.
+- [ ] User B directly calls User A's project document, document analysis,
+  candidate review, and candidate import routes and confirms access is denied
+  or returns not found.
 - [ ] User B attempts update/delete actions against User A's project ID and
   confirms the app rejects them.
 - [ ] Confirm API failures do not leak User A project names, client names,
@@ -263,7 +334,7 @@ Record for each run:
 - [ ] Confirm browser source, network responses, and console logs do not expose
   provider secrets or server-only keys.
 
-## 17. Responsive Layout Checks
+## 18. Responsive Layout Checks
 
 - [ ] Check marketing home, pricing, sign-in, sign-up, and forgot-password pages
   on mobile, tablet, and desktop widths.
@@ -272,12 +343,14 @@ Record for each run:
   desktop widths.
 - [ ] Confirm navigation, locale switcher, forms, tables, upload controls,
   quote editors, and admin invoice table remain usable.
+- [ ] Confirm project documentation upload, analysis, candidate review, and
+  import summary controls remain usable on mobile, tablet, and desktop widths.
 - [ ] Confirm text does not overlap, overflow buttons, or become unreadable at
   narrow widths.
 - [ ] Confirm loading, empty, error, and success states remain visible and
   accessible on small screens.
 
-## 18. i18n Locale Checks
+## 19. i18n Locale Checks
 
 - [ ] Confirm locale routes load for `/hr`, `/sr`, `/en`, `/de`, and `/sl`.
 - [ ] Confirm locale switcher changes the route prefix and preserves the
@@ -291,7 +364,7 @@ Record for each run:
 - [ ] Confirm unsupported locale routes redirect or resolve safely to the
   default locale.
 
-## 19. Expected Pass/Fail Criteria
+## 20. Expected Pass/Fail Criteria
 
 - [ ] Pass: all critical user journeys work for Free, Basic, Pro, and Admin
   users without unhandled errors.
@@ -301,6 +374,11 @@ Record for each run:
   invoice queue data as expected.
 - [ ] Pass: AI analysis either succeeds with valid saved data or fails in a
   recoverable, user-safe way.
+- [ ] Pass: Pro project documentation analysis creates reviewable candidates,
+  imports only accepted material candidates after explicit user action, and
+  keeps pending/rejected/labor candidates out of quote totals.
+- [ ] Pass: imported document materials are traceable in the quote UI and
+  exports through source labels and available document/source metadata.
 - [ ] Pass: PDF and Excel exports open and match on-screen quote totals.
 - [ ] Pass: no provider secrets, signed storage paths, or cross-tenant data leak
   in the browser.
@@ -311,16 +389,26 @@ Record for each run:
   subscription in test mode.
 - [ ] Fail release: usage limits can be bypassed or block allowed usage
   incorrectly.
+- [ ] Fail release: failed or repeated document analysis consumes extra large
+  PDF analysis usage.
+- [ ] Fail release: pending, rejected, or labor document candidates are imported
+  into quote totals.
+- [ ] Fail release: repeated document candidate import creates duplicate quote
+  material rows.
 - [ ] Fail release: quote generation or exports produce materially wrong totals.
 - [ ] Fail release: build, typecheck, or lint fails unless the failure is
   explicitly accepted and tracked before release.
 
-## 20. Known Manual Checks That Cannot Be Automated Yet
+## 21. Known Manual Checks That Cannot Be Automated Yet
 
 - [ ] Visual review of generated AI room suggestions against the uploaded floor
   plan.
 - [ ] Manual judgment that generated material lists are plausible for the room
   review and proposal context.
+- [ ] Manual judgment that project documentation material and labor candidates
+  are plausible for the uploaded PDF.
+- [ ] Labor module TODO: labor candidates are intentionally review-only and
+  must not affect quote totals until a dedicated labor import workflow exists.
 - [ ] Manual PDF layout review for branding, pagination, typography, and
   special characters.
 - [ ] Manual Excel workbook review in the target spreadsheet app.

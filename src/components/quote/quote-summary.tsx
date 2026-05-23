@@ -60,6 +60,7 @@ function toEditorMaterial(
     name: displayMaterial.name,
     quantity: projectMaterial.quantity,
     source: projectMaterial.source,
+    documentCandidateSource: projectMaterial.documentCandidateSource,
     totalPrice: projectMaterial.totalPrice,
     unit: displayMaterial.unit,
     unitPrice: projectMaterial.unitPrice,

@@ -192,6 +192,7 @@ export type ImportProjectDocumentCandidatesResponse =
       ok: true;
       importedMaterialsCount: number;
       importedLaborCount: number;
+      alreadyImportedCount: number;
       laborSkippedCount: number;
       skippedCount: number;
       quoteId: string;
