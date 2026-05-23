@@ -134,7 +134,8 @@
     "uploadFloorPlan": "Upload Floor Plan",
     "waiting": "Waiting",
     "viewAllProjects": "View all projects",
-    "viewProjects": "View Projects"
+    "viewProjects": "View Projects",
+    "manageBilling": "Manage billing"
   },
   "Validation": {
     "emailAlreadyExists": "An account with this email already exists.",
@@ -369,7 +370,8 @@
     "quotes": "Quotes",
     "settings": "Settings",
     "terms": "Terms",
-    "toggleNavigationMenu": "Toggle navigation menu"
+    "toggleNavigationMenu": "Toggle navigation menu",
+    "cookies": "Cookies"
   },
   "Billing": {
     "actions": {
@@ -437,7 +439,7 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "Price TBD"
+      "price": "30 EUR / month (Beta)"
     }
   },
   "Usage": {
@@ -600,34 +602,38 @@
   },
   "Marketing": {
     "cta": {
-      "description": "Create a project, upload the plan, and move from review to quote without losing time in manual spreadsheets.",
+      "description": "Create a project, upload the plan, review AI suggestions, and export the quote when the numbers are ready.",
       "eyebrow": "Ready when the next plan arrives",
-      "title": "Start your first electrical quote with a cleaner workflow."
+      "title": "Prepare the next electrical quote with a cleaner workflow."
     },
     "features": {
-      "description": "Ploro AI keeps the workflow narrow and practical: understand the plan, suggest the installation, and prepare the quote.",
+      "title": "Built for estimate work electricians repeat every week.",
+      "description": "Keep the workflow practical: analyze the plan, review the suggestions, adjust materials, and export a professional quote.",
       "eyebrow": "Features",
       "items": {
-        "electricalSuggestions": {
-          "description": "Generate practical sockets, switches, and lighting points based on room type.",
-          "title": "Electrical suggestions"
+        "floorPlanWorkflow": {
+          "title": "Floor plan to quote workflow",
+          "description": "Free and Basic plans cover the standard path from uploaded floor plan to reviewed rooms, materials, and quote export."
         },
-        "materialQuote": {
-          "description": "Convert reviewed suggestions into material quantities, labor totals, and a quote-ready structure.",
-          "title": "Material list & quote export"
+        "editableSuggestions": {
+          "title": "Editable AI suggestions",
+          "description": "Room detection and electrical suggestions remain under your control before they become quote inputs."
         },
-        "roomDetection": {
-          "description": "Identify rooms from uploaded plans, then keep the estimator in control for corrections.",
-          "title": "AI-assisted room detection"
+        "projectDocumentation": {
+          "title": "Pro project PDF extraction",
+          "description": "Pro users can analyze project documentation PDFs, review extracted candidates, and import accepted material lines."
+        },
+        "exports": {
+          "title": "PDF and Excel exports",
+          "description": "Prepare quote documents for clients and spreadsheet review without rebuilding the estimate by hand."
         }
-      },
-      "title": "Built for the estimate work electricians repeat every week."
+      }
     },
     "footer": {
       "tagline": "Faster electrical installation estimates from floor plans."
     },
     "hero": {
-      "description": "Upload a plan, review detected rooms, generate electrical suggestions, and export a client-ready quote without rebuilding the estimate by hand.",
+      "description": "Ploro AI helps electricians and small installation companies turn plans into editable room suggestions, material lists, and client-ready PDF or Excel quotes.",
       "preview": {
         "detectedRooms": "Detected rooms",
         "exportQuote": "Export quote",
@@ -659,9 +665,13 @@
             "status": "Ready"
           }
         },
-        "statusQuoted": "Quoted"
+        "statusQuoted": "Quoted",
+        "documentAnalysis": "Project PDF analysis",
+        "documentDescription": "Pro extracts material and labor candidates for review before import.",
+        "candidateReview": "Candidate review"
       },
-      "title": "Create electrical installation quotes from floor plans in minutes"
+      "title": "Electrical quotes from floor plans, reviewed by you",
+      "reviewNote": "AI output is a draft. Review rooms, materials, prices, and assumptions before sending a quote."
     },
     "pages": {
       "contact": {
@@ -686,26 +696,54 @@
       }
     },
     "workflow": {
+      "title": "A focused path from plan upload to quote export.",
       "eyebrow": "How it works",
       "steps": {
-        "exportQuote": {
-          "description": "Turn the reviewed plan into a structured client-ready offer.",
-          "title": "Export quote"
-        },
-        "generateMaterials": {
-          "description": "Create socket, switch, lighting, cable, and equipment suggestions.",
-          "title": "Generate materials"
+        "uploadFloorPlan": {
+          "title": "Upload plans",
+          "description": "Start with a floor plan PDF, blueprint image, or project documentation PDF on Pro."
         },
         "reviewRooms": {
-          "description": "Confirm detected spaces and adjust names before estimating.",
-          "title": "Review rooms"
+          "title": "Review AI suggestions",
+          "description": "Confirm rooms, electrical points, and extracted document candidates before estimating."
         },
-        "uploadFloorPlan": {
-          "description": "Start with a PDF, blueprint, or image from your client.",
-          "title": "Upload floor plan"
+        "reviewMaterials": {
+          "title": "Prepare materials",
+          "description": "Edit material names, quantities, prices, and source lines before finalizing the quote."
+        },
+        "exportQuote": {
+          "title": "Export the offer",
+          "description": "Generate a client-ready quote as PDF or Excel after your review is complete."
         }
-      },
-      "title": "From plan upload to quote export in one focused workflow."
+      }
+    },
+    "metadata": {
+      "title": "Ploro AI - Electrical quotes from floor plans",
+      "description": "Create reviewed electrical installation quotes from floor plans, project PDFs, materials, and exports in one focused workflow."
+    },
+    "capabilities": {
+      "title": "AI assistance where it saves time, review where it matters.",
+      "description": "Plan2Ponuda keeps AI output as editable estimating support. It does not replace professional review, engineering judgment, or final responsibility for a quote.",
+      "safetyTitle": "Review before sending",
+      "safetyDescription": "Check quantities, prices, assumptions, and source references before sharing any quote with a client.",
+      "items": {
+        "floorPlanAnalysis": {
+          "title": "AI floor plan analysis",
+          "description": "Detect rooms and create a starting point for electrical suggestions from uploaded plans."
+        },
+        "projectDocumentation": {
+          "title": "Project documentation analysis",
+          "description": "Pro extracts material and labor candidates from project PDFs while keeping labor review-only for now."
+        },
+        "reviewWorkflow": {
+          "title": "Human review layer",
+          "description": "Accept, reject, or edit candidates and material lines before they affect the quote."
+        },
+        "exports": {
+          "title": "Professional exports",
+          "description": "Export reviewed quote data to PDF and Excel using the same project material rows."
+        }
+      }
     }
   },
   "MaterialCategories": {
@@ -1306,6 +1344,212 @@
     "inputAriaLabel": "Choose floor plan file",
     "success": {
       "uploaded": "Uploaded: {path}"
+    }
+  },
+  "Footer": {
+    "tagline": "Faster electrical installation estimates from floor plans and project PDFs."
+  },
+  "Pricing": {
+    "metadata": {
+      "title": "Pricing - Ploro AI",
+      "description": "Free, Basic, and Pro pricing for electrical quote workflows, floor plan analysis, project PDF extraction, and exports."
+    },
+    "beta": "Beta",
+    "viewPlan": "View plan",
+    "landingTitle": "Plans for trying, quoting, and Pro document analysis.",
+    "landingDescription": "Start with one project on Free, expand the floor-plan workflow on Basic, or use Pro for project documentation PDF extraction.",
+    "page": {
+      "title": "Pricing for electrical estimating teams",
+      "description": "Choose the plan that matches your current quoting workload. Limits shown here match the implemented usage gates."
+    },
+    "reviewNote": {
+      "title": "AI output requires review",
+      "description": "All AI-generated rooms, candidates, materials, prices, and assumptions should be checked by the user before sending a quote."
+    },
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "0 EUR / month",
+        "fit": "Good for trying the workflow.",
+        "description": "A small starter plan for testing the floor-plan-to-quote flow.",
+        "features": {
+          "floorPlan": "1 floor plan",
+          "quote": "1 quote",
+          "exports": "PDF and Excel export",
+          "trial": "Good for trying the app"
+        }
+      },
+      "basic": {
+        "name": "Basic",
+        "price": "10 EUR / month",
+        "fit": "For regular floor-plan quoting.",
+        "description": "The standard workflow for small installation companies preparing recurring quotes.",
+        "features": {
+          "floorPlans": "Up to 10 floor plans",
+          "quotes": "Up to 10 quotes",
+          "floorPlanAi": "Standard AI floor plan analysis",
+          "exports": "PDF and Excel export",
+          "stripeSubscription": "Stripe subscription billing",
+          "cancelAnytime": "Cancel anytime through Stripe Customer Portal"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "30 EUR / month",
+        "fit": "Beta plan for larger project documentation.",
+        "description": "Adds project documentation PDF analysis and reviewed material candidate import.",
+        "features": {
+          "floorPlans": "Up to 20 floor plans",
+          "quotes": "Up to 20 quotes",
+          "documentAnalyses": "Up to 3 project documentation PDF analyses",
+          "projectPdfExtraction": "Project PDF AI extraction",
+          "candidateReview": "Candidate review and accepted material import into quote",
+          "exports": "PDF and Excel export"
+        }
+      }
+    }
+  },
+  "Legal": {
+    "draftNoticeTitle": "Release-prep placeholder",
+    "draftNoticeDescription": "This page is not final legal advice. The text must be reviewed by a lawyer and, where billing or invoices are involved, an accountant before production launch."
+  },
+  "Privacy": {
+    "title": "Privacy",
+    "description": "High-level overview of how Plan2Ponuda handles account, project, billing, upload, and AI processing data.",
+    "metadata": {
+      "title": "Privacy - Ploro AI",
+      "description": "Privacy overview for account data, billing profiles, uploads, AI processing, Stripe, SMTP, Supabase, and OpenAI."
+    },
+    "sections": {
+      "dataCollected": {
+        "title": "What data is collected",
+        "body": "The app collects data needed to create accounts, manage projects, process uploads, prepare quotes, enforce usage limits, and support billing."
+      },
+      "accountData": {
+        "title": "Account data",
+        "body": "Account data may include your email address, name, password hash, session data, settings, company details, and usage history."
+      },
+      "billingData": {
+        "title": "Billing profile data",
+        "body": "Billing profiles may include billing name, email, address, customer type, company details, tax identifiers, and invoice-related notes needed for Stripe and manual invoice review."
+      },
+      "uploads": {
+        "title": "Project uploads",
+        "body": "Floor plans and project documentation PDFs are stored in private Supabase Storage. The database stores file paths, metadata, analysis status, and extracted review data."
+      },
+      "aiProcessing": {
+        "title": "AI processing",
+        "body": "Uploaded plans and project documents may be sent to OpenAI for analysis. AI output is validated and stored so the user can review suggestions before using them."
+      },
+      "payments": {
+        "title": "Stripe payments",
+        "body": "Paid subscriptions are handled by Stripe. Plan2Ponuda stores Stripe identifiers and subscription state, but does not store card details."
+      },
+      "email": {
+        "title": "SMTP password reset emails",
+        "body": "Password reset emails are sent through the configured SMTP provider. Reset responses are neutral and do not reveal whether an account exists."
+      },
+      "providers": {
+        "title": "Infrastructure providers",
+        "body": "The app uses Supabase for database and storage, Stripe for payments, SMTP for email, and OpenAI for AI processing. Provider-specific processing must be reviewed before production launch."
+      },
+      "rights": {
+        "title": "User rights and contact",
+        "body": "Users can contact support to ask about account data, billing profile data, uploads, or deletion requests. Final legal rights wording requires review."
+      }
+    }
+  },
+  "Terms": {
+    "title": "Terms",
+    "description": "High-level service terms for using Plan2Ponuda during beta and release preparation.",
+    "metadata": {
+      "title": "Terms - Ploro AI",
+      "description": "Terms overview covering service use, AI review responsibility, subscriptions, misuse, and legal placeholders."
+    },
+    "sections": {
+      "serviceUse": {
+        "title": "Use of service",
+        "body": "Plan2Ponuda is intended for electricians, contractors, and estimating teams preparing electrical installation quotes."
+      },
+      "aiReview": {
+        "title": "AI suggestions require review",
+        "body": "AI-generated rooms, electrical suggestions, document candidates, materials, and prices are drafts and must be reviewed by the user before use."
+      },
+      "notEngineering": {
+        "title": "Not final engineering documentation",
+        "body": "The service does not guarantee that AI output is complete engineering documentation, code compliance advice, or a final installation design."
+      },
+      "userResponsibility": {
+        "title": "User responsibility",
+        "body": "The user remains responsible for verifying project inputs, quantities, prices, assumptions, legal requirements, and the final quote sent to a client."
+      },
+      "subscriptions": {
+        "title": "Subscriptions and cancellation",
+        "body": "Paid plans are billed through Stripe. Subscription management and cancellation are handled through Stripe Customer Portal where available."
+      },
+      "misuse": {
+        "title": "Prohibited misuse",
+        "body": "Do not upload unlawful content, attempt to access another user's data, abuse rate limits, reverse engineer protected services, or use the app to produce misleading quotes."
+      },
+      "disclaimer": {
+        "title": "Limitation and disclaimer placeholder",
+        "body": "Final warranty, liability, limitation, refund, and service availability wording must be reviewed by legal counsel before production launch."
+      },
+      "governingLaw": {
+        "title": "Governing law placeholder",
+        "body": "Governing law, jurisdiction, consumer rights, and business customer terms require final legal review."
+      }
+    }
+  },
+  "Cookies": {
+    "title": "Cookies",
+    "description": "Overview of essential cookies and third-party checkout/session behavior used by Plan2Ponuda.",
+    "metadata": {
+      "title": "Cookies - Ploro AI",
+      "description": "Cookie overview for session, locale, Stripe checkout, and future analytics placeholders."
+    },
+    "sections": {
+      "essential": {
+        "title": "Essential cookies",
+        "body": "The app uses essential cookies and similar session storage for authentication, locale preference, security, and normal application operation."
+      },
+      "stripe": {
+        "title": "Stripe checkout and portal",
+        "body": "Stripe Checkout and Customer Portal may set their own cookies or similar technologies when you manage a paid subscription."
+      },
+      "analytics": {
+        "title": "Analytics TODO",
+        "body": "No invasive tracking is described here. If analytics are added later, this page must be updated before launch."
+      },
+      "control": {
+        "title": "Cookie control",
+        "body": "You can control browser cookies through your browser settings. Blocking essential cookies may prevent sign-in or checkout flows from working."
+      }
+    }
+  },
+  "Contact": {
+    "title": "Contact",
+    "description": "Contact Ploro AI about product support, beta access, electrical estimating workflows, or account questions.",
+    "metadata": {
+      "title": "Contact - Ploro AI",
+      "description": "Contact Ploro AI support for product questions, beta feedback, electrical estimating workflows, and account help."
+    },
+    "emailTitle": "Email us",
+    "emailDescription": "Use email for support, beta feedback, billing questions, or product fit discussions. No contact form is enabled yet.",
+    "emailAddress": "contact@ploroai.io",
+    "sections": {
+      "support": {
+        "title": "Product support",
+        "body": "Send questions about projects, uploads, AI analysis, candidate review, quote exports, or account access."
+      },
+      "sales": {
+        "title": "Beta and product fit",
+        "body": "Electrical contractors and installation companies can reach out to discuss whether the workflow fits their estimating process."
+      },
+      "security": {
+        "title": "Security and data questions",
+        "body": "Use the contact email for responsible reports about account access, upload privacy, or cross-tenant data concerns."
+      }
     }
   }
 }

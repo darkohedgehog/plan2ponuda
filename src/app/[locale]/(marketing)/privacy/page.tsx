@@ -1,18 +1,44 @@
-import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-import { PublicPageShell } from "@/components/marketing/public-page-shell";
+import { LegalPageContent } from "@/components/marketing/legal-page-content";
+import { resolveLocale } from "@/i18n/routing";
+
+const privacySectionKeys = [
+  "dataCollected",
+  "accountData",
+  "billingData",
+  "uploads",
+  "aiProcessing",
+  "payments",
+  "email",
+  "providers",
+  "rights",
+] as const;
+
+type PrivacyPageProps = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
+export async function generateMetadata({
+  params,
+}: PrivacyPageProps): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = resolveLocale(rawLocale);
+  const tMetadata = await getTranslations({
+    locale,
+    namespace: "Privacy.metadata",
+  });
+
+  return {
+    description: tMetadata("description"),
+    title: tMetadata("title"),
+  };
+}
 
 export default function PrivacyPage() {
-  const tPrivacy = useTranslations("Marketing.pages.privacy");
-
-  return (
-    <PublicPageShell
-      subtitle={tPrivacy("subtitle")}
-      title={tPrivacy("title")}
-    >
-      <p className="max-w-2xl text-sm leading-6 text-deep-twilight-700">
-        {tPrivacy("body")}
-      </p>
-    </PublicPageShell>
-  );
+  // TODO: Replace this release-prep placeholder with lawyer-reviewed privacy text before production launch.
+  return <LegalPageContent namespace="Privacy" sectionKeys={privacySectionKeys} />;
 }

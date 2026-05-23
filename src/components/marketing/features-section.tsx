@@ -2,9 +2,10 @@ import { useTranslations } from "next-intl";
 import { Check } from "lucide-react";
 
 const featureKeys = [
-  "roomDetection",
-  "electricalSuggestions",
-  "materialQuote",
+  "floorPlanWorkflow",
+  "editableSuggestions",
+  "projectDocumentation",
+  "exports",
 ] as const;
 
 export function FeaturesSection() {

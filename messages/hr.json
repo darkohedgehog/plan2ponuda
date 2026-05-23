@@ -134,7 +134,8 @@
     "uploadFloorPlan": "Učitaj tlocrt",
     "waiting": "Čeka",
     "viewAllProjects": "Prikaži sve projekte",
-    "viewProjects": "Prikaži projekte"
+    "viewProjects": "Prikaži projekte",
+    "manageBilling": "Upravljanje naplatom"
   },
   "Validation": {
     "emailAlreadyExists": "Račun s ovom e-poštom već postoji.",
@@ -369,7 +370,8 @@
     "quotes": "Ponude",
     "settings": "Postavke",
     "terms": "Uvjeti",
-    "toggleNavigationMenu": "Otvori ili zatvori navigaciju"
+    "toggleNavigationMenu": "Otvori ili zatvori navigaciju",
+    "cookies": "Kolačići"
   },
   "Billing": {
     "actions": {
@@ -437,7 +439,7 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "Cijena naknadno"
+      "price": "30 EUR / mjesec (Beta)"
     }
   },
   "Usage": {
@@ -600,34 +602,38 @@
   },
   "Marketing": {
     "cta": {
-      "description": "Kreirajte projekt, učitajte tlocrt i prijeđite od pregleda do ponude bez gubljenja vremena u ručnim tablicama.",
+      "description": "Kreirajte projekt, učitajte nacrt, pregledajte AI prijedloge i izvezite ponudu kada su brojke spremne.",
       "eyebrow": "Spremno kad stigne sljedeći tlocrt",
-      "title": "Pokrenite prvu elektroinstalacijsku ponudu kroz čišći tijek rada."
+      "title": "Pripremite sljedeću elektro ponudu kroz čišći workflow."
     },
     "features": {
-      "description": "Ploro AI drži tijek rada uskim i praktičnim: razumjeti tlocrt, predložiti instalaciju i pripremiti ponudu.",
-      "eyebrow": "Mogućnosti",
+      "title": "Napravljeno za procjene koje električari rade svaki tjedan.",
+      "description": "Workflow ostaje praktičan: analizirajte nacrt, pregledajte prijedloge, uredite materijale i izvezite profesionalnu ponudu.",
+      "eyebrow": "Značajke",
       "items": {
-        "electricalSuggestions": {
-          "description": "Generirajte praktične utičnice, prekidače i rasvjetne točke prema vrsti prostorije.",
-          "title": "Prijedlozi elektroinstalacije"
+        "floorPlanWorkflow": {
+          "title": "Workflow od tlocrta do ponude",
+          "description": "Free i Basic pokrivaju standardni put od učitanog tlocrta do pregledanih prostorija, materijala i izvoza ponude."
         },
-        "materialQuote": {
-          "description": "Pretvorite pregledane prijedloge u količine materijala, trošak rada i strukturu spremnu za ponudu.",
-          "title": "Materijali i izvoz ponude"
+        "editableSuggestions": {
+          "title": "AI prijedlozi koje uređujete",
+          "description": "Detekcija prostorija i električni prijedlozi ostaju pod vašom kontrolom prije ulaska u ponudu."
         },
-        "roomDetection": {
-          "description": "Prepoznajte prostorije iz učitanih tlocrta, a procjenitelju ostavite kontrolu za ispravke.",
-          "title": "AI-podržano prepoznavanje prostorija"
+        "projectDocumentation": {
+          "title": "Pro analiza projektnih PDF-ova",
+          "description": "Pro korisnici analiziraju projektnu dokumentaciju, pregledavaju kandidate i uvoze prihvaćene materijale."
+        },
+        "exports": {
+          "title": "PDF i Excel izvoz",
+          "description": "Pripremite dokumente za klijente i tablični pregled bez ponovnog ručnog slaganja procjene."
         }
-      },
-      "title": "Napravljeno za procjene koje električari ponavljaju svaki tjedan."
+      }
     },
     "footer": {
       "tagline": "Brže ponude za elektroinstalacije iz tlocrta."
     },
     "hero": {
-      "description": "Učitajte tlocrt, pregledajte prepoznate prostorije, generirajte prijedloge elektroinstalacije i izvezite ponudu spremnu za klijenta bez ručnog slaganja procjene.",
+      "description": "Ploro AI pomaže električarima i manjim instalaterskim tvrtkama pretvoriti nacrte u prijedloge prostorija, materijalne liste te PDF ili Excel ponude za klijente.",
       "preview": {
         "detectedRooms": "Prepoznate prostorije",
         "exportQuote": "Izvezi ponudu",
@@ -659,9 +665,13 @@
             "status": "Spremno"
           }
         },
-        "statusQuoted": "Ponuda izrađena"
+        "statusQuoted": "Ponuda izrađena",
+        "documentAnalysis": "Analiza projektnog PDF-a",
+        "documentDescription": "Pro izvlači kandidate materijala i rada za pregled prije uvoza.",
+        "candidateReview": "Pregled kandidata"
       },
-      "title": "Izradite ponude za elektroinstalacije iz tlocrta u nekoliko minuta"
+      "title": "Elektro ponude iz tlocrta, uz vašu provjeru",
+      "reviewNote": "AI rezultat je nacrt. Prije slanja ponude provjerite prostorije, materijale, cijene i pretpostavke."
     },
     "pages": {
       "contact": {
@@ -686,26 +696,54 @@
       }
     },
     "workflow": {
+      "title": "Jasan put od uploada nacrta do izvoza ponude.",
       "eyebrow": "Kako radi",
       "steps": {
-        "exportQuote": {
-          "description": "Pretvorite pregledani tlocrt u strukturiranu ponudu spremnu za klijenta.",
-          "title": "Izvezite ponudu"
-        },
-        "generateMaterials": {
-          "description": "Kreirajte prijedloge utičnica, prekidača, rasvjete, kabela i opreme.",
-          "title": "Generirajte materijale"
+        "uploadFloorPlan": {
+          "title": "Učitajte nacrte",
+          "description": "Krenite s PDF tlocrtom, slikom nacrta ili projektnom dokumentacijom na Pro planu."
         },
         "reviewRooms": {
-          "description": "Potvrdite prepoznate prostorije i prilagodite nazive prije procjene.",
-          "title": "Pregledajte prostorije"
+          "title": "Pregledajte AI prijedloge",
+          "description": "Potvrdite prostorije, električne točke i kandidate iz dokumenata prije izračuna."
         },
-        "uploadFloorPlan": {
-          "description": "Počnite s PDF-om, nacrtom ili slikom koju ste dobili od klijenta.",
-          "title": "Učitajte tlocrt"
+        "reviewMaterials": {
+          "title": "Pripremite materijale",
+          "description": "Uredite nazive, količine, cijene i izvorne stavke prije finalne ponude."
+        },
+        "exportQuote": {
+          "title": "Izvezite ponudu",
+          "description": "Generirajte ponudu za klijenta kao PDF ili Excel nakon završene provjere."
         }
-      },
-      "title": "Od učitavanja tlocrta do izvoza ponude u jednom fokusiranom tijeku rada."
+      }
+    },
+    "metadata": {
+      "title": "Ploro AI - Elektro ponude iz tlocrta",
+      "description": "Izradite pregledane elektroinstalacijske ponude iz tlocrta, projektnih PDF-ova, materijala i izvoza u jednom jasnom workflowu."
+    },
+    "capabilities": {
+      "title": "AI pomoć tamo gdje štedi vrijeme, provjera tamo gdje je važna.",
+      "description": "Plan2Ponuda čuva AI rezultat kao pomoć u procjeni. Ne zamjenjuje stručnu provjeru, inženjersku prosudbu ni odgovornost za završnu ponudu.",
+      "safetyTitle": "Provjera prije slanja",
+      "safetyDescription": "Provjerite količine, cijene, pretpostavke i izvorne reference prije dijeljenja ponude s klijentom.",
+      "items": {
+        "floorPlanAnalysis": {
+          "title": "AI analiza tlocrta",
+          "description": "Prepoznaje prostorije i priprema početnu osnovu za električne prijedloge iz učitanih nacrta."
+        },
+        "projectDocumentation": {
+          "title": "Analiza projektne dokumentacije",
+          "description": "Pro izvlači kandidate materijala i rada iz projektnih PDF-ova, pri čemu je rad zasad samo za pregled."
+        },
+        "reviewWorkflow": {
+          "title": "Sloj ljudske provjere",
+          "description": "Prihvatite, odbijte ili uredite kandidate i materijalne stavke prije utjecaja na ponudu."
+        },
+        "exports": {
+          "title": "Profesionalni izvozi",
+          "description": "Izvezite pregledane podatke ponude u PDF i Excel iz istih projektnih materijalnih stavki."
+        }
+      }
     }
   },
   "MaterialCategories": {
@@ -1306,6 +1344,212 @@
     "inputAriaLabel": "Odaberite datoteku tlocrta",
     "success": {
       "uploaded": "Učitano: {path}"
+    }
+  },
+  "Footer": {
+    "tagline": "Brže ponude elektroinstalacija iz tlocrta i projektnih PDF-ova."
+  },
+  "Pricing": {
+    "metadata": {
+      "title": "Cijene - Ploro AI",
+      "description": "Free, Basic i Pro cijene za elektro ponude, AI analizu tlocrta, obradu projektnih PDF-ova i izvoze."
+    },
+    "beta": "Beta",
+    "viewPlan": "Pogledaj plan",
+    "landingTitle": "Planovi za probu, ponude i Pro analizu dokumenata.",
+    "landingDescription": "Krenite s jednim projektom na Free planu, proširite rad s tlocrtima na Basicu ili koristite Pro za analizu projektnih PDF-ova.",
+    "page": {
+      "title": "Cijene za elektro procjene",
+      "description": "Odaberite plan prema trenutnom opsegu ponuda. Limiti prikazani ovdje odgovaraju implementiranim ograničenjima."
+    },
+    "reviewNote": {
+      "title": "AI rezultat treba provjeru",
+      "description": "Sve AI prostorije, kandidati, materijali, cijene i pretpostavke trebaju korisničku provjeru prije slanja ponude."
+    },
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "0 EUR / mjesec",
+        "fit": "Dobar za probu workflowa.",
+        "description": "Mali početni plan za testiranje puta od tlocrta do ponude.",
+        "features": {
+          "floorPlan": "1 tlocrt",
+          "quote": "1 ponuda",
+          "exports": "PDF i Excel izvoz",
+          "trial": "Dobar za isprobavanje aplikacije"
+        }
+      },
+      "basic": {
+        "name": "Basic",
+        "price": "10 EUR / mjesec",
+        "fit": "Za redovite ponude iz tlocrta.",
+        "description": "Standardni workflow za manje instalaterske tvrtke koje često pripremaju ponude.",
+        "features": {
+          "floorPlans": "Do 10 tlocrta",
+          "quotes": "Do 10 ponuda",
+          "floorPlanAi": "Standardna AI analiza tlocrta",
+          "exports": "PDF i Excel izvoz",
+          "stripeSubscription": "Stripe pretplata",
+          "cancelAnytime": "Otkazivanje kroz Stripe Customer Portal"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "30 EUR / mjesec",
+        "fit": "Beta plan za veću projektnu dokumentaciju.",
+        "description": "Dodaje AI analizu projektnih PDF-ova i uvoz pregledanih materijalnih kandidata.",
+        "features": {
+          "floorPlans": "Do 20 tlocrta",
+          "quotes": "Do 20 ponuda",
+          "documentAnalyses": "Do 3 analize projektnih PDF-ova",
+          "projectPdfExtraction": "AI izvlačenje iz projektnih PDF-ova",
+          "candidateReview": "Pregled kandidata i uvoz prihvaćenih materijala u ponudu",
+          "exports": "PDF i Excel izvoz"
+        }
+      }
+    }
+  },
+  "Legal": {
+    "draftNoticeTitle": "Privremeni tekst za pripremu izdanja",
+    "draftNoticeDescription": "Ova stranica nije konačni pravni savjet. Tekst mora pregledati odvjetnik i, gdje se spominju naplata ili računi, računovođa prije produkcijskog lansiranja."
+  },
+  "Privacy": {
+    "title": "Privatnost",
+    "description": "Sažeti pregled obrade podataka računa, projekata, naplate, uploadova i AI analize u Plan2Ponuda.",
+    "metadata": {
+      "title": "Privatnost - Ploro AI",
+      "description": "Pregled privatnosti za račune, naplatne profile, uploade, AI obradu, Stripe, SMTP, Supabase i OpenAI."
+    },
+    "sections": {
+      "dataCollected": {
+        "title": "Koji se podaci prikupljaju",
+        "body": "Aplikacija prikuplja podatke potrebne za račune, projekte, uploade, ponude, limite korištenja i naplatu."
+      },
+      "accountData": {
+        "title": "Podaci računa",
+        "body": "Podaci računa mogu uključivati email, ime, hash lozinke, sesijske podatke, postavke, podatke tvrtke i povijest korištenja."
+      },
+      "billingData": {
+        "title": "Podaci naplatnog profila",
+        "body": "Naplatni profili mogu sadržavati naziv, email, adresu, tip kupca, podatke tvrtke, porezne identifikatore i napomene za Stripe i ručni pregled računa."
+      },
+      "uploads": {
+        "title": "Projektni uploadovi",
+        "body": "Tlocrti i projektni PDF-ovi spremaju se u privatni Supabase Storage. Baza sprema putanje, metapodatke, status analize i podatke za pregled."
+      },
+      "aiProcessing": {
+        "title": "AI obrada",
+        "body": "Učitani nacrti i projektni dokumenti mogu se poslati OpenAI-ju na analizu. AI rezultat se validira i sprema kako bi ga korisnik pregledao prije korištenja."
+      },
+      "payments": {
+        "title": "Stripe plaćanja",
+        "body": "Plaćene pretplate obrađuje Stripe. Plan2Ponuda sprema Stripe identifikatore i status pretplate, ali ne sprema podatke kartice."
+      },
+      "email": {
+        "title": "SMTP email za reset lozinke",
+        "body": "Emailovi za reset lozinke šalju se putem konfiguriranog SMTP pružatelja. Odgovori su neutralni i ne otkrivaju postoji li račun."
+      },
+      "providers": {
+        "title": "Infrastrukturni pružatelji",
+        "body": "Aplikacija koristi Supabase za bazu i pohranu, Stripe za plaćanja, SMTP za email i OpenAI za AI obradu. Obradu kod pružatelja treba pregledati prije produkcije."
+      },
+      "rights": {
+        "title": "Prava korisnika i kontakt",
+        "body": "Korisnici mogu kontaktirati podršku oko podataka računa, naplatnog profila, uploadova ili zahtjeva za brisanje. Konačan pravni tekst prava zahtijeva pregled."
+      }
+    }
+  },
+  "Terms": {
+    "title": "Uvjeti",
+    "description": "Sažeti uvjeti korištenja Plan2Ponuda tijekom beta i pripreme za izdanje.",
+    "metadata": {
+      "title": "Uvjeti - Ploro AI",
+      "description": "Pregled uvjeta o korištenju, AI provjeri, pretplatama, zloupotrebi i pravnim napomenama."
+    },
+    "sections": {
+      "serviceUse": {
+        "title": "Korištenje usluge",
+        "body": "Plan2Ponuda je namijenjena električarima, izvođačima i timovima koji pripremaju ponude elektroinstalacija."
+      },
+      "aiReview": {
+        "title": "AI prijedlozi zahtijevaju provjeru",
+        "body": "AI prostorije, električni prijedlozi, kandidati iz dokumenata, materijali i cijene su nacrti koje korisnik mora provjeriti."
+      },
+      "notEngineering": {
+        "title": "Nije završna projektna dokumentacija",
+        "body": "Usluga ne jamči da je AI rezultat potpuna projektna dokumentacija, savjet o usklađenosti ili završni izvedbeni projekt."
+      },
+      "userResponsibility": {
+        "title": "Odgovornost korisnika",
+        "body": "Korisnik je odgovoran za provjeru ulaza, količina, cijena, pretpostavki, zakonskih zahtjeva i završne ponude poslane klijentu."
+      },
+      "subscriptions": {
+        "title": "Pretplate i otkazivanje",
+        "body": "Plaćeni planovi naplaćuju se putem Stripea. Upravljanje pretplatom i otkazivanje odvija se kroz Stripe Customer Portal gdje je dostupan."
+      },
+      "misuse": {
+        "title": "Zabranjena zloupotreba",
+        "body": "Nemojte učitavati nezakonit sadržaj, pokušavati pristup tuđim podacima, zloupotrebljavati limite, reverzno analizirati zaštićene usluge ili izrađivati obmanjujuće ponude."
+      },
+      "disclaimer": {
+        "title": "Ograničenje i disclaimer",
+        "body": "Konačan tekst o jamstvima, odgovornosti, refundacijama i dostupnosti usluge mora pregledati pravni savjetnik prije produkcije."
+      },
+      "governingLaw": {
+        "title": "Mjerodavno pravo",
+        "body": "Mjerodavno pravo, nadležnost, prava potrošača i uvjeti za poslovne korisnike zahtijevaju završni pravni pregled."
+      }
+    }
+  },
+  "Cookies": {
+    "title": "Kolačići",
+    "description": "Pregled nužnih kolačića i ponašanja trećih strana za checkout i sesije u Plan2Ponuda.",
+    "metadata": {
+      "title": "Kolačići - Ploro AI",
+      "description": "Pregled kolačića za sesije, jezik, Stripe checkout i buduću analitiku."
+    },
+    "sections": {
+      "essential": {
+        "title": "Nužni kolačići",
+        "body": "Aplikacija koristi nužne kolačiće i sličnu pohranu za autentikaciju, odabir jezika, sigurnost i normalan rad aplikacije."
+      },
+      "stripe": {
+        "title": "Stripe checkout i portal",
+        "body": "Stripe Checkout i Customer Portal mogu postaviti vlastite kolačiće ili slične tehnologije kada upravljate pretplatom."
+      },
+      "analytics": {
+        "title": "Analitika TODO",
+        "body": "Ovdje nije opisana invazivna analitika. Ako se analitika doda kasnije, ova stranica se mora ažurirati prije lansiranja."
+      },
+      "control": {
+        "title": "Kontrola kolačića",
+        "body": "Kolačiće možete kontrolirati u postavkama preglednika. Blokiranje nužnih kolačića može spriječiti prijavu ili checkout."
+      }
+    }
+  },
+  "Contact": {
+    "title": "Kontakt",
+    "description": "Kontaktirajte Ploro AI za podršku, beta pristup, elektro procjene ili pitanja o računu.",
+    "metadata": {
+      "title": "Kontakt - Ploro AI",
+      "description": "Kontakt za podršku, beta povratne informacije, elektro workflowe i pomoć oko računa."
+    },
+    "emailTitle": "Pošaljite email",
+    "emailDescription": "Email koristite za podršku, beta povratne informacije, naplatu ili razgovor o prikladnosti proizvoda. Kontakt forma još nije uključena.",
+    "emailAddress": "contact@ploroai.io",
+    "sections": {
+      "support": {
+        "title": "Podrška za proizvod",
+        "body": "Pošaljite pitanja o projektima, uploadovima, AI analizi, pregledu kandidata, izvozu ponuda ili pristupu računu."
+      },
+      "sales": {
+        "title": "Beta i prikladnost proizvoda",
+        "body": "Elektro izvođači i instalaterske tvrtke mogu se javiti radi procjene uklapa li se workflow u njihov proces ponuda."
+      },
+      "security": {
+        "title": "Sigurnost i podaci",
+        "body": "Koristite kontakt email za odgovorne prijave o pristupu računu, privatnosti uploadova ili mogućim problemima među korisnicima."
+      }
     }
   }
 }

@@ -17,9 +17,6 @@ export function CtaSection({ isAuthenticated }: CtaSectionProps) {
     <section className="bg-deep-twilight-950 px-5 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold text-turquoise-surf-300">
-            {tCta("eyebrow")}
-          </p>
           <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
             {tCta("title")}
           </h2>

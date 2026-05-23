@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-import { MarketingHomepage } from "@/components/marketing/marketing-homepage";
+import { LegalPageContent } from "@/components/marketing/legal-page-content";
 import { resolveLocale } from "@/i18n/routing";
-import { getOptionalCurrentUser } from "@/lib/auth/session";
 
-export const dynamic = "force-dynamic";
+const cookiesSectionKeys = [
+  "essential",
+  "stripe",
+  "analytics",
+  "control",
+] as const;
 
-type MarketingPageProps = {
+type CookiesPageProps = {
   params: Promise<{
     locale: string;
   }>;
@@ -15,12 +19,12 @@ type MarketingPageProps = {
 
 export async function generateMetadata({
   params,
-}: MarketingPageProps): Promise<Metadata> {
+}: CookiesPageProps): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
   const tMetadata = await getTranslations({
     locale,
-    namespace: "Marketing.metadata",
+    namespace: "Cookies.metadata",
   });
 
   return {
@@ -29,8 +33,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function MarketingPage() {
-  const user = await getOptionalCurrentUser();
-
-  return <MarketingHomepage isAuthenticated={Boolean(user)} />;
+export default function CookiesPage() {
+  // TODO: Confirm final cookie wording with legal review before production launch.
+  return <LegalPageContent namespace="Cookies" sectionKeys={cookiesSectionKeys} />;
 }

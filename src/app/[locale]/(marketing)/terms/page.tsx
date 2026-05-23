@@ -1,18 +1,43 @@
-import { useTranslations } from "next-intl";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-import { PublicPageShell } from "@/components/marketing/public-page-shell";
+import { LegalPageContent } from "@/components/marketing/legal-page-content";
+import { resolveLocale } from "@/i18n/routing";
+
+const termsSectionKeys = [
+  "serviceUse",
+  "aiReview",
+  "notEngineering",
+  "userResponsibility",
+  "subscriptions",
+  "misuse",
+  "disclaimer",
+  "governingLaw",
+] as const;
+
+type TermsPageProps = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
+export async function generateMetadata({
+  params,
+}: TermsPageProps): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = resolveLocale(rawLocale);
+  const tMetadata = await getTranslations({
+    locale,
+    namespace: "Terms.metadata",
+  });
+
+  return {
+    description: tMetadata("description"),
+    title: tMetadata("title"),
+  };
+}
 
 export default function TermsPage() {
-  const tTerms = useTranslations("Marketing.pages.terms");
-
-  return (
-    <PublicPageShell
-      subtitle={tTerms("subtitle")}
-      title={tTerms("title")}
-    >
-      <p className="max-w-2xl text-sm leading-6 text-deep-twilight-700">
-        {tTerms("body")}
-      </p>
-    </PublicPageShell>
-  );
+  // TODO: Replace this release-prep placeholder with lawyer/accountant-reviewed terms before production launch.
+  return <LegalPageContent namespace="Terms" sectionKeys={termsSectionKeys} />;
 }

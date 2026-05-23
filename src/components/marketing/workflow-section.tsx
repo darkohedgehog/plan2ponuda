@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 const workflowStepKeys = [
   "uploadFloorPlan",
   "reviewRooms",
-  "generateMaterials",
+  "reviewMaterials",
   "exportQuote",
 ] as const;
 

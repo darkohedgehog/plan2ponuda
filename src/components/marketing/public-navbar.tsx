@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils/helpers";
 
 const navigationLinks = [
   { href: "/#features", labelKey: "features" },
-  { href: "/#how-it-works", labelKey: "howItWorks" },
   { href: "/pricing", labelKey: "pricing" },
+  { href: "/contact", labelKey: "contact" },
 ] as const;
 
 const navLinkClass =

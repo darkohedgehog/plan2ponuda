@@ -134,7 +134,8 @@
     "uploadFloorPlan": "Grundriss hochladen",
     "waiting": "Wartet",
     "viewAllProjects": "Alle Projekte anzeigen",
-    "viewProjects": "Projekte anzeigen"
+    "viewProjects": "Projekte anzeigen",
+    "manageBilling": "Abrechnung verwalten"
   },
   "Validation": {
     "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits.",
@@ -369,7 +370,8 @@
     "quotes": "Angebote",
     "settings": "Einstellungen",
     "terms": "Bedingungen",
-    "toggleNavigationMenu": "Navigation öffnen oder schließen"
+    "toggleNavigationMenu": "Navigation öffnen oder schließen",
+    "cookies": "Cookies"
   },
   "Billing": {
     "actions": {
@@ -437,7 +439,7 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "Preis offen"
+      "price": "30 EUR / Monat (Beta)"
     }
   },
   "Usage": {
@@ -600,34 +602,38 @@
   },
   "Marketing": {
     "cta": {
-      "description": "Erstellen Sie ein Projekt, laden Sie den Grundriss hoch und wechseln Sie ohne manuelle Tabellen vom Prüfen zum Angebot.",
+      "description": "Erstellen Sie ein Projekt, laden Sie den Plan hoch, prüfen Sie KI-Vorschläge und exportieren Sie das Angebot, wenn die Zahlen stimmen.",
       "eyebrow": "Bereit für den nächsten Grundriss",
-      "title": "Starten Sie Ihr erstes Elektroangebot mit einem klareren Ablauf."
+      "title": "Bereiten Sie das nächste Elektroangebot mit einem klareren Workflow vor."
     },
     "features": {
-      "description": "Ploro AI hält den Ablauf fokussiert und praktisch: Grundriss verstehen, Installation vorschlagen und Angebot vorbereiten.",
+      "title": "Gemacht für Schätzarbeit, die Elektriker jede Woche wiederholen.",
+      "description": "Der Workflow bleibt praktisch: Plan analysieren, Vorschläge prüfen, Materialien anpassen und ein professionelles Angebot exportieren.",
       "eyebrow": "Funktionen",
       "items": {
-        "electricalSuggestions": {
-          "description": "Erstellen Sie passende Steckdosen, Schalter und Lichtpunkte je nach Raumtyp.",
-          "title": "Elektrovorschläge"
+        "floorPlanWorkflow": {
+          "title": "Vom Grundriss zum Angebot",
+          "description": "Free und Basic decken den Standardweg von Grundriss-Upload bis Raumprüfung, Materialien und Export ab."
         },
-        "materialQuote": {
-          "description": "Wandeln Sie geprüfte Vorschläge in Materialmengen, Arbeitskosten und eine Angebotsstruktur um.",
-          "title": "Materialliste und Angebots-Export"
+        "editableSuggestions": {
+          "title": "Bearbeitbare KI-Vorschläge",
+          "description": "Raumerkennung und Elektro-Vorschläge bleiben unter Ihrer Kontrolle, bevor sie Angebotsdaten werden."
         },
-        "roomDetection": {
-          "description": "Erkennen Sie Räume aus hochgeladenen Grundrissen und behalten Sie die Kontrolle über Korrekturen.",
-          "title": "KI-gestützte Raumerkennung"
+        "projectDocumentation": {
+          "title": "Pro-Analyse von Projekt-PDFs",
+          "description": "Pro-Nutzer analysieren Projektdokumentation, prüfen Kandidaten und importieren akzeptierte Materialpositionen."
+        },
+        "exports": {
+          "title": "PDF- und Excel-Export",
+          "description": "Erstellen Sie Kundendokumente und Tabellenprüfungen, ohne die Kalkulation neu aufzubauen."
         }
-      },
-      "title": "Gebaut für Schätzungen, die Elektriker jede Woche wiederholen."
+      }
     },
     "footer": {
       "tagline": "Schnellere Elektroangebote aus Grundrissen."
     },
     "hero": {
-      "description": "Laden Sie einen Grundriss hoch, prüfen Sie erkannte Räume, erstellen Sie Elektrovorschläge und exportieren Sie ein kundenfertiges Angebot ohne manuelle Nacharbeit.",
+      "description": "Ploro AI hilft Elektrikern und kleinen Installationsbetrieben, Pläne in bearbeitbare Raumvorschläge, Materiallisten sowie PDF- oder Excel-Angebote zu verwandeln.",
       "preview": {
         "detectedRooms": "Erkannte Räume",
         "exportQuote": "Angebot exportieren",
@@ -659,9 +665,13 @@
             "status": "Bereit"
           }
         },
-        "statusQuoted": "Angebot erstellt"
+        "statusQuoted": "Angebot erstellt",
+        "documentAnalysis": "Projekt-PDF-Analyse",
+        "documentDescription": "Pro extrahiert Material- und Arbeitskandidaten zur Prüfung vor dem Import.",
+        "candidateReview": "Kandidatenprüfung"
       },
-      "title": "Elektroangebote aus Grundrissen in Minuten erstellen"
+      "title": "Elektroangebote aus Grundrissen, von Ihnen geprüft",
+      "reviewNote": "KI-Ergebnisse sind Entwürfe. Prüfen Sie Räume, Materialien, Preise und Annahmen, bevor Sie ein Angebot senden."
     },
     "pages": {
       "contact": {
@@ -686,26 +696,54 @@
       }
     },
     "workflow": {
+      "title": "Ein klarer Weg vom Plan-Upload zum Angebotsexport.",
       "eyebrow": "So funktioniert es",
       "steps": {
-        "exportQuote": {
-          "description": "Machen Sie aus dem geprüften Grundriss ein strukturiertes Angebot für den Kunden.",
-          "title": "Angebot exportieren"
-        },
-        "generateMaterials": {
-          "description": "Erstellen Sie Vorschläge für Steckdosen, Schalter, Beleuchtung, Kabel und Geräte.",
-          "title": "Materialien generieren"
+        "uploadFloorPlan": {
+          "title": "Pläne hochladen",
+          "description": "Starten Sie mit einem PDF-Grundriss, einem Planbild oder mit Projektdokumentation im Pro-Plan."
         },
         "reviewRooms": {
-          "description": "Bestätigen Sie erkannte Räume und passen Sie Namen vor der Schätzung an.",
-          "title": "Räume prüfen"
+          "title": "KI-Vorschläge prüfen",
+          "description": "Bestätigen Sie Räume, Elektro-Punkte und Dokumentkandidaten vor der Kalkulation."
         },
-        "uploadFloorPlan": {
-          "description": "Starten Sie mit einem PDF, Plan oder Bild Ihres Kunden.",
-          "title": "Grundriss hochladen"
+        "reviewMaterials": {
+          "title": "Materialien vorbereiten",
+          "description": "Bearbeiten Sie Namen, Mengen, Preise und Quellpositionen vor dem finalen Angebot."
+        },
+        "exportQuote": {
+          "title": "Angebot exportieren",
+          "description": "Erzeugen Sie nach der Prüfung ein kundenfertiges Angebot als PDF oder Excel."
         }
-      },
-      "title": "Vom Grundriss-Upload zum Angebots-Export in einem fokussierten Ablauf."
+      }
+    },
+    "metadata": {
+      "title": "Ploro AI - Elektroangebote aus Grundrissen",
+      "description": "Erstellen Sie geprüfte Elektroinstallationsangebote aus Grundrissen, Projekt-PDFs, Materialien und Exporten in einem klaren Workflow."
+    },
+    "capabilities": {
+      "title": "KI-Unterstützung dort, wo sie Zeit spart; Prüfung dort, wo sie zählt.",
+      "description": "Plan2Ponuda hält KI-Ausgaben als bearbeitbare Unterstützung. Sie ersetzen keine fachliche Prüfung, technische Beurteilung oder Verantwortung für das finale Angebot.",
+      "safetyTitle": "Vor dem Senden prüfen",
+      "safetyDescription": "Prüfen Sie Mengen, Preise, Annahmen und Quellen, bevor Sie ein Angebot mit Kunden teilen.",
+      "items": {
+        "floorPlanAnalysis": {
+          "title": "KI-Grundrissanalyse",
+          "description": "Erkennt Räume und erstellt eine Grundlage für Elektro-Vorschläge aus hochgeladenen Plänen."
+        },
+        "projectDocumentation": {
+          "title": "Analyse von Projektdokumentation",
+          "description": "Pro extrahiert Material- und Arbeitskandidaten aus Projekt-PDFs; Arbeit bleibt derzeit nur zur Prüfung sichtbar."
+        },
+        "reviewWorkflow": {
+          "title": "Menschliche Prüfschicht",
+          "description": "Akzeptieren, verwerfen oder bearbeiten Sie Kandidaten und Materialzeilen, bevor sie das Angebot beeinflussen."
+        },
+        "exports": {
+          "title": "Professionelle Exporte",
+          "description": "Exportieren Sie geprüfte Angebotsdaten als PDF und Excel aus denselben Projektmaterialzeilen."
+        }
+      }
     }
   },
   "MaterialCategories": {
@@ -1306,6 +1344,212 @@
     "inputAriaLabel": "Grundrissdatei auswählen",
     "success": {
       "uploaded": "Hochgeladen: {path}"
+    }
+  },
+  "Footer": {
+    "tagline": "Schnellere Elektroangebote aus Grundrissen und Projekt-PDFs."
+  },
+  "Pricing": {
+    "metadata": {
+      "title": "Preise - Ploro AI",
+      "description": "Free, Basic und Pro für Elektroangebote, KI-Grundrissanalyse, Projekt-PDF-Extraktion und Exporte."
+    },
+    "beta": "Beta",
+    "viewPlan": "Plan ansehen",
+    "landingTitle": "Pläne zum Testen, Angebots erstellen und für Pro-Dokumentanalyse.",
+    "landingDescription": "Starten Sie mit einem Projekt im Free-Plan, erweitern Sie den Grundriss-Workflow mit Basic oder nutzen Sie Pro für Projekt-PDF-Analysen.",
+    "page": {
+      "title": "Preise für Elektro-Schätzteams",
+      "description": "Wählen Sie den Plan passend zu Ihrem Angebotsvolumen. Die gezeigten Limits entsprechen den implementierten Nutzungsschranken."
+    },
+    "reviewNote": {
+      "title": "KI-Ausgaben müssen geprüft werden",
+      "description": "Alle KI-generierten Räume, Kandidaten, Materialien, Preise und Annahmen sollten vor dem Senden geprüft werden."
+    },
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "0 EUR / Monat",
+        "fit": "Gut zum Testen des Workflows.",
+        "description": "Ein kleiner Einstieg zum Testen des Wegs vom Grundriss zum Angebot.",
+        "features": {
+          "floorPlan": "1 Grundriss",
+          "quote": "1 Angebot",
+          "exports": "PDF- und Excel-Export",
+          "trial": "Gut zum Ausprobieren der App"
+        }
+      },
+      "basic": {
+        "name": "Basic",
+        "price": "10 EUR / Monat",
+        "fit": "Für regelmäßige Grundriss-Angebote.",
+        "description": "Der Standard-Workflow für kleine Installationsbetriebe mit wiederkehrenden Angeboten.",
+        "features": {
+          "floorPlans": "Bis zu 10 Grundrisse",
+          "quotes": "Bis zu 10 Angebote",
+          "floorPlanAi": "Standard-KI-Grundrissanalyse",
+          "exports": "PDF- und Excel-Export",
+          "stripeSubscription": "Stripe-Abonnement",
+          "cancelAnytime": "Jederzeit über das Stripe Customer Portal kündbar"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "30 EUR / Monat",
+        "fit": "Beta-Plan für größere Projektdokumentation.",
+        "description": "Ergänzt Projekt-PDF-Analyse und Import geprüfter Materialkandidaten.",
+        "features": {
+          "floorPlans": "Bis zu 20 Grundrisse",
+          "quotes": "Bis zu 20 Angebote",
+          "documentAnalyses": "Bis zu 3 Projekt-PDF-Analysen",
+          "projectPdfExtraction": "KI-Extraktion aus Projekt-PDFs",
+          "candidateReview": "Kandidatenprüfung und Import akzeptierter Materialien ins Angebot",
+          "exports": "PDF- und Excel-Export"
+        }
+      }
+    }
+  },
+  "Legal": {
+    "draftNoticeTitle": "Platzhalter für Release-Vorbereitung",
+    "draftNoticeDescription": "Diese Seite ist keine finale Rechtsberatung. Der Text muss vor dem Produktionsstart von einem Anwalt und bei Abrechnung oder Rechnungen auch von einem Steuer-/Buchhaltungsexperten geprüft werden."
+  },
+  "Privacy": {
+    "title": "Datenschutz",
+    "description": "Überblick darüber, wie Plan2Ponuda Konto-, Projekt-, Abrechnungs-, Upload- und KI-Verarbeitungsdaten behandelt.",
+    "metadata": {
+      "title": "Datenschutz - Ploro AI",
+      "description": "Datenschutzüberblick für Kontodaten, Abrechnungsprofile, Uploads, KI-Verarbeitung, Stripe, SMTP, Supabase und OpenAI."
+    },
+    "sections": {
+      "dataCollected": {
+        "title": "Welche Daten erhoben werden",
+        "body": "Die App erhebt Daten, die für Konten, Projekte, Uploads, Angebote, Nutzungslimits und Abrechnung nötig sind."
+      },
+      "accountData": {
+        "title": "Kontodaten",
+        "body": "Kontodaten können E-Mail, Name, Passwort-Hash, Sitzungsdaten, Einstellungen, Firmendaten und Nutzungshistorie enthalten."
+      },
+      "billingData": {
+        "title": "Abrechnungsprofildaten",
+        "body": "Abrechnungsprofile können Name, E-Mail, Adresse, Kundentyp, Firmendaten, Steuerkennungen und Hinweise für Stripe und manuelle Rechnungsprüfung enthalten."
+      },
+      "uploads": {
+        "title": "Projekt-Uploads",
+        "body": "Grundrisse und Projekt-PDFs werden in privatem Supabase Storage gespeichert. Die Datenbank speichert Pfade, Metadaten, Analysestatus und Prüfdaten."
+      },
+      "aiProcessing": {
+        "title": "KI-Verarbeitung",
+        "body": "Hochgeladene Pläne und Projektdokumente können zur Analyse an OpenAI gesendet werden. KI-Ausgaben werden validiert und zur Prüfung gespeichert."
+      },
+      "payments": {
+        "title": "Stripe-Zahlungen",
+        "body": "Bezahlte Abonnements werden über Stripe abgewickelt. Plan2Ponuda speichert Stripe-IDs und Abo-Status, aber keine Kartendaten."
+      },
+      "email": {
+        "title": "SMTP-E-Mails zum Passwort-Reset",
+        "body": "Passwort-Reset-E-Mails werden über den konfigurierten SMTP-Anbieter gesendet. Antworten bleiben neutral und verraten nicht, ob ein Konto existiert."
+      },
+      "providers": {
+        "title": "Infrastruktur-Anbieter",
+        "body": "Die App nutzt Supabase für Datenbank und Storage, Stripe für Zahlungen, SMTP für E-Mail und OpenAI für KI-Verarbeitung. Anbieter-Verarbeitung muss vor Produktion geprüft werden."
+      },
+      "rights": {
+        "title": "Nutzerrechte und Kontakt",
+        "body": "Nutzer können Support zu Kontodaten, Abrechnungsdaten, Uploads oder Löschanfragen kontaktieren. Finale Rechte-Wortlaut benötigt Rechtsprüfung."
+      }
+    }
+  },
+  "Terms": {
+    "title": "Bedingungen",
+    "description": "Überblick über Nutzungsbedingungen für Plan2Ponuda während Beta und Release-Vorbereitung.",
+    "metadata": {
+      "title": "Bedingungen - Ploro AI",
+      "description": "Überblick zu Nutzung, KI-Prüfung, Abonnements, Missbrauch und rechtlichen Platzhaltern."
+    },
+    "sections": {
+      "serviceUse": {
+        "title": "Nutzung des Dienstes",
+        "body": "Plan2Ponuda richtet sich an Elektriker, Auftragnehmer und Schätzteams für Elektroinstallationsangebote."
+      },
+      "aiReview": {
+        "title": "KI-Vorschläge müssen geprüft werden",
+        "body": "KI-generierte Räume, Elektro-Vorschläge, Dokumentkandidaten, Materialien und Preise sind Entwürfe und müssen geprüft werden."
+      },
+      "notEngineering": {
+        "title": "Keine finale technische Dokumentation",
+        "body": "Der Dienst garantiert nicht, dass KI-Ausgaben vollständige technische Dokumentation, Compliance-Beratung oder eine finale Ausführungsplanung sind."
+      },
+      "userResponsibility": {
+        "title": "Verantwortung des Nutzers",
+        "body": "Der Nutzer ist verantwortlich für Projektangaben, Mengen, Preise, Annahmen, rechtliche Anforderungen und das finale Kundenangebot."
+      },
+      "subscriptions": {
+        "title": "Abonnements und Kündigung",
+        "body": "Bezahlte Pläne werden über Stripe abgerechnet. Verwaltung und Kündigung erfolgen, soweit verfügbar, im Stripe Customer Portal."
+      },
+      "misuse": {
+        "title": "Verbotener Missbrauch",
+        "body": "Keine rechtswidrigen Inhalte hochladen, keine fremden Daten abrufen, Limits missbrauchen, geschützte Dienste reverse engineeren oder irreführende Angebote erstellen."
+      },
+      "disclaimer": {
+        "title": "Haftungs- und Disclaimer-Platzhalter",
+        "body": "Finale Aussagen zu Gewährleistung, Haftung, Rückerstattung und Verfügbarkeit müssen vor Produktion rechtlich geprüft werden."
+      },
+      "governingLaw": {
+        "title": "Anwendbares Recht",
+        "body": "Anwendbares Recht, Gerichtsstand, Verbraucherrechte und B2B-Bedingungen erfordern finale Rechtsprüfung."
+      }
+    }
+  },
+  "Cookies": {
+    "title": "Cookies",
+    "description": "Überblick über notwendige Cookies sowie Drittanbieter-Verhalten für Checkout und Sitzungen.",
+    "metadata": {
+      "title": "Cookies - Ploro AI",
+      "description": "Cookie-Überblick für Sitzung, Sprache, Stripe Checkout und mögliche spätere Analytics."
+    },
+    "sections": {
+      "essential": {
+        "title": "Notwendige Cookies",
+        "body": "Die App nutzt notwendige Cookies und ähnliche Speicherung für Anmeldung, Sprache, Sicherheit und normalen Betrieb."
+      },
+      "stripe": {
+        "title": "Stripe Checkout und Portal",
+        "body": "Stripe Checkout und Customer Portal können eigene Cookies oder ähnliche Technologien setzen, wenn Sie ein Abo verwalten."
+      },
+      "analytics": {
+        "title": "Analytics TODO",
+        "body": "Hier ist kein invasives Tracking beschrieben. Wenn später Analytics hinzugefügt wird, muss diese Seite vor Launch aktualisiert werden."
+      },
+      "control": {
+        "title": "Cookie-Steuerung",
+        "body": "Sie können Cookies im Browser steuern. Das Blockieren notwendiger Cookies kann Anmeldung oder Checkout verhindern."
+      }
+    }
+  },
+  "Contact": {
+    "title": "Kontakt",
+    "description": "Kontaktieren Sie Ploro AI zu Support, Beta-Zugang, Elektro-Schätzworkflows oder Kontofragen.",
+    "metadata": {
+      "title": "Kontakt - Ploro AI",
+      "description": "Kontakt zu Ploro AI für Support, Beta-Feedback, Elektro-Schätzworkflows und Kontohilfe."
+    },
+    "emailTitle": "E-Mail senden",
+    "emailDescription": "Nutzen Sie E-Mail für Support, Beta-Feedback, Abrechnung oder Produktfragen. Es gibt derzeit kein Kontaktformular.",
+    "emailAddress": "contact@ploroai.io",
+    "sections": {
+      "support": {
+        "title": "Produktsupport",
+        "body": "Senden Sie Fragen zu Projekten, Uploads, KI-Analyse, Kandidatenprüfung, Angebotsexport oder Kontozugang."
+      },
+      "sales": {
+        "title": "Beta und Produktfit",
+        "body": "Elektro- und Installationsbetriebe können anfragen, ob der Workflow zu ihrem Angebotsprozess passt."
+      },
+      "security": {
+        "title": "Sicherheit und Daten",
+        "body": "Nutzen Sie die Kontaktadresse für verantwortliche Hinweise zu Kontozugang, Upload-Privatsphäre oder Mandantentrennung."
+      }
     }
   }
 }

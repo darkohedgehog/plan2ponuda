@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Zap } from "lucide-react";
+import { ShieldCheck, Zap } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
 
@@ -22,7 +22,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
   const primaryHref = isAuthenticated ? "/dashboard/projects/new" : "/sign-up";
 
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_20%_0%,rgba(0,212,255,0.22),transparent_28rem),linear-gradient(135deg,#010223_0%,#020231_58%,#001724_100%)]">
+    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#010223_0%,#020231_58%,#001724_100%)]">
       <div className="absolute inset-x-0 top-0 h-48 border-b border-white/10 bg-white/3" />
       <div className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:py-20">
         <div className="max-w-3xl">
@@ -34,6 +34,10 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-deep-twilight-100">
             {tHero("description")}
+          </p>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-deep-twilight-100/85">
+            <ShieldCheck aria-hidden="true" className="mr-2 inline h-4 w-4 text-turquoise-surf-300" />
+            {tHero("reviewNote")}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -161,6 +165,22 @@ function ProductPreview() {
             >
               {tPreview("exportQuote")}
             </button>
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-md border border-white/10 bg-white/5 p-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold text-slate-300">
+                {tPreview("documentAnalysis")}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-slate-400">
+                {tPreview("documentDescription")}
+              </p>
+            </div>
+            <span className="inline-flex w-fit rounded-md border border-bright-teal-blue-300/40 bg-bright-teal-blue-500/15 px-3 py-1 text-xs font-semibold text-turquoise-surf-300">
+              {tPreview("candidateReview")}
+            </span>
           </div>
         </div>
       </div>
