@@ -56,7 +56,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.34] [background-image:linear-gradient(rgba(0,99,153,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.13)_1px,transparent_1px)] [background-size:42px_42px]"
+        className="absolute inset-0 opacity-[0.34] bg-[linear-gradient(rgba(0,99,153,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.13)_1px,transparent_1px)] bg-size-[42px_42px]"
       />
       <div
         aria-hidden="true"
@@ -64,12 +64,12 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-0 left-1/2 h-px w-[72rem] -translate-x-1/2 bg-gradient-to-r from-transparent via-bright-teal-blue-300/70 to-transparent"
+        className="absolute bottom-0 left-1/2 h-px w-6xl -translate-x-1/2 bg-linear-to-r from-transparent via-bright-teal-blue-300/70 to-transparent"
       />
 
       <div className="relative mx-auto grid w-full max-w-7xl min-w-0 items-center gap-12 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div className="w-full min-w-0 max-w-2xl">
-          <h1 className="max-w-[20rem] break-words text-4xl font-semibold leading-[1.02] tracking-tight text-deep-twilight-950 sm:max-w-3xl sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-[20rem] wrap-break-word text-4xl font-semibold leading-[1.02] tracking-tight text-deep-twilight-950 sm:max-w-3xl sm:text-6xl lg:text-7xl">
             {titleAfterAccent !== undefined ? (
               <>
                 {titleBeforeAccent}
@@ -80,7 +80,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               title
             )}
           </h1>
-          <p className="mt-6 max-w-[21rem] break-words text-lg leading-8 text-deep-twilight-700 sm:max-w-2xl">
+          <p className="mt-6 max-w-84 wrap-break-word text-lg leading-8 text-deep-twilight-700 sm:max-w-2xl">
             {tHero("description")}
           </p>
           <div className="mt-7 grid max-w-2xl gap-3 text-sm font-medium text-deep-twilight-800 sm:grid-cols-3">
@@ -94,7 +94,7 @@ export function HeroSection({ isAuthenticated }: HeroSectionProps) {
               </div>
             ))}
           </div>
-          <p className="mt-5 max-w-[21rem] break-words text-sm leading-6 text-deep-twilight-600 sm:max-w-2xl">
+          <p className="mt-5 max-w-84 wrap-break-word text-sm leading-6 text-deep-twilight-600 sm:max-w-2xl">
             <ShieldCheck
               aria-hidden="true"
               className="mr-2 inline h-4 w-4 text-bright-teal-blue-600"
@@ -131,7 +131,7 @@ function ProductPreview({ appName }: { appName: string }) {
   const tMockup = useTranslations("Marketing.hero.mockup");
 
   return (
-    <div className="relative mx-auto w-full max-w-[22rem] min-w-0 sm:max-w-2xl lg:mr-0">
+    <div className="relative mx-auto w-full max-w-88 min-w-0 sm:max-w-2xl lg:mr-0">
       <div
         aria-hidden="true"
         className="absolute -inset-6 rounded-[2.5rem] bg-bright-teal-blue-500/18 blur-3xl"
@@ -159,7 +159,7 @@ function ProductPreview({ appName }: { appName: string }) {
               <div className="relative aspect-[1.18] overflow-hidden rounded-2xl border border-bright-teal-blue-100 bg-frosted-blue-50 shadow-inner">
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 opacity-80 [background-image:linear-gradient(rgba(0,99,153,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.13)_1px,transparent_1px)] [background-size:20px_20px]"
+                  className="absolute inset-0 opacity-80 bg-[linear-gradient(rgba(0,99,153,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.13)_1px,transparent_1px)] bg-size-[20px_20px]"
                 />
                 <div
                   aria-hidden="true"

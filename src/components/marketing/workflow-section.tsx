@@ -23,15 +23,15 @@ export function WorkflowSection() {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-bright-teal-blue-500/40 to-transparent"
+        className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-bright-teal-blue-500/40 to-transparent"
       />
       <div
         aria-hidden="true"
-        className="absolute -left-28 bottom-0 h-60 w-[32rem] rotate-[-12deg] rounded-full border-t border-bright-teal-blue-500/20"
+        className="absolute -left-28 bottom-0 h-60 w-lg -rotate-12 rounded-full border-t border-bright-teal-blue-500/20"
       />
       <div
         aria-hidden="true"
-        className="absolute -right-24 top-12 h-64 w-[34rem] rotate-[16deg] rounded-full border-b border-turquoise-surf-500/15"
+        className="absolute -right-24 top-12 h-64 w-136 rotate-16 rounded-full border-b border-turquoise-surf-500/15"
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -52,7 +52,7 @@ export function WorkflowSection() {
         <div className="relative mt-14 grid gap-8 md:grid-cols-3 md:gap-6">
           <div
             aria-hidden="true"
-            className="absolute left-[18%] right-[18%] top-16 hidden h-0.5 bg-[radial-gradient(circle,#00a6ff_1.7px,transparent_2px)] bg-[length:16px_4px] opacity-80 md:block"
+            className="absolute left-[18%] right-[18%] top-16 hidden h-0.5 bg-[radial-gradient(circle,#00a6ff_1.7px,transparent_2px)] bg-size-[16px_4px] opacity-80 md:block"
           />
 
           {workflowSteps.map(({ icon: Icon, stepKey }, index) => (
@@ -64,7 +64,7 @@ export function WorkflowSection() {
                 aria-hidden="true"
                 className="absolute top-12 h-14 w-24 rounded-full bg-bright-teal-blue-500/20 blur-2xl"
               />
-              <div className="relative flex h-28 w-28 items-center justify-center rounded-2xl border border-bright-teal-blue-300/45 bg-white/[0.06] shadow-[0_0_36px_rgba(0,166,255,0.34),inset_0_0_28px_rgba(0,212,255,0.10)] ring-1 ring-white/10 backdrop-blur">
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-2xl border border-bright-teal-blue-300/45 bg-white/6 shadow-[0_0_36px_rgba(0,166,255,0.34),inset_0_0_28px_rgba(0,212,255,0.10)] ring-1 ring-white/10 backdrop-blur">
                 <span className="absolute right-3 top-3 text-xs font-semibold text-bright-teal-blue-300/80">
                   {String(index + 1).padStart(2, "0")}
                 </span>

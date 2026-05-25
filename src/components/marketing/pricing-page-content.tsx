@@ -79,7 +79,7 @@ export function PricingPageContent({
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.26] [background-image:linear-gradient(rgba(0,99,153,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.12)_1px,transparent_1px)] [background-size:38px_38px]"
+        className="absolute inset-0 opacity-[0.26] bg-[linear-gradient(rgba(0,99,153,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.12)_1px,transparent_1px)] bg-size-[38px_38px]"
       />
 
       <section className="relative mx-auto w-full max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
@@ -87,7 +87,7 @@ export function PricingPageContent({
           <p className="text-sm font-semibold text-bright-teal-blue-700">
             {tPricing("hero.eyebrow")}
           </p>
-          <h1 className="mt-3 text-3xl font-semibold leading-tight text-deep-twilight-950 [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-3 text-3xl font-semibold leading-tight text-deep-twilight-950 wrap-anywhere sm:text-5xl lg:text-6xl">
             {titleAfterAccent !== undefined ? (
               <>
                 {titleBeforeAccent}

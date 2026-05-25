@@ -31,7 +31,7 @@ export function FeaturesSection() {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.24] [background-image:linear-gradient(rgba(0,99,153,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.12)_1px,transparent_1px)] [background-size:34px_34px]"
+        className="absolute inset-0 opacity-[0.24] bg-[linear-gradient(rgba(0,99,153,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.12)_1px,transparent_1px)] bg-size-[34px_34px]"
       />
       <div
         aria-hidden="true"
