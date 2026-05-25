@@ -40,7 +40,7 @@ export function PlanCtaSection({ isAuthenticated }: PlanCtaSectionProps) {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.24] [background-image:linear-gradient(rgba(0,99,153,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.12)_1px,transparent_1px)] [background-size:38px_38px]"
+        className="absolute inset-0 opacity-[0.24] bg-[linear-gradient(rgba(0,99,153,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(0,99,153,0.12)_1px,transparent_1px)] bg-size-[38px_38px]"
       />
       <div
         aria-hidden="true"
@@ -53,7 +53,7 @@ export function PlanCtaSection({ isAuthenticated }: PlanCtaSectionProps) {
             <p className="text-sm font-semibold text-bright-teal-blue-700">
               {tPlanCta("eyebrow")}
             </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight text-deep-twilight-950 [overflow-wrap:anywhere] sm:text-5xl">
+            <h2 className="mt-3 text-3xl font-semibold leading-tight text-deep-twilight-950 wrap-anywhere sm:text-5xl">
               {titleAfterAccent !== undefined ? (
                 <>
                   {titleBeforeAccent}

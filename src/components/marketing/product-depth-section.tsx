@@ -37,7 +37,7 @@ export function ProductDepthSection() {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(102,229,255,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(102,229,255,0.18)_1px,transparent_1px)] [background-size:40px_40px]"
+        className="absolute inset-0 opacity-[0.16] bg-[linear-gradient(rgba(102,229,255,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(102,229,255,0.18)_1px,transparent_1px)] bg-size-[40px_40px]"
       />
       <div
         aria-hidden="true"
@@ -45,7 +45,7 @@ export function ProductDepthSection() {
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-0 right-0 h-px w-3/4 bg-gradient-to-r from-transparent via-bright-teal-blue-400/50 to-transparent"
+        className="absolute bottom-0 right-0 h-px w-3/4 bg-linear-to-r from-transparent via-bright-teal-blue-400/50 to-transparent"
       />
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8">
@@ -53,7 +53,7 @@ export function ProductDepthSection() {
           <p className="text-sm font-semibold text-bright-teal-blue-300">
             {tProductDepth("eyebrow")}
           </p>
-          <h2 className="mt-3 text-3xl font-semibold leading-tight text-white [overflow-wrap:anywhere] sm:text-5xl">
+          <h2 className="mt-3 text-3xl font-semibold leading-tight text-white wrap-anywhere sm:text-5xl">
             {titleAfterAccent !== undefined ? (
               <>
                 {titleBeforeAccent}
@@ -71,7 +71,7 @@ export function ProductDepthSection() {
           <div className="mt-7 flex flex-wrap gap-2">
             {badgeKeys.map((badgeKey) => (
               <span
-                className="rounded-full border border-bright-teal-blue-300/30 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-bright-teal-blue-100"
+                className="rounded-full border border-bright-teal-blue-300/30 bg-white/6 px-3 py-1 text-xs font-semibold text-bright-teal-blue-100"
                 key={badgeKey}
               >
                 {tProductDepth(`badges.${badgeKey}`)}
@@ -79,7 +79,7 @@ export function ProductDepthSection() {
             ))}
           </div>
 
-          <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-[0_22px_60px_rgba(0,0,0,0.24)] backdrop-blur">
+          <div className="mt-8 rounded-2xl border border-white/10 bg-white/6 p-5 shadow-[0_22px_60px_rgba(0,0,0,0.24)] backdrop-blur">
             <div className="flex min-w-0 gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-bright-teal-blue-300/35 bg-bright-teal-blue-500/12 text-bright-teal-blue-300">
                 <ShieldCheck aria-hidden="true" className="h-5 w-5" />
@@ -96,14 +96,14 @@ export function ProductDepthSection() {
           </div>
         </div>
 
-        <div className="relative min-w-0 overflow-hidden rounded-3xl border border-bright-teal-blue-300/25 bg-white/[0.06] p-4 shadow-[0_28px_90px_rgba(0,0,0,0.28)] ring-1 ring-white/10 backdrop-blur sm:p-6">
+        <div className="relative min-w-0 overflow-hidden rounded-3xl border border-bright-teal-blue-300/25 bg-white/6 p-4 shadow-[0_28px_90px_rgba(0,0,0,0.28)] ring-1 ring-white/10 backdrop-blur sm:p-6">
           <div
             aria-hidden="true"
             className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-bright-teal-blue-500/20 blur-3xl"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-x-6 top-16 h-px bg-gradient-to-r from-transparent via-bright-teal-blue-300/35 to-transparent"
+            className="absolute inset-x-6 top-16 h-px bg-linear-to-r from-transparent via-bright-teal-blue-300/35 to-transparent"
           />
 
           <div className="relative flex min-w-0 items-center justify-between gap-4 border-b border-white/10 pb-5">
