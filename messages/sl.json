@@ -606,6 +606,18 @@
       "eyebrow": "Pripravljeno za naslednji tloris",
       "title": "Pripravite naslednjo elektro ponudbo z bolj čistim potekom."
     },
+    "finalCta": {
+      "title": "Ste pripravljeni prihraniti čas in pridobiti več projektov?",
+      "titleAccent": "pridobiti več projektov",
+      "description": "Začnite s tlorisom, preglejte AI predloge in izvozite profesionalno ponudbo, ki jo lahko stranka potrdi.",
+      "checklist": {
+        "upload": "Naložite svoj tloris",
+        "estimate": "Pridobite AI ocene",
+        "export": "Izvozite PDF in Excel ponudbe"
+      },
+      "primaryCta": "Začni brezplačno",
+      "secondaryCta": "Poglej cene"
+    },
     "features": {
       "eyebrow": "Funkcije",
       "title": "Vse, kar potrebujete za pridobitev več projektov",
@@ -691,12 +703,12 @@
       },
       "privacy": {
         "body": "Podrobnosti pravilnika o zasebnosti bodo dodane pred javnim zagonom.",
-        "subtitle": "Pravila o podatkih izdelka in uporabniškega računa za Plan2Ponuda.",
+        "subtitle": "Pravila o podatkih izdelka in uporabniškega računa za Ploro AI.",
         "title": "Zasebnost"
       },
       "terms": {
         "body": "Podrobnosti pogojev uporabe bodo dodane pred javnim zagonom.",
-        "subtitle": "Pogoji naročnine in uporabe za Plan2Ponuda.",
+        "subtitle": "Pogoji naročnine in uporabe za Ploro AI.",
         "title": "Pogoji"
       }
     },
@@ -724,7 +736,7 @@
     },
     "capabilities": {
       "title": "AI pomoč tam, kjer prihrani čas; pregled tam, kjer šteje.",
-      "description": "Plan2Ponuda obdrži AI rezultat kot uredljivo pomoč pri oceni. Ne nadomešča strokovnega pregleda, inženirske presoje ali odgovornosti za končno ponudbo.",
+      "description": "Ploro AI obdrži AI rezultat kot uredljivo pomoč pri oceni. Ne nadomešča strokovnega pregleda, inženirske presoje ali odgovornosti za končno ponudbo.",
       "safetyTitle": "Pregled pred pošiljanjem",
       "safetyDescription": "Preverite količine, cene, predpostavke in izvorne reference, preden ponudbo delite s stranko.",
       "items": {
@@ -743,6 +755,73 @@
         "exports": {
           "title": "Profesionalni izvozi",
           "description": "Izvozite pregledane podatke ponudbe v PDF in Excel iz istih projektnih materialnih vrstic."
+        }
+      }
+    },
+    "productDepth": {
+      "eyebrow": "Globina izdelka",
+      "title": "Več kot preprost obrazec za ponudbo",
+      "titleAccent": "obrazec za ponudbo",
+      "description": "Ploro AI poveže analizo tlorisa, uporabniški pregled, predloge materiala, pripravo ponudbe, izvoz in Pro analizo projektne dokumentacije v en jasen potek.",
+      "reviewTitle": "Pregled ostane v vaših rokah",
+      "reviewDescription": "AI rezultat je izhodišče. Prostori, kandidati, količine, cene in predpostavke ostanejo uredljivi pred pošiljanjem ponudbe.",
+      "badges": {
+        "aiAnalysis": "AI analiza",
+        "editableSuggestions": "Uredljivi predlogi",
+        "exports": "PDF/Excel izvoz",
+        "proDocumentation": "Pro dokumentacija"
+      },
+      "panelLabel": "Povezan potek",
+      "panelTitle": "Od virov do podatkov za ponudbo",
+      "panelBadge": "Najprej pregled",
+      "items": {
+        "floorPlan": {
+          "title": "Analiza tlorisa",
+          "description": "Naložite tloris in uporabite AI za prepoznavanje prostorov in strukture."
+        },
+        "review": {
+          "title": "Pregled prostorov",
+          "description": "Potrdite prostore in predloge, preden oblikujejo potrebe po materialu."
+        },
+        "materials": {
+          "title": "Priprava materiala",
+          "description": "Ustvarite uredljive predloge materiala iz pregledanega konteksta projekta."
+        },
+        "exports": {
+          "title": "Izvoz ponudb",
+          "description": "Ustvarite dokumente ponudbe za stranko v PDF in Excel formatih."
+        },
+        "pro": {
+          "title": "Pro PDF-ji",
+          "description": "Analizirajte projektno dokumentacijo in uvozite sprejete kandidate materiala."
+        }
+      }
+    },
+    "planCta": {
+      "eyebrow": "Izberite potek",
+      "title": "Začnite preprosto in nadgradite, ko projekti rastejo",
+      "titleAccent": "projekti rastejo",
+      "description": "Uporabite Free za preizkus enega projekta, Basic za redne ponudbe iz tlorisov ali Pro beta, ko projektni PDF-ji postanejo del ocenjevanja.",
+      "reviewNote": "V vsakem paketu AI predlogi ostanejo uredljivi in pregledljivi, preden ponudbe pošljete stranki.",
+      "primaryCta": "Začni brezplačno",
+      "primaryCtaAuthenticated": "Upravljaj obračun",
+      "secondaryCta": "Poglej vse cene",
+      "plans": {
+        "free": {
+          "title": "Preizkusite en projekt",
+          "description": "Preprost način za testiranje poti od tlorisa do ponudbe.",
+          "cta": "Začni Free"
+        },
+        "basic": {
+          "title": "Redne ponudbe",
+          "description": "Za manjše instalacijske ekipe, ki pripravljajo ponudbe iz tlorisov.",
+          "cta": "Začni Basic"
+        },
+        "pro": {
+          "title": "Dokumentacija beta",
+          "description": "Za projekte, kjer sta pomembna projektni PDF in pregled kandidatov.",
+          "badge": "Beta",
+          "cta": "Začni Pro beta"
         }
       }
     }
@@ -1356,15 +1435,48 @@
     }
   },
   "Footer": {
-    "tagline": "Hitrejše elektro ponudbe iz tlorisov in projektnih PDF-jev."
+    "tagline": "Hitrejše ponudbe za elektroinstalacije iz tlorisov in projektnih PDF-jev.",
+    "description": "Ploro AI pomaga elektro izvajalcem pretvoriti tlorise in projektne PDF-je v pregledane ponudbe, predloge materiala ter profesionalne PDF/Excel izvoze.",
+    "product": "Izdelek",
+    "legal": "Pravno",
+    "account": "Račun",
+    "aiReviewNote": "AI predloge je treba pregledati pred pošiljanjem ponudb strankam.",
+    "copyright": "© {year} Ploro AI. Vse pravice pridržane.",
+    "links": {
+      "features": "Funkcije",
+      "pricing": "Cene",
+      "contact": "Kontakt",
+      "terms": "Pogoji",
+      "privacy": "Zasebnost",
+      "cookies": "Piškotki",
+      "signIn": "Prijava",
+      "startProject": "Začni projekt"
+    }
   },
   "Pricing": {
     "metadata": {
       "title": "Cene - Ploro AI",
       "description": "Free, Basic in Pro cene za elektro ponudbe, AI analizo tlorisov, izluščanje projektnih PDF-jev in izvoze."
     },
+    "hero": {
+      "eyebrow": "Cene",
+      "title": "Paketi za vsak korak priprave elektro ponudb",
+      "titleAccent": "priprave elektro ponudb",
+      "description": "Začnite brezplačno, nadgradite za redno delo s tlorisi ali uporabite Pro beta, ko projektni PDF-ji postanejo del ocenjevanja."
+    },
     "beta": "Beta",
     "viewPlan": "Poglej paket",
+    "cta": {
+      "startFree": "Začni brezplačno",
+      "createAccount": "Ustvari račun",
+      "openProjects": "Odpri projekte",
+      "manageBilling": "Upravljaj obračun"
+    },
+    "notes": {
+      "aiReview": "AI predloge je treba pregledati pred pošiljanjem ponudb.",
+      "stripePortal": "Naročnine je mogoče upravljati prek Stripe Customer Portal.",
+      "billingProfile": "Računi se obdelujejo glede na podatke obračunskega profila."
+    },
     "landingTitle": "Paketi za preizkus, ponudbe in Pro analizo dokumentov.",
     "landingDescription": "Začnite z enim projektom v Free, razširite delo s tlorisi v Basic ali uporabite Pro za analizo projektnih PDF-jev.",
     "page": {
@@ -1378,7 +1490,7 @@
     "plans": {
       "free": {
         "name": "Free",
-        "price": "0 EUR / mesec",
+        "price": "0 EUR",
         "fit": "Dobro za preizkus poteka.",
         "description": "Majhen začetni paket za preizkus poti od tlorisa do ponudbe.",
         "features": {
@@ -1391,6 +1503,7 @@
       "basic": {
         "name": "Basic",
         "price": "10 EUR / mesec",
+        "badge": "Priporočeno",
         "fit": "Za redne ponudbe iz tlorisov.",
         "description": "Standardni potek za manjša inštalacijska podjetja, ki pogosto pripravljajo ponudbe.",
         "features": {
@@ -1405,6 +1518,7 @@
       "pro": {
         "name": "Pro",
         "price": "30 EUR / mesec",
+        "badge": "Beta",
         "fit": "Beta paket za večjo projektno dokumentacijo.",
         "description": "Doda AI analizo projektnih PDF-jev in uvoz pregledanih materialnih kandidatov.",
         "features": {

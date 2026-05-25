@@ -606,6 +606,18 @@
       "eyebrow": "Ready when the next plan arrives",
       "title": "Prepare the next electrical quote with a cleaner workflow."
     },
+    "finalCta": {
+      "title": "Ready to save time and win more projects?",
+      "titleAccent": "win more projects",
+      "description": "Start with a floor plan, review AI suggestions, and export a professional quote your client can approve.",
+      "checklist": {
+        "upload": "Upload your floor plan",
+        "estimate": "Get AI-powered estimates",
+        "export": "Export PDF and Excel quotes"
+      },
+      "primaryCta": "Start free",
+      "secondaryCta": "See pricing"
+    },
     "features": {
       "eyebrow": "Features",
       "title": "Everything you need to win more projects",
@@ -691,12 +703,12 @@
       },
       "privacy": {
         "body": "Privacy policy details will be added before public launch.",
-        "subtitle": "Product and account data policies for Plan2Ponuda.",
+        "subtitle": "Product and account data policies for Ploro AI.",
         "title": "Privacy"
       },
       "terms": {
         "body": "Terms of service details will be added before public launch.",
-        "subtitle": "Subscription and usage conditions for Plan2Ponuda.",
+        "subtitle": "Subscription and usage conditions for Ploro AI.",
         "title": "Terms"
       }
     },
@@ -724,7 +736,7 @@
     },
     "capabilities": {
       "title": "AI assistance where it saves time, review where it matters.",
-      "description": "Plan2Ponuda keeps AI output as editable estimating support. It does not replace professional review, engineering judgment, or final responsibility for a quote.",
+      "description": "Ploro AI keeps AI output as editable estimating support. It does not replace professional review, engineering judgment, or final responsibility for a quote.",
       "safetyTitle": "Review before sending",
       "safetyDescription": "Check quantities, prices, assumptions, and source references before sharing any quote with a client.",
       "items": {
@@ -743,6 +755,73 @@
         "exports": {
           "title": "Professional exports",
           "description": "Export reviewed quote data to PDF and Excel using the same project material rows."
+        }
+      }
+    },
+    "productDepth": {
+      "eyebrow": "Product depth",
+      "title": "Built for the full estimating workflow",
+      "titleAccent": "full estimating workflow",
+      "description": "Ploro AI connects floor plan analysis, human review, material suggestions, quote generation, exports, and Pro project documentation analysis in one focused flow.",
+      "reviewTitle": "Review stays in your hands",
+      "reviewDescription": "AI output is a starting point. Rooms, candidates, quantities, prices, and assumptions stay editable before a quote is sent.",
+      "badges": {
+        "aiAnalysis": "AI analysis",
+        "editableSuggestions": "Editable suggestions",
+        "exports": "PDF/Excel export",
+        "proDocumentation": "Pro documentation"
+      },
+      "panelLabel": "Connected workflow",
+      "panelTitle": "From source documents to quote data",
+      "panelBadge": "Review-first",
+      "items": {
+        "floorPlan": {
+          "title": "Analyze plans",
+          "description": "Upload a floor plan and use AI to detect rooms and structure."
+        },
+        "review": {
+          "title": "Review rooms",
+          "description": "Confirm spaces and suggestions before they shape material needs."
+        },
+        "materials": {
+          "title": "Prepare materials",
+          "description": "Generate editable material suggestions from reviewed project context."
+        },
+        "exports": {
+          "title": "Export quotes",
+          "description": "Create client-ready quote documents in PDF and Excel formats."
+        },
+        "pro": {
+          "title": "Use Pro PDFs",
+          "description": "Analyze project documentation and import accepted material candidates."
+        }
+      }
+    },
+    "planCta": {
+      "eyebrow": "Choose your workflow",
+      "title": "Start simple, upgrade when projects grow",
+      "titleAccent": "projects grow",
+      "description": "Use Free to try one project, Basic for recurring floor-plan quotes, or Pro beta when project PDFs become part of estimating.",
+      "reviewNote": "Every plan keeps AI suggestions editable and reviewable before client-ready quotes leave your team.",
+      "primaryCta": "Start free",
+      "primaryCtaAuthenticated": "Manage billing",
+      "secondaryCta": "See full pricing",
+      "plans": {
+        "free": {
+          "title": "Try one project",
+          "description": "A simple way to test the floor-plan-to-quote workflow.",
+          "cta": "Start Free"
+        },
+        "basic": {
+          "title": "Regular quoting",
+          "description": "For small installation teams preparing recurring floor-plan quotes.",
+          "cta": "Start Basic"
+        },
+        "pro": {
+          "title": "Documentation beta",
+          "description": "For projects where PDF documentation and candidate review matter.",
+          "badge": "Beta",
+          "cta": "Start Pro beta"
         }
       }
     }
@@ -1356,15 +1435,48 @@
     }
   },
   "Footer": {
-    "tagline": "Faster electrical installation estimates from floor plans and project PDFs."
+    "tagline": "Faster electrical installation estimates from floor plans and project PDFs.",
+    "description": "Ploro AI helps electrical contractors turn floor plans and project PDFs into reviewed quotes, material suggestions, and professional PDF/Excel exports.",
+    "product": "Product",
+    "legal": "Legal",
+    "account": "Account",
+    "aiReviewNote": "AI suggestions should be reviewed before sending quotes to clients.",
+    "copyright": "© {year} Ploro AI. All rights reserved.",
+    "links": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "contact": "Contact",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "signIn": "Sign in",
+      "startProject": "Start project"
+    }
   },
   "Pricing": {
     "metadata": {
       "title": "Pricing - Ploro AI",
       "description": "Free, Basic, and Pro pricing for electrical quote workflows, floor plan analysis, project PDF extraction, and exports."
     },
+    "hero": {
+      "eyebrow": "Pricing",
+      "title": "Plans for every stage of electrical quoting",
+      "titleAccent": "electrical quoting",
+      "description": "Start free, upgrade for recurring floor-plan work, or use Pro beta when project documentation PDFs become part of your estimating flow."
+    },
     "beta": "Beta",
     "viewPlan": "View plan",
+    "cta": {
+      "startFree": "Start free",
+      "createAccount": "Create account",
+      "openProjects": "Open projects",
+      "manageBilling": "Manage billing"
+    },
+    "notes": {
+      "aiReview": "AI suggestions should be reviewed before sending quotes.",
+      "stripePortal": "Subscriptions can be managed through Stripe Customer Portal.",
+      "billingProfile": "Invoices are processed according to billing profile data."
+    },
     "landingTitle": "Plans for trying, quoting, and Pro document analysis.",
     "landingDescription": "Start with one project on Free, expand the floor-plan workflow on Basic, or use Pro for project documentation PDF extraction.",
     "page": {
@@ -1378,7 +1490,7 @@
     "plans": {
       "free": {
         "name": "Free",
-        "price": "0 EUR / month",
+        "price": "0 EUR",
         "fit": "Good for trying the workflow.",
         "description": "A small starter plan for testing the floor-plan-to-quote flow.",
         "features": {
@@ -1391,6 +1503,7 @@
       "basic": {
         "name": "Basic",
         "price": "10 EUR / month",
+        "badge": "Recommended",
         "fit": "For regular floor-plan quoting.",
         "description": "The standard workflow for small installation companies preparing recurring quotes.",
         "features": {
@@ -1405,6 +1518,7 @@
       "pro": {
         "name": "Pro",
         "price": "30 EUR / month",
+        "badge": "Beta",
         "fit": "Beta plan for larger project documentation.",
         "description": "Adds project documentation PDF analysis and reviewed material candidate import.",
         "features": {

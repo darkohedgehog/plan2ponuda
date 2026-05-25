@@ -55,15 +55,19 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-frosted-blue-200/80 bg-white/95 backdrop-blur">
-      <div className="mx-auto mb-3 flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link className="flex items-center" href="/" onClick={closeMenu}>
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
+        <Link
+          className="flex h-12 w-31 shrink-0 items-center overflow-hidden rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
+          href="/"
+          onClick={closeMenu}
+        >
           <Image
             alt={tCommon("logoAlt")}
-            className="h-auto w-auto"
-            height={55}
+            className="h-16 w-29.5 object-fill"
+            height={64}
             priority
-            src="/logo.png"
-            width={70}
+            src="/logo-transparent.png"
+            width={118}
           />
         </Link>
 

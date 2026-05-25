@@ -606,6 +606,18 @@
       "eyebrow": "Bereit für den nächsten Grundriss",
       "title": "Bereiten Sie das nächste Elektroangebot mit einem klareren Workflow vor."
     },
+    "finalCta": {
+      "title": "Bereit, Zeit zu sparen und mehr Projekte zu gewinnen?",
+      "titleAccent": "mehr Projekte zu gewinnen",
+      "description": "Starten Sie mit einem Grundriss, prüfen Sie KI-Vorschläge und exportieren Sie ein professionelles Angebot, das Ihr Kunde freigeben kann.",
+      "checklist": {
+        "upload": "Grundriss hochladen",
+        "estimate": "KI-gestützte Schätzungen erhalten",
+        "export": "PDF- und Excel-Angebote exportieren"
+      },
+      "primaryCta": "Kostenlos starten",
+      "secondaryCta": "Preise ansehen"
+    },
     "features": {
       "eyebrow": "Funktionen",
       "title": "Alles, was Sie brauchen, um mehr Projekte zu gewinnen",
@@ -691,12 +703,12 @@
       },
       "privacy": {
         "body": "Details zur Datenschutzerklärung werden vor dem öffentlichen Start ergänzt.",
-        "subtitle": "Richtlinien zu Produkt- und Kontodaten für Plan2Ponuda.",
+        "subtitle": "Richtlinien zu Produkt- und Kontodaten für Ploro AI.",
         "title": "Datenschutz"
       },
       "terms": {
         "body": "Details zu den Nutzungsbedingungen werden vor dem öffentlichen Start ergänzt.",
-        "subtitle": "Abo- und Nutzungsbedingungen für Plan2Ponuda.",
+        "subtitle": "Abo- und Nutzungsbedingungen für Ploro AI.",
         "title": "Bedingungen"
       }
     },
@@ -724,7 +736,7 @@
     },
     "capabilities": {
       "title": "KI-Unterstützung dort, wo sie Zeit spart; Prüfung dort, wo sie zählt.",
-      "description": "Plan2Ponuda hält KI-Ausgaben als bearbeitbare Unterstützung. Sie ersetzen keine fachliche Prüfung, technische Beurteilung oder Verantwortung für das finale Angebot.",
+      "description": "Kontakt zu Ploro AI für Support, Beta-Feedback, Elektro-Schätzworkflows und Kontohilfe.",
       "safetyTitle": "Vor dem Senden prüfen",
       "safetyDescription": "Prüfen Sie Mengen, Preise, Annahmen und Quellen, bevor Sie ein Angebot mit Kunden teilen.",
       "items": {
@@ -743,6 +755,73 @@
         "exports": {
           "title": "Professionelle Exporte",
           "description": "Exportieren Sie geprüfte Angebotsdaten als PDF und Excel aus denselben Projektmaterialzeilen."
+        }
+      }
+    },
+    "productDepth": {
+      "eyebrow": "Produkttiefe",
+      "title": "Mehr als ein einfaches Angebotsformular",
+      "titleAccent": "Angebotsformular",
+      "description": "Ploro AI verbindet Grundrissanalyse, fachliche Prüfung, Materialvorschläge, Angebotserstellung, Exporte und Pro-Projektdokumentation in einem klaren Ablauf.",
+      "reviewTitle": "Die Prüfung bleibt bei Ihnen",
+      "reviewDescription": "KI-Ausgaben sind ein Startpunkt. Räume, Kandidaten, Mengen, Preise und Annahmen bleiben vor dem Senden bearbeitbar.",
+      "badges": {
+        "aiAnalysis": "KI-Analyse",
+        "editableSuggestions": "Bearbeitbare Vorschläge",
+        "exports": "PDF/Excel-Export",
+        "proDocumentation": "Pro-Dokumentation"
+      },
+      "panelLabel": "Verbundener Ablauf",
+      "panelTitle": "Von Quelldokumenten zu Angebotsdaten",
+      "panelBadge": "Prüfung zuerst",
+      "items": {
+        "floorPlan": {
+          "title": "Pläne analysieren",
+          "description": "Laden Sie einen Grundriss hoch und lassen Sie KI Räume und Struktur erkennen."
+        },
+        "review": {
+          "title": "Räume prüfen",
+          "description": "Bestätigen Sie Räume und Vorschläge, bevor daraus Materialbedarf entsteht."
+        },
+        "materials": {
+          "title": "Material vorbereiten",
+          "description": "Erstellen Sie bearbeitbare Materialvorschläge aus geprüftem Projektkontext."
+        },
+        "exports": {
+          "title": "Angebote exportieren",
+          "description": "Erstellen Sie kundentaugliche Angebotsdokumente als PDF und Excel."
+        },
+        "pro": {
+          "title": "Pro-PDFs nutzen",
+          "description": "Analysieren Sie Projektdokumente und importieren Sie akzeptierte Materialkandidaten."
+        }
+      }
+    },
+    "planCta": {
+      "eyebrow": "Workflow wählen",
+      "title": "Einfach starten und bei mehr Projekten upgraden",
+      "titleAccent": "mehr Projekten",
+      "description": "Nutzen Sie Free für ein Testprojekt, Basic für regelmäßige Grundriss-Angebote oder Pro Beta, wenn Projekt-PDFs Teil der Schätzung werden.",
+      "reviewNote": "In jedem Plan bleiben KI-Vorschläge bearbeitbar und prüfbar, bevor kundenfertige Angebote versendet werden.",
+      "primaryCta": "Kostenlos starten",
+      "primaryCtaAuthenticated": "Abrechnung verwalten",
+      "secondaryCta": "Alle Preise ansehen",
+      "plans": {
+        "free": {
+          "title": "Ein Projekt testen",
+          "description": "Ein einfacher Einstieg, um den Weg vom Grundriss zum Angebot zu testen.",
+          "cta": "Free starten"
+        },
+        "basic": {
+          "title": "Regelmäßige Angebote",
+          "description": "Für kleine Installationsteams mit wiederkehrenden Grundriss-Angeboten.",
+          "cta": "Basic starten"
+        },
+        "pro": {
+          "title": "Dokumentation Beta",
+          "description": "Für Projekte, bei denen PDF-Dokumentation und Kandidatenprüfung wichtig sind.",
+          "badge": "Beta",
+          "cta": "Pro Beta starten"
         }
       }
     }
@@ -1356,15 +1435,48 @@
     }
   },
   "Footer": {
-    "tagline": "Schnellere Elektroangebote aus Grundrissen und Projekt-PDFs."
+    "tagline": "Schnellere Elektroangebote aus Grundrissen und Projekt-PDFs.",
+    "description": "Ploro AI hilft Elektrofachbetrieben, Grundrisse und Projekt-PDFs in geprüfte Angebote, Materialvorschläge und professionelle PDF/Excel-Exporte zu verwandeln.",
+    "product": "Produkt",
+    "legal": "Rechtliches",
+    "account": "Konto",
+    "aiReviewNote": "KI-Vorschläge sollten vor dem Senden von Angeboten an Kunden geprüft werden.",
+    "copyright": "© {year} Ploro AI. Alle Rechte vorbehalten.",
+    "links": {
+      "features": "Funktionen",
+      "pricing": "Preise",
+      "contact": "Kontakt",
+      "terms": "Bedingungen",
+      "privacy": "Datenschutz",
+      "cookies": "Cookies",
+      "signIn": "Anmelden",
+      "startProject": "Projekt starten"
+    }
   },
   "Pricing": {
     "metadata": {
       "title": "Preise - Ploro AI",
       "description": "Free, Basic und Pro für Elektroangebote, KI-Grundrissanalyse, Projekt-PDF-Extraktion und Exporte."
     },
+    "hero": {
+      "eyebrow": "Preise",
+      "title": "Pläne für professionelle Elektroangebote",
+      "titleAccent": "Elektroangebote",
+      "description": "Starten Sie kostenlos, wechseln Sie für regelmäßige Grundrissarbeit zu Basic oder nutzen Sie Pro Beta, wenn Projekt-PDFs Teil Ihrer Schätzung werden."
+    },
     "beta": "Beta",
     "viewPlan": "Plan ansehen",
+    "cta": {
+      "startFree": "Kostenlos starten",
+      "createAccount": "Konto erstellen",
+      "openProjects": "Projekte öffnen",
+      "manageBilling": "Abrechnung verwalten"
+    },
+    "notes": {
+      "aiReview": "KI-Vorschläge sollten vor dem Senden von Angeboten geprüft werden.",
+      "stripePortal": "Abonnements können über das Stripe Customer Portal verwaltet werden.",
+      "billingProfile": "Rechnungen werden gemäß den Abrechnungsprofildaten verarbeitet."
+    },
     "landingTitle": "Pläne zum Testen, Angebots erstellen und für Pro-Dokumentanalyse.",
     "landingDescription": "Starten Sie mit einem Projekt im Free-Plan, erweitern Sie den Grundriss-Workflow mit Basic oder nutzen Sie Pro für Projekt-PDF-Analysen.",
     "page": {
@@ -1378,7 +1490,7 @@
     "plans": {
       "free": {
         "name": "Free",
-        "price": "0 EUR / Monat",
+        "price": "0 EUR",
         "fit": "Gut zum Testen des Workflows.",
         "description": "Ein kleiner Einstieg zum Testen des Wegs vom Grundriss zum Angebot.",
         "features": {
@@ -1391,6 +1503,7 @@
       "basic": {
         "name": "Basic",
         "price": "10 EUR / Monat",
+        "badge": "Empfohlen",
         "fit": "Für regelmäßige Grundriss-Angebote.",
         "description": "Der Standard-Workflow für kleine Installationsbetriebe mit wiederkehrenden Angeboten.",
         "features": {
@@ -1405,6 +1518,7 @@
       "pro": {
         "name": "Pro",
         "price": "30 EUR / Monat",
+        "badge": "Beta",
         "fit": "Beta-Plan für größere Projektdokumentation.",
         "description": "Ergänzt Projekt-PDF-Analyse und Import geprüfter Materialkandidaten.",
         "features": {
