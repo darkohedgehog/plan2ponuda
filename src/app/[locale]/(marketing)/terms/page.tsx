@@ -5,11 +5,15 @@ import { LegalPageContent } from "@/components/marketing/legal-page-content";
 import { resolveLocale } from "@/i18n/routing";
 
 const termsSectionKeys = [
-  "serviceUse",
-  "aiReview",
-  "notEngineering",
-  "userResponsibility",
+  "provider",
+  "service",
+  "account",
+  "aiDisclaimer",
   "subscriptions",
+  "usageLimits",
+  "uploadedContent",
+  "proBeta",
+  "termination",
   "misuse",
   "disclaimer",
   "governingLaw",
@@ -38,6 +42,6 @@ export async function generateMetadata({
 }
 
 export default function TermsPage() {
-  // TODO: Replace this release-prep placeholder with lawyer/accountant-reviewed terms before production launch.
+  // TODO: Legal/accounting review required before production launch, especially liability, consumer terms, invoices, refunds, and governing law.
   return <LegalPageContent namespace="Terms" sectionKeys={termsSectionKeys} />;
 }

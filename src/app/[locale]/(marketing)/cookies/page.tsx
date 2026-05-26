@@ -6,9 +6,11 @@ import { resolveLocale } from "@/i18n/routing";
 
 const cookiesSectionKeys = [
   "essential",
+  "authLocale",
   "stripe",
   "analytics",
   "control",
+  "contact",
 ] as const;
 
 type CookiesPageProps = {
@@ -34,6 +36,6 @@ export async function generateMetadata({
 }
 
 export default function CookiesPage() {
-  // TODO: Confirm final cookie wording with legal review before production launch.
+  // TODO: Confirm final cookie wording and analytics status with legal/deployment review before production launch.
   return <LegalPageContent namespace="Cookies" sectionKeys={cookiesSectionKeys} />;
 }

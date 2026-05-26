@@ -4,20 +4,15 @@ import { getTranslations } from "next-intl/server";
 import { LegalPageContent } from "@/components/marketing/legal-page-content";
 import { resolveLocale } from "@/i18n/routing";
 
-const privacySectionKeys = [
-  "controller",
-  "dataCollected",
-  "purposes",
-  "legalBases",
-  "processors",
-  "storage",
-  "retention",
-  "rights",
-  "transfers",
-  "privacyContact",
+const complaintsSectionKeys = [
+  "emailProcess",
+  "requiredInfo",
+  "deadline",
+  "pendingInvoice",
+  "legalReview",
 ] as const;
 
-type PrivacyPageProps = {
+type ComplaintsPageProps = {
   params: Promise<{
     locale: string;
   }>;
@@ -25,12 +20,12 @@ type PrivacyPageProps = {
 
 export async function generateMetadata({
   params,
-}: PrivacyPageProps): Promise<Metadata> {
+}: ComplaintsPageProps): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
   const tMetadata = await getTranslations({
     locale,
-    namespace: "Privacy.metadata",
+    namespace: "Complaints.metadata",
   });
 
   return {
@@ -39,7 +34,12 @@ export async function generateMetadata({
   };
 }
 
-export default function PrivacyPage() {
-  // TODO: Legal review required before production launch. Also verify final Supabase/database/storage region and subprocessor list.
-  return <LegalPageContent namespace="Privacy" sectionKeys={privacySectionKeys} />;
+export default function ComplaintsPage() {
+  // TODO: Legal review required before production launch to confirm written complaint wording and consumer-law references.
+  return (
+    <LegalPageContent
+      namespace="Complaints"
+      sectionKeys={complaintsSectionKeys}
+    />
+  );
 }

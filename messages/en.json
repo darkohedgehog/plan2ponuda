@@ -371,7 +371,8 @@
     "settings": "Settings",
     "terms": "Terms",
     "toggleNavigationMenu": "Toggle navigation menu",
-    "cookies": "Cookies"
+    "cookies": "Cookies",
+    "complaints": "Complaints"
   },
   "Billing": {
     "actions": {
@@ -1449,6 +1450,7 @@
       "terms": "Terms",
       "privacy": "Privacy",
       "cookies": "Cookies",
+      "complaints": "Complaints",
       "signIn": "Sign in",
       "startProject": "Start project"
     }
@@ -1533,120 +1535,363 @@
     }
   },
   "Legal": {
-    "draftNoticeTitle": "Release-prep placeholder",
-    "draftNoticeDescription": "This page is not final legal advice. The text must be reviewed by a lawyer and, where billing or invoices are involved, an accountant before production launch."
+    "eyebrow": "Legal information",
+    "draftNoticeTitle": "Beta release legal-review notice",
+    "draftNoticeDescription": "This page is release-prep information, not final legal advice. A lawyer and, where billing or invoices are mentioned, an accountant must review this text before production launch.",
+    "contactTitle": "Questions about these terms?",
+    "contactDescription": "Use the contact email for privacy requests, written complaints, billing questions, or legal/informational page corrections.",
+    "operator": {
+      "title": "Operator information",
+      "ownerLabel": "Application/operator owner",
+      "owner": "Živić Elektro j.d.o.o.",
+      "vatLabel": "OIB / VAT ID",
+      "vatId": "HR90344764519",
+      "addressLabel": "Address",
+      "address": "204. vukovarske brigade 39, 32000 Vukovar, Hrvatska",
+      "emailLabel": "Contact email",
+      "email": "contact@ploroai.io"
+    }
   },
   "Privacy": {
-    "title": "Privacy",
-    "description": "High-level overview of how Plan2Ponuda handles account, project, billing, upload, and AI processing data.",
+    "title": "Privacy Policy",
+    "description": "Beta-release overview of how PloroAI processes account, billing, project, uploaded file, AI, payment, and support data.",
     "metadata": {
-      "title": "Privacy - Ploro AI",
-      "description": "Privacy overview for account data, billing profiles, uploads, AI processing, Stripe, SMTP, Supabase, and OpenAI."
+      "title": "Privacy Policy - PloroAI",
+      "description": "Privacy information for PloroAI account data, billing profiles, uploads, AI processing, Stripe payments, email, and cloud infrastructure."
     },
     "sections": {
+      "controller": {
+        "title": "Controller",
+        "body": "The controller for this beta service is Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Privacy requests can be sent to contact@ploroai.io.",
+        "items": [
+          "Product name: PloroAI",
+          "Service type: SaaS application for AI-assisted electrical quote preparation",
+          "Contact email: contact@ploroai.io"
+        ]
+      },
       "dataCollected": {
-        "title": "What data is collected",
-        "body": "The app collects data needed to create accounts, manage projects, process uploads, prepare quotes, enforce usage limits, and support billing."
+        "title": "Personal data collected",
+        "body": "PloroAI collects data needed to create accounts, provide the SaaS service, analyze uploaded files, prepare quotes, manage subscriptions, process invoices, and protect the service.",
+        "items": [
+          "Account data: name, email, password hash, session and settings data",
+          "Billing profile data: billing name, company, OIB/VAT/tax identifiers where provided, address, country, billing email, customer type",
+          "Project data: project names, client names, object type, areas, project status, rooms, materials, quotes, and exports",
+          "Uploaded files: floor plans and project documentation PDFs",
+          "Generated data: AI analysis results, room data, material and labor candidates, quote data, PDF and Excel exports",
+          "Payment/subscription data: Stripe customer, checkout, subscription, payment, and invoice identifiers",
+          "Technical/security data: logs, rate-limit data, IP or request metadata where applicable",
+          "Password reset metadata: email delivery and reset-token metadata without exposing token values"
+        ]
       },
-      "accountData": {
-        "title": "Account data",
-        "body": "Account data may include your email address, name, password hash, session data, settings, company details, and usage history."
+      "purposes": {
+        "title": "Purposes of processing",
+        "body": "Data is processed for operating the product, fulfilling subscriptions, generating project outputs, and meeting security, support, and accounting needs.",
+        "items": [
+          "Account creation, authentication, password reset, and account management",
+          "Providing project, floor-plan, material, quote, PDF, and Excel workflows",
+          "AI analysis of uploaded floor plans and project documentation",
+          "Candidate review and accepted material import into quotes",
+          "Billing, subscription management, and Stripe payment handling",
+          "Manual invoice processing and Synesis/accounting workflow where applicable",
+          "Support, contact, complaints, and beta feedback",
+          "Security, abuse prevention, rate limiting, troubleshooting, and legal/accounting obligations"
+        ]
       },
-      "billingData": {
-        "title": "Billing profile data",
-        "body": "Billing profiles may include billing name, email, address, customer type, company details, tax identifiers, and invoice-related notes needed for Stripe and manual invoice review."
+      "legalBases": {
+        "title": "Legal bases",
+        "body": "The intended legal bases may include contract performance, legal obligations, legitimate interests, and consent where applicable. Final legal-basis wording must be reviewed before production launch.",
+        "items": [
+          "Contract performance for account access, SaaS functionality, subscriptions, and support",
+          "Legal obligations for billing, accounting, tax, and invoicing records",
+          "Legitimate interest for security, abuse prevention, service improvement, and beta support",
+          "Consent where optional cookies, future analytics, or similar optional processing are introduced"
+        ]
       },
-      "uploads": {
-        "title": "Project uploads",
-        "body": "Floor plans and project documentation PDFs are stored in private Supabase Storage. The database stores file paths, metadata, analysis status, and extracted review data."
+      "processors": {
+        "title": "Processors and subprocessors",
+        "body": "The service may use third-party processors for infrastructure, payments, AI analysis, and email. The final processor list and data-processing agreements must be verified before production launch.",
+        "items": [
+          "Hosting, database, and storage provider, including Supabase or equivalent configured infrastructure",
+          "Stripe for card payments, checkout, subscriptions, and customer portal",
+          "OpenAI or another AI service provider for analysis of uploaded plans and project documents",
+          "SMTP/email provider for password reset and service emails",
+          "Analytics are not currently described as active; if added later, this policy must be updated"
+        ]
       },
-      "aiProcessing": {
-        "title": "AI processing",
-        "body": "Uploaded plans and project documents may be sent to OpenAI for analysis. AI output is validated and stored so the user can review suggestions before using them."
+      "storage": {
+        "title": "Storage and infrastructure region",
+        "body": "Project data is intended to be stored in EU-hosted infrastructure where configured by the operator. Final hosting, database, and storage regions must be verified before production launch.",
+        "items": [
+          "Uploaded project files and generated data are stored using configured cloud infrastructure",
+          "Do not rely on this page as a final EU-only storage guarantee until deployment configuration is verified",
+          "AI and payment providers may process data under their own infrastructure and safeguards"
+        ]
       },
-      "payments": {
-        "title": "Stripe payments",
-        "body": "Paid subscriptions are handled by Stripe. Plan2Ponuda stores Stripe identifiers and subscription state, but does not store card details."
-      },
-      "email": {
-        "title": "SMTP password reset emails",
-        "body": "Password reset emails are sent through the configured SMTP provider. Reset responses are neutral and do not reveal whether an account exists."
-      },
-      "providers": {
-        "title": "Infrastructure providers",
-        "body": "The app uses Supabase for database and storage, Stripe for payments, SMTP for email, and OpenAI for AI processing. Provider-specific processing must be reviewed before production launch."
+      "retention": {
+        "title": "Data retention",
+        "body": "Retention periods are beta placeholders and must be finalized. Data is generally kept only as long as needed for the service, legal/accounting duties, security, backups, and support.",
+        "items": [
+          "Account data while the account exists or as needed for legitimate support/security needs",
+          "Billing and invoice records according to applicable legal/accounting retention rules",
+          "Project data until deleted by the user or account closure, subject to backups and legal obligations",
+          "Rate-limit, security, and operational logs for a limited operational period",
+          "TODO: final retention periods must be defined before production launch"
+        ]
       },
       "rights": {
-        "title": "User rights and contact",
-        "body": "Users can contact support to ask about account data, billing profile data, uploads, or deletion requests. Final legal rights wording requires review."
+        "title": "GDPR rights",
+        "body": "Subject to legal conditions, users may exercise GDPR rights by contacting contact@ploroai.io. Users also have the right to lodge a complaint with the Croatian data protection authority, AZOP.",
+        "items": [
+          "Access to personal data",
+          "Correction of inaccurate or incomplete data",
+          "Deletion where applicable",
+          "Restriction of processing",
+          "Objection to processing where applicable",
+          "Data portability where applicable",
+          "Withdrawal of consent where processing is based on consent",
+          "Complaint to AZOP, the Croatian Personal Data Protection Agency"
+        ]
+      },
+      "transfers": {
+        "title": "International transfers",
+        "body": "Some providers, including AI or payment providers, may process data outside the EU/EEA under appropriate safeguards where applicable. This must be verified in final processor documentation.",
+        "items": [
+          "Do not treat this beta notice as a guarantee that every processing activity is EU-only",
+          "Provider safeguards and transfer mechanisms must be reviewed before production launch"
+        ]
+      },
+      "privacyContact": {
+        "title": "Privacy contact",
+        "body": "For privacy requests, account-data questions, project deletion requests, or processor questions, contact PloroAI at contact@ploroai.io.",
+        "items": [
+          "Include the account email related to the request",
+          "Do not send passwords or sensitive access tokens by email"
+        ]
       }
     }
   },
   "Terms": {
-    "title": "Terms",
-    "description": "High-level service terms for using Plan2Ponuda during beta and release preparation.",
+    "title": "Terms of Service",
+    "description": "Beta-release terms for using PloroAI, an AI-assisted SaaS application for preparing electrical quotes from floor plans and project documentation.",
     "metadata": {
-      "title": "Terms - Ploro AI",
-      "description": "Terms overview covering service use, AI review responsibility, subscriptions, misuse, and legal placeholders."
+      "title": "Terms of Service - PloroAI",
+      "description": "Terms for PloroAI beta use, AI review responsibility, subscriptions, usage limits, uploaded content, and Croatian-law placeholders."
     },
     "sections": {
-      "serviceUse": {
-        "title": "Use of service",
-        "body": "Plan2Ponuda is intended for electricians, contractors, and estimating teams preparing electrical installation quotes."
+      "provider": {
+        "title": "Service provider",
+        "body": "PloroAI is operated by Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Contact: contact@ploroai.io.",
+        "items": [
+          "Product name: PloroAI",
+          "Service type: SaaS application for AI-assisted electrical quote preparation"
+        ]
       },
-      "aiReview": {
-        "title": "AI suggestions require review",
-        "body": "AI-generated rooms, electrical suggestions, document candidates, materials, and prices are drafts and must be reviewed by the user before use."
+      "service": {
+        "title": "Description of service",
+        "body": "PloroAI helps users prepare electrical quotes from floor plans and, for Pro beta users, project documentation PDFs. The product supports project setup, AI analysis, room review, material suggestions, quote generation, and PDF/Excel exports.",
+        "items": [
+          "Free and Basic focus on the floor-plan-to-quote workflow",
+          "Pro beta includes project documentation PDF analysis and reviewed material candidate import"
+        ]
       },
-      "notEngineering": {
-        "title": "Not final engineering documentation",
-        "body": "The service does not guarantee that AI output is complete engineering documentation, code compliance advice, or a final installation design."
+      "account": {
+        "title": "Account terms",
+        "body": "Users must provide accurate account and billing information and are responsible for maintaining account security.",
+        "items": [
+          "Keep login credentials confidential",
+          "Keep billing profile data accurate for subscription and invoice processing",
+          "Notify support if unauthorized account access is suspected"
+        ]
       },
-      "userResponsibility": {
-        "title": "User responsibility",
-        "body": "The user remains responsible for verifying project inputs, quantities, prices, assumptions, legal requirements, and the final quote sent to a client."
+      "aiDisclaimer": {
+        "title": "AI outputs require user review",
+        "body": "AI outputs are suggestions and candidates. Users must review all detected rooms, material candidates, labor candidates, prices, assumptions, and quote content before sending quotes or ordering materials.",
+        "items": [
+          "PloroAI does not replace certified engineering or project documentation",
+          "AI output is not guaranteed to be complete, correct, code-compliant, or suitable for installation without professional review",
+          "Final responsibility for quotes, material quantities, labor assumptions, and client communication remains with the user"
+        ]
       },
       "subscriptions": {
-        "title": "Subscriptions and cancellation",
-        "body": "Paid plans are billed through Stripe. Subscription management and cancellation are handled through Stripe Customer Portal where available."
+        "title": "Subscriptions, payments, and invoices",
+        "body": "Payments are accepted only by card through Stripe. Subscriptions are monthly and can be managed or cancelled through Stripe Customer Portal. Prices and plan descriptions are shown on the Pricing page.",
+        "items": [
+          "Access may continue until the current paid period ends depending on Stripe subscription status",
+          "Stripe payment confirmation is not the same as Croatian legal invoice issuance",
+          "Invoices/local fiscal documents are handled separately and manually based on billing profile and customer type",
+          "Where applicable, local invoicing is issued or processed through the operator's accounting workflow/Synesis",
+          "The app does not promise automatic fiscalization or e-invoice generation"
+        ]
+      },
+      "usageLimits": {
+        "title": "Usage limits",
+        "body": "The beta plan limits currently implemented in the application are listed below. Limits may change with notice for future plans or after beta.",
+        "items": [
+          "Free: 1 floor plan, 1 quote, 0 project PDF analyses",
+          "Basic: 10 floor plans, 10 quotes, 0 project PDF analyses",
+          "Pro beta: 20 floor plans, 20 quotes, 3 project PDF analyses"
+        ]
+      },
+      "uploadedContent": {
+        "title": "Uploaded content",
+        "body": "Users must have the right to upload floor plans, project documentation, client data, and related files. Users should not upload unlawful content or sensitive third-party data unless authorized.",
+        "items": [
+          "Uploaded content may be stored and processed to provide the service",
+          "Uploaded files may be processed by AI service providers for analysis",
+          "The user remains responsible for checking rights and permissions for uploaded documents"
+        ]
+      },
+      "proBeta": {
+        "title": "Pro documentation beta",
+        "body": "Project documentation PDF analysis is a beta feature. Extracted material and labor candidates require review, acceptance, rejection, and editing by the user.",
+        "items": [
+          "Accepted material candidates can be imported into the quote workflow",
+          "Labor candidates are reviewed but not imported into quote totals yet",
+          "Extraction quality may vary by document quality, structure, and language"
+        ]
+      },
+      "termination": {
+        "title": "Cancellation and termination",
+        "body": "Users can cancel paid subscriptions through Stripe Customer Portal. The operator may restrict or terminate access in cases of misuse, security risk, non-payment, or unlawful activity.",
+        "items": [
+          "Cancellation does not automatically remove legal/accounting records",
+          "Project data deletion may be subject to backups, accounting obligations, or legal duties"
+        ]
       },
       "misuse": {
         "title": "Prohibited misuse",
-        "body": "Do not upload unlawful content, attempt to access another user's data, abuse rate limits, reverse engineer protected services, or use the app to produce misleading quotes."
+        "body": "Do not upload unlawful content, attempt to access another user's data, abuse rate limits, reverse engineer protected services, disrupt the app, or use PloroAI to produce misleading quotes.",
+        "items": [
+          "No unauthorized access, scraping, credential sharing, or security testing without permission",
+          "No use of the service to infringe third-party rights or legal obligations"
+        ]
       },
       "disclaimer": {
         "title": "Limitation and disclaimer placeholder",
-        "body": "Final warranty, liability, limitation, refund, and service availability wording must be reviewed by legal counsel before production launch."
+        "body": "The service is provided as beta software and may contain errors or availability interruptions. Final warranty, liability, limitation, refund, consumer, and business-customer wording must be reviewed by legal counsel before production launch.",
+        "items": [
+          "This section intentionally remains conservative and unfinished until legal review"
+        ]
       },
       "governingLaw": {
         "title": "Governing law placeholder",
-        "body": "Governing law, jurisdiction, consumer rights, and business customer terms require final legal review."
+        "body": "These beta terms are intended to be governed by the laws of the Republic of Croatia, subject to mandatory consumer protection rules where applicable. This wording requires final legal review.",
+        "items": [
+          "TODO: confirm jurisdiction, consumer rights wording, and B2B/B2C distinctions with a lawyer"
+        ]
       }
     }
   },
   "Cookies": {
-    "title": "Cookies",
-    "description": "Overview of essential cookies and third-party checkout/session behavior used by Plan2Ponuda.",
+    "title": "Cookie Policy",
+    "description": "Beta-release overview of cookies and similar technologies used for PloroAI sessions, locale preferences, security, Stripe checkout, and future analytics planning.",
     "metadata": {
-      "title": "Cookies - Ploro AI",
-      "description": "Cookie overview for session, locale, Stripe checkout, and future analytics placeholders."
+      "title": "Cookie Policy - PloroAI",
+      "description": "Cookie information for PloroAI authentication, language preferences, Stripe checkout and portal, and analytics placeholders."
     },
     "sections": {
       "essential": {
         "title": "Essential cookies",
-        "body": "The app uses essential cookies and similar session storage for authentication, locale preference, security, and normal application operation."
+        "body": "PloroAI uses essential cookies and similar technologies needed for the application to work securely and reliably.",
+        "items": [
+          "Session and security cookies",
+          "CSRF or authentication-related protections where applicable",
+          "Operational cookies needed to keep the app available"
+        ]
+      },
+      "authLocale": {
+        "title": "Authentication and language preferences",
+        "body": "The app may use authentication/session cookies and locale preference cookies, including a language preference such as NEXT_LOCALE.",
+        "items": [
+          "Authentication cookies keep signed-in sessions working",
+          "Locale cookies help preserve the selected language",
+          "Blocking essential cookies may prevent sign-in or checkout flows"
+        ]
       },
       "stripe": {
         "title": "Stripe checkout and portal",
-        "body": "Stripe Checkout and Customer Portal may set their own cookies or similar technologies when you manage a paid subscription."
+        "body": "Stripe Checkout and Stripe Customer Portal are hosted by Stripe and may set their own cookies or similar technologies when you pay for or manage a subscription.",
+        "items": [
+          "Stripe controls cookies on Stripe-hosted payment and portal pages",
+          "Card payments are processed through Stripe; PloroAI does not store card numbers"
+        ]
       },
       "analytics": {
-        "title": "Analytics TODO",
-        "body": "No invasive tracking is described here. If analytics are added later, this page must be updated before launch."
+        "title": "Analytics and tracking",
+        "body": "No analytics or invasive tracking cookies are currently described for this beta notice. If analytics are added later, this page and any consent flow must be updated before production launch.",
+        "items": [
+          "TODO: confirm final analytics status before production launch"
+        ]
       },
       "control": {
         "title": "Cookie control",
-        "body": "You can control browser cookies through your browser settings. Blocking essential cookies may prevent sign-in or checkout flows from working."
+        "body": "You can control or delete cookies through your browser settings. Some cookies are necessary for authentication, security, language selection, and checkout.",
+        "items": [
+          "Blocking essential cookies may break sign-in, project workflows, or Stripe checkout",
+          "Stripe cookie controls are subject to Stripe-hosted page behavior"
+        ]
+      },
+      "contact": {
+        "title": "Cookie questions",
+        "body": "For cookie questions or corrections to this beta cookie notice, contact contact@ploroai.io.",
+        "items": [
+          "Do not send passwords or access tokens by email"
+        ]
+      }
+    }
+  },
+  "Complaints": {
+    "title": "Written complaints",
+    "description": "Users may submit written complaints by email. This beta page explains what information to include so the operator can identify the account, payment, subscription, and invoice status.",
+    "metadata": {
+      "title": "Written complaints - PloroAI",
+      "description": "How to submit written complaints for PloroAI subscriptions, payments, invoices, and account issues."
+    },
+    "sections": {
+      "emailProcess": {
+        "title": "How to submit a complaint",
+        "body": "Submit written complaints by email to contact@ploroai.io. No contact form is provided on this page.",
+        "items": [
+          "Use the subject line: Written complaint - PloroAI",
+          "Send the complaint from the billing email or account email where possible"
+        ]
+      },
+      "requiredInfo": {
+        "title": "Information to include",
+        "body": "Include enough information for the operator to identify the customer, account, payment, subscription, and issue.",
+        "items": [
+          "Buyer/customer name or company name",
+          "Billing email",
+          "Account email if different",
+          "Invoice number if issued",
+          "Stripe transaction, payment, or invoice ID if available",
+          "Subscription plan",
+          "Date of transaction or payment",
+          "Short description of the complaint",
+          "Relevant screenshots or documents"
+        ]
+      },
+      "deadline": {
+        "title": "Response deadline",
+        "body": "Written complaints will be answered in writing within 15 days of receipt, in line with Croatian consumer-protection information on written complaints.",
+        "items": [
+          "Responses are sent to the email address used for the complaint or billing profile"
+        ]
+      },
+      "pendingInvoice": {
+        "title": "If an invoice is pending",
+        "body": "If a local invoice has not yet been issued manually or a Synesis/accounting task is pending, include Stripe transaction details and billing profile data anyway.",
+        "items": [
+          "Stripe payment confirmation is not the same as local Croatian legal invoice issuance",
+          "Manual invoice review depends on customer type and billing profile data"
+        ]
+      },
+      "legalReview": {
+        "title": "Legal-review note",
+        "body": "This page is informational beta-release content and must be legally reviewed before production launch.",
+        "items": [
+          "No form or automated complaint workflow is implemented on this page"
+        ]
       }
     }
   },

@@ -14,6 +14,7 @@ const legalLinks = [
   { href: "/terms", labelKey: "terms" },
   { href: "/privacy", labelKey: "privacy" },
   { href: "/cookies", labelKey: "cookies" },
+  { href: "/complaints", labelKey: "complaints" },
 ] as const;
 
 const accountLinks = [
