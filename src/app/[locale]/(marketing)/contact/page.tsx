@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-import { LegalPageContent } from "@/components/marketing/legal-page-content";
+import { ContactPageContent } from "@/components/marketing/contact-page-content";
 import { resolveLocale } from "@/i18n/routing";
-
-const contactSectionKeys = ["support", "sales", "security"] as const;
+import { getOptionalCurrentUser } from "@/lib/auth/session";
 
 type ContactPageProps = {
   params: Promise<{
@@ -28,6 +27,10 @@ export async function generateMetadata({
   };
 }
 
-export default function ContactPage() {
-  return <LegalPageContent namespace="Contact" sectionKeys={contactSectionKeys} />;
+export const dynamic = "force-dynamic";
+
+export default async function ContactPage() {
+  const user = await getOptionalCurrentUser();
+
+  return <ContactPageContent isAuthenticated={Boolean(user)} />;
 }

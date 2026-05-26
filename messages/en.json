@@ -1651,28 +1651,41 @@
     }
   },
   "Contact": {
-    "title": "Contact",
-    "description": "Contact Ploro AI about product support, beta access, electrical estimating workflows, or account questions.",
+    "eyebrow": "Contact and support",
+    "title": "Contact PloroAI",
+    "description": "Have a question about AI-powered electrical quotes, billing, or project documentation analysis? Send us an email and we'll get back to you.",
     "metadata": {
-      "title": "Contact - Ploro AI",
-      "description": "Contact Ploro AI support for product questions, beta feedback, electrical estimating workflows, and account help."
+      "title": "Contact - PloroAI",
+      "description": "Contact PloroAI for product questions, billing, project documentation analysis, and beta feedback."
     },
-    "emailTitle": "Email us",
-    "emailDescription": "Use email for support, beta feedback, billing questions, or product fit discussions. No contact form is enabled yet.",
+    "emailLabel": "Email",
+    "emailDescription": "For support, product questions, billing, or beta feedback.",
     "emailAddress": "contact@ploroai.io",
-    "sections": {
-      "support": {
-        "title": "Product support",
-        "body": "Send questions about projects, uploads, AI analysis, candidate review, quote exports, or account access."
+    "companyTitle": "Company details",
+    "companyName": "Živić Elektro j.d.o.o.",
+    "companyAddressLine1": "204. vukovarske brigade 39",
+    "companyAddressLine2": "32000 Vukovar, Hrvatska",
+    "reasons": {
+      "title": "How we can help",
+      "product": {
+        "title": "Product questions",
+        "description": "Ask about floor plan analysis, quote exports, and project PDF workflows."
       },
-      "sales": {
-        "title": "Beta and product fit",
-        "body": "Electrical contractors and installation companies can reach out to discuss whether the workflow fits their estimating process."
+      "billing": {
+        "title": "Billing and subscriptions",
+        "description": "Send questions about plans, billing profiles, Stripe subscriptions, or invoices."
       },
-      "security": {
-        "title": "Security and data questions",
-        "body": "Use the contact email for responsible reports about account access, upload privacy, or cross-tenant data concerns."
+      "feedback": {
+        "title": "Beta feedback",
+        "description": "Share what works, what is unclear, and what would help your quoting workflow."
       }
-    }
+    },
+    "cta": {
+      "title": "Ready to try PloroAI?",
+      "primary": "Start free",
+      "primaryAuthenticated": "Open projects",
+      "secondary": "See pricing"
+    },
+    "botAlt": "PloroAI support bot for electrical quoting"
   }
 }

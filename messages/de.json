@@ -1651,28 +1651,41 @@
     }
   },
   "Contact": {
-    "title": "Kontakt",
-    "description": "Kontaktieren Sie Ploro AI zu Support, Beta-Zugang, Elektro-Schätzworkflows oder Kontofragen.",
+    "eyebrow": "Kontakt und Support",
+    "title": "PloroAI kontaktieren",
+    "description": "Haben Sie eine Frage zu KI-gestützten Elektroangeboten, Abrechnung oder Projektdokumentanalyse? Schreiben Sie uns per E-Mail, wir melden uns.",
     "metadata": {
-      "title": "Kontakt - Ploro AI",
-      "description": "Kontakt zu Ploro AI für Support, Beta-Feedback, Elektro-Schätzworkflows und Kontohilfe."
+      "title": "Kontakt - PloroAI",
+      "description": "Kontaktieren Sie PloroAI zu Produktfragen, Abrechnung, Projektdokumentanalyse und Beta-Feedback."
     },
-    "emailTitle": "E-Mail senden",
-    "emailDescription": "Nutzen Sie E-Mail für Support, Beta-Feedback, Abrechnung oder Produktfragen. Es gibt derzeit kein Kontaktformular.",
+    "emailLabel": "E-Mail",
+    "emailDescription": "Für Support, Produktfragen, Abrechnung oder Beta-Feedback.",
     "emailAddress": "contact@ploroai.io",
-    "sections": {
-      "support": {
-        "title": "Produktsupport",
-        "body": "Senden Sie Fragen zu Projekten, Uploads, KI-Analyse, Kandidatenprüfung, Angebotsexport oder Kontozugang."
+    "companyTitle": "Betreiberangaben",
+    "companyName": "Živić Elektro j.d.o.o.",
+    "companyAddressLine1": "204. vukovarske brigade 39",
+    "companyAddressLine2": "32000 Vukovar, Hrvatska",
+    "reasons": {
+      "title": "Wobei wir helfen können",
+      "product": {
+        "title": "Produktfragen",
+        "description": "Fragen Sie zu Grundrissanalyse, Angebotsexporten und Projekt-PDF-Workflows."
       },
-      "sales": {
-        "title": "Beta und Produktfit",
-        "body": "Elektro- und Installationsbetriebe können anfragen, ob der Workflow zu ihrem Angebotsprozess passt."
+      "billing": {
+        "title": "Abrechnung und Abos",
+        "description": "Senden Sie Fragen zu Plänen, Abrechnungsprofilen, Stripe-Abos oder Rechnungen."
       },
-      "security": {
-        "title": "Sicherheit und Daten",
-        "body": "Nutzen Sie die Kontaktadresse für verantwortliche Hinweise zu Kontozugang, Upload-Privatsphäre oder Mandantentrennung."
+      "feedback": {
+        "title": "Beta-Feedback",
+        "description": "Teilen Sie, was gut funktioniert, was unklar ist und was Ihrem Angebotsprozess helfen würde."
       }
-    }
+    },
+    "cta": {
+      "title": "Bereit, PloroAI zu testen?",
+      "primary": "Kostenlos starten",
+      "primaryAuthenticated": "Projekte öffnen",
+      "secondary": "Preise ansehen"
+    },
+    "botAlt": "PloroAI Support-Bot für Elektroangebote"
   }
 }

@@ -1651,28 +1651,41 @@
     }
   },
   "Contact": {
-    "title": "Kontakt",
-    "description": "Kontaktirajte Ploro AI za podršku, beta pristup, elektro procene ili pitanja o nalogu.",
+    "eyebrow": "Kontakt i podrška",
+    "title": "Kontaktirajte PloroAI",
+    "description": "Imate pitanje o AI elektro ponudama, naplati ili analizi projektne dokumentacije? Pošaljite nam email i javićemo se.",
     "metadata": {
-      "title": "Kontakt - Ploro AI",
-      "description": "Kontakt za podršku, beta povratne informacije, elektro tokove rada i pomoć oko naloga."
+      "title": "Kontakt - PloroAI",
+      "description": "Kontaktirajte PloroAI za pitanja o proizvodu, naplati, analizi projektne dokumentacije i beta povratne informacije."
     },
-    "emailTitle": "Pošaljite email",
-    "emailDescription": "Email koristite za podršku, beta povratne informacije, naplatu ili razgovor o prikladnosti proizvoda. Kontakt forma još nije uključena.",
+    "emailLabel": "Email",
+    "emailDescription": "Za podršku, pitanja o proizvodu, naplati ili beta povratne informacije.",
     "emailAddress": "contact@ploroai.io",
-    "sections": {
-      "support": {
-        "title": "Podrška za proizvod",
-        "body": "Pošaljite pitanja o projektima, uploadovima, AI analizi, pregledu kandidata, izvozu ponuda ili pristupu nalogu."
+    "companyTitle": "Podaci o firmi",
+    "companyName": "Živić Elektro j.d.o.o.",
+    "companyAddressLine1": "204. vukovarske brigade 39",
+    "companyAddressLine2": "32000 Vukovar, Hrvatska",
+    "reasons": {
+      "title": "Kako možemo pomoći",
+      "product": {
+        "title": "Pitanja o proizvodu",
+        "description": "Pitajte nas o analizi tlocrta, izvozu ponuda i toku rada sa projektnim PDF-ovima."
       },
-      "sales": {
-        "title": "Beta i prikladnost proizvoda",
-        "body": "Elektro izvođači i instalaterske firme mogu se javiti radi procene uklapa li se tok rada u njihov proces ponuda."
+      "billing": {
+        "title": "Naplata i pretplate",
+        "description": "Pošaljite pitanja o planovima, naplatnim profilima, Stripe pretplatama ili računima."
       },
-      "security": {
-        "title": "Sigurnost i podaci",
-        "body": "Koristite kontakt email za odgovorne prijave o pristupu nalogu, privatnosti uploadova ili mogućim problemima među korisnicima."
+      "feedback": {
+        "title": "Beta povratne informacije",
+        "description": "Podelite šta radi dobro, šta je nejasno i šta bi pomoglo vašem procesu ponuda."
       }
-    }
+    },
+    "cta": {
+      "title": "Spremni da isprobate PloroAI?",
+      "primary": "Kreni besplatno",
+      "primaryAuthenticated": "Otvori projekte",
+      "secondary": "Pogledaj cene"
+    },
+    "botAlt": "PloroAI bot za podršku pri izradi elektro ponuda"
   }
 }
