@@ -211,6 +211,10 @@
         "subtitle": "Dostop do paketa, poraba in podatki profila za obračun.",
         "title": "Obračun"
       },
+      "guide": {
+        "subtitle": "Navodila po korakih za projekte, AI pregled, ponudbe in obračun.",
+        "title": "Vodnik"
+      },
       "adminBilling": {
         "subtitle": "Ročni računi in obračunske operacije.",
         "title": "Admin obračun"
@@ -275,6 +279,148 @@
     "status": "Status",
     "workspace": "Delovni prostor",
     "workspaceDescription": "Elektro ocene"
+  },
+  "Guide": {
+    "page": {
+      "title": "Kako uporabljati PloroAI",
+      "intro": "Ta vodnik vas vodi skozi ustvarjanje projektov, nalaganje tlorisov, zagon AI analize, pregled rezultatov in izvoz ponudb za stranke.",
+      "summaryTitle": "Glavni potek dela",
+      "summary": {
+        "projects": "Ustvarite projekt, preden naložite datoteke ali začnete analizo.",
+        "analysis": "Preglejte AI predloge, preden jih uporabite v ponudbi.",
+        "exports": "PDF ali Excel izvozite šele po preverjanju ponudbe."
+      }
+    },
+    "media": {
+      "title": "Vizualni vodnik",
+      "description": "Posnetke zaslona lahko dodate pozneje. Do takrat vsaka kartica označuje glavno področje poteka dela.",
+      "items": {
+        "createProject": {
+          "title": "Ustvarjanje projekta",
+          "alt": "Zaslon za ustvarjanje projekta v PloroAI"
+        },
+        "uploadFloorPlan": {
+          "title": "Nalaganje tlorisa",
+          "alt": "Zaslon za nalaganje tlorisa v PloroAI"
+        },
+        "reviewRooms": {
+          "title": "Pregled prostorov",
+          "alt": "Zaslon za pregled prostorov v PloroAI"
+        },
+        "quoteExport": {
+          "title": "Izvoz ponudbe",
+          "alt": "Zaslon za izvoz ponudbe v PloroAI"
+        },
+        "proDocumentAnalysis": {
+          "title": "Pro analiza dokumentacije",
+          "alt": "Zaslon za analizo projektne dokumentacije v PloroAI"
+        }
+      }
+    },
+    "quickStart": {
+      "title": "Hiter začetek",
+      "description": "Sledite tem korakom od novega projekta stranke do elektro ponudbe, pripravljene za izvoz.",
+      "stepLabel": "Korak {number}",
+      "steps": {
+        "createProject": {
+          "title": "Ustvarite projekt",
+          "description": "Dodajte ime projekta, ime stranke, tip objekta in površino, da ima delovni prostor potreben kontekst projekta."
+        },
+        "uploadFloorPlan": {
+          "title": "Naložite tloris",
+          "description": "Naložite PDF, PNG ali JPG tloris. Datoteka je varno shranjena in uporabljena za AI analizo."
+        },
+        "runAnalysis": {
+          "title": "Zaženite AI analizo tlorisa",
+          "description": "Zaženite AI analizo, da PloroAI prepozna prostore in pripravi predloge za potek ponudbe."
+        },
+        "reviewRooms": {
+          "title": "Preglejte in potrdite prostore",
+          "description": "Preglejte prepoznane prostore, uredite imena in tipe ter preverite predloge vtičnic, stikal in luči pred potrditvijo."
+        },
+        "generateQuote": {
+          "title": "Ustvarite ponudbo",
+          "description": "Materiali se ustvarijo iz pregledanih prostorov. Prilagodite lahko količine, cene in dodate ročne materiale."
+        },
+        "exportQuote": {
+          "title": "Izvozite PDF ali Excel",
+          "description": "Izvozite PDF ponudbo za stranko ali Excel delovni zvezek, ki ga lahko dodatno uredite."
+        }
+      }
+    },
+    "plans": {
+      "title": "Vodnik po paketih",
+      "description": "Paketi določajo, koliko tlorisov, ponudb in Pro analiz dokumentacije lahko uporabite v trenutnem obračunskem obdobju.",
+      "beta": "Beta",
+      "free": {
+        "title": "Free",
+        "description": "Najboljše za testiranje aplikacije na manjšem projektu.",
+        "features": {
+          "floorPlans": "1 tloris",
+          "quotes": "1 ponudba",
+          "noProjectDocs": "Brez analize PDF projektne dokumentacije",
+          "testing": "Dobro za preizkus poteka dela pred nadgradnjo"
+        }
+      },
+      "basic": {
+        "title": "Basic",
+        "description": "Za redno delo od tlorisa do ponudbe.",
+        "features": {
+          "floorPlans": "10 tlorisov",
+          "quotes": "10 ponudb",
+          "analysis": "AI analiza tlorisa",
+          "exports": "PDF in Excel izvoz",
+          "subscription": "Mesečna naročnina, ki jo lahko prekličete v Stripe Customer Portal"
+        }
+      },
+      "pro": {
+        "title": "Pro",
+        "description": "Za napredne projekte, ki vključujejo PDF dokumentacijo.",
+        "features": {
+          "floorPlans": "20 tlorisov",
+          "quotes": "20 ponudb",
+          "projectDocs": "3 analize PDF projektne dokumentacije",
+          "projectPdfExtraction": "AI ekstrakcija iz projektnega PDF-ja",
+          "candidateReview": "Pregled kandidatov materiala in dela",
+          "importMaterials": "Uvoz sprejetih kandidatov materiala v ponudbo"
+        }
+      }
+    },
+    "proDocuments": {
+      "title": "Pro projektna dokumentacija",
+      "description": "Pro uporabniki lahko poleg tlorisov analizirajo celotne PDF elektro projekte.",
+      "items": {
+        "upload": "Naložite celoten PDF elektro projekta v delovni prostor projekta.",
+        "extract": "AI iz dokumenta izlušči kandidate materiala in dela.",
+        "review": "Preglejte vsakega kandidata, preden ga sprejmete ali zavrnete.",
+        "import": "V ponudbo je mogoče uvoziti samo sprejete kandidate materiala.",
+        "labor": "Kandidati dela so trenutno samo za pregled, dokler modul dela ni implementiran.",
+        "manualCheck": "AI izhod je treba pred uporabo vedno ročno preveriti."
+      }
+    },
+    "billing": {
+      "title": "Obračun in omejitve",
+      "description": "Na strani Obračun spremljate dostop do paketa, trenutno porabo in dejanja naročnine.",
+      "items": {
+        "limits": "Omejitve uporabe so odvisne od aktivnega paketa.",
+        "billingPage": "Stran Obračun prikazuje trenutni paket in porabo.",
+        "stripe": "Plačane naročnine se upravljajo prek Stripe.",
+        "invoices": "Računi se obdelujejo glede na profil za obračun in Synesis/ročni potek dela."
+      }
+    },
+    "safety": {
+      "title": "Opomba za AI pregled",
+      "body": "AI predlogi niso končna projektna dokumentacija. Preglejte prostore, materiale, količine, cene in izvoze, preden ponudbe pošljete strankam ali naročite materiale."
+    },
+    "support": {
+      "title": "Podpora",
+      "description": "Potrebujete pomoč pri nastavitvi, obračunu ali poteku projekta? Uporabite te povezave ali kontaktirajte podporo po e-pošti.",
+      "links": {
+        "contact": "Stran Kontakt",
+        "billing": "Stran Obračun",
+        "projects": "Stran Projekti"
+      }
+    }
   },
   "Profile": {
     "fields": {
@@ -368,6 +514,7 @@
     "dashboard": "Nadzorna plošča",
     "features": "Funkcije",
     "footerNavigation": "Navigacija v nogi",
+    "guide": "Vodnik",
     "howItWorks": "Kako deluje",
     "materials": "Materiali",
     "mobileNavigation": "Mobilna navigacija",

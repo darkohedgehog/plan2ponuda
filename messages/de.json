@@ -211,6 +211,10 @@
         "subtitle": "Planzugriff, Nutzung und Abrechnungsprofildaten.",
         "title": "Abrechnung"
       },
+      "guide": {
+        "subtitle": "Schritt-für-Schritt-Hilfe für Projekte, KI-Prüfung, Angebote und Abrechnung.",
+        "title": "Anleitung"
+      },
       "adminBilling": {
         "subtitle": "Manuelle Rechnungen und Abrechnungsvorgänge.",
         "title": "Admin-Abrechnung"
@@ -275,6 +279,148 @@
     "status": "Status",
     "workspace": "Arbeitsbereich",
     "workspaceDescription": "Elektroschätzungen"
+  },
+  "Guide": {
+    "page": {
+      "title": "So verwendest du PloroAI",
+      "intro": "Diese Anleitung führt dich durch das Erstellen von Projekten, das Hochladen von Grundrissen, die KI-Analyse, die Prüfung der Ergebnisse und den Export kundenfertiger Angebote.",
+      "summaryTitle": "Hauptablauf",
+      "summary": {
+        "projects": "Erstelle ein Projekt, bevor du Dateien hochlädst oder eine Analyse startest.",
+        "analysis": "Prüfe KI-Vorschläge, bevor du sie in einem Angebot verwendest.",
+        "exports": "Exportiere PDF oder Excel erst, nachdem das Angebot geprüft wurde."
+      }
+    },
+    "media": {
+      "title": "Visuelle Anleitung",
+      "description": "Screenshots können später hier ergänzt werden. Bis dahin markiert jede Karte einen Hauptbereich des Workflows.",
+      "items": {
+        "createProject": {
+          "title": "Projekt erstellen",
+          "alt": "Bildschirm zum Erstellen eines Projekts in PloroAI"
+        },
+        "uploadFloorPlan": {
+          "title": "Grundriss hochladen",
+          "alt": "Bildschirm zum Hochladen eines Grundrisses in PloroAI"
+        },
+        "reviewRooms": {
+          "title": "Räume prüfen",
+          "alt": "Bildschirm zur Raumprüfung in PloroAI"
+        },
+        "quoteExport": {
+          "title": "Angebot exportieren",
+          "alt": "Bildschirm zum Angebotsexport in PloroAI"
+        },
+        "proDocumentAnalysis": {
+          "title": "Pro-Dokumentanalyse",
+          "alt": "Bildschirm zur Projektdokumentationsanalyse in PloroAI"
+        }
+      }
+    },
+    "quickStart": {
+      "title": "Schnellstart",
+      "description": "Folge diesen Schritten vom neuen Kundenprojekt bis zum exportbereiten Elektroangebot.",
+      "stepLabel": "Schritt {number}",
+      "steps": {
+        "createProject": {
+          "title": "Projekt erstellen",
+          "description": "Füge Projektname, Kundenname, Objekttyp und Fläche hinzu, damit der Arbeitsbereich den nötigen Projektkontext hat."
+        },
+        "uploadFloorPlan": {
+          "title": "Grundriss hochladen",
+          "description": "Lade einen PDF-, PNG- oder JPG-Grundriss hoch. Die Datei wird sicher gespeichert und für die KI-Analyse verwendet."
+        },
+        "runAnalysis": {
+          "title": "KI-Grundrissanalyse starten",
+          "description": "Starte die KI-Analyse, damit PloroAI Räume erkennen und Vorschläge für den Angebotsablauf vorbereiten kann."
+        },
+        "reviewRooms": {
+          "title": "Räume prüfen und bestätigen",
+          "description": "Prüfe erkannte Räume, bearbeite Namen und Typen und kontrolliere Vorschläge für Steckdosen, Schalter und Leuchten vor der Bestätigung."
+        },
+        "generateQuote": {
+          "title": "Angebot generieren",
+          "description": "Materialien werden aus geprüften Räumen generiert. Du kannst Mengen, Preise und manuelle Materialien anpassen."
+        },
+        "exportQuote": {
+          "title": "PDF oder Excel exportieren",
+          "description": "Exportiere ein kundenfertiges PDF-Angebot oder eine bearbeitbare Excel-Arbeitsmappe zur weiteren Prüfung."
+        }
+      }
+    },
+    "plans": {
+      "title": "Planübersicht",
+      "description": "Pläne definieren, wie viele Grundrisse, Angebote und Pro-Dokumentanalysen du im aktuellen Abrechnungszeitraum verwenden kannst.",
+      "beta": "Beta",
+      "free": {
+        "title": "Free",
+        "description": "Ideal, um die App mit einem kleinen Projekt zu testen.",
+        "features": {
+          "floorPlans": "1 Grundriss",
+          "quotes": "1 Angebot",
+          "noProjectDocs": "Keine PDF-Analyse der Projektdokumentation",
+          "testing": "Gut zum Testen des Workflows vor einem Upgrade"
+        }
+      },
+      "basic": {
+        "title": "Basic",
+        "description": "Für regelmäßige Arbeit vom Grundriss zum Angebot.",
+        "features": {
+          "floorPlans": "10 Grundrisse",
+          "quotes": "10 Angebote",
+          "analysis": "KI-Grundrissanalyse",
+          "exports": "PDF- und Excel-Export",
+          "subscription": "Monatliches Abonnement, das über das Stripe Customer Portal gekündigt werden kann"
+        }
+      },
+      "pro": {
+        "title": "Pro",
+        "description": "Für anspruchsvolle Projekte mit Dokumentations-PDFs.",
+        "features": {
+          "floorPlans": "20 Grundrisse",
+          "quotes": "20 Angebote",
+          "projectDocs": "3 PDF-Analysen der Projektdokumentation",
+          "projectPdfExtraction": "KI-Extraktion aus Projekt-PDFs",
+          "candidateReview": "Material- und Arbeitskandidaten prüfen",
+          "importMaterials": "Akzeptierte Materialkandidaten in das Angebot importieren"
+        }
+      }
+    },
+    "proDocuments": {
+      "title": "Pro-Projektdokumentation",
+      "description": "Pro-Nutzer können zusätzlich zu Grundrissen vollständige Elektroprojekt-PDFs analysieren.",
+      "items": {
+        "upload": "Lade das vollständige Elektroprojekt-PDF in den Projektarbeitsbereich hoch.",
+        "extract": "KI extrahiert Material- und Arbeitskandidaten aus dem Dokument.",
+        "review": "Prüfe jeden Kandidaten, bevor du ihn akzeptierst oder ablehnst.",
+        "import": "Nur akzeptierte Materialkandidaten können in das Angebot importiert werden.",
+        "labor": "Arbeitskandidaten sind derzeit nur zur Prüfung sichtbar, bis das Arbeitsmodul implementiert ist.",
+        "manualCheck": "KI-Ausgaben müssen vor der Verwendung immer manuell geprüft werden."
+      }
+    },
+    "billing": {
+      "title": "Abrechnung und Limits",
+      "description": "Auf der Abrechnungsseite siehst du Planzugriff, aktuelle Nutzung und Abonnementaktionen.",
+      "items": {
+        "limits": "Nutzungslimits hängen vom aktiven Plan ab.",
+        "billingPage": "Die Abrechnungsseite zeigt den aktuellen Plan und die Nutzung.",
+        "stripe": "Bezahlte Abonnements werden über Stripe verwaltet.",
+        "invoices": "Rechnungen werden gemäß Abrechnungsprofil und Synesis/manuellem Workflow verarbeitet."
+      }
+    },
+    "safety": {
+      "title": "Hinweis zur KI-Prüfung",
+      "body": "KI-Vorschläge sind keine endgültige technische Dokumentation. Prüfe Räume, Materialien, Mengen, Preise und Exporte, bevor du Angebote an Kunden sendest oder Materialien bestellst."
+    },
+    "support": {
+      "title": "Support",
+      "description": "Brauchst du Hilfe bei Einrichtung, Abrechnung oder Projektablauf? Nutze diese Links oder kontaktiere den Support per E-Mail.",
+      "links": {
+        "contact": "Kontaktseite",
+        "billing": "Abrechnungsseite",
+        "projects": "Projektseite"
+      }
+    }
   },
   "Profile": {
     "fields": {
@@ -368,6 +514,7 @@
     "dashboard": "Dashboard",
     "features": "Funktionen",
     "footerNavigation": "Navigation im Footer",
+    "guide": "Anleitung",
     "howItWorks": "So funktioniert es",
     "materials": "Materialien",
     "mobileNavigation": "Mobile Navigation",

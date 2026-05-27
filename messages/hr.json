@@ -211,6 +211,10 @@
         "subtitle": "Pristup planu, potrošnja i podaci profila za naplatu.",
         "title": "Naplata"
       },
+      "guide": {
+        "subtitle": "Upute korak po korak za projekte, AI pregled, ponude i naplatu.",
+        "title": "Uputstvo"
+      },
       "adminBilling": {
         "subtitle": "Ručni računi i operacije naplate.",
         "title": "Admin naplata"
@@ -275,6 +279,148 @@
     "status": "Status",
     "workspace": "Radni prostor",
     "workspaceDescription": "Elektro procjene"
+  },
+  "Guide": {
+    "page": {
+      "title": "Kako koristiti PloroAI",
+      "intro": "Ovo uputstvo vodi vas kroz kreiranje projekata, učitavanje tlocrta, pokretanje AI analize, pregled rezultata i izvoz ponuda spremnih za klijente.",
+      "summaryTitle": "Glavni tijek rada",
+      "summary": {
+        "projects": "Kreirajte projekt prije učitavanja datoteka ili pokretanja analize.",
+        "analysis": "Pregledajte AI prijedloge prije korištenja u ponudi.",
+        "exports": "Izvezite PDF ili Excel tek nakon provjere ponude."
+      }
+    },
+    "media": {
+      "title": "Vizualno uputstvo",
+      "description": "Snimke zaslona mogu se dodati kasnije. Do tada svaka kartica označava glavno područje tijeka rada.",
+      "items": {
+        "createProject": {
+          "title": "Kreiranje projekta",
+          "alt": "Zaslon za kreiranje projekta u PloroAI"
+        },
+        "uploadFloorPlan": {
+          "title": "Učitavanje tlocrta",
+          "alt": "Zaslon za učitavanje tlocrta u PloroAI"
+        },
+        "reviewRooms": {
+          "title": "Pregled prostorija",
+          "alt": "Zaslon za pregled prostorija u PloroAI"
+        },
+        "quoteExport": {
+          "title": "Izvoz ponude",
+          "alt": "Zaslon za izvoz ponude u PloroAI"
+        },
+        "proDocumentAnalysis": {
+          "title": "Pro analiza dokumentacije",
+          "alt": "Zaslon za analizu projektne dokumentacije u PloroAI"
+        }
+      }
+    },
+    "quickStart": {
+      "title": "Brzi početak",
+      "description": "Slijedite ove korake od novog projekta klijenta do elektro ponude spremne za izvoz.",
+      "stepLabel": "Korak {number}",
+      "steps": {
+        "createProject": {
+          "title": "Kreirajte projekt",
+          "description": "Dodajte naziv projekta, naziv klijenta, tip objekta i površinu kako bi radni prostor imao potreban kontekst projekta."
+        },
+        "uploadFloorPlan": {
+          "title": "Učitajte tlocrt",
+          "description": "Učitajte PDF, PNG ili JPG tlocrt. Datoteka se sigurno pohranjuje i koristi za AI analizu."
+        },
+        "runAnalysis": {
+          "title": "Pokrenite AI analizu tlocrta",
+          "description": "Pokrenite AI analizu kako bi PloroAI prepoznao prostorije i pripremio prijedloge za tijek ponude."
+        },
+        "reviewRooms": {
+          "title": "Pregledajte i potvrdite prostorije",
+          "description": "Pregledajte prepoznate prostorije, uredite nazive i tipove te provjerite prijedloge utičnica, prekidača i rasvjete prije potvrde."
+        },
+        "generateQuote": {
+          "title": "Generirajte ponudu",
+          "description": "Materijali se generiraju iz pregledanih prostorija. Možete prilagoditi količine, cijene i dodati ručne materijale."
+        },
+        "exportQuote": {
+          "title": "Izvezite PDF ili Excel",
+          "description": "Izvezite PDF ponudu spremnu za klijenta ili Excel radnu knjigu koju možete dodatno uređivati."
+        }
+      }
+    },
+    "plans": {
+      "title": "Vodič kroz planove",
+      "description": "Planovi određuju koliko tlocrta, ponuda i Pro analiza dokumentacije možete koristiti u trenutnom obračunskom razdoblju.",
+      "beta": "Beta",
+      "free": {
+        "title": "Free",
+        "description": "Najbolje za testiranje aplikacije na manjem projektu.",
+        "features": {
+          "floorPlans": "1 tlocrt",
+          "quotes": "1 ponuda",
+          "noProjectDocs": "Bez analize PDF projektne dokumentacije",
+          "testing": "Dobro za isprobavanje tijeka rada prije nadogradnje"
+        }
+      },
+      "basic": {
+        "title": "Basic",
+        "description": "Za redovan rad od tlocrta do ponude.",
+        "features": {
+          "floorPlans": "10 tlocrta",
+          "quotes": "10 ponuda",
+          "analysis": "AI analiza tlocrta",
+          "exports": "PDF i Excel izvoz",
+          "subscription": "Mjesečna pretplata koja se može otkazati kroz Stripe Customer Portal"
+        }
+      },
+      "pro": {
+        "title": "Pro",
+        "description": "Za napredne projekte koji uključuju PDF dokumentaciju.",
+        "features": {
+          "floorPlans": "20 tlocrta",
+          "quotes": "20 ponuda",
+          "projectDocs": "3 analize PDF projektne dokumentacije",
+          "projectPdfExtraction": "AI ekstrakcija iz projektnog PDF-a",
+          "candidateReview": "Pregled kandidata materijala i rada",
+          "importMaterials": "Uvoz prihvaćenih kandidata materijala u ponudu"
+        }
+      }
+    },
+    "proDocuments": {
+      "title": "Pro projektna dokumentacija",
+      "description": "Pro korisnici mogu analizirati kompletne PDF elektro projekte uz tlocrte.",
+      "items": {
+        "upload": "Učitajte kompletan PDF elektro projekta u radni prostor projekta.",
+        "extract": "AI iz dokumenta izvlači kandidate materijala i rada.",
+        "review": "Pregledajte svakog kandidata prije prihvaćanja ili odbijanja.",
+        "import": "Samo prihvaćeni kandidati materijala mogu se uvesti u ponudu.",
+        "labor": "Kandidati rada trenutačno su samo za pregled dok modul rada ne bude implementiran.",
+        "manualCheck": "AI izlaz uvijek treba ručno provjeriti prije korištenja."
+      }
+    },
+    "billing": {
+      "title": "Naplata i ograničenja",
+      "description": "Na stranici Naplata pratite pristup planu, trenutačnu potrošnju i radnje pretplate.",
+      "items": {
+        "limits": "Ograničenja korištenja ovise o aktivnom planu.",
+        "billingPage": "Stranica Naplata prikazuje trenutačni plan i potrošnju.",
+        "stripe": "Plaćene pretplate upravljaju se kroz Stripe.",
+        "invoices": "Računi se obrađuju prema profilu za naplatu i Synesis/ručnom tijeku rada."
+      }
+    },
+    "safety": {
+      "title": "Napomena za AI pregled",
+      "body": "AI prijedlozi nisu završna projektna dokumentacija. Pregledajte prostorije, materijale, količine, cijene i izvoze prije slanja ponuda klijentima ili naručivanja materijala."
+    },
+    "support": {
+      "title": "Podrška",
+      "description": "Trebate pomoć oko postavljanja, naplate ili tijeka projekta? Koristite ove poveznice ili kontaktirajte podršku e-poštom.",
+      "links": {
+        "contact": "Stranica Kontakt",
+        "billing": "Stranica Naplata",
+        "projects": "Stranica Projekti"
+      }
+    }
   },
   "Profile": {
     "fields": {
@@ -368,6 +514,7 @@
     "dashboard": "Nadzorna ploča",
     "features": "Mogućnosti",
     "footerNavigation": "Navigacija u podnožju",
+    "guide": "Uputstvo",
     "howItWorks": "Kako radi",
     "materials": "Materijali",
     "mobileNavigation": "Mobilna navigacija",

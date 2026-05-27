@@ -211,6 +211,10 @@
         "subtitle": "Plan access, usage, and billing profile details.",
         "title": "Billing"
       },
+      "guide": {
+        "subtitle": "Step-by-step help for projects, AI review, quotes, and billing.",
+        "title": "Guide"
+      },
       "adminBilling": {
         "subtitle": "Manual invoicing and billing operations.",
         "title": "Admin billing"
@@ -275,6 +279,148 @@
     "status": "Status",
     "workspace": "Workspace",
     "workspaceDescription": "Electrical estimates"
+  },
+  "Guide": {
+    "page": {
+      "title": "How to use PloroAI",
+      "intro": "This guide walks you through creating projects, uploading floor plans, running AI analysis, reviewing results, and exporting client-ready quotes.",
+      "summaryTitle": "Main workflow",
+      "summary": {
+        "projects": "Create a project before uploading files or starting analysis.",
+        "analysis": "Review AI suggestions before using them in a quote.",
+        "exports": "Export PDF or Excel only after the quote has been checked."
+      }
+    },
+    "media": {
+      "title": "Visual guide",
+      "description": "Screenshots can be added here later. Until then, each card marks the main workflow area.",
+      "items": {
+        "createProject": {
+          "title": "Create project",
+          "alt": "Create project screen in PloroAI"
+        },
+        "uploadFloorPlan": {
+          "title": "Upload floor plan",
+          "alt": "Floor plan upload screen in PloroAI"
+        },
+        "reviewRooms": {
+          "title": "Review rooms",
+          "alt": "Room review screen in PloroAI"
+        },
+        "quoteExport": {
+          "title": "Quote export",
+          "alt": "Quote export screen in PloroAI"
+        },
+        "proDocumentAnalysis": {
+          "title": "Pro document analysis",
+          "alt": "Project documentation analysis screen in PloroAI"
+        }
+      }
+    },
+    "quickStart": {
+      "title": "Quick start",
+      "description": "Follow these steps to move from a new client project to an export-ready electrical quote.",
+      "stepLabel": "Step {number}",
+      "steps": {
+        "createProject": {
+          "title": "Create a project",
+          "description": "Add the project name, client name, object type, and area so the workspace has the required project context."
+        },
+        "uploadFloorPlan": {
+          "title": "Upload a floor plan",
+          "description": "Upload a PDF, PNG, or JPG floor plan. The file is stored securely and used for AI analysis."
+        },
+        "runAnalysis": {
+          "title": "Run AI floor plan analysis",
+          "description": "Start the AI analysis so PloroAI can detect rooms and prepare suggestions for the quote workflow."
+        },
+        "reviewRooms": {
+          "title": "Review and confirm rooms",
+          "description": "Review detected rooms, edit names and types, and check socket, switch, and light suggestions before confirming rooms."
+        },
+        "generateQuote": {
+          "title": "Generate quote",
+          "description": "Materials are generated from reviewed rooms. You can adjust quantities, prices, and add manual materials."
+        },
+        "exportQuote": {
+          "title": "Export PDF or Excel",
+          "description": "Export a client-ready PDF quote or an editable Excel workbook for further review."
+        }
+      }
+    },
+    "plans": {
+      "title": "Plan guide",
+      "description": "Plans define how many floor plans, quotes, and Pro document analyses you can use in the current billing period.",
+      "beta": "Beta",
+      "free": {
+        "title": "Free",
+        "description": "Best for testing the app with a small project.",
+        "features": {
+          "floorPlans": "1 floor plan",
+          "quotes": "1 quote",
+          "noProjectDocs": "No project documentation PDF analysis",
+          "testing": "Good for trying the workflow before upgrading"
+        }
+      },
+      "basic": {
+        "title": "Basic",
+        "description": "For regular floor-plan-to-quote work.",
+        "features": {
+          "floorPlans": "10 floor plans",
+          "quotes": "10 quotes",
+          "analysis": "AI floor plan analysis",
+          "exports": "PDF and Excel export",
+          "subscription": "Monthly subscription that can be cancelled through Stripe Customer Portal"
+        }
+      },
+      "pro": {
+        "title": "Pro",
+        "description": "For advanced projects that include documentation PDFs.",
+        "features": {
+          "floorPlans": "20 floor plans",
+          "quotes": "20 quotes",
+          "projectDocs": "3 project documentation PDF analyses",
+          "projectPdfExtraction": "AI project PDF extraction",
+          "candidateReview": "Review material and labor candidates",
+          "importMaterials": "Import accepted material candidates into the quote"
+        }
+      }
+    },
+    "proDocuments": {
+      "title": "Pro project documentation",
+      "description": "Pro users can analyze complete electrical project PDFs in addition to floor plans.",
+      "items": {
+        "upload": "Upload the complete electrical project PDF to the project workspace.",
+        "extract": "AI extracts material and labor candidates from the document.",
+        "review": "Review every candidate before accepting or rejecting it.",
+        "import": "Only accepted material candidates can be imported into the quote.",
+        "labor": "Labor candidates are currently review-only until the labor module is implemented.",
+        "manualCheck": "AI output must always be checked manually before use."
+      }
+    },
+    "billing": {
+      "title": "Billing and limits",
+      "description": "Use the Billing page to understand plan access, current usage, and subscription actions.",
+      "items": {
+        "limits": "Usage limits depend on the active plan.",
+        "billingPage": "The Billing page shows the current plan and usage.",
+        "stripe": "Paid subscriptions are managed through Stripe.",
+        "invoices": "Invoices are handled according to the billing profile and the Synesis/manual workflow."
+      }
+    },
+    "safety": {
+      "title": "AI review note",
+      "body": "AI suggestions are not final engineering documentation. Review rooms, materials, quantities, prices, and exports before sending quotes to clients or ordering materials."
+    },
+    "support": {
+      "title": "Support",
+      "description": "Need help with setup, billing, or a project workflow? Use these links or contact support by email.",
+      "links": {
+        "contact": "Contact page",
+        "billing": "Billing page",
+        "projects": "Projects page"
+      }
+    }
   },
   "Profile": {
     "fields": {
@@ -368,6 +514,7 @@
     "dashboard": "Dashboard",
     "features": "Features",
     "footerNavigation": "Footer navigation",
+    "guide": "Guide",
     "howItWorks": "How it works",
     "materials": "Materials",
     "mobileNavigation": "Mobile navigation",

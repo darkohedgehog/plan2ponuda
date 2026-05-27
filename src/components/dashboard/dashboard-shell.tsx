@@ -2,6 +2,7 @@
 
 import {
   Bolt,
+  BookOpen,
   CreditCard,
   FileText,
   FolderOpen,
@@ -295,6 +296,7 @@ function DashboardIcon({ className, name }: DashboardIconProps) {
     billing: CreditCard,
     dashboard: LayoutDashboard,
     folder: FolderOpen,
+    guide: BookOpen,
     materials: Package,
     quotes: FileText,
     settings: Settings,
