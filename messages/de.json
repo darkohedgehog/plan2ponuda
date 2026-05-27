@@ -90,6 +90,15 @@
     "signIn": "Anmelden",
     "signUp": "Registrieren"
   },
+  "EmailVerification": {
+    "alreadyVerified": "Ihre E-Mail ist bereits bestätigt.",
+    "couldNotSend": "Die Bestätigungs-E-Mail konnte nicht gesendet werden.",
+    "featureRequired": "Bitte bestätigen Sie Ihre E-Mail, bevor Sie diese Funktion nutzen.",
+    "resend": "Bestätigungs-E-Mail erneut senden",
+    "sending": "Wird gesendet...",
+    "sent": "Bestätigungs-E-Mail gesendet.",
+    "tooMany": "Zu viele Bestätigungs-E-Mails. Bitte versuchen Sie es später erneut."
+  },
   "Actions": {
     "addFirstRoom": "Ersten Raum hinzufügen",
     "addMaterial": "Material hinzufügen",
@@ -145,7 +154,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits.",
-    "emailVerificationRequired": "Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie diese Funktion nutzen.",
+    "emailVerificationRequired": "Bitte bestätigen Sie Ihre E-Mail, bevor Sie diese Funktion nutzen.",
     "enterValidDefaultPrice": "Geben Sie einen gültigen Standardpreis ein.",
     "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
     "enterValidPrice": "Geben Sie einen gültigen Preis ein.",
@@ -1202,7 +1211,7 @@
       "analysisFailed": "Dokument konnte nicht analysiert werden.",
       "analysisInProgress": "Dokumentanalyse läuft bereits.",
       "analysisLimitReached": "Analyselimit erreicht.",
-      "emailNotVerified": "Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie Projektdokumente verwenden.",
+      "emailNotVerified": "Bitte bestätigen Sie Ihre E-Mail, bevor Sie diese Funktion nutzen.",
       "fallback": "Upload fehlgeschlagen. Bitte versuchen Sie es erneut.",
       "fileTooLarge": "Datei zu groß. Laden Sie ein PDF bis 20 MB hoch.",
       "invalidFile": "Wählen Sie ein Projekt-PDF zum Hochladen aus.",

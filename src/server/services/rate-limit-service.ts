@@ -13,6 +13,7 @@ export const RATE_LIMIT_SCOPES = {
   projectDocumentDelete: "project_document_delete",
   projectDocumentUpload: "project_document_upload",
   quoteUpdate: "quote_update",
+  resendEmailVerification: "resend_email_verification",
   signIn: "sign_in",
   signUp: "sign_up",
 } as const;
@@ -49,6 +50,10 @@ export const RATE_LIMIT_POLICIES = {
   quoteUpdate: {
     limit: 60,
     windowSeconds: 10 * 60,
+  },
+  resendEmailVerification: {
+    limit: 3,
+    windowSeconds: 15 * 60,
   },
   signIn: {
     limit: 10,

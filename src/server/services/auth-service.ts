@@ -17,6 +17,8 @@ import {
   RateLimitExceededError,
   checkRateLimitOrThrow,
   createCompositeRateLimitKey,
+  createUserRateLimitKey,
+  type RateLimitExceededStatus,
 } from "@/server/services/rate-limit-service";
 import { sendPasswordResetEmail } from "@/server/services/mail-service";
 import type { SignUpResponse } from "@/types/auth";
@@ -129,6 +131,8 @@ export async function createUserWithPassword(
 async function prepareEmailVerification(params: {
   baseUrl?: string;
   email: string;
+  exposeDevVerificationUrl?: boolean;
+  logDevVerificationUrl?: boolean;
   userId: string;
 }): Promise<string | undefined> {
   const rawToken = createEmailVerificationToken();
@@ -151,7 +155,10 @@ async function prepareEmailVerification(params: {
 
   const verificationUrl = buildEmailVerificationUrl(params.baseUrl, rawToken);
 
-  if (process.env.NODE_ENV !== "production") {
+  const exposeDevVerificationUrl = params.exposeDevVerificationUrl ?? true;
+  const logDevVerificationUrl = params.logDevVerificationUrl ?? true;
+
+  if (process.env.NODE_ENV !== "production" && logDevVerificationUrl) {
     console.info("Development email verification URL", verificationUrl);
   }
 
@@ -171,7 +178,85 @@ async function prepareEmailVerification(params: {
     });
   }
 
-  return process.env.NODE_ENV !== "production" ? verificationUrl : undefined;
+  return process.env.NODE_ENV !== "production" && exposeDevVerificationUrl
+    ? verificationUrl
+    : undefined;
+}
+
+export type ResendVerificationEmailResult =
+  | {
+      ok: true;
+      status: "already_verified" | "sent";
+    }
+  | {
+      ok: false;
+      rateLimitStatus: RateLimitExceededStatus;
+      reason: "rate_limited";
+    };
+
+export async function resendVerificationEmailForUser(params: {
+  baseUrl?: string;
+  userId: string;
+}): Promise<ResendVerificationEmailResult> {
+  const user = await prisma.user.findUnique({
+    select: {
+      email: true,
+      emailVerifiedAt: true,
+      id: true,
+    },
+    where: {
+      id: params.userId,
+    },
+  });
+
+  if (!user) {
+    return {
+      ok: true,
+      status: "sent",
+    };
+  }
+
+  if (user.emailVerifiedAt) {
+    return {
+      ok: true,
+      status: "already_verified",
+    };
+  }
+
+  const rateLimit = await checkRateLimitOrThrow({
+    key: createUserRateLimitKey({
+      userId: user.id,
+    }),
+    scope: RATE_LIMIT_SCOPES.resendEmailVerification,
+    ...RATE_LIMIT_POLICIES.resendEmailVerification,
+  }).catch((error: unknown) => {
+    if (error instanceof RateLimitExceededError) {
+      return error.status;
+    }
+
+    throw error;
+  });
+
+  if (!rateLimit.ok) {
+    return {
+      ok: false,
+      rateLimitStatus: rateLimit,
+      reason: "rate_limited",
+    };
+  }
+
+  await prepareEmailVerification({
+    baseUrl: params.baseUrl,
+    email: user.email,
+    exposeDevVerificationUrl: false,
+    logDevVerificationUrl: false,
+    userId: user.id,
+  });
+
+  return {
+    ok: true,
+    status: "sent",
+  };
 }
 
 export async function verifyEmailToken(token: string): Promise<boolean> {

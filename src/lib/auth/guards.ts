@@ -61,7 +61,7 @@ export async function requireApiVerifiedUser(): Promise<ApiAuthResult> {
           ok: false,
           error: {
             code: "email_not_verified",
-            message: "Verify your email address before using this feature.",
+            message: "Please verify your email before using this feature.",
           },
         },
         { status: 403 },

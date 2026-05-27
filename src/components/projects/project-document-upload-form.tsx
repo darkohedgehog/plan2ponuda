@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ComponentProps, useState } from "react";
 
+import { ResendVerificationEmailButton } from "@/components/auth/resend-verification-email-button";
 import { Button } from "@/components/ui/button";
 import { LocalizedFileInput } from "@/components/ui/localized-file-input";
 import { validateProjectDocumentFile } from "@/lib/validations/project-document.schema";
@@ -201,6 +202,9 @@ export function ProjectDocumentUploadForm({
         <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
           {tDocs(state.errorKey)}
         </p>
+      ) : null}
+      {state.errorKey === "errors.emailNotVerified" ? (
+        <ResendVerificationEmailButton />
       ) : null}
       {state.success ? (
         <p className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">

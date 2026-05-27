@@ -90,6 +90,15 @@
     "signIn": "Prijava",
     "signUp": "Registracija"
   },
+  "EmailVerification": {
+    "alreadyVerified": "Vaša e-pošta je već potvrđena.",
+    "couldNotSend": "Nije moguće poslati e-poštu za potvrdu.",
+    "featureRequired": "Potvrdite e-poštu pre korišćenja ove funkcije.",
+    "resend": "Ponovo pošalji e-poštu za potvrdu",
+    "sending": "Slanje...",
+    "sent": "E-pošta za potvrdu je poslata.",
+    "tooMany": "Previše e-poruka za potvrdu. Pokušajte ponovo kasnije."
+  },
   "Actions": {
     "addFirstRoom": "Dodaj prvu prostoriju",
     "addMaterial": "Dodaj materijal",
@@ -145,7 +154,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "Nalog sa ovom e-poštom već postoji.",
-    "emailVerificationRequired": "Potvrdite adresu e-pošte pre korišćenja ove funkcije.",
+    "emailVerificationRequired": "Potvrdite e-poštu pre korišćenja ove funkcije.",
     "enterValidDefaultPrice": "Unesite važeću podrazumevanu cenu.",
     "enterValidEmail": "Unesite važeću adresu e-pošte.",
     "enterValidPrice": "Unesite važeću cenu.",
@@ -1202,7 +1211,7 @@
       "analysisFailed": "Nije moguće analizirati dokument.",
       "analysisInProgress": "Analiza dokumenta je već u toku.",
       "analysisLimitReached": "Dostignuto je ograničenje analiza.",
-      "emailNotVerified": "Potvrdite adresu e-pošte pre korišćenja projektnih dokumenata.",
+      "emailNotVerified": "Potvrdite e-poštu pre korišćenja ove funkcije.",
       "fallback": "Učitavanje nije uspelo. Pokušajte ponovo.",
       "fileTooLarge": "Datoteka je prevelika. Učitajte PDF do 20 MB.",
       "invalidFile": "Izaberite projektni PDF za učitavanje.",

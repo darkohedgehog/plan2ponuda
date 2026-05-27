@@ -64,3 +64,23 @@ export type ResetPasswordResponse =
       };
       ok: false;
     };
+
+export type ResendEmailVerificationSuccessCode = "already_verified" | "sent";
+
+export type ResendEmailVerificationErrorCode =
+  | "rate_limited"
+  | "server_error";
+
+export type ResendEmailVerificationResponse =
+  | {
+      code: ResendEmailVerificationSuccessCode;
+      message: string;
+      ok: true;
+    }
+  | {
+      error: {
+        code: ResendEmailVerificationErrorCode;
+        message: string;
+      };
+      ok: false;
+    };

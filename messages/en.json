@@ -90,6 +90,15 @@
     "signIn": "Sign in",
     "signUp": "Sign up"
   },
+  "EmailVerification": {
+    "alreadyVerified": "Your email is already verified.",
+    "couldNotSend": "Could not send verification email.",
+    "featureRequired": "Please verify your email before using this feature.",
+    "resend": "Resend verification email",
+    "sending": "Sending...",
+    "sent": "Verification email sent.",
+    "tooMany": "Too many verification emails. Please try again later."
+  },
   "Actions": {
     "addFirstRoom": "Add first room",
     "addMaterial": "Add material",
@@ -145,7 +154,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "An account with this email already exists.",
-    "emailVerificationRequired": "Verify your email address before using this feature.",
+    "emailVerificationRequired": "Please verify your email before using this feature.",
     "enterValidDefaultPrice": "Enter a valid default price.",
     "enterValidEmail": "Enter a valid email address.",
     "enterValidPrice": "Enter a valid price.",
@@ -1202,7 +1211,7 @@
       "analysisFailed": "Could not analyze document.",
       "analysisInProgress": "Document analysis is already in progress.",
       "analysisLimitReached": "Analysis limit reached.",
-      "emailNotVerified": "Verify your email address before using project documents.",
+      "emailNotVerified": "Please verify your email before using this feature.",
       "fallback": "Upload failed. Please try again.",
       "fileTooLarge": "File too large. Upload a PDF up to 20 MB.",
       "invalidFile": "Select a project PDF to upload.",
