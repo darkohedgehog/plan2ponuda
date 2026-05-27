@@ -5,6 +5,16 @@ import { z } from "zod";
 
 import { getOpenAiClient, type AiProvider } from "@/lib/ai/client";
 import {
+  OPENAI_PDF_FILE_DATA_PREFIX,
+  buildProjectDocumentOpenAiFileInput,
+  validateProjectDocumentPdfForOpenAi,
+  type ProjectDocumentOpenAiFileInput,
+} from "@/lib/ai/document-file-input";
+import {
+  MAX_PROJECT_DOCUMENT_FILE_SIZE_BYTES,
+  PROJECT_DOCUMENT_MIME_TYPE,
+} from "@/lib/validations/project-document.schema";
+import {
   projectDocumentAnalysisOutputSchema,
   type ProjectDocumentAnalysisOutput,
 } from "@/lib/validations/project-document-analysis.schema";
@@ -49,6 +59,38 @@ const DOCUMENT_ANALYSIS_INSTRUCTIONS = [
 export async function runProjectDocumentAnalysis(
   input: RunProjectDocumentAnalysisInput,
 ): Promise<RunProjectDocumentAnalysisResult> {
+  const validatedDocument = validateProjectDocumentPdfForOpenAi({
+    bytes: input.document.bytes,
+    fileName: input.document.fileName,
+    maxSizeBytes: MAX_PROJECT_DOCUMENT_FILE_SIZE_BYTES,
+    mimeType: input.document.mimeType,
+  });
+
+  if (!validatedDocument.ok) {
+    console.error("Invalid project document PDF input for OpenAI analysis", {
+      documentId: input.documentId,
+      fileName: input.document.fileName,
+      mimeType: input.document.mimeType,
+      projectId: input.projectId,
+      reason: validatedDocument.reason,
+      sizeBytes: input.document.bytes.length,
+    });
+
+    return {
+      ok: false,
+      reason: "provider_error",
+    };
+  }
+
+  const inputFile = buildProjectDocumentOpenAiFileInput({
+    bytes: input.document.bytes,
+    fileName: input.document.fileName,
+    maxSizeBytes: MAX_PROJECT_DOCUMENT_FILE_SIZE_BYTES,
+    mimeType: input.document.mimeType,
+  });
+
+  logProjectDocumentInputMetadata(input.document, inputFile);
+
   const openAi = getOpenAiClient();
 
   if (!openAi.ok) {
@@ -68,7 +110,7 @@ export async function runProjectDocumentAnalysis(
               text: "Analyze this electrical project documentation PDF and return structured extraction candidates only.",
               type: "input_text",
             },
-            createProjectDocumentInputContent(input.document),
+            inputFile,
           ],
           role: "user",
         },
@@ -130,11 +172,20 @@ export async function runProjectDocumentAnalysis(
   }
 }
 
-function createProjectDocumentInputContent(document: DocumentPdfInput) {
-  return {
-    detail: "high" as const,
-    file_data: document.bytes.toString("base64"),
-    filename: document.fileName,
-    type: "input_file" as const,
-  };
+function logProjectDocumentInputMetadata(
+  document: DocumentPdfInput,
+  inputFile: ProjectDocumentOpenAiFileInput,
+): void {
+  const hasPdfDataUrl = inputFile.file_data.startsWith(
+    OPENAI_PDF_FILE_DATA_PREFIX,
+  );
+
+  if (process.env.NODE_ENV !== "production") {
+    console.info("Prepared OpenAI project document PDF input", {
+      fileName: inputFile.filename,
+      hasPdfDataUrl,
+      mimeType: PROJECT_DOCUMENT_MIME_TYPE,
+      sizeBytes: document.bytes.length,
+    });
+  }
 }
