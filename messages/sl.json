@@ -1185,9 +1185,11 @@
     "analysisFailed": "Analiza ni uspela.",
     "analysisLimitReached": "Omejitev analiz je dosežena.",
     "accept": "Sprejmi",
+    "accepted": "Sprejeto",
     "acceptedLaborItemsNotImportedYet": "{count} sprejetih postavk dela je pregledanih, vendar še niso uvožene v skupne zneske ponudbe. Modul za delo prihaja pozneje.",
     "acceptedMaterialsAlreadyImported": "Sprejeti materiali so že uvoženi.",
     "acceptedMaterialsReadyToImport": "{count} sprejetih materialov je pripravljenih za uvoz.",
+    "allChangesSaved": "Vse spremembe so shranjene.",
     "alreadyImported": "Že uvoženo",
     "alreadyImportedItems": "Že uvoženo: {count}",
     "analyzeDocument": "Analiziraj dokument",
@@ -1195,6 +1197,13 @@
     "assumptions": "Predpostavke",
     "availableOnPro": "Na voljo v paketu Pro.",
     "betaFeature": "Beta funkcija",
+    "bulk": {
+      "acceptAllLabor": "Sprejmi vse postavke dela",
+      "acceptAllMaterials": "Sprejmi vse materiale",
+      "rejectAllLabor": "Zavrni vse postavke dela",
+      "rejectAllMaterials": "Zavrni vse materiale",
+      "resetVisiblePending": "Vidne vrni na čakanje"
+    },
     "comingSoon": "Analiza prihaja kmalu.",
     "couldNotAnalyzeDocument": "Dokumenta ni mogoče analizirati.",
     "currentPlan": "Trenutni paket: {plan}",
@@ -1241,6 +1250,22 @@
     "editImportedLineOnQuotePage": "Uvoženo vrstico uredite na strani ponudbe.",
     "extractedCandidates": "Izluščeni kandidati",
     "extractedSummary": "Povzetek ekstrakcije",
+    "filters": {
+      "status": {
+        "accepted": "Sprejeto",
+        "all": "Vsi statusi",
+        "imported": "Uvoženo",
+        "pending": "Na čakanju",
+        "rejected": "Zavrnjeno"
+      },
+      "statusLabel": "Filter statusa kandidata",
+      "type": {
+        "all": "Vsi",
+        "labor": "Delo",
+        "material": "Materiali"
+      },
+      "typeLabel": "Filter vrste kandidata"
+    },
     "fromProjectDocument": "Iz projektne dokumentacije",
     "importAcceptedItemsToQuote": "Uvozi sprejete postavke v ponudbo",
     "importCompleted": "Uvoz je dokončan",
@@ -1258,6 +1283,7 @@
     "materialCandidates": "Kandidati za materiale",
     "max20Mb": "Največ 20 MB",
     "missingInformation": "Manjkajoče informacije",
+    "noCandidatesMatchFilter": "Noben kandidat ne ustreza temu filtru.",
     "noExtractedCandidates": "Ni najdenih izluščenih kandidatov.",
     "noAcceptedMaterialsToImport": "Ni sprejetih materialov za uvoz.",
     "noDocumentsUploaded": "Ni še naloženih dokumentov.",
@@ -1274,15 +1300,23 @@
     "quoteLimitReached": "Omejitev ponudb je dosežena. Nadgradite paket za ustvarjanje dodatnih ponudb.",
     "readyForFutureAnalysis": "Pripravljeno za prihodnjo analizo",
     "reject": "Zavrni",
+    "rejected": "Zavrnjeno",
     "reviewExtractedItemsComingSoon": "Pregled izluščenih postavk prihaja kmalu.",
     "reviewFailed": "Pregleda ni bilo mogoče shraniti. Preverite polja kandidatov in poskusite znova.",
     "reviewSaved": "Pregled shranjen",
     "saveReview": "Shrani pregled",
+    "saveVisibleChanges": "Shrani spremembe",
     "savingReview": "Shranjevanje...",
+    "showFilters": "Prikaži filtre",
     "skippedLaborItems": "Preskočene postavke dela: {count}",
     "skippedItems": "Preskočene postavke: {count}",
     "sourceReference": "Referenca vira",
     "quantity": "Količina",
+    "statusLabels": {
+      "accepted": "Sprejeto",
+      "pending": "Na čakanju",
+      "rejected": "Zavrnjeno"
+    },
     "statusTitle": "Status",
     "statuses": {
       "analysis_pending": "Analiza čaka",
@@ -1293,6 +1327,11 @@
     },
     "title": "Analiza projektne dokumentacije",
     "total": "Skupaj",
+    "totalCandidates": "Skupaj",
+    "typeLabels": {
+      "labor": "Delo",
+      "material": "Material"
+    },
     "unit": "Enota",
     "unitPrice": "Cena na enoto",
     "units": {
@@ -1309,6 +1348,7 @@
     "uploadFailed": "Nalaganje ni uspelo",
     "uploading": "Nalaganje...",
     "uploadProjectPdf": "Naloži projektni PDF",
+    "unsavedChanges": "{count} neshranjenih sprememb",
     "usageTitle": "Poraba PDF analiz",
     "usageValue": "{used} / {limit}"
   },

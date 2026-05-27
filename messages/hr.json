@@ -1185,9 +1185,11 @@
     "analysisFailed": "Analiza nije uspjela.",
     "analysisLimitReached": "Dosegnuto je ograničenje analiza.",
     "accept": "Prihvati",
+    "accepted": "Prihvaćeno",
     "acceptedLaborItemsNotImportedYet": "{count} prihvaćenih stavki rada pregledano je, ali još nije uvezeno u ukupne iznose ponude. Modul rada dolazi kasnije.",
     "acceptedMaterialsAlreadyImported": "Prihvaćeni materijali već su uvezeni.",
     "acceptedMaterialsReadyToImport": "{count} prihvaćenih materijala spremno je za uvoz.",
+    "allChangesSaved": "Sve promjene su spremljene.",
     "alreadyImported": "Već uvezeno",
     "alreadyImportedItems": "Već uvezeno: {count}",
     "analyzeDocument": "Analiziraj dokument",
@@ -1195,6 +1197,13 @@
     "assumptions": "Pretpostavke",
     "availableOnPro": "Dostupno na Pro planu.",
     "betaFeature": "Beta značajka",
+    "bulk": {
+      "acceptAllLabor": "Prihvati sve stavke rada",
+      "acceptAllMaterials": "Prihvati sve materijale",
+      "rejectAllLabor": "Odbij sve stavke rada",
+      "rejectAllMaterials": "Odbij sve materijale",
+      "resetVisiblePending": "Vrati vidljive na čekanje"
+    },
     "comingSoon": "Analiza dolazi uskoro.",
     "couldNotAnalyzeDocument": "Nije moguće analizirati dokument.",
     "currentPlan": "Trenutni plan: {plan}",
@@ -1241,6 +1250,22 @@
     "editImportedLineOnQuotePage": "Uvezenu stavku uredite na stranici ponude.",
     "extractedCandidates": "Izdvojeni kandidati",
     "extractedSummary": "Sažetak ekstrakcije",
+    "filters": {
+      "status": {
+        "accepted": "Prihvaćeno",
+        "all": "Svi statusi",
+        "imported": "Uvezeno",
+        "pending": "Na čekanju",
+        "rejected": "Odbijeno"
+      },
+      "statusLabel": "Filtar statusa kandidata",
+      "type": {
+        "all": "Svi",
+        "labor": "Rad",
+        "material": "Materijali"
+      },
+      "typeLabel": "Filtar vrste kandidata"
+    },
     "fromProjectDocument": "Iz projektne dokumentacije",
     "importAcceptedItemsToQuote": "Uvezi prihvaćene stavke u ponudu",
     "importCompleted": "Uvoz je dovršen",
@@ -1258,6 +1283,7 @@
     "materialCandidates": "Kandidati za materijale",
     "max20Mb": "Maks. 20 MB",
     "missingInformation": "Nedostajuće informacije",
+    "noCandidatesMatchFilter": "Nijedan kandidat ne odgovara ovom filtru.",
     "noExtractedCandidates": "Nisu pronađeni izdvojeni kandidati.",
     "noAcceptedMaterialsToImport": "Nema prihvaćenih materijala za uvoz.",
     "noDocumentsUploaded": "Još nema učitanih dokumenata.",
@@ -1274,15 +1300,23 @@
     "quoteLimitReached": "Dosegnuto je ograničenje ponuda. Nadogradite plan za izradu dodatnih ponuda.",
     "readyForFutureAnalysis": "Spremno za buduću analizu",
     "reject": "Odbij",
+    "rejected": "Odbijeno",
     "reviewExtractedItemsComingSoon": "Pregled izdvojenih stavki dolazi uskoro.",
     "reviewFailed": "Spremanje pregleda nije uspjelo. Provjerite polja kandidata i pokušajte ponovno.",
     "reviewSaved": "Pregled je spremljen",
     "saveReview": "Spremi pregled",
+    "saveVisibleChanges": "Spremi promjene",
     "savingReview": "Spremanje...",
+    "showFilters": "Prikaži filtre",
     "skippedLaborItems": "Preskočene stavke rada: {count}",
     "skippedItems": "Preskočene stavke: {count}",
     "sourceReference": "Izvorna referenca",
     "quantity": "Količina",
+    "statusLabels": {
+      "accepted": "Prihvaćeno",
+      "pending": "Na čekanju",
+      "rejected": "Odbijeno"
+    },
     "statusTitle": "Status",
     "statuses": {
       "analysis_pending": "Analiza na čekanju",
@@ -1293,6 +1327,11 @@
     },
     "title": "Analiza projektne dokumentacije",
     "total": "Ukupno",
+    "totalCandidates": "Ukupno",
+    "typeLabels": {
+      "labor": "Rad",
+      "material": "Materijal"
+    },
     "unit": "Jedinica",
     "unitPrice": "Jedinična cijena",
     "units": {
@@ -1309,6 +1348,7 @@
     "uploadFailed": "Učitavanje nije uspjelo",
     "uploading": "Učitavanje...",
     "uploadProjectPdf": "Učitaj projektni PDF",
+    "unsavedChanges": "{count} nespremljenih promjena",
     "usageTitle": "Potrošnja PDF analiza",
     "usageValue": "{used} / {limit}"
   },

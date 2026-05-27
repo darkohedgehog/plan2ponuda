@@ -1185,9 +1185,11 @@
     "analysisFailed": "Analysis failed.",
     "analysisLimitReached": "Analysis limit reached.",
     "accept": "Accept",
+    "accepted": "Accepted",
     "acceptedLaborItemsNotImportedYet": "{count} accepted labor items are reviewed but not imported into quote totals yet. Labor module is coming later.",
     "acceptedMaterialsAlreadyImported": "Accepted materials already imported.",
     "acceptedMaterialsReadyToImport": "{count} accepted materials ready to import.",
+    "allChangesSaved": "All changes saved.",
     "alreadyImported": "Already imported",
     "alreadyImportedItems": "Already imported: {count}",
     "analyzeDocument": "Analyze document",
@@ -1195,6 +1197,13 @@
     "assumptions": "Assumptions",
     "availableOnPro": "Available on Pro.",
     "betaFeature": "Beta feature",
+    "bulk": {
+      "acceptAllLabor": "Accept all labor",
+      "acceptAllMaterials": "Accept all materials",
+      "rejectAllLabor": "Reject all labor",
+      "rejectAllMaterials": "Reject all materials",
+      "resetVisiblePending": "Reset visible to pending"
+    },
     "comingSoon": "Analysis coming soon.",
     "couldNotAnalyzeDocument": "Could not analyze document.",
     "currentPlan": "Current plan: {plan}",
@@ -1241,6 +1250,22 @@
     "editImportedLineOnQuotePage": "Edit imported line on quote page.",
     "extractedCandidates": "Extracted candidates",
     "extractedSummary": "Extracted summary",
+    "filters": {
+      "status": {
+        "accepted": "Accepted",
+        "all": "All statuses",
+        "imported": "Imported",
+        "pending": "Pending",
+        "rejected": "Rejected"
+      },
+      "statusLabel": "Candidate status filter",
+      "type": {
+        "all": "All",
+        "labor": "Labor",
+        "material": "Materials"
+      },
+      "typeLabel": "Candidate type filter"
+    },
     "fromProjectDocument": "From project document",
     "importAcceptedItemsToQuote": "Import accepted items to quote",
     "importCompleted": "Import completed",
@@ -1258,6 +1283,7 @@
     "materialCandidates": "Material candidates",
     "max20Mb": "Max 20 MB",
     "missingInformation": "Missing information",
+    "noCandidatesMatchFilter": "No candidates match this filter.",
     "noExtractedCandidates": "No extracted candidates found.",
     "noAcceptedMaterialsToImport": "No accepted materials to import.",
     "noDocumentsUploaded": "No documents uploaded yet.",
@@ -1274,15 +1300,23 @@
     "quoteLimitReached": "Quote limit reached. Upgrade your plan to create more quotes.",
     "readyForFutureAnalysis": "Ready for future analysis",
     "reject": "Reject",
+    "rejected": "Rejected",
     "reviewExtractedItemsComingSoon": "Review extracted items coming soon.",
     "reviewFailed": "Review failed. Check candidate fields and try again.",
     "reviewSaved": "Review saved",
     "saveReview": "Save review",
+    "saveVisibleChanges": "Save changes",
     "savingReview": "Saving...",
+    "showFilters": "Show filters",
     "skippedLaborItems": "Skipped labor items: {count}",
     "skippedItems": "Skipped items: {count}",
     "sourceReference": "Source reference",
     "quantity": "Quantity",
+    "statusLabels": {
+      "accepted": "Accepted",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
     "statusTitle": "Status",
     "statuses": {
       "analysis_pending": "Analysis pending",
@@ -1293,6 +1327,11 @@
     },
     "title": "Project documentation analysis",
     "total": "Total",
+    "totalCandidates": "Total",
+    "typeLabels": {
+      "labor": "Labor",
+      "material": "Material"
+    },
     "unit": "Unit",
     "unitPrice": "Unit price",
     "units": {
@@ -1309,6 +1348,7 @@
     "uploadFailed": "Upload failed",
     "uploading": "Uploading...",
     "uploadProjectPdf": "Upload project PDF",
+    "unsavedChanges": "{count} unsaved changes",
     "usageTitle": "PDF analyses usage",
     "usageValue": "{used} / {limit}"
   },

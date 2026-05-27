@@ -61,6 +61,22 @@ test("candidate review validation does not accept immutable audit fields", () =>
   assert.equal(result.success, false);
 });
 
+test("candidate review validation accepts partial changed-candidate payloads", () => {
+  assert.equal(
+    saveProjectDocumentCandidateReviewSchema.safeParse({
+      candidates: [],
+    }).success,
+    true,
+  );
+
+  assert.equal(
+    saveProjectDocumentCandidateReviewSchema.safeParse({
+      candidates: [validCandidateReview],
+    }).success,
+    true,
+  );
+});
+
 test("candidate review validation accepts all review statuses", () => {
   assert.deepEqual(projectDocumentCandidateStatusSchema.options, [
     "pending",

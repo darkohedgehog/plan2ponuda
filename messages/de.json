@@ -1185,9 +1185,11 @@
     "analysisFailed": "Analyse fehlgeschlagen.",
     "analysisLimitReached": "Analyselimit erreicht.",
     "accept": "Akzeptieren",
+    "accepted": "Akzeptiert",
     "acceptedLaborItemsNotImportedYet": "{count} akzeptierte Arbeitspositionen wurden geprüft, aber noch nicht in die Angebotssummen importiert. Das Arbeitsmodul kommt später.",
     "acceptedMaterialsAlreadyImported": "Akzeptierte Materialien wurden bereits importiert.",
     "acceptedMaterialsReadyToImport": "{count} akzeptierte Materialien bereit zum Import.",
+    "allChangesSaved": "Alle Änderungen gespeichert.",
     "alreadyImported": "Bereits importiert",
     "alreadyImportedItems": "Bereits importiert: {count}",
     "analyzeDocument": "Dokument analysieren",
@@ -1195,6 +1197,13 @@
     "assumptions": "Annahmen",
     "availableOnPro": "Verfügbar im Pro-Plan.",
     "betaFeature": "Beta-Funktion",
+    "bulk": {
+      "acceptAllLabor": "Alle Arbeitspositionen akzeptieren",
+      "acceptAllMaterials": "Alle Materialien akzeptieren",
+      "rejectAllLabor": "Alle Arbeitspositionen ablehnen",
+      "rejectAllMaterials": "Alle Materialien ablehnen",
+      "resetVisiblePending": "Sichtbare auf ausstehend setzen"
+    },
     "comingSoon": "Analyse demnächst.",
     "couldNotAnalyzeDocument": "Dokument konnte nicht analysiert werden.",
     "currentPlan": "Aktueller Plan: {plan}",
@@ -1241,6 +1250,22 @@
     "editImportedLineOnQuotePage": "Bearbeiten Sie die importierte Position auf der Angebotsseite.",
     "extractedCandidates": "Extrahierte Kandidaten",
     "extractedSummary": "Extrahierte Zusammenfassung",
+    "filters": {
+      "status": {
+        "accepted": "Akzeptiert",
+        "all": "Alle Status",
+        "imported": "Importiert",
+        "pending": "Ausstehend",
+        "rejected": "Abgelehnt"
+      },
+      "statusLabel": "Kandidatenstatus filtern",
+      "type": {
+        "all": "Alle",
+        "labor": "Arbeit",
+        "material": "Materialien"
+      },
+      "typeLabel": "Kandidatentyp filtern"
+    },
     "fromProjectDocument": "Aus der Projektdokumentation",
     "importAcceptedItemsToQuote": "Akzeptierte Positionen ins Angebot importieren",
     "importCompleted": "Import abgeschlossen",
@@ -1258,6 +1283,7 @@
     "materialCandidates": "Materialkandidaten",
     "max20Mb": "Max. 20 MB",
     "missingInformation": "Fehlende Informationen",
+    "noCandidatesMatchFilter": "Keine Kandidaten entsprechen diesem Filter.",
     "noExtractedCandidates": "Keine extrahierten Kandidaten gefunden.",
     "noAcceptedMaterialsToImport": "Keine akzeptierten Materialien zum Importieren.",
     "noDocumentsUploaded": "Noch keine Dokumente hochgeladen.",
@@ -1274,15 +1300,23 @@
     "quoteLimitReached": "Angebotslimit erreicht. Aktualisieren Sie Ihren Plan, um weitere Angebote zu erstellen.",
     "readyForFutureAnalysis": "Bereit für zukünftige Analyse",
     "reject": "Ablehnen",
+    "rejected": "Abgelehnt",
     "reviewExtractedItemsComingSoon": "Prüfung extrahierter Positionen demnächst.",
     "reviewFailed": "Prüfung konnte nicht gespeichert werden. Prüfen Sie die Kandidatenfelder und versuchen Sie es erneut.",
     "reviewSaved": "Prüfung gespeichert",
     "saveReview": "Prüfung speichern",
+    "saveVisibleChanges": "Änderungen speichern",
     "savingReview": "Wird gespeichert...",
+    "showFilters": "Filter anzeigen",
     "skippedLaborItems": "Übersprungene Arbeitspositionen: {count}",
     "skippedItems": "Übersprungene Positionen: {count}",
     "sourceReference": "Quellenreferenz",
     "quantity": "Menge",
+    "statusLabels": {
+      "accepted": "Akzeptiert",
+      "pending": "Ausstehend",
+      "rejected": "Abgelehnt"
+    },
     "statusTitle": "Status",
     "statuses": {
       "analysis_pending": "Analyse ausstehend",
@@ -1293,6 +1327,11 @@
     },
     "title": "Analyse der Projektdokumentation",
     "total": "Gesamt",
+    "totalCandidates": "Gesamt",
+    "typeLabels": {
+      "labor": "Arbeit",
+      "material": "Material"
+    },
     "unit": "Einheit",
     "unitPrice": "Einzelpreis",
     "units": {
@@ -1309,6 +1348,7 @@
     "uploadFailed": "Upload fehlgeschlagen",
     "uploading": "Wird hochgeladen...",
     "uploadProjectPdf": "Projekt-PDF hochladen",
+    "unsavedChanges": "{count} ungespeicherte Änderungen",
     "usageTitle": "Nutzung der PDF-Analysen",
     "usageValue": "{used} / {limit}"
   },
