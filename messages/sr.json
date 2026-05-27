@@ -47,6 +47,8 @@
     "fullName": "Ime i prezime",
     "hidePassword": "Sakrij lozinku",
     "messages": {
+      "emailVerificationInvalid": "Link za potvrdu e-pošte nije važeći ili je istekao.",
+      "emailVerificationSuccess": "E-pošta je potvrđena. Sada možete koristiti učitavanja, AI analizu i ponude.",
       "passwordResetSuccess": "Lozinka je resetovana. Sada se možete prijaviti novom lozinkom.",
       "resetInstructionsPrepared": "Ako nalog postoji, uputstva za resetovanje lozinke su pripremljena."
     },
@@ -60,6 +62,10 @@
       "resetPassword": {
         "subtitle": "Izaberite novu lozinku za svoj Ploro AI nalog.",
         "title": "Postavite novu lozinku"
+      },
+      "verifyEmail": {
+        "subtitle": "Potvrdite adresu e-pošte za otključavanje radnji u radnom prostoru.",
+        "title": "Potvrda e-pošte"
       },
       "signIn": {
         "noAccount": "Nemate nalog?",
@@ -139,6 +145,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "Nalog sa ovom e-poštom već postoji.",
+    "emailVerificationRequired": "Potvrdite adresu e-pošte pre korišćenja ove funkcije.",
     "enterValidDefaultPrice": "Unesite važeću podrazumevanu cenu.",
     "enterValidEmail": "Unesite važeću adresu e-pošte.",
     "enterValidPrice": "Unesite važeću cenu.",
@@ -164,7 +171,8 @@
     "unableSavePrice": "Nije moguće sačuvati cenu.",
     "unableSaveMaterials": "Nije moguće sačuvati materijale.",
     "unableSaveSettings": "Nije moguće sačuvati podešavanja.",
-    "unableSaveRooms": "Nije moguće sačuvati prostorije."
+    "unableSaveRooms": "Nije moguće sačuvati prostorije.",
+    "verificationFailed": "Bezbednosna provera nije uspela. Pokušajte ponovo."
   },
   "Dashboard": {
     "account": "Nalog",
@@ -1047,6 +1055,7 @@
       "analysisFailed": "Nije moguće analizirati dokument.",
       "analysisInProgress": "Analiza dokumenta je već u toku.",
       "analysisLimitReached": "Dostignuto je ograničenje analiza.",
+      "emailNotVerified": "Potvrdite adresu e-pošte pre korišćenja projektnih dokumenata.",
       "fallback": "Učitavanje nije uspelo. Pokušajte ponovo.",
       "fileTooLarge": "Datoteka je prevelika. Učitajte PDF do 20 MB.",
       "invalidFile": "Izaberite projektni PDF za učitavanje.",
@@ -1407,12 +1416,14 @@
     },
     "errors": {
       "fallback": "Nije moguće učitati tlocrt.",
+      "emailNotVerified": "Potvrdite adresu e-pošte pre učitavanja tlocrta.",
       "fileTooLarge": "Datoteka tlocrta mora biti 10 MB ili manja.",
       "floorPlanLimitReached": "Dostigli ste ograničenje tlocrta za ovaj plan. Nadogradite plan za učitavanje dodatnih tlocrta.",
       "invalidFile": "Izabrana datoteka nije važeći tlocrt.",
       "invalidInput": "Proverite izabranu datoteku.",
       "invalidType": "Učitajte tlocrt u PDF, PNG, JPG ili JPEG formatu.",
       "notFound": "Projekat nije pronađen.",
+      "rateLimited": "Previše zahteva za učitavanje. Pokušajte ponovo kasnije.",
       "required": "Izaberite datoteku tlocrta za učitavanje.",
       "serverError": "Nije moguće učitati tlocrt.",
       "tooLarge": "Datoteka tlocrta mora biti 10 MB ili manja.",

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { normalizeEmail } from "@/lib/auth/email";
 import { authOptions } from "@/lib/auth/auth";
+import { verifyTurnstileToken } from "@/server/services/turnstile-service";
 import {
   RATE_LIMIT_POLICIES,
   RATE_LIMIT_SCOPES,
@@ -26,6 +27,7 @@ export { handler as GET };
 export async function POST(request: Request, context: AuthRouteContext) {
   if (isCredentialsCallback(request)) {
     const email = await getCredentialsEmail(request);
+    const ipAddress = getClientIpAddress(request);
 
     try {
       await checkRateLimitOrThrow({
@@ -36,7 +38,7 @@ export async function POST(request: Request, context: AuthRouteContext) {
           },
           {
             kind: "ip",
-            value: getClientIpAddress(request),
+            value: ipAddress,
           },
         ]),
         scope: RATE_LIMIT_SCOPES.signIn,
@@ -66,6 +68,24 @@ export async function POST(request: Request, context: AuthRouteContext) {
         },
       );
     }
+
+    const turnstileToken = await getCredentialsTurnstileToken(request);
+    const turnstile = await verifyTurnstileToken({
+      action: "sign-in",
+      remoteIp: ipAddress,
+      token: turnstileToken,
+    });
+
+    if (!turnstile.ok) {
+      return NextResponse.json(
+        {
+          error: "Security verification failed. Please try again.",
+        },
+        {
+          status: 403,
+        },
+      );
+    }
   }
 
   return handler(request, context);
@@ -75,6 +95,27 @@ function isCredentialsCallback(request: Request): boolean {
   return new URL(request.url).pathname.endsWith(
     "/api/auth/callback/credentials",
   );
+}
+
+async function getCredentialsTurnstileToken(
+  request: Request,
+): Promise<string | null> {
+  const formData = await request
+    .clone()
+    .formData()
+    .catch((): FormData | null => null);
+  const formToken = formData?.get("turnstileToken");
+
+  if (typeof formToken === "string") {
+    return formToken;
+  }
+
+  const body = await request
+    .clone()
+    .json()
+    .catch((): unknown => null);
+
+  return getStringProperty(body, "turnstileToken");
 }
 
 async function getCredentialsEmail(request: Request): Promise<string | null> {

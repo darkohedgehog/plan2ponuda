@@ -6,7 +6,7 @@ import {
   locales,
   type Locale,
 } from "@/i18n/routing";
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import {
   generateQuoteExcelBuffer,
   getQuoteExcelFileName,
@@ -22,7 +22,7 @@ type ExcelRouteContext = {
 };
 
 export async function GET(request: NextRequest, context: ExcelRouteContext) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;

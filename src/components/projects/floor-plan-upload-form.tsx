@@ -22,12 +22,14 @@ type FloorPlanUploadFormProps = {
 
 type UploadErrorMessageKey =
   | "errors.fallback"
+  | "errors.emailNotVerified"
   | "errors.fileTooLarge"
   | "errors.floorPlanLimitReached"
   | "errors.invalidFile"
   | "errors.invalidInput"
   | "errors.invalidType"
   | "errors.notFound"
+  | "errors.rateLimited"
   | "errors.required"
   | "errors.serverError"
   | "errors.tooLarge"
@@ -45,11 +47,13 @@ type FormSubmitEvent = Parameters<
 >[0];
 
 const uploadErrorKeysByCode: Record<ProjectErrorCode, UploadErrorMessageKey> = {
+  email_not_verified: "errors.emailNotVerified",
   file_too_large: "errors.fileTooLarge",
   floor_plan_limit_reached: "errors.floorPlanLimitReached",
   invalid_file: "errors.invalidFile",
   invalid_input: "errors.invalidInput",
   not_found: "errors.notFound",
+  rate_limited: "errors.rateLimited",
   server_error: "errors.serverError",
   unsupported_file_type: "errors.unsupportedFileType",
   upload_failed: "errors.uploadFailed",

@@ -11,7 +11,7 @@ test("document analysis route is authenticated, rate limited, and thin", () => {
     "src/app/api/projects/[projectId]/documents/[documentId]/analyze/route.ts",
   );
 
-  assert.match(source, /requireApiUser/);
+  assert.match(source, /requireApiVerifiedUser/);
   assert.match(source, /checkRateLimitOrThrow/);
   assert.match(source, /projectDocumentAnalysis/);
   assert.match(source, /analyzeProjectDocument/);

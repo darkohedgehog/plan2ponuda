@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
+import { isTurnstileEnabled } from "@/server/services/turnstile-service";
 
 export default function ForgotPasswordPage() {
   const tAuth = useTranslations("Auth");
@@ -17,7 +18,7 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
         <div className="mt-6">
-          <ForgotPasswordForm />
+          <ForgotPasswordForm turnstileEnabled={isTurnstileEnabled()} />
         </div>
       </section>
     </main>

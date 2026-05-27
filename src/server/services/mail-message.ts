@@ -1,6 +1,13 @@
 export const PASSWORD_RESET_EMAIL_SUBJECT = "Reset your Ploro AI password";
+export const EMAIL_VERIFICATION_EMAIL_SUBJECT = "Verify your Ploro AI email";
 
 export type PasswordResetEmailMessage = {
+  html: string;
+  subject: string;
+  text: string;
+};
+
+export type EmailVerificationEmailMessage = {
   html: string;
   subject: string;
   text: string;
@@ -9,6 +16,11 @@ export type PasswordResetEmailMessage = {
 export type BuildPasswordResetEmailMessageParams = {
   expiresInHours: number;
   resetUrl: string;
+};
+
+export type BuildEmailVerificationEmailMessageParams = {
+  expiresInHours: number;
+  verificationUrl: string;
 };
 
 export function buildPasswordResetEmailMessage(
@@ -38,6 +50,37 @@ export function buildPasswordResetEmailMessage(
       "",
       expirationText,
       "If you did not request a password reset, you can ignore this email.",
+    ].join("\n"),
+  };
+}
+
+export function buildEmailVerificationEmailMessage(
+  params: BuildEmailVerificationEmailMessageParams,
+): EmailVerificationEmailMessage {
+  const expirationText =
+    params.expiresInHours === 1
+      ? "This link expires in 1 hour."
+      : `This link expires in ${params.expiresInHours} hours.`;
+  const safeVerificationUrl = escapeHtmlAttribute(params.verificationUrl);
+
+  return {
+    html: [
+      "<p>Hello,</p>",
+      "<p>Confirm your Ploro AI email address to unlock uploads, AI analysis, and quote tools.</p>",
+      `<p><a href="${safeVerificationUrl}">Verify your Ploro AI email</a></p>`,
+      `<p>${escapeHtml(expirationText)}</p>`,
+      "<p>If you did not create a Ploro AI account, you can ignore this email.</p>",
+    ].join("\n"),
+    subject: EMAIL_VERIFICATION_EMAIL_SUBJECT,
+    text: [
+      "Verify your Ploro AI email",
+      "",
+      "Confirm your Ploro AI email address to unlock uploads, AI analysis, and quote tools.",
+      "",
+      params.verificationUrl,
+      "",
+      expirationText,
+      "If you did not create a Ploro AI account, you can ignore this email.",
     ].join("\n"),
   };
 }

@@ -47,6 +47,8 @@
     "fullName": "Ime in priimek",
     "hidePassword": "Skrij geslo",
     "messages": {
+      "emailVerificationInvalid": "Povezava za potrditev e-pošte ni veljavna ali je potekla.",
+      "emailVerificationSuccess": "E-pošta je potrjena. Zdaj lahko uporabljate nalaganja, AI analizo in ponudbe.",
       "passwordResetSuccess": "Geslo je ponastavljeno. Zdaj se lahko prijavite z novim geslom.",
       "resetInstructionsPrepared": "Če račun obstaja, so navodila za ponastavitev gesla pripravljena."
     },
@@ -60,6 +62,10 @@
       "resetPassword": {
         "subtitle": "Izberite novo geslo za svoj račun Ploro AI.",
         "title": "Nastavite novo geslo"
+      },
+      "verifyEmail": {
+        "subtitle": "Potrdite e-poštni naslov za odklepanje dejanj v delovnem prostoru.",
+        "title": "Potrditev e-pošte"
       },
       "signIn": {
         "noAccount": "Nimate računa?",
@@ -139,6 +145,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "Račun s to e-pošto že obstaja.",
+    "emailVerificationRequired": "Pred uporabo te funkcije potrdite e-poštni naslov.",
     "enterValidDefaultPrice": "Vnesite veljavno privzeto ceno.",
     "enterValidEmail": "Vnesite veljaven e-poštni naslov.",
     "enterValidPrice": "Vnesite veljavno ceno.",
@@ -164,7 +171,8 @@
     "unableSavePrice": "Cene ni mogoče shraniti.",
     "unableSaveMaterials": "Materialov ni mogoče shraniti.",
     "unableSaveSettings": "Nastavitev ni mogoče shraniti.",
-    "unableSaveRooms": "Prostorov ni mogoče shraniti."
+    "unableSaveRooms": "Prostorov ni mogoče shraniti.",
+    "verificationFailed": "Varnostno preverjanje ni uspelo. Poskusite znova."
   },
   "Dashboard": {
     "account": "Račun",
@@ -1047,6 +1055,7 @@
       "analysisFailed": "Dokumenta ni mogoče analizirati.",
       "analysisInProgress": "Analiza dokumenta že poteka.",
       "analysisLimitReached": "Omejitev analiz je dosežena.",
+      "emailNotVerified": "Pred uporabo projektnih dokumentov potrdite e-poštni naslov.",
       "fallback": "Nalaganje ni uspelo. Poskusite znova.",
       "fileTooLarge": "Datoteka je prevelika. Naložite PDF do 20 MB.",
       "invalidFile": "Izberite projektni PDF za nalaganje.",
@@ -1407,12 +1416,14 @@
     },
     "errors": {
       "fallback": "Tlorisa ni mogoče naložiti.",
+      "emailNotVerified": "Pred nalaganjem tlorisov potrdite e-poštni naslov.",
       "fileTooLarge": "Datoteka tlorisa mora biti velika največ 10 MB.",
       "floorPlanLimitReached": "Dosegli ste omejitev tlorisov za ta paket. Nadgradite paket za nalaganje dodatnih tlorisov.",
       "invalidFile": "Izbrana datoteka ni veljaven tloris.",
       "invalidInput": "Preverite izbrano datoteko.",
       "invalidType": "Naložite tloris v formatu PDF, PNG, JPG ali JPEG.",
       "notFound": "Projekt ni najden.",
+      "rateLimited": "Preveč zahtev za nalaganje. Poskusite znova pozneje.",
       "required": "Izberite datoteko tlorisa za nalaganje.",
       "serverError": "Tlorisa ni mogoče naložiti.",
       "tooLarge": "Datoteka tlorisa mora biti velika največ 10 MB.",

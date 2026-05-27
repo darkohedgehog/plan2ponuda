@@ -47,6 +47,8 @@
     "fullName": "Vollständiger Name",
     "hidePassword": "Passwort ausblenden",
     "messages": {
+      "emailVerificationInvalid": "Dieser E-Mail-Bestätigungslink ist ungültig oder abgelaufen.",
+      "emailVerificationSuccess": "E-Mail bestätigt. Sie können jetzt Uploads, KI-Analyse und Angebote nutzen.",
       "passwordResetSuccess": "Das Passwort wurde zurückgesetzt. Sie können sich jetzt mit dem neuen Passwort anmelden.",
       "resetInstructionsPrepared": "Wenn ein Konto existiert, wurden Anweisungen zum Zurücksetzen des Passworts vorbereitet."
     },
@@ -60,6 +62,10 @@
       "resetPassword": {
         "subtitle": "Wählen Sie ein neues Passwort für Ihr Ploro AI-Konto.",
         "title": "Neues Passwort festlegen"
+      },
+      "verifyEmail": {
+        "subtitle": "Bestätigen Sie Ihre E-Mail-Adresse, um Arbeitsbereichsaktionen freizuschalten.",
+        "title": "E-Mail bestätigen"
       },
       "signIn": {
         "noAccount": "Noch kein Konto?",
@@ -139,6 +145,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits.",
+    "emailVerificationRequired": "Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie diese Funktion nutzen.",
     "enterValidDefaultPrice": "Geben Sie einen gültigen Standardpreis ein.",
     "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
     "enterValidPrice": "Geben Sie einen gültigen Preis ein.",
@@ -164,7 +171,8 @@
     "unableSavePrice": "Preis konnte nicht gespeichert werden.",
     "unableSaveMaterials": "Materialien konnten nicht gespeichert werden.",
     "unableSaveSettings": "Einstellungen konnten nicht gespeichert werden.",
-    "unableSaveRooms": "Räume konnten nicht gespeichert werden."
+    "unableSaveRooms": "Räume konnten nicht gespeichert werden.",
+    "verificationFailed": "Sicherheitsprüfung fehlgeschlagen. Bitte versuchen Sie es erneut."
   },
   "Dashboard": {
     "account": "Konto",
@@ -1047,6 +1055,7 @@
       "analysisFailed": "Dokument konnte nicht analysiert werden.",
       "analysisInProgress": "Dokumentanalyse läuft bereits.",
       "analysisLimitReached": "Analyselimit erreicht.",
+      "emailNotVerified": "Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie Projektdokumente verwenden.",
       "fallback": "Upload fehlgeschlagen. Bitte versuchen Sie es erneut.",
       "fileTooLarge": "Datei zu groß. Laden Sie ein PDF bis 20 MB hoch.",
       "invalidFile": "Wählen Sie ein Projekt-PDF zum Hochladen aus.",
@@ -1407,12 +1416,14 @@
     },
     "errors": {
       "fallback": "Grundriss konnte nicht hochgeladen werden.",
+      "emailNotVerified": "Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie Grundrisse hochladen.",
       "fileTooLarge": "Grundrissdateien dürfen höchstens 10 MB groß sein.",
       "floorPlanLimitReached": "Sie haben das Grundrisslimit für diesen Plan erreicht. Wechseln Sie zu einem höheren Plan, um weitere Grundrisse hochzuladen.",
       "invalidFile": "Die ausgewählte Datei ist kein gültiger Grundriss.",
       "invalidInput": "Prüfen Sie die ausgewählte Datei.",
       "invalidType": "Laden Sie einen Grundriss als PDF, PNG, JPG oder JPEG hoch.",
       "notFound": "Projekt nicht gefunden.",
+      "rateLimited": "Zu viele Upload-Anfragen. Bitte versuchen Sie es später erneut.",
       "required": "Wählen Sie eine Grundrissdatei zum Hochladen aus.",
       "serverError": "Grundriss konnte nicht hochgeladen werden.",
       "tooLarge": "Grundrissdateien dürfen höchstens 10 MB groß sein.",

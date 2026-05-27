@@ -10,6 +10,14 @@ import {
   createProject,
   getUserProjects,
 } from "@/server/services/project-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import type { CreateProjectResponse } from "@/types/project";
 
 const invalidProjectInputResponse: CreateProjectResponse = {
@@ -40,6 +48,14 @@ export async function POST(request: Request) {
   }
 
   try {
+    await checkRateLimitOrThrow({
+      key: createUserRateLimitKey({
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.projectCreate,
+      ...RATE_LIMIT_POLICIES.projectCreate,
+    });
+
     const body = await request.json().catch((): unknown => null);
     const input: CreateProjectInput = createProjectSchema.parse(body);
     const project = await createProject(input, auth.user.id);
@@ -52,6 +68,21 @@ export async function POST(request: Request) {
 
     return NextResponse.json(response, { status: 201 });
   } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      const response: CreateProjectResponse = {
+        ok: false,
+        error: {
+          code: "rate_limited",
+          message: "Too many requests. Please try again later.",
+        },
+      };
+
+      return NextResponse.json(response, {
+        headers: getRateLimitHeaders(error.status),
+        status: 429,
+      });
+    }
+
     if (error instanceof z.ZodError) {
       return NextResponse.json(invalidProjectInputResponse, { status: 400 });
     }

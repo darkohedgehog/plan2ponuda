@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
 
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import { updateProjectMaterialsSchema } from "@/lib/validations/quote.schema";
 import {
   getQuoteForProject,
   updateProjectMaterials,
 } from "@/server/services/quote-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 
 type QuoteRouteContext = {
   params: Promise<{
@@ -15,7 +23,7 @@ type QuoteRouteContext = {
 };
 
 export async function GET(_request: Request, context: QuoteRouteContext) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;
@@ -32,10 +40,39 @@ export async function GET(_request: Request, context: QuoteRouteContext) {
 }
 
 export async function PUT(request: Request, context: QuoteRouteContext) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;
+  }
+
+  try {
+    await checkRateLimitOrThrow({
+      key: createUserRateLimitKey({
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.quoteUpdate,
+      ...RATE_LIMIT_POLICIES.quoteUpdate,
+    });
+  } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      return NextResponse.json(
+        {
+          error: "Too many quote updates. Please try again later.",
+        },
+        {
+          headers: getRateLimitHeaders(error.status),
+          status: 429,
+        },
+      );
+    }
+
+    console.error("Quote update rate limit failed", error);
+
+    return NextResponse.json(
+      { error: "Unable to save materials." },
+      { status: 500 },
+    );
   }
 
   const parsedParams = projectIdSchema.safeParse(await context.params);

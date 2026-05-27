@@ -47,6 +47,8 @@
     "fullName": "Full name",
     "hidePassword": "Hide password",
     "messages": {
+      "emailVerificationInvalid": "This email verification link is invalid or expired.",
+      "emailVerificationSuccess": "Email verified. You can now use uploads, AI analysis, and quotes.",
       "passwordResetSuccess": "Password reset. You can now sign in with your new password.",
       "resetInstructionsPrepared": "If an account exists, password reset instructions have been prepared."
     },
@@ -60,6 +62,10 @@
       "resetPassword": {
         "subtitle": "Choose a new password for your Ploro AI account.",
         "title": "Set new password"
+      },
+      "verifyEmail": {
+        "subtitle": "Confirm your email address to unlock workspace actions.",
+        "title": "Verify email"
       },
       "signIn": {
         "noAccount": "Don't have an account?",
@@ -139,6 +145,7 @@
   },
   "Validation": {
     "emailAlreadyExists": "An account with this email already exists.",
+    "emailVerificationRequired": "Verify your email address before using this feature.",
     "enterValidDefaultPrice": "Enter a valid default price.",
     "enterValidEmail": "Enter a valid email address.",
     "enterValidPrice": "Enter a valid price.",
@@ -164,7 +171,8 @@
     "unableSavePrice": "Unable to save price.",
     "unableSaveMaterials": "Unable to save materials.",
     "unableSaveSettings": "Unable to save settings.",
-    "unableSaveRooms": "Unable to save rooms."
+    "unableSaveRooms": "Unable to save rooms.",
+    "verificationFailed": "Security verification failed. Please try again."
   },
   "Dashboard": {
     "account": "Account",
@@ -1047,6 +1055,7 @@
       "analysisFailed": "Could not analyze document.",
       "analysisInProgress": "Document analysis is already in progress.",
       "analysisLimitReached": "Analysis limit reached.",
+      "emailNotVerified": "Verify your email address before using project documents.",
       "fallback": "Upload failed. Please try again.",
       "fileTooLarge": "File too large. Upload a PDF up to 20 MB.",
       "invalidFile": "Select a project PDF to upload.",
@@ -1407,12 +1416,14 @@
     },
     "errors": {
       "fallback": "Unable to upload floor plan.",
+      "emailNotVerified": "Verify your email address before uploading floor plans.",
       "fileTooLarge": "Floor plan files must be 10MB or smaller.",
       "floorPlanLimitReached": "You have reached your floor plan limit for this plan. Upgrade your plan to upload more floor plans.",
       "invalidFile": "The selected file is not a valid floor plan.",
       "invalidInput": "Check the selected file.",
       "invalidType": "Upload a PDF, PNG, JPG, or JPEG floor plan.",
       "notFound": "Project not found.",
+      "rateLimited": "Too many upload requests. Please try again later.",
       "required": "Select a floor plan file to upload.",
       "serverError": "Unable to upload floor plan.",
       "tooLarge": "Floor plan files must be 10MB or smaller.",

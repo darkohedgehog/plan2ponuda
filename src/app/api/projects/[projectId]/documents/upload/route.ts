@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
 
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import {
   uploadProjectDocumentSchema,
   validateProjectDocumentFile,
 } from "@/lib/validations/project-document.schema";
 import { uploadProjectDocument } from "@/server/services/project-document-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import type {
   ProjectDocumentError,
   UploadProjectDocumentResponse,
@@ -56,10 +64,47 @@ export async function POST(
   request: Request,
   context: UploadProjectDocumentRouteContext,
 ) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;
+  }
+
+  try {
+    await checkRateLimitOrThrow({
+      key: createUserRateLimitKey({
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.projectDocumentUpload,
+      ...RATE_LIMIT_POLICIES.projectDocumentUpload,
+    });
+  } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      const response: UploadProjectDocumentResponse = {
+        ok: false,
+        error: {
+          code: "rate_limited",
+          message: "Too many upload requests. Please try again later.",
+        },
+      };
+
+      return NextResponse.json(response, {
+        headers: getRateLimitHeaders(error.status),
+        status: 429,
+      });
+    }
+
+    console.error("Project document upload rate limit failed", error);
+
+    const response: UploadProjectDocumentResponse = {
+      ok: false,
+      error: {
+        code: "server_error",
+        message: "Unable to upload project documentation.",
+      },
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 
   const parsedParams = projectIdSchema.safeParse(await context.params);

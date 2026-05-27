@@ -18,7 +18,11 @@ type CreateProjectFormState = {
   isSubmitting: boolean;
 };
 
-type CreateProjectErrorKey = "invalidInput" | "serverError";
+type CreateProjectErrorKey =
+  | "emailNotVerified"
+  | "invalidInput"
+  | "rateLimited"
+  | "serverError";
 type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
 >[0];
@@ -26,7 +30,9 @@ type FormSubmitEvent = Parameters<
 const createProjectErrorKeysByCode: Partial<
   Record<ProjectErrorCode, CreateProjectErrorKey>
 > = {
+  email_not_verified: "emailNotVerified",
   invalid_input: "invalidInput",
+  rate_limited: "rateLimited",
   server_error: "serverError",
 };
 
@@ -114,7 +120,11 @@ export function CreateProjectForm() {
         <p className="text-sm text-red-600">
           {state.errorKey === "invalidInput"
             ? tValidation("invalidProjectInput")
-            : tValidation("unableCreateProject")}
+            : state.errorKey === "emailNotVerified"
+              ? tValidation("emailVerificationRequired")
+              : state.errorKey === "rateLimited"
+                ? tValidation("tooManyRequests")
+                : tValidation("unableCreateProject")}
         </p>
       ) : null}
       <div className="flex gap-3">

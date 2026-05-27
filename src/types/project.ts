@@ -44,9 +44,11 @@ export type FloorPlanPreview =
 export type ProjectErrorCode =
   | "file_too_large"
   | "floor_plan_limit_reached"
+  | "email_not_verified"
   | "invalid_input"
   | "invalid_file"
   | "not_found"
+  | "rate_limited"
   | "server_error"
   | "unsupported_file_type"
   | "upload_failed";

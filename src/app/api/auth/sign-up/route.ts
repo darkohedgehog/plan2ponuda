@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { signUpSchema } from "@/lib/validations/auth.schema";
 import { createUserWithPassword } from "@/server/services/auth-service";
+import { verifyTurnstileToken } from "@/server/services/turnstile-service";
 import {
   RATE_LIMIT_POLICIES,
   RATE_LIMIT_SCOPES,
@@ -22,13 +23,47 @@ const invalidInputResponse: SignUpResponse = {
   },
 };
 
+const turnstileFailedResponse: SignUpResponse = {
+  ok: false,
+  error: {
+    code: "turnstile_failed",
+    message: "Security verification failed. Please try again.",
+  },
+};
+
+function getBaseUrl(request: Request): string {
+  const configuredUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+
+  if (configuredUrl) {
+    try {
+      return new URL(configuredUrl).origin;
+    } catch {
+      console.error("Ignoring invalid NEXT_PUBLIC_APP_URL for sign-up.");
+    }
+  }
+
+  return new URL(request.url).origin;
+}
+
+function getStringProperty(input: unknown, property: string): string | null {
+  if (!input || typeof input !== "object" || !(property in input)) {
+    return null;
+  }
+
+  const value = (input as Record<string, unknown>)[property];
+
+  return typeof value === "string" ? value : null;
+}
+
 export async function POST(request: Request) {
   try {
+    const ipAddress = getClientIpAddress(request);
+
     await checkRateLimitOrThrow({
       key: createCompositeRateLimitKey([
         {
           kind: "ip",
-          value: getClientIpAddress(request),
+          value: ipAddress,
         },
       ]),
       scope: RATE_LIMIT_SCOPES.signUp,
@@ -37,7 +72,18 @@ export async function POST(request: Request) {
 
     const body = await request.json().catch((): unknown => null);
     const input = signUpSchema.parse(body);
-    const result = await createUserWithPassword(input);
+    const turnstileToken = getStringProperty(body, "turnstileToken");
+    const turnstile = await verifyTurnstileToken({
+      action: "sign-up",
+      remoteIp: ipAddress,
+      token: turnstileToken,
+    });
+
+    if (!turnstile.ok) {
+      return NextResponse.json(turnstileFailedResponse, { status: 403 });
+    }
+
+    const result = await createUserWithPassword(input, getBaseUrl(request));
 
     if (!result.ok) {
       return NextResponse.json(result, { status: 409 });

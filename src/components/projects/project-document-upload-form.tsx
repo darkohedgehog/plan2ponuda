@@ -29,6 +29,7 @@ type ProjectDocumentActionErrorKey =
   | "errors.analysisFailed"
   | "errors.analysisInProgress"
   | "errors.analysisLimitReached"
+  | "errors.emailNotVerified"
   | "errors.fileTooLarge"
   | "errors.invalidFile"
   | "errors.invalidInput"
@@ -60,6 +61,7 @@ const actionErrorKeysByCode: Record<
   analysis_failed: "errors.analysisFailed",
   analysis_in_progress: "errors.analysisInProgress",
   analysis_limit_reached: "errors.analysisLimitReached",
+  email_not_verified: "errors.emailNotVerified",
   file_too_large: "errors.fileTooLarge",
   invalid_file: "errors.invalidFile",
   invalid_input: "errors.invalidInput",

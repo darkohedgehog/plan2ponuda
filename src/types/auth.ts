@@ -8,7 +8,8 @@ export type SignUpErrorCode =
   | "invalid_input"
   | "email_already_exists"
   | "rate_limited"
-  | "server_error";
+  | "server_error"
+  | "turnstile_failed";
 
 export type SignUpError = {
   code: SignUpErrorCode;
@@ -17,6 +18,7 @@ export type SignUpError = {
 
 export type SignUpResponse =
   | {
+      devVerificationUrl?: string;
       ok: true;
       user: SignUpUser;
     }
@@ -28,7 +30,8 @@ export type SignUpResponse =
 export type ForgotPasswordErrorCode =
   | "invalid_input"
   | "rate_limited"
-  | "server_error";
+  | "server_error"
+  | "turnstile_failed";
 
 export type ForgotPasswordResponse =
   | {

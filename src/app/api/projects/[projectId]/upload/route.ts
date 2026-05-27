@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import {
   isFileInput,
   projectIdSchema,
@@ -8,6 +8,14 @@ import {
   validateFloorPlanFile,
 } from "@/lib/validations/project.schema";
 import { uploadFloorPlan } from "@/server/services/project-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import type { ProjectError, UploadFloorPlanResponse } from "@/types/project";
 
 type UploadFloorPlanRouteContext = {
@@ -48,10 +56,47 @@ export async function POST(
   request: Request,
   context: UploadFloorPlanRouteContext,
 ) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;
+  }
+
+  try {
+    await checkRateLimitOrThrow({
+      key: createUserRateLimitKey({
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.floorPlanUpload,
+      ...RATE_LIMIT_POLICIES.floorPlanUpload,
+    });
+  } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      const response: UploadFloorPlanResponse = {
+        ok: false,
+        error: {
+          code: "rate_limited",
+          message: "Too many upload requests. Please try again later.",
+        },
+      };
+
+      return NextResponse.json(response, {
+        headers: getRateLimitHeaders(error.status),
+        status: 429,
+      });
+    }
+
+    console.error("Floor plan upload rate limit failed", error);
+
+    const response: UploadFloorPlanResponse = {
+      ok: false,
+      error: {
+        code: "server_error",
+        message: "Unable to upload floor plan.",
+      },
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 
   const parsedParams = projectIdSchema.safeParse(await context.params);

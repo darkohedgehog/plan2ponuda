@@ -117,6 +117,7 @@ export type ProjectDocumentErrorCode =
   | "analysis_in_progress"
   | "analysis_limit_reached"
   | "file_too_large"
+  | "email_not_verified"
   | "invalid_file"
   | "invalid_input"
   | "invalid_storage_path"

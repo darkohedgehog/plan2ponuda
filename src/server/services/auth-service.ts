@@ -23,15 +23,32 @@ import type { SignUpResponse } from "@/types/auth";
 
 const PASSWORD_RESET_SUCCESS_MESSAGE =
   "If an account exists for this email, password reset instructions will be sent.";
+const EMAIL_VERIFICATION_TOKEN_BYTES = 32;
+const EMAIL_VERIFICATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 const PASSWORD_RESET_TOKEN_BYTES = 32;
 const PASSWORD_RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
+
+function createEmailVerificationToken(): string {
+  return randomBytes(EMAIL_VERIFICATION_TOKEN_BYTES).toString("base64url");
+}
 
 function createPasswordResetToken(): string {
   return randomBytes(PASSWORD_RESET_TOKEN_BYTES).toString("base64url");
 }
 
+function hashEmailVerificationToken(token: string): string {
+  return createHash("sha256").update(token).digest("hex");
+}
+
 function hashPasswordResetToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
+}
+
+function buildEmailVerificationUrl(baseUrl: string, token: string): string {
+  const verificationUrl = new URL("/verify-email", baseUrl);
+  verificationUrl.searchParams.set("token", token);
+
+  return verificationUrl.toString();
 }
 
 function buildResetUrl(baseUrl: string, token: string): string {
@@ -43,6 +60,7 @@ function buildResetUrl(baseUrl: string, token: string): string {
 
 export async function createUserWithPassword(
   input: SignUpInput,
+  baseUrl?: string,
 ): Promise<SignUpResponse> {
   const email = normalizeEmail(input.email);
   const existingUser = await prisma.user.findUnique({
@@ -75,10 +93,21 @@ export async function createUserWithPassword(
       },
     });
 
-    return {
+    const devVerificationUrl = await prepareEmailVerification({
+      baseUrl,
+      email: user.email,
+      userId: user.id,
+    });
+    const response: SignUpResponse = {
       ok: true,
       user,
     };
+
+    if (devVerificationUrl) {
+      response.devVerificationUrl = devVerificationUrl;
+    }
+
+    return response;
   } catch (error: unknown) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -95,6 +124,128 @@ export async function createUserWithPassword(
 
     throw error;
   }
+}
+
+async function prepareEmailVerification(params: {
+  baseUrl?: string;
+  email: string;
+  userId: string;
+}): Promise<string | undefined> {
+  const rawToken = createEmailVerificationToken();
+  const tokenHash = hashEmailVerificationToken(rawToken);
+  const expiresAt = new Date(Date.now() + EMAIL_VERIFICATION_TOKEN_TTL_MS);
+
+  await prisma.emailVerificationToken.create({
+    data: {
+      expiresAt,
+      tokenHash,
+      userId: params.userId,
+    },
+  });
+
+  if (!params.baseUrl) {
+    console.error("Email verification delivery skipped: missing app URL");
+
+    return undefined;
+  }
+
+  const verificationUrl = buildEmailVerificationUrl(params.baseUrl, rawToken);
+
+  if (process.env.NODE_ENV !== "production") {
+    console.info("Development email verification URL", verificationUrl);
+  }
+
+  if (shouldSendEmailVerificationEmail()) {
+    const { sendEmailVerificationEmail } = await import(
+      "@/server/services/mail-service"
+    );
+
+    await sendEmailVerificationEmail({
+      toEmail: params.email,
+      verificationUrl,
+    }).catch((error: unknown) => {
+      console.error(
+        "Email verification delivery failed",
+        getSafeEmailErrorDetails(error),
+      );
+    });
+  }
+
+  return process.env.NODE_ENV !== "production" ? verificationUrl : undefined;
+}
+
+export async function verifyEmailToken(token: string): Promise<boolean> {
+  const tokenHash = hashEmailVerificationToken(token);
+  const now = new Date();
+
+  return prisma.$transaction(async (transaction) => {
+    const verificationToken =
+      await transaction.emailVerificationToken.findUnique({
+        select: {
+          expiresAt: true,
+          id: true,
+          usedAt: true,
+          userId: true,
+        },
+        where: {
+          tokenHash,
+        },
+      });
+
+    if (
+      !verificationToken ||
+      verificationToken.usedAt ||
+      verificationToken.expiresAt.getTime() <= now.getTime()
+    ) {
+      return false;
+    }
+
+    await transaction.user.update({
+      data: {
+        emailVerifiedAt: now,
+      },
+      where: {
+        id: verificationToken.userId,
+      },
+    });
+
+    await transaction.emailVerificationToken.update({
+      data: {
+        usedAt: now,
+      },
+      where: {
+        id: verificationToken.id,
+      },
+    });
+
+    await transaction.emailVerificationToken.updateMany({
+      data: {
+        usedAt: now,
+      },
+      where: {
+        id: {
+          not: verificationToken.id,
+        },
+        userId: verificationToken.userId,
+        usedAt: null,
+      },
+    });
+
+    return true;
+  });
+}
+
+export async function isUserEmailVerified(userId: string): Promise<boolean> {
+  const user = await prisma.user.findUnique({
+    select: {
+      emailVerifiedAt: true,
+    },
+    where: {
+      id: userId,
+    },
+  });
+
+  return Boolean(user?.emailVerifiedAt);
 }
 
 export type RequestPasswordResetResult =
@@ -287,6 +438,13 @@ export async function resetPassword(
 }
 
 function shouldSendPasswordResetEmail(): boolean {
+  return (
+    process.env.NODE_ENV === "production" ||
+    hasCompleteSmtpServerEnv(process.env)
+  );
+}
+
+function shouldSendEmailVerificationEmail(): boolean {
   return (
     process.env.NODE_ENV === "production" ||
     hasCompleteSmtpServerEnv(process.env)

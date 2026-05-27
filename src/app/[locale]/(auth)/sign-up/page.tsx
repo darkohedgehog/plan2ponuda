@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 import { SignUpForm } from "@/components/auth/sign-up-form";
 import { Link } from "@/i18n/navigation";
+import { isTurnstileEnabled } from "@/server/services/turnstile-service";
 
 export default function SignUpPage() {
   const tAuth = useTranslations("Auth");
@@ -24,7 +25,7 @@ export default function SignUpPage() {
           </p>
         </div>
         <div className="mt-6">
-          <SignUpForm />
+          <SignUpForm turnstileEnabled={isTurnstileEnabled()} />
         </div>
         <p className="mt-6 text-center text-sm text-deep-twilight-700">
           {tAuth("pages.signUp.hasAccount")}{" "}

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import {
   analyzeProjectDocument,
@@ -36,7 +36,7 @@ export async function POST(
   _request: Request,
   context: ProjectDocumentAnalyzeRouteContext,
 ) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;

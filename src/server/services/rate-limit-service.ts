@@ -6,8 +6,13 @@ import { prisma } from "@/lib/db/prisma";
 
 export const RATE_LIMIT_SCOPES = {
   aiAnalysis: "ai_analysis",
+  floorPlanUpload: "floor_plan_upload",
   forgotPassword: "forgot_password",
+  projectCreate: "project_create",
   projectDocumentAnalysis: "project_document_analysis",
+  projectDocumentDelete: "project_document_delete",
+  projectDocumentUpload: "project_document_upload",
+  quoteUpdate: "quote_update",
   signIn: "sign_in",
   signUp: "sign_up",
 } as const;
@@ -21,9 +26,29 @@ export const RATE_LIMIT_POLICIES = {
     limit: 3,
     windowSeconds: 15 * 60,
   },
+  floorPlanUpload: {
+    limit: 10,
+    windowSeconds: 10 * 60,
+  },
+  projectCreate: {
+    limit: 20,
+    windowSeconds: 60 * 60,
+  },
   projectDocumentAnalysis: {
     limit: 3,
     windowSeconds: 60 * 60,
+  },
+  projectDocumentDelete: {
+    limit: 30,
+    windowSeconds: 10 * 60,
+  },
+  projectDocumentUpload: {
+    limit: 10,
+    windowSeconds: 60 * 60,
+  },
+  quoteUpdate: {
+    limit: 60,
+    windowSeconds: 10 * 60,
   },
   signIn: {
     limit: 10,
@@ -115,6 +140,10 @@ export function createCompositeRateLimitKey(parts: RateLimitKeyPart[]): string {
 }
 
 export function createAiRateLimitKey(params: { userId: string }): string {
+  return `user:${params.userId}`;
+}
+
+export function createUserRateLimitKey(params: { userId: string }): string {
   return `user:${params.userId}`;
 }
 

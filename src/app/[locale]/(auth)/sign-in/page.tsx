@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import { SignInForm } from "@/components/auth/sign-in-form";
 import { Link } from "@/i18n/navigation";
+import { isTurnstileEnabled } from "@/server/services/turnstile-service";
 
 export default function SignInPage() {
   const tAuth = useTranslations("Auth");
@@ -26,7 +27,7 @@ export default function SignInPage() {
         </div>
         <div className="mt-6">
           <Suspense fallback={<SignInFormFallback />}>
-            <SignInForm />
+            <SignInForm turnstileEnabled={isTurnstileEnabled()} />
           </Suspense>
         </div>
         <p className="mt-6 text-center text-sm text-deep-twilight-700">

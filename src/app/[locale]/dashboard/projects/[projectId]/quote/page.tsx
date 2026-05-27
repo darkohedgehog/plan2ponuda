@@ -7,6 +7,7 @@ import { Link, redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/auth/session";
 import { projectIdSchema } from "@/lib/validations/project.schema";
+import { isUserEmailVerified } from "@/server/services/auth-service";
 import { getProjectById } from "@/server/services/project-service";
 import { getQuoteWorkspace } from "@/server/services/quote-service";
 
@@ -40,6 +41,10 @@ export default async function ProjectQuotePage({
     notFound();
   }
 
+  if (!(await isUserEmailVerified(user.id))) {
+    return <EmailVerificationRequired />;
+  }
+
   const quoteResult = await getQuoteWorkspace(project.id, user.id);
 
   if (!quoteResult.ok) {
@@ -69,6 +74,20 @@ export default async function ProjectQuotePage({
         projectName={project.name}
         quote={quoteResult.quote}
       />
+    </main>
+  );
+}
+
+async function EmailVerificationRequired() {
+  const tValidation = await getTranslations("Validation");
+
+  return (
+    <main className="flex flex-col gap-4">
+      <section className="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm sm:p-6">
+        <h1 className="text-lg font-semibold text-deep-twilight-950">
+          {tValidation("emailVerificationRequired")}
+        </h1>
+      </section>
     </main>
   );
 }

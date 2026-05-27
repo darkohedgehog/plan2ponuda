@@ -1,9 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { type ComponentProps, useState } from "react";
+import { type ComponentProps, useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { TurnstileWidget } from "@/components/auth/turnstile-widget";
 import { formControlClassName } from "@/components/ui/form-control";
 import { Link } from "@/i18n/navigation";
 import type {
@@ -15,15 +16,28 @@ type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
 >[0];
 
-export function ForgotPasswordForm() {
+type ForgotPasswordFormProps = {
+  turnstileEnabled: boolean;
+};
+
+export function ForgotPasswordForm({
+  turnstileEnabled,
+}: ForgotPasswordFormProps) {
   const tActions = useTranslations("Actions");
   const tAuth = useTranslations("Auth");
   const tValidation = useTranslations("Validation");
   const [email, setEmail] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [devResetUrl, setDevResetUrl] = useState<string | null>(null);
   const [hasSuccessMessage, setHasSuccessMessage] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const resetTurnstile = useCallback(() => {
+    setTurnstileToken("");
+    setTurnstileResetKey((currentKey) => currentKey + 1);
+  }, []);
 
   async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
@@ -35,6 +49,7 @@ export function ForgotPasswordForm() {
     const response = await fetch("/api/auth/forgot-password", {
       body: JSON.stringify({
         email,
+        ...(turnstileEnabled ? { turnstileToken } : {}),
       }),
       headers: {
         "Content-Type": "application/json",
@@ -54,12 +69,14 @@ export function ForgotPasswordForm() {
         invalid_input: tValidation("enterValidEmail"),
         rate_limited: tValidation("passwordResetRateLimited"),
         server_error: tValidation("unableProcessPasswordReset"),
+        turnstile_failed: tValidation("verificationFailed"),
       } satisfies Record<ForgotPasswordErrorCode, string>;
       setError(
         payload && !payload.ok
           ? forgotPasswordErrorMessages[payload.error.code]
           : tValidation("unableProcessPasswordReset"),
       );
+      resetTurnstile();
       return;
     }
 
@@ -78,6 +95,12 @@ export function ForgotPasswordForm() {
         required
         type="email"
         value={email}
+      />
+      <TurnstileWidget
+        action="forgot-password"
+        enabled={turnstileEnabled}
+        onTokenChange={setTurnstileToken}
+        resetKey={turnstileResetKey}
       />
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       {hasSuccessMessage ? (

@@ -3,26 +3,45 @@
 import { useLocale, useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type ComponentProps, useState } from "react";
+import { type ComponentProps, useCallback, useState } from "react";
 
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { formControlClassName } from "@/components/ui/form-control";
 import { PasswordInput } from "@/components/auth/password-input";
+import { TurnstileWidget } from "@/components/auth/turnstile-widget";
 
 type FormSubmitEvent = Parameters<
   NonNullable<ComponentProps<"form">["onSubmit"]>
 >[0];
 
-function getSafeCallbackUrl(value: string | null, fallbackUrl: string): string {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) {
+type SignInFormProps = {
+  turnstileEnabled: boolean;
+};
+
+function getSafeCallbackUrl(
+  value: string | null | undefined,
+  fallbackUrl: string,
+): string {
+  if (
+    !value ||
+    value.trim() !== value ||
+    !value.startsWith("/") ||
+    value.startsWith("//")
+  ) {
     return fallbackUrl;
   }
 
-  return value;
+  try {
+    const url = new URL(value, "http://localhost");
+
+    return `${url.pathname}${url.search}${url.hash}`;
+  } catch {
+    return fallbackUrl;
+  }
 }
 
-export function SignInForm() {
+export function SignInForm({ turnstileEnabled }: SignInFormProps) {
   const locale = useLocale();
   const tActions = useTranslations("Actions");
   const tAuth = useTranslations("Auth");
@@ -35,8 +54,15 @@ export function SignInForm() {
   );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const resetTurnstile = useCallback(() => {
+    setTurnstileToken("");
+    setTurnstileResetKey((currentKey) => currentKey + 1);
+  }, []);
 
   async function handleSubmit(event: FormSubmitEvent) {
     event.preventDefault();
@@ -46,18 +72,20 @@ export function SignInForm() {
     const result = await signIn("credentials", {
       email,
       password,
+      ...(turnstileEnabled ? { turnstileToken } : {}),
       redirect: false,
       callbackUrl,
-    });
+    }).catch(() => null);
 
     setIsSubmitting(false);
 
     if (!result || result.error) {
       setError(tValidation("invalidEmailOrPassword"));
+      resetTurnstile();
       return;
     }
 
-    router.push(result.url ?? callbackUrl);
+    router.push(getSafeCallbackUrl(result.url, callbackUrl));
     router.refresh();
   }
 
@@ -89,6 +117,12 @@ export function SignInForm() {
           {tAuth("forgotPassword")}
         </Link>
       </div>
+      <TurnstileWidget
+        action="sign-in"
+        enabled={turnstileEnabled}
+        onTokenChange={setTurnstileToken}
+        resetKey={turnstileResetKey}
+      />
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button disabled={isSubmitting} type="submit">
         {isSubmitting ? tActions("signingIn") : tAuth("signIn")}

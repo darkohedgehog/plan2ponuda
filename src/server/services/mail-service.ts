@@ -4,8 +4,12 @@ import nodemailer, { type Transporter } from "nodemailer";
 
 import { getSmtpServerEnv } from "@/lib/utils/env";
 import type { SmtpServerEnv } from "@/lib/utils/smtp-env";
-import { buildPasswordResetEmailMessage } from "@/server/services/mail-message";
+import {
+  buildEmailVerificationEmailMessage,
+  buildPasswordResetEmailMessage,
+} from "@/server/services/mail-message";
 
+const EMAIL_VERIFICATION_LINK_EXPIRES_IN_HOURS = 24;
 const PASSWORD_RESET_LINK_EXPIRES_IN_HOURS = 1;
 
 let smtpTransporter: Transporter | null = null;
@@ -14,6 +18,32 @@ export type SendPasswordResetEmailParams = {
   resetUrl: string;
   toEmail: string;
 };
+
+export type SendEmailVerificationEmailParams = {
+  toEmail: string;
+  verificationUrl: string;
+};
+
+export async function sendEmailVerificationEmail(
+  params: SendEmailVerificationEmailParams,
+): Promise<void> {
+  const env = getSmtpServerEnv();
+  const message = buildEmailVerificationEmailMessage({
+    expiresInHours: EMAIL_VERIFICATION_LINK_EXPIRES_IN_HOURS,
+    verificationUrl: params.verificationUrl,
+  });
+
+  await getSmtpTransporter(env).sendMail({
+    from: {
+      address: env.fromEmail,
+      name: env.fromName,
+    },
+    html: message.html,
+    subject: message.subject,
+    text: message.text,
+    to: params.toEmail,
+  });
+}
 
 export async function sendPasswordResetEmail(
   params: SendPasswordResetEmailParams,
