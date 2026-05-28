@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { resolveLocale, type Locale } from "@/i18n/routing";
 import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import {
@@ -33,7 +34,7 @@ const invalidInputError: ProjectDocumentError = {
 };
 
 export async function POST(
-  _request: Request,
+  request: Request,
   context: ProjectDocumentAnalyzeRouteContext,
 ) {
   const auth = await requireApiVerifiedUser();
@@ -107,6 +108,7 @@ export async function POST(
     parsedParams.data.projectId,
     parsedParams.data.documentId,
     auth.user.id,
+    resolveProjectDocumentAnalysisLocale(request),
   ).catch((error: unknown) => {
     console.error("Project document analysis route failed", error);
 
@@ -129,4 +131,25 @@ export async function POST(
   return NextResponse.json(response, {
     headers: rateLimitHeaders,
   });
+}
+
+function resolveProjectDocumentAnalysisLocale(request: Request): Locale {
+  const requestUrl = new URL(request.url);
+  const queryLocale = requestUrl.searchParams.get("locale") ?? undefined;
+
+  if (queryLocale) {
+    return resolveLocale(queryLocale);
+  }
+
+  const referer = request.headers.get("referer");
+
+  if (!referer) {
+    return resolveLocale(undefined);
+  }
+
+  try {
+    return resolveLocale(new URL(referer).pathname.split("/")[1]);
+  } catch {
+    return resolveLocale(undefined);
+  }
 }

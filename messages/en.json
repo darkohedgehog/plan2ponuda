@@ -1352,6 +1352,20 @@
     "usageTitle": "PDF analyses usage",
     "usageValue": "{used} / {limit}"
   },
+  "ProjectDocumentSystems": {
+    "power_distribution": "Power distribution",
+    "lighting": "Lighting",
+    "sockets": "Sockets",
+    "switches": "Switches",
+    "distribution_board": "Distribution board",
+    "low_voltage": "Low-voltage systems",
+    "network": "Network installation",
+    "fire_alarm": "Fire alarm",
+    "grounding": "Grounding",
+    "lightning_protection": "Lightning protection",
+    "hvac_connections": "HVAC connections",
+    "other": "Other"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Newest quote updates are shown first.",

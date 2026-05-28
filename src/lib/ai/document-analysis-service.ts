@@ -3,6 +3,7 @@ import "server-only";
 import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 
+import type { Locale } from "@/i18n/routing";
 import { getOpenAiClient, type AiProvider } from "@/lib/ai/client";
 import {
   OPENAI_PDF_FILE_DATA_PREFIX,
@@ -28,6 +29,7 @@ type DocumentPdfInput = {
 export type RunProjectDocumentAnalysisInput = {
   document: DocumentPdfInput;
   documentId: string;
+  locale: Locale;
   projectId: string;
 };
 
@@ -44,7 +46,15 @@ export type RunProjectDocumentAnalysisResult =
       reason: "malformed_ai_response" | "missing_api_key" | "provider_error";
     };
 
-const DOCUMENT_ANALYSIS_INSTRUCTIONS = [
+const DOCUMENT_ANALYSIS_LANGUAGE_NAMES: Record<Locale, string> = {
+  de: "German",
+  en: "English",
+  hr: "Croatian",
+  sl: "Slovenian",
+  sr: "Serbian Latin",
+};
+
+const BASE_DOCUMENT_ANALYSIS_INSTRUCTIONS = [
   "You extract electrical project documentation from uploaded PDFs.",
   "Return candidates for later human review, not a final verified quote.",
   "Do not merge, price, or overwrite any existing quote, material, or labor data.",
@@ -54,7 +64,19 @@ const DOCUMENT_ANALYSIS_INSTRUCTIONS = [
   "Use sourceReference for visible page, section, table, drawing, or note labels when available.",
   "List assumptions separately from missing information.",
   "Keep confidence values between 0 and 1.",
-].join(" ");
+];
+
+function getDocumentAnalysisInstructions(locale: Locale): string {
+  const languageName = DOCUMENT_ANALYSIS_LANGUAGE_NAMES[locale];
+
+  return [
+    ...BASE_DOCUMENT_ANALYSIS_INSTRUCTIONS,
+    `Write all user-facing text fields in ${languageName}. This includes projectSummary, candidate name, description, notes, assumptions, and missingInformation.`,
+    "Keep technical codes, product identifiers, visible labels, and document references unchanged when translation would make them less accurate.",
+    "Keep schema enum values unchanged: material categories, units, detectedSystems, candidate type/status, and other internal enum values must remain in the schema's English enum format.",
+    "Source references can remain as page, section, table, drawing, or note references from the document.",
+  ].join(" ");
+}
 
 export async function runProjectDocumentAnalysis(
   input: RunProjectDocumentAnalysisInput,
@@ -101,7 +123,7 @@ export async function runProjectDocumentAnalysis(
     const response = await openAi.client.responses.parse({
       input: [
         {
-          content: DOCUMENT_ANALYSIS_INSTRUCTIONS,
+          content: getDocumentAnalysisInstructions(input.locale),
           role: "developer",
         },
         {

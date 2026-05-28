@@ -39,6 +39,36 @@ type OwnedAnalysisForImport = {
   id: string;
 };
 
+type AcceptedCandidateImportSummary = {
+  alreadyImportedCount: number;
+  laborSkippedCount: number;
+  materialCandidatesToImport: DbProjectDocumentCandidate[];
+  skippedCount: number;
+};
+
+type ImportAcceptedDocumentCandidatesToQuoteTransactionInput = {
+  alreadyImportedCount: number;
+  analysisId: string;
+  laborSkippedCount: number;
+  materialCandidatesToImport: DbProjectDocumentCandidate[];
+  projectId: string;
+  userId: string;
+};
+
+type ImportAcceptedDocumentCandidatesToQuoteTransactionResult =
+  | {
+      result: Extract<ImportAcceptedDocumentCandidatesToQuoteResult, { ok: true }>;
+      status: "imported";
+    }
+  | {
+      status: "no_materials_imported";
+    }
+  | {
+      status: "not_found";
+    };
+
+const PROJECT_DOCUMENT_IMPORT_TRANSACTION_TIMEOUT_MS = 15_000;
+
 export type ImportAcceptedDocumentCandidatesToQuoteResult =
   | {
       importedLaborCount: number;
@@ -73,44 +103,11 @@ export async function importAcceptedDocumentCandidatesToQuote(
     };
   }
 
-  return prisma
-    .$transaction(async (transaction) =>
-      importAcceptedDocumentCandidatesToQuoteInTransaction(
-        projectId,
-        documentId,
-        analysisId,
-        userId,
-        transaction,
-      ),
-    )
-    .catch((error: unknown) => {
-      if (
-        error instanceof UsageLimitExceededError &&
-        error.type === "quotes_created"
-      ) {
-        return {
-          ok: false as const,
-          reason: "quote_limit_reached" as const,
-        };
-      }
-
-      throw error;
-    });
-}
-
-async function importAcceptedDocumentCandidatesToQuoteInTransaction(
-  projectId: string,
-  documentId: string,
-  analysisId: string,
-  userId: string,
-  db: ProjectDocumentCandidateImportClient,
-): Promise<ImportAcceptedDocumentCandidatesToQuoteResult> {
   const analysis = await findOwnedCompletedAnalysisForImport(
     projectId,
     documentId,
     analysisId,
     userId,
-    db,
   );
 
   if (!analysis) {
@@ -120,55 +117,103 @@ async function importAcceptedDocumentCandidatesToQuoteInTransaction(
     };
   }
 
-  await ensureCandidatesForAnalysis(analysis.id, db);
+  await ensureCandidatesForAnalysis(analysis.id);
 
-  const acceptedCandidates = await db.projectDocumentCandidate.findMany({
-    orderBy: [
-      {
-        type: "desc",
-      },
-      {
-        sortOrder: "asc",
-      },
-      {
-        createdAt: "asc",
-      },
-    ],
-    where: {
-      projectDocumentAnalysisId: analysis.id,
-      status: "accepted",
-    },
-  });
-  const materialCandidatesToImport = acceptedCandidates.filter(
-    (candidate) =>
-      candidate.type === "material" && candidate.importedAt === null,
-  );
-  const laborSkippedCount = acceptedCandidates.filter(
-    (candidate) => candidate.type === "labor" && candidate.importedAt === null,
-  ).length;
-  const alreadyImportedCount = acceptedCandidates.filter(
-    (candidate) => candidate.importedAt !== null,
-  ).length;
+  const acceptedCandidates = await getAcceptedCandidatesForImport(analysis.id);
+  const acceptedCandidateSummary =
+    getAcceptedCandidateImportSummary(acceptedCandidates);
 
-  if (materialCandidatesToImport.length === 0) {
+  if (acceptedCandidateSummary.materialCandidatesToImport.length === 0) {
     return getNoImportableMaterialsResult(
       analysis.document.project.id,
       acceptedCandidates,
-      alreadyImportedCount + laborSkippedCount,
-      db,
+      acceptedCandidateSummary.skippedCount,
+      prisma,
     );
   }
 
+  try {
+    const transactionResult = await prisma.$transaction(
+      (transaction) =>
+        importAcceptedDocumentCandidatesToQuoteInTransaction(
+          {
+            alreadyImportedCount:
+              acceptedCandidateSummary.alreadyImportedCount,
+            analysisId: analysis.id,
+            laborSkippedCount: acceptedCandidateSummary.laborSkippedCount,
+            materialCandidatesToImport:
+              acceptedCandidateSummary.materialCandidatesToImport,
+            projectId: analysis.document.project.id,
+            userId,
+          },
+          transaction,
+        ),
+      {
+        timeout: PROJECT_DOCUMENT_IMPORT_TRANSACTION_TIMEOUT_MS,
+      },
+    );
+
+    if (transactionResult.status === "imported") {
+      return transactionResult.result;
+    }
+
+    if (transactionResult.status === "not_found") {
+      return {
+        ok: false,
+        reason: "not_found",
+      };
+    }
+
+    const refreshedAcceptedCandidates = await getAcceptedCandidatesForImport(
+      analysis.id,
+    );
+    const refreshedSummary = getAcceptedCandidateImportSummary(
+      refreshedAcceptedCandidates,
+    );
+
+    return getNoImportableMaterialsResult(
+      analysis.document.project.id,
+      refreshedAcceptedCandidates,
+      refreshedSummary.skippedCount,
+      prisma,
+    );
+  } catch (error: unknown) {
+    if (
+      error instanceof UsageLimitExceededError &&
+      error.type === "quotes_created"
+    ) {
+      return {
+        ok: false,
+        reason: "quote_limit_reached",
+      };
+    }
+
+    throw error;
+  }
+}
+
+async function importAcceptedDocumentCandidatesToQuoteInTransaction(
+  input: ImportAcceptedDocumentCandidatesToQuoteTransactionInput,
+  db: ProjectDocumentCandidateImportClient,
+): Promise<ImportAcceptedDocumentCandidatesToQuoteTransactionResult> {
+  const {
+    alreadyImportedCount,
+    analysisId,
+    laborSkippedCount,
+    materialCandidatesToImport,
+    projectId,
+    userId,
+  } = input;
+
   const lockedProject = await findAndLockProjectForQuote(
     db,
-    analysis.document.project.id,
+    projectId,
     userId,
   );
 
   if (!lockedProject) {
     return {
-      ok: false,
-      reason: "not_found",
+      status: "not_found",
     };
   }
 
@@ -184,7 +229,8 @@ async function importAcceptedDocumentCandidatesToQuoteInTransaction(
       where: {
         id: candidate.id,
         importedAt: null,
-        projectDocumentAnalysisId: analysis.id,
+        importedProjectMaterialId: null,
+        projectDocumentAnalysisId: analysisId,
         status: "accepted",
         type: "material",
       },
@@ -211,12 +257,9 @@ async function importAcceptedDocumentCandidatesToQuoteInTransaction(
   }
 
   if (importedMaterialsCount === 0) {
-    return getNoImportableMaterialsResult(
-      lockedProject.id,
-      acceptedCandidates,
-      alreadyImportedCount + laborSkippedCount + concurrentlySkippedCount,
-      db,
-    );
+    return {
+      status: "no_materials_imported",
+    };
   }
 
   const laborFactor = await getUserLaborFactor(userId, db);
@@ -231,14 +274,17 @@ async function importAcceptedDocumentCandidatesToQuoteInTransaction(
   );
 
   return {
-    importedLaborCount: 0,
-    importedMaterialsCount,
-    alreadyImportedCount,
-    laborSkippedCount,
-    ok: true,
-    quoteId: quote.id,
-    skippedCount:
-      alreadyImportedCount + laborSkippedCount + concurrentlySkippedCount,
+    result: {
+      importedLaborCount: 0,
+      importedMaterialsCount,
+      alreadyImportedCount,
+      laborSkippedCount,
+      ok: true,
+      quoteId: quote.id,
+      skippedCount:
+        alreadyImportedCount + laborSkippedCount + concurrentlySkippedCount,
+    },
+    status: "imported",
   };
 }
 
@@ -252,7 +298,8 @@ async function getNoImportableMaterialsResult(
     (candidate) => candidate.type === "labor" && candidate.importedAt === null,
   ).length;
   const hasAcceptedImportedMaterial = acceptedCandidates.some(
-    (candidate) => candidate.type === "material" && candidate.importedAt !== null,
+    (candidate) =>
+      candidate.type === "material" && isAcceptedImportedCandidate(candidate),
   );
 
   if (hasAcceptedImportedMaterial) {
@@ -289,7 +336,7 @@ async function findOwnedCompletedAnalysisForImport(
   documentId: string,
   analysisId: string,
   userId: string,
-  db: ProjectDocumentCandidateImportClient,
+  db: ProjectDocumentCandidateImportClient = prisma,
 ): Promise<OwnedAnalysisForImport | null> {
   return db.projectDocumentAnalysis.findFirst({
     select: {
@@ -316,4 +363,66 @@ async function findOwnedCompletedAnalysisForImport(
       },
     },
   });
+}
+
+async function getAcceptedCandidatesForImport(
+  analysisId: string,
+  db: ProjectDocumentCandidateImportClient = prisma,
+): Promise<DbProjectDocumentCandidate[]> {
+  return db.projectDocumentCandidate.findMany({
+    orderBy: [
+      {
+        type: "desc",
+      },
+      {
+        sortOrder: "asc",
+      },
+      {
+        createdAt: "asc",
+      },
+    ],
+    where: {
+      projectDocumentAnalysisId: analysisId,
+      status: "accepted",
+    },
+  });
+}
+
+function getAcceptedCandidateImportSummary(
+  acceptedCandidates: DbProjectDocumentCandidate[],
+): AcceptedCandidateImportSummary {
+  const materialCandidatesToImport = acceptedCandidates.filter(
+    isImportableAcceptedMaterialCandidate,
+  );
+  const laborSkippedCount = acceptedCandidates.filter(
+    (candidate) => candidate.type === "labor" && candidate.importedAt === null,
+  ).length;
+  const alreadyImportedCount = acceptedCandidates.filter(
+    isAcceptedImportedCandidate,
+  ).length;
+
+  return {
+    alreadyImportedCount,
+    laborSkippedCount,
+    materialCandidatesToImport,
+    skippedCount: alreadyImportedCount + laborSkippedCount,
+  };
+}
+
+function isImportableAcceptedMaterialCandidate(
+  candidate: DbProjectDocumentCandidate,
+): boolean {
+  return (
+    candidate.type === "material" &&
+    candidate.importedAt === null &&
+    candidate.importedProjectMaterialId === null
+  );
+}
+
+function isAcceptedImportedCandidate(
+  candidate: DbProjectDocumentCandidate,
+): boolean {
+  return (
+    candidate.importedAt !== null || candidate.importedProjectMaterialId !== null
+  );
 }

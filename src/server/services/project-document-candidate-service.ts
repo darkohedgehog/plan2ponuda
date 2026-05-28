@@ -38,6 +38,14 @@ type CandidateReviewResult =
         | "not_found";
     };
 
+type PersistedReviewCandidate = {
+  id: string;
+  importedAt: Date | null;
+  importedLaborItemId: string | null;
+  importedProjectMaterialId: string | null;
+  type: ProjectDocumentCandidateType;
+};
+
 const materialCategoryValues = new Set<string>(
   projectDocumentMaterialCategorySchema.options,
 );
@@ -124,74 +132,85 @@ export async function saveDocumentCandidateReview(
   userId: string,
   input: SaveProjectDocumentCandidateReviewInput,
 ): Promise<CandidateReviewResult> {
-  return prisma.$transaction(async (transaction): Promise<CandidateReviewResult> => {
-    const analysis = await findOwnedCompletedAnalysis(
-      projectId,
-      documentId,
-      analysisId,
-      userId,
-      transaction,
-    );
+  const analysis = await findOwnedCompletedAnalysis(
+    projectId,
+    documentId,
+    analysisId,
+    userId,
+  );
 
-    if (!analysis) {
-      return {
-        ok: false,
-        reason: "not_found",
-      };
-    }
+  if (!analysis) {
+    return {
+      ok: false,
+      reason: "not_found",
+    };
+  }
 
-    await ensureCandidatesForAnalysis(analysis.id, transaction);
+  await ensureCandidatesForAnalysis(analysis.id);
 
-    const candidateIds = input.candidates.map((candidate) => candidate.id);
+  const candidateIds = input.candidates.map((candidate) => candidate.id);
 
-    if (new Set(candidateIds).size !== candidateIds.length) {
-      return {
-        ok: false,
-        reason: "invalid_candidate_reference",
-      };
-    }
+  if (new Set(candidateIds).size !== candidateIds.length) {
+    return {
+      ok: false,
+      reason: "invalid_candidate_reference",
+    };
+  }
 
-    const persistedCandidates = await transaction.projectDocumentCandidate.findMany({
-      select: {
-        id: true,
-        type: true,
-      },
-      where: {
-        id: {
-          in: candidateIds,
-        },
-        projectDocumentAnalysisId: analysis.id,
-      },
-    });
-    const persistedCandidateById = new Map(
-      persistedCandidates.map((candidate) => [candidate.id, candidate]),
-    );
+  const persistedCandidates =
+    candidateIds.length === 0
+      ? []
+      : await prisma.projectDocumentCandidate.findMany({
+          select: {
+            id: true,
+            importedAt: true,
+            importedLaborItemId: true,
+            importedProjectMaterialId: true,
+            type: true,
+          },
+          where: {
+            id: {
+              in: candidateIds,
+            },
+            projectDocumentAnalysisId: analysis.id,
+          },
+        });
+  const persistedCandidateById = new Map(
+    persistedCandidates.map((candidate) => [candidate.id, candidate]),
+  );
+
+  if (
+    candidateIds.some(
+      (candidateId) => !persistedCandidateById.has(candidateId),
+    )
+  ) {
+    return {
+      ok: false,
+      reason: "invalid_candidate_reference",
+    };
+  }
+
+  const updateQueries: Prisma.PrismaPromise<DbProjectDocumentCandidate>[] = [];
+
+  for (const candidate of input.candidates) {
+    const persistedCandidate = persistedCandidateById.get(candidate.id);
 
     if (
-      candidateIds.some(
-        (candidateId) => !persistedCandidateById.has(candidateId),
-      )
+      !persistedCandidate ||
+      isPersistedCandidateLocked(persistedCandidate) ||
+      !isValidEditableCandidate(candidate, persistedCandidate.type)
     ) {
       return {
         ok: false,
-        reason: "invalid_candidate_reference",
+        reason: "invalid_candidate_input",
       };
     }
 
-    for (const candidate of input.candidates) {
-      const persistedCandidate = persistedCandidateById.get(candidate.id);
+    const quantity = candidate.quantity ?? null;
+    const unitPrice = candidate.unitPrice ?? null;
 
-      if (!persistedCandidate || !isValidEditableCandidate(candidate, persistedCandidate.type)) {
-        return {
-          ok: false,
-          reason: "invalid_candidate_input",
-        };
-      }
-
-      const quantity = candidate.quantity ?? null;
-      const unitPrice = candidate.unitPrice ?? null;
-
-      await transaction.projectDocumentCandidate.update({
+    updateQueries.push(
+      prisma.projectDocumentCandidate.update({
         data: {
           category: candidate.category ?? null,
           description: candidate.description ?? null,
@@ -206,14 +225,18 @@ export async function saveDocumentCandidateReview(
         where: {
           id: candidate.id,
         },
-      });
-    }
+      }),
+    );
+  }
 
-    return {
-      candidates: await getCandidatesForAnalysis(analysis.id, transaction),
-      ok: true,
-    };
-  });
+  if (updateQueries.length > 0) {
+    await prisma.$transaction(updateQueries);
+  }
+
+  return {
+    candidates: await getCandidatesForAnalysis(analysis.id),
+    ok: true,
+  };
 }
 
 function mapProjectDocumentCandidate(
@@ -306,6 +329,14 @@ function isValidEditableCandidate(
   }
 
   return laborUnitValues.has(candidate.unit);
+}
+
+function isPersistedCandidateLocked(candidate: PersistedReviewCandidate): boolean {
+  return (
+    candidate.importedAt !== null ||
+    candidate.importedLaborItemId !== null ||
+    candidate.importedProjectMaterialId !== null
+  );
 }
 
 function toNullableDecimal(value: number | null): Prisma.Decimal | null {

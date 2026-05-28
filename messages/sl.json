@@ -1352,6 +1352,20 @@
     "usageTitle": "Poraba PDF analiz",
     "usageValue": "{used} / {limit}"
   },
+  "ProjectDocumentSystems": {
+    "power_distribution": "Elektroenergetska instalacija",
+    "lighting": "Razsvetljava",
+    "sockets": "Vtičnice",
+    "switches": "Stikala",
+    "distribution_board": "Razdelilna omarica",
+    "low_voltage": "Šibki tok",
+    "network": "Omrežna instalacija",
+    "fire_alarm": "Požarno javljanje",
+    "grounding": "Ozemljitev",
+    "lightning_protection": "Strelovodna zaščita",
+    "hvac_connections": "Priključki ogrevanja, hlajenja in prezračevanja",
+    "other": "Drugo"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Najnovejše posodobitve ponudb so prikazane prve.",

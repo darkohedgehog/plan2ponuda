@@ -374,7 +374,7 @@ export function ProjectDocumentCandidateReview({
   }
 
   return (
-    <div className="mt-4 min-w-0 rounded-md border border-frosted-blue-200 bg-white p-3 sm:p-4">
+    <div className="mt-4 min-w-0 overflow-hidden rounded-md border border-frosted-blue-200 bg-white p-3 sm:p-4">
       <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0">
           <h4 className="text-sm font-semibold text-deep-twilight-950">
@@ -400,7 +400,7 @@ export function ProjectDocumentCandidateReview({
           </div>
         </div>
         {hasUnsavedChanges ? (
-          <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800">
+          <p className="w-full rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800 lg:w-auto">
             {tDocs("unsavedChanges", {
               count: dirtyCandidateIds.size,
             })}
@@ -419,7 +419,7 @@ export function ProjectDocumentCandidateReview({
           <div className="grid min-w-0 gap-2 sm:grid-cols-3">
             {typeFilterOptions.map((option) => (
               <button
-                className={`h-10 rounded-md border px-3 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 ${
+                className={`h-auto min-h-10 min-w-0 rounded-md border px-3 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 ${
                   typeFilter === option
                     ? "border-bright-teal-blue-500 bg-white text-bright-teal-blue-800 shadow-sm"
                     : "border-frosted-blue-200 bg-white/70 text-deep-twilight-700 hover:bg-white"
@@ -565,7 +565,7 @@ export function ProjectDocumentCandidateReview({
               <span>{tDocs("allChangesSaved")}</span>
             )}
           </div>
-          <div className="grid min-w-0 gap-2 md:grid-cols-3 lg:flex lg:items-center">
+          <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:flex xl:items-center">
             <Button
               className="h-auto min-h-10 w-full whitespace-normal text-center"
               disabled={
@@ -600,7 +600,7 @@ export function ProjectDocumentCandidateReview({
             </Button>
             {importSummary || hasAcceptedMaterialsAlreadyImported || hasImportedQuoteMaterials ? (
               <a
-                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-4 py-2 text-center text-sm font-semibold text-deep-twilight-800 outline-none transition-colors hover:bg-frosted-blue-50 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100"
+                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-4 py-2 text-center text-sm font-semibold text-deep-twilight-800 outline-none transition-colors hover:bg-frosted-blue-50 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 sm:col-span-2 xl:col-span-auto"
                 href={quoteUrl}
               >
                 {tDocs("openQuote")}
@@ -632,7 +632,7 @@ function CandidateSection({
   return (
     <section className="min-w-0 rounded-md border border-frosted-blue-200 bg-frosted-blue-50/70 p-3">
       <div className="flex min-w-0 items-center justify-between gap-3">
-        <h5 className="text-sm font-semibold text-deep-twilight-950">
+        <h5 className="wrap-break-word break-words text-sm font-semibold text-deep-twilight-950">
           {title}
         </h5>
         <span className="shrink-0 rounded-md bg-white px-2 py-1 text-xs font-semibold text-deep-twilight-700 ring-1 ring-frosted-blue-200">
@@ -676,8 +676,8 @@ function CandidateEditorCard({
   const isLocked = isImported || isImportedToQuote;
 
   return (
-    <article className="grid min-w-0 gap-3 rounded-md border border-frosted-blue-200 bg-white p-3 text-sm shadow-sm [contain-intrinsic-size:280px] [content-visibility:auto] lg:grid-cols-[minmax(12rem,1fr)_minmax(10rem,0.65fr)_minmax(10rem,0.65fr)]">
-      <div className="min-w-0 lg:col-span-3">
+    <article className="grid min-w-0 gap-3 rounded-md border border-frosted-blue-200 bg-white p-3 text-sm shadow-sm [contain-intrinsic-size:280px] [content-visibility:auto] xl:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)_minmax(0,0.75fr)]">
+      <div className="min-w-0 xl:col-span-3">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <CandidateTypeBadge type={type} />
           <CandidateStatusBadge status={candidate.status} />
@@ -754,7 +754,7 @@ function CandidateEditorCard({
         </div>
       )}
 
-      <div className="grid min-w-0 gap-3 sm:grid-cols-3 lg:grid-cols-1">
+      <div className="grid min-w-0 gap-3 md:grid-cols-3 xl:grid-cols-1">
         <div className="min-w-0">
           <FieldLabel label={tDocs("unit")} />
           <SelectInput
@@ -788,8 +788,8 @@ function CandidateEditorCard({
         </div>
       </div>
 
-      <div className="min-w-0 lg:col-span-3">
-        <div className="grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_minmax(8rem,0.35fr)]">
+      <div className="min-w-0 xl:col-span-3">
+        <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(8rem,0.35fr)]">
           <div className="min-w-0">
             <FieldLabel label={tDocs("notes")} />
             <TextArea
@@ -802,7 +802,7 @@ function CandidateEditorCard({
           </div>
           <div className="min-w-0">
             <FieldLabel label={tDocs("total")} />
-            <p className="flex h-10 items-center justify-end rounded-md border border-frosted-blue-200 bg-frosted-blue-50 px-3 text-sm font-semibold tabular-nums text-deep-twilight-950">
+            <p className="flex min-h-10 min-w-0 items-center rounded-md border border-frosted-blue-200 bg-frosted-blue-50 px-3 text-sm font-semibold tabular-nums text-deep-twilight-950 sm:justify-end">
               {total === null ? tDocs("notSet") : formatMoney(total, locale)}
             </p>
           </div>

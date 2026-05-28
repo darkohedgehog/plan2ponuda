@@ -1352,6 +1352,20 @@
     "usageTitle": "Nutzung der PDF-Analysen",
     "usageValue": "{used} / {limit}"
   },
+  "ProjectDocumentSystems": {
+    "power_distribution": "Energieverteilung",
+    "lighting": "Beleuchtung",
+    "sockets": "Steckdosen",
+    "switches": "Schalter",
+    "distribution_board": "Verteilerschrank",
+    "low_voltage": "Schwachstrom",
+    "network": "Netzwerkinstallation",
+    "fire_alarm": "Brandmeldeanlage",
+    "grounding": "Erdung",
+    "lightning_protection": "Blitzschutz",
+    "hvac_connections": "HLK-Anschlüsse",
+    "other": "Sonstiges"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Die neuesten Angebotsaktualisierungen werden zuerst angezeigt.",

@@ -14,13 +14,18 @@ test("candidate review UI shows imported state and locks imported quote fields",
   const source = readSource(
     "src/components/projects/project-document-candidate-review.tsx",
   );
+  const stateSource = readSource(
+    "src/components/projects/project-document-candidate-review-state.ts",
+  );
 
-  assert.match(source, /importedAt/);
+  assert.match(stateSource, /importedAt/);
+  assert.match(stateSource, /candidate\.importedAt !== null/);
   assert.match(source, /importedProjectMaterialId/);
   assert.match(source, /importedToQuote/);
   assert.match(source, /editImportedLineOnQuotePage/);
   assert.match(source, /changesAfterImportDoNotUpdateQuoteLinesYet/);
-  assert.match(source, /disabled=\{isImported\}/);
+  assert.match(source, /const isLocked = isImported \|\| isImportedToQuote/);
+  assert.match(source, /disabled=\{isLocked\}/);
   assert.match(source, /ImportedStateBadge/);
 });
 

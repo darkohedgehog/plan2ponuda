@@ -1352,6 +1352,20 @@
     "usageTitle": "Potrošnja PDF analiza",
     "usageValue": "{used} / {limit}"
   },
+  "ProjectDocumentSystems": {
+    "power_distribution": "Elektroenergetska instalacija",
+    "lighting": "Rasveta",
+    "sockets": "Utičnice",
+    "switches": "Prekidači",
+    "distribution_board": "Razvodni ormar",
+    "low_voltage": "Slaba struja",
+    "network": "Mrežna instalacija",
+    "fire_alarm": "Vatrodojava",
+    "grounding": "Uzemljenje",
+    "lightning_protection": "Gromobranska zaštita",
+    "hvac_connections": "Priključci grejanja, hlađenja i ventilacije",
+    "other": "Ostalo"
+  },
   "Quotes": {
     "index": {
       "subtitle": "Najnovije ažurirane ponude prikazane su prve.",

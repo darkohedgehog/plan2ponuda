@@ -6,6 +6,7 @@ import type {
   ProjectDocumentAnalysis as DbProjectDocumentAnalysis,
 } from "../../../generated/prisma/client";
 
+import type { Locale } from "@/i18n/routing";
 import {
   runProjectDocumentAnalysis,
   type RunProjectDocumentAnalysisResult,
@@ -223,6 +224,7 @@ export async function analyzeProjectDocument(
   projectId: string,
   documentId: string,
   userId: string,
+  locale: Locale,
 ): Promise<AnalyzeProjectDocumentResult> {
   const effectivePlan = await billingService.getEffectivePlan(userId);
 
@@ -249,6 +251,7 @@ export async function analyzeProjectDocument(
   if (completedAnalysis) {
     // already_analyzed: return the existing result without re-running AI or
     // consuming another large_pdf_analyses_used counter.
+    // TODO: Add an explicit re-analysis flow if existing results need localization.
     await ensureCandidatesForAnalysis(completedAnalysis.id);
 
     return {
@@ -318,6 +321,7 @@ export async function analyzeProjectDocument(
   const aiAnalysis = await runProjectDocumentAnalysis({
     document: pdf.file,
     documentId: document.id,
+    locale,
     projectId: document.projectId,
   });
 

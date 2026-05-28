@@ -15,6 +15,7 @@ import type { BillingPlan, UsageItem } from "@/types/billing";
 import type {
   ProjectDocument,
   ProjectDocumentAnalysisResult,
+  ProjectDocumentDetectedSystem,
 } from "@/types/project-document";
 import { ProjectDocumentCandidateReview } from "./project-document-candidate-review";
 import {
@@ -29,6 +30,21 @@ type ProjectDocumentationAnalysisCardProps = {
   projectId: string;
   usage: UsageItem;
 };
+
+const detectedSystemKeys = [
+  "power_distribution",
+  "lighting",
+  "sockets",
+  "switches",
+  "distribution_board",
+  "low_voltage",
+  "network",
+  "fire_alarm",
+  "grounding",
+  "lightning_protection",
+  "hvac_connections",
+  "other",
+] as const satisfies readonly ProjectDocumentDetectedSystem[];
 
 export function ProjectDocumentationAnalysisCard({
   currentPlan,
@@ -139,7 +155,7 @@ export function ProjectDocumentationAnalysisCard({
             {tDocs("upgradeToPro")}
           </Link>
         ) : (
-          <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+          <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
             <div className="min-w-0 rounded-md border border-frosted-blue-200 bg-white p-4">
               <h3 className="text-sm font-semibold text-deep-twilight-950">
                 {tDocs("uploadProjectPdf")}
@@ -198,12 +214,12 @@ function ProjectDocumentListItem({
 
   return (
     <li className="min-w-0 rounded-md border border-frosted-blue-200 bg-white p-4">
-      <div className="flex min-w-0 flex-col gap-3 md:flex-row md:items-start md:justify-between">
-        <div className="min-w-0">
-          <p className="break-all text-sm font-semibold text-deep-twilight-950">
+      <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <p className="wrap-break-word break-words text-sm font-semibold text-deep-twilight-950">
             {document.fileName}
           </p>
-          <p className="mt-1 text-xs text-deep-twilight-700/70">
+          <p className="mt-1 wrap-break-word text-xs text-deep-twilight-700/70">
             {tDocs("documentMeta", {
               date: formatDate(document.createdAt, locale),
               size: formatFileSize(document.sizeBytes, locale),
@@ -212,39 +228,16 @@ function ProjectDocumentListItem({
           <span className="mt-3 inline-flex rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">
             {tDocs(`statuses.${document.status}`)}
           </span>
-          {documentState.showSummary && analysis ? (
-            <>
-              <ProjectDocumentAnalysisSummary
-                analysis={analysis}
-                locale={locale}
-              />
-              {document.latestAnalysis ? (
-                <ProjectDocumentCandidateReview
-                  analysisId={document.latestAnalysis.id}
-                  documentId={document.id}
-                  projectId={projectId}
-                />
-              ) : null}
-            </>
-          ) : documentState.state === "analyzed" ? (
-            <p className="mt-3 text-sm text-deep-twilight-700">
-              {tDocs("analysisCompleted")}
-            </p>
-          ) : documentState.state === "failed" ? (
-            <p className="mt-3 text-sm text-red-700">
-              {tDocs("analysisFailed")}
-            </p>
-          ) : null}
         </div>
 
-        <div className="flex min-w-0 flex-col items-start gap-2">
+        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap lg:w-auto lg:shrink-0 lg:justify-end">
           {documentState.canAnalyze ? (
             <ProjectDocumentAnalyzeButton
               documentId={document.id}
               projectId={projectId}
             />
           ) : documentState.state === "analyzing" ? (
-            <Button disabled type="button">
+            <Button className="w-full sm:w-auto" disabled type="button">
               <FileSearch aria-hidden="true" className="h-4 w-4" />
               {tDocs("analyzingDocument")}
             </Button>
@@ -255,6 +248,27 @@ function ProjectDocumentListItem({
           />
         </div>
       </div>
+
+      {documentState.showSummary && analysis ? (
+        <>
+          <ProjectDocumentAnalysisSummary analysis={analysis} locale={locale} />
+          {document.latestAnalysis ? (
+            <ProjectDocumentCandidateReview
+              analysisId={document.latestAnalysis.id}
+              documentId={document.id}
+              projectId={projectId}
+            />
+          ) : null}
+        </>
+      ) : documentState.state === "analyzed" ? (
+        <p className="mt-3 text-sm text-deep-twilight-700">
+          {tDocs("analysisCompleted")}
+        </p>
+      ) : documentState.state === "failed" ? (
+        <p className="mt-3 text-sm text-red-700">
+          {tDocs("analysisFailed")}
+        </p>
+      ) : null}
     </li>
   );
 }
@@ -269,8 +283,12 @@ function ProjectDocumentAnalysisSummary({
   locale,
 }: ProjectDocumentAnalysisSummaryProps) {
   const tDocs = useTranslations("ProjectDocumentationAnalysis");
+  const tSystems = useTranslations("ProjectDocumentSystems");
+  const detectedSystemLabels = Object.fromEntries(
+    detectedSystemKeys.map((system) => [system, tSystems(system)]),
+  ) as Record<ProjectDocumentDetectedSystem, string>;
   const systems = analysis.detectedSystems
-    .map((system) => system.replace(/_/g, " "))
+    .map((system) => getDetectedSystemLabel(system, detectedSystemLabels))
     .join(", ");
 
   return (
@@ -309,6 +327,31 @@ function ProjectDocumentAnalysisSummary({
       </dl>
     </div>
   );
+}
+
+function getDetectedSystemLabel(
+  system: string,
+  labels: Record<ProjectDocumentDetectedSystem, string>,
+): string {
+  if (isProjectDocumentDetectedSystem(system)) {
+    return labels[system];
+  }
+
+  return formatDetectedSystemFallback(system) || labels.other;
+}
+
+function isProjectDocumentDetectedSystem(
+  system: string,
+): system is ProjectDocumentDetectedSystem {
+  return (detectedSystemKeys as readonly string[]).includes(system);
+}
+
+function formatDetectedSystemFallback(system: string): string {
+  return system
+    .split("_")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 type SummaryMetricProps = {

@@ -11,6 +11,15 @@ function readSource(path) {
   return readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 }
 
+function getFunctionBody(source, functionName) {
+  const start = source.indexOf(`async function ${functionName}`);
+  assert.notEqual(start, -1, `${functionName} not found`);
+
+  const nextFunction = source.indexOf("\nasync function", start + 1);
+
+  return source.slice(start, nextFunction === -1 ? undefined : nextFunction);
+}
+
 test("maps an accepted material candidate to a project-local manual material snapshot", () => {
   const input = buildImportedProjectMaterialCreateInput("project_1", {
     category: "cable",
@@ -77,6 +86,60 @@ test("document candidate import service gates Pro users, imports only accepted m
   assert.match(source, /recalculateQuoteFromPersistedMaterials/);
   assert.doesNotMatch(source, /\.material\.create/);
   assert.doesNotMatch(source, /\.material\.upsert/);
+});
+
+test("document candidate import keeps interactive transaction focused on writes", () => {
+  const source = readSource(
+    "src/server/services/project-document-candidate-import-service.ts",
+  );
+  const transactionBody = getFunctionBody(
+    source,
+    "importAcceptedDocumentCandidatesToQuoteInTransaction",
+  );
+
+  assert.match(source, /await ensureCandidatesForAnalysis\(analysis\.id\)/);
+  assert.match(source, /getAcceptedCandidatesForImport\(analysis\.id\)/);
+  assert.match(source, /PROJECT_DOCUMENT_IMPORT_TRANSACTION_TIMEOUT_MS/);
+  assert.match(source, /timeout:\s*PROJECT_DOCUMENT_IMPORT_TRANSACTION_TIMEOUT_MS/);
+  assert.doesNotMatch(transactionBody, /findOwnedCompletedAnalysisForImport/);
+  assert.doesNotMatch(transactionBody, /ensureCandidatesForAnalysis/);
+  assert.doesNotMatch(transactionBody, /projectDocumentCandidate\.findMany/);
+  assert.doesNotMatch(transactionBody, /getNoImportableMaterialsResult/);
+});
+
+test("document candidate import remains idempotent while mapping candidates to project materials", () => {
+  const source = readSource(
+    "src/server/services/project-document-candidate-import-service.ts",
+  );
+  const transactionBody = getFunctionBody(
+    source,
+    "importAcceptedDocumentCandidatesToQuoteInTransaction",
+  );
+
+  assert.match(transactionBody, /projectDocumentCandidate\.updateMany/);
+  assert.match(transactionBody, /importedAt:\s*null/);
+  assert.match(transactionBody, /importedProjectMaterialId:\s*null/);
+  assert.match(transactionBody, /markedCandidate\.count !== 1/);
+  assert.match(transactionBody, /concurrentlySkippedCount/);
+  assert.match(transactionBody, /projectMaterial\.create/);
+  assert.match(transactionBody, /projectDocumentCandidate\.update/);
+  assert.match(transactionBody, /importedProjectMaterialId:\s*projectMaterial\.id/);
+});
+
+test("document candidate import recalculates quote in the write transaction and summarizes afterward with normal client", () => {
+  const source = readSource(
+    "src/server/services/project-document-candidate-import-service.ts",
+  );
+  const transactionBody = getFunctionBody(
+    source,
+    "importAcceptedDocumentCandidatesToQuoteInTransaction",
+  );
+
+  assert.match(transactionBody, /recalculateQuoteFromPersistedMaterials/);
+  assert.match(transactionBody, /consumeFirstQuoteForUserId:\s*userId/);
+  assert.match(source, /UsageLimitExceededError/);
+  assert.match(source, /quote_limit_reached/);
+  assert.match(source, /getNoImportableMaterialsResult\([\s\S]*prisma/);
 });
 
 test("document candidate import route is authenticated and delegates to the service", () => {

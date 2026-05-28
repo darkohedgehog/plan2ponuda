@@ -1,7 +1,7 @@
 "use client";
 
 import { FileSearch, Trash2, UploadCloud } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type ComponentProps, useState } from "react";
 
@@ -256,8 +256,9 @@ export function ProjectDocumentDeleteButton({
   }
 
   return (
-    <div className="flex min-w-0 flex-col items-start gap-2">
+    <div className="flex min-w-0 flex-col items-stretch gap-2 sm:items-start">
       <Button
+        className="w-full sm:w-auto"
         disabled={isDeleting}
         onClick={handleDelete}
         type="button"
@@ -277,6 +278,7 @@ export function ProjectDocumentAnalyzeButton({
   documentId,
   projectId,
 }: ProjectDocumentDeleteButtonProps) {
+  const locale = useLocale();
   const router = useRouter();
   const tDocs = useTranslations("ProjectDocumentationAnalysis");
   const [errorKey, setErrorKey] =
@@ -288,7 +290,7 @@ export function ProjectDocumentAnalyzeButton({
     setIsAnalyzing(true);
 
     const response = await fetch(
-      `/api/projects/${projectId}/documents/${documentId}/analyze`,
+      `/api/projects/${projectId}/documents/${documentId}/analyze?locale=${encodeURIComponent(locale)}`,
       {
         method: "POST",
       },
@@ -310,8 +312,9 @@ export function ProjectDocumentAnalyzeButton({
   }
 
   return (
-    <div className="flex min-w-0 flex-col items-start gap-2">
+    <div className="flex min-w-0 flex-col items-stretch gap-2 sm:items-start">
       <Button
+        className="w-full sm:w-auto"
         disabled={isAnalyzing}
         onClick={handleAnalyze}
         type="button"
