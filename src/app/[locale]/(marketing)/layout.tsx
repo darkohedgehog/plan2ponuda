@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { CookieConsentProvider } from "@/components/marketing/cookie-consent";
 import { PublicFooter } from "@/components/marketing/public-footer";
 import { PublicNavbar } from "@/components/marketing/public-navbar";
 import { getOptionalCurrentUser } from "@/lib/auth/session";
@@ -18,6 +19,7 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
       <PublicNavbar isAuthenticated={Boolean(user)} />
       {children}
       <PublicFooter />
+      <CookieConsentProvider />
     </div>
   );
 }

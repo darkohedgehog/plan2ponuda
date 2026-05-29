@@ -1750,6 +1750,47 @@
       "startProject": "Začni projekt"
     }
   },
+  "CookieConsent": {
+    "banner": {
+      "title": "Izbira piškotkov",
+      "description": "PloroAI uporablja nujne piškotke za prijavo, varnost, jezikovne nastavitve in funkcionalnost storitve. Izbirni analitični in marketinški piškotki se trenutno ne uporabljajo.",
+      "acceptNecessary": "Sprejmi nujne",
+      "acceptAll": "Sprejmi vse",
+      "settings": "Nastavitve piškotkov"
+    },
+    "modal": {
+      "title": "Nastavitve piškotkov",
+      "description": "Izberite, katere izbirne kategorije piškotkov se smejo uporabljati. Nujni piškotki ostanejo aktivni, ker skrbijo za varnost in delovanje storitve."
+    },
+    "categories": {
+      "necessary": {
+        "title": "Nujni piškotki",
+        "description": "Potrebni so za prijavo, varnost, jezikovne nastavitve, podporo checkout poteku in osnovno funkcionalnost storitve.",
+        "alwaysActive": "Vedno aktivno"
+      },
+      "analytics": {
+        "title": "Analitični piškotki",
+        "description": "Izbirni piškotki za merjenje. PloroAI trenutno ne nalaga analitičnih piškotkov ali analitičnih skript.",
+        "notUsed": "Trenutno se ne uporablja"
+      },
+      "marketing": {
+        "title": "Marketinški piškotki",
+        "description": "Izbirni oglaševalski ali retargeting piškotki. PloroAI trenutno ne nalaga marketinških piškotkov, pixelov ali oglasnih skript.",
+        "notUsed": "Trenutno se ne uporablja"
+      }
+    },
+    "actions": {
+      "save": "Shrani nastavitve",
+      "rejectOptional": "Zavrni izbirne",
+      "close": "Zapri"
+    },
+    "messages": {
+      "saved": "Nastavitve piškotkov so shranjene."
+    },
+    "footer": {
+      "cookieSettings": "Nastavitve piškotkov"
+    }
+  },
   "Pricing": {
     "metadata": {
       "title": "Cene - Ploro AI",
@@ -2124,6 +2165,13 @@
         "items": [
           "Blokiranje nujnih piškotkov lahko moti prijavo, projektne poteke ali Stripe checkout",
           "Nadzor Stripe piškotkov je odvisen od vedenja Stripe-hostanih strani"
+        ]
+      },
+      "preferences": {
+        "title": "Nastavitve piškotkov",
+        "body": "Nastavitve piškotkov PloroAI lahko kadar koli spremenite s povezavo Nastavitve piškotkov v nogi.",
+        "items": [
+          "Izbirni analitični in marketinški piškotki se trenutno ne uporabljajo"
         ]
       },
       "contact": {

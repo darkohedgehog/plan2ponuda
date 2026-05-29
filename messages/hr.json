@@ -1750,6 +1750,47 @@
       "startProject": "Pokreni projekt"
     }
   },
+  "CookieConsent": {
+    "banner": {
+      "title": "Odabir kolačića",
+      "description": "PloroAI koristi nužne kolačiće za prijavu, sigurnost, jezične postavke i funkcionalnost usluge. Opcionalni analitički i marketinški kolačići trenutno se ne koriste.",
+      "acceptNecessary": "Prihvati nužne",
+      "acceptAll": "Prihvati sve",
+      "settings": "Postavke kolačića"
+    },
+    "modal": {
+      "title": "Postavke kolačića",
+      "description": "Odaberite koje se opcionalne kategorije kolačića smiju koristiti. Nužni kolačići ostaju aktivni jer održavaju sigurnost i rad usluge."
+    },
+    "categories": {
+      "necessary": {
+        "title": "Nužni kolačići",
+        "description": "Potrebni su za prijavu, sigurnost, jezične postavke, podršku checkout toku i osnovnu funkcionalnost usluge.",
+        "alwaysActive": "Uvijek aktivno"
+      },
+      "analytics": {
+        "title": "Analitički kolačići",
+        "description": "Opcionalni kolačići za mjerenje. PloroAI trenutno ne učitava analitičke kolačiće ni analitičke skripte.",
+        "notUsed": "Trenutno se ne koristi"
+      },
+      "marketing": {
+        "title": "Marketinški kolačići",
+        "description": "Opcionalni oglašivački ili retargeting kolačići. PloroAI trenutno ne učitava marketinške kolačiće, pixele ni oglasne skripte.",
+        "notUsed": "Trenutno se ne koristi"
+      }
+    },
+    "actions": {
+      "save": "Spremi postavke",
+      "rejectOptional": "Odbij opcionalne",
+      "close": "Zatvori"
+    },
+    "messages": {
+      "saved": "Postavke kolačića su spremljene."
+    },
+    "footer": {
+      "cookieSettings": "Postavke kolačića"
+    }
+  },
   "Pricing": {
     "metadata": {
       "title": "Cijene - Ploro AI",
@@ -2124,6 +2165,13 @@
         "items": [
           "Blokiranje nužnih kolačića može narušiti prijavu, projektne workflowe ili Stripe checkout",
           "Kontrola Stripe kolačića ovisi o ponašanju Stripe-hostanih stranica"
+        ]
+      },
+      "preferences": {
+        "title": "Postavke kolačića",
+        "body": "PloroAI postavke kolačića možete promijeniti u bilo kojem trenutku pomoću poveznice Postavke kolačića u podnožju.",
+        "items": [
+          "Opcionalni analitički i marketinški kolačići trenutno se ne koriste"
         ]
       },
       "contact": {

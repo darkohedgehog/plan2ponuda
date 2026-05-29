@@ -1750,6 +1750,47 @@
       "startProject": "Start project"
     }
   },
+  "CookieConsent": {
+    "banner": {
+      "title": "Cookie choices",
+      "description": "PloroAI uses necessary cookies for login, security, language preferences, and service functionality. Optional analytics and marketing cookies are currently not used.",
+      "acceptNecessary": "Accept necessary",
+      "acceptAll": "Accept all",
+      "settings": "Cookie settings"
+    },
+    "modal": {
+      "title": "Cookie preferences",
+      "description": "Choose which optional cookie categories may be used. Necessary cookies stay active because they keep the service secure and working."
+    },
+    "categories": {
+      "necessary": {
+        "title": "Necessary cookies",
+        "description": "Required for login, security, language preferences, checkout flow support, and core service functionality.",
+        "alwaysActive": "Always active"
+      },
+      "analytics": {
+        "title": "Analytics cookies",
+        "description": "Optional measurement cookies. PloroAI does not currently load analytics cookies or analytics scripts.",
+        "notUsed": "Currently not used"
+      },
+      "marketing": {
+        "title": "Marketing cookies",
+        "description": "Optional advertising or retargeting cookies. PloroAI does not currently load marketing cookies, pixels, or ads scripts.",
+        "notUsed": "Currently not used"
+      }
+    },
+    "actions": {
+      "save": "Save preferences",
+      "rejectOptional": "Reject optional",
+      "close": "Close"
+    },
+    "messages": {
+      "saved": "Cookie preferences saved."
+    },
+    "footer": {
+      "cookieSettings": "Cookie settings"
+    }
+  },
   "Pricing": {
     "metadata": {
       "title": "Pricing - Ploro AI",
@@ -2124,6 +2165,13 @@
         "items": [
           "Blocking essential cookies may break sign-in, project workflows, or Stripe checkout",
           "Stripe cookie controls are subject to Stripe-hosted page behavior"
+        ]
+      },
+      "preferences": {
+        "title": "Cookie preferences",
+        "body": "You can change your PloroAI cookie preferences at any time using the Cookie settings link in the footer.",
+        "items": [
+          "Optional analytics and marketing cookies are currently not used"
         ]
       },
       "contact": {

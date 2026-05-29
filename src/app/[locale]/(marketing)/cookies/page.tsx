@@ -11,6 +11,7 @@ const cookiesSectionKeys = [
   "stripe",
   "analytics",
   "control",
+  "preferences",
   "contact",
 ] as const;
 

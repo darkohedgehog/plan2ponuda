@@ -1750,6 +1750,47 @@
       "startProject": "Projekt starten"
     }
   },
+  "CookieConsent": {
+    "banner": {
+      "title": "Cookie-Auswahl",
+      "description": "PloroAI verwendet notwendige Cookies für Anmeldung, Sicherheit, Spracheinstellungen und Servicefunktionen. Optionale Analytics- und Marketing-Cookies werden derzeit nicht verwendet.",
+      "acceptNecessary": "Notwendige akzeptieren",
+      "acceptAll": "Alle akzeptieren",
+      "settings": "Cookie-Einstellungen"
+    },
+    "modal": {
+      "title": "Cookie-Einstellungen",
+      "description": "Wählen Sie, welche optionalen Cookie-Kategorien verwendet werden dürfen. Notwendige Cookies bleiben aktiv, weil sie den Dienst sicher und funktionsfähig halten."
+    },
+    "categories": {
+      "necessary": {
+        "title": "Notwendige Cookies",
+        "description": "Erforderlich für Anmeldung, Sicherheit, Spracheinstellungen, Checkout-Unterstützung und zentrale Servicefunktionen.",
+        "alwaysActive": "Immer aktiv"
+      },
+      "analytics": {
+        "title": "Analytics-Cookies",
+        "description": "Optionale Mess-Cookies. PloroAI lädt derzeit keine Analytics-Cookies oder Analytics-Skripte.",
+        "notUsed": "Derzeit nicht verwendet"
+      },
+      "marketing": {
+        "title": "Marketing-Cookies",
+        "description": "Optionale Werbe- oder Retargeting-Cookies. PloroAI lädt derzeit keine Marketing-Cookies, Pixel oder Werbeskripte.",
+        "notUsed": "Derzeit nicht verwendet"
+      }
+    },
+    "actions": {
+      "save": "Einstellungen speichern",
+      "rejectOptional": "Optionale ablehnen",
+      "close": "Schließen"
+    },
+    "messages": {
+      "saved": "Cookie-Einstellungen gespeichert."
+    },
+    "footer": {
+      "cookieSettings": "Cookie-Einstellungen"
+    }
+  },
   "Pricing": {
     "metadata": {
       "title": "Preise - Ploro AI",
@@ -2124,6 +2165,13 @@
         "items": [
           "Das Blockieren notwendiger Cookies kann Anmeldung, Projekt-Workflows oder Stripe Checkout stören",
           "Stripe-Cookie-Steuerung richtet sich nach dem Verhalten der Stripe-gehosteten Seiten"
+        ]
+      },
+      "preferences": {
+        "title": "Cookie-Einstellungen",
+        "body": "Sie können Ihre PloroAI Cookie-Einstellungen jederzeit über den Link Cookie-Einstellungen im Footer ändern.",
+        "items": [
+          "Optionale Analytics- und Marketing-Cookies werden derzeit nicht verwendet"
         ]
       },
       "contact": {

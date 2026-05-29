@@ -2,6 +2,7 @@ import { ShieldCheck, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
+import { CookieSettingsButton } from "@/components/marketing/cookie-settings-button";
 import { Link } from "@/i18n/navigation";
 
 const productLinks = [
@@ -14,6 +15,7 @@ const legalLinks = [
   { href: "/terms", labelKey: "terms" },
   { href: "/privacy", labelKey: "privacy" },
   { href: "/cookies", labelKey: "cookies" },
+  { href: "#cookie-settings", labelKey: "cookieSettings", isAction: true },
   { href: "/complaints", labelKey: "complaints" },
   { href: "/sitemap.xml", labelKey: "sitemap", isLocalized: false },
 ] as const;
@@ -28,6 +30,7 @@ const footerLinkClass =
 
 export function PublicFooter() {
   const tCommon = useTranslations("Common");
+  const tCookieConsent = useTranslations("CookieConsent");
   const tFooter = useTranslations("Footer");
   const year = new Date().getFullYear();
 
@@ -82,7 +85,11 @@ export function PublicFooter() {
             <FooterLinkGroup
               links={legalLinks}
               title={tFooter("legal")}
-              translateLabel={(labelKey) => tFooter(`links.${labelKey}`)}
+              translateLabel={(labelKey) =>
+                labelKey === "cookieSettings"
+                  ? tCookieConsent("footer.cookieSettings")
+                  : tFooter(`links.${labelKey}`)
+              }
             />
             <FooterLinkGroup
               links={accountLinks}
@@ -109,6 +116,7 @@ export function PublicFooter() {
 
 type FooterLink = {
   href: string;
+  isAction?: boolean;
   isLocalized?: boolean;
   labelKey: string;
 };
@@ -135,7 +143,11 @@ function FooterLinkGroup<TLink extends FooterLink>({
       <ul className="mt-4 grid gap-3">
         {links.map((link) => (
           <li className="min-w-0" key={link.href}>
-            {link.isLocalized === false ? (
+            {link.isAction ? (
+              <CookieSettingsButton className={footerLinkClass}>
+                {translateLabel(link.labelKey)}
+              </CookieSettingsButton>
+            ) : link.isLocalized === false ? (
               <a className={footerLinkClass} href={link.href}>
                 {translateLabel(link.labelKey)}
               </a>
