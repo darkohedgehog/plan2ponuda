@@ -117,12 +117,12 @@
     "delete": "Delete",
     "exportExcel": "Export Excel",
     "exportExcelFailed": "Failed to export Excel.",
-    "exportPdf": "Export PDF",
+    "exportPdf": "Export",
     "generate": "Generate",
     "generateQuote": "Generate Quote",
     "newProject": "New Project",
     "open": "Open",
-    "openQuote": "Open Quote",
+    "openQuote": "Open",
     "openReview": "Open Review",
     "openRoomReview": "Open room review",
     "openProject": "Open Project",
@@ -302,27 +302,21 @@
     },
     "media": {
       "title": "Visual guide",
-      "description": "Screenshots can be added here later. Until then, each card marks the main workflow area.",
       "items": {
         "createProject": {
-          "title": "Create project",
-          "alt": "Create project screen in PloroAI"
+          "title": "Create project"
         },
         "uploadFloorPlan": {
-          "title": "Upload floor plan",
-          "alt": "Floor plan upload screen in PloroAI"
+          "title": "Upload floor plan"
         },
         "reviewRooms": {
-          "title": "Review rooms",
-          "alt": "Room review screen in PloroAI"
+          "title": "Review rooms"
         },
         "quoteExport": {
-          "title": "Quote export",
-          "alt": "Quote export screen in PloroAI"
+          "title": "Quote export"
         },
         "proDocumentAnalysis": {
-          "title": "Pro document analysis",
-          "alt": "Project documentation analysis screen in PloroAI"
+          "title": "Pro document analysis"
         }
       }
     },
@@ -1296,7 +1290,7 @@
     "proBadge": "Pro",
     "projectDocumentAi": "Project document AI",
     "proPlanRequired": "Pro plan required.",
-    "openQuote": "Open quote",
+    "openQuote": "Open",
     "quoteLimitReached": "Quote limit reached. Upgrade your plan to create more quotes.",
     "readyForFutureAnalysis": "Ready for future analysis",
     "reject": "Reject",

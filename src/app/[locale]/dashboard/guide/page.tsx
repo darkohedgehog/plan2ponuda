@@ -1,6 +1,3 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-
 import {
   AlertTriangle,
   ArrowRight,
@@ -20,7 +17,6 @@ import {
   UploadCloud,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import NextImage from "next/image";
 
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/helpers";
@@ -79,27 +75,22 @@ const guideMediaCards = [
   {
     icon: FolderPlus,
     key: "createProject",
-    src: "/help/create-project.webp",
   },
   {
     icon: UploadCloud,
     key: "uploadFloorPlan",
-    src: "/help/upload-floor-plan.webp",
   },
   {
     icon: SearchCheck,
     key: "reviewRooms",
-    src: "/help/review-rooms.webp",
   },
   {
     icon: FileSpreadsheet,
     key: "quoteExport",
-    src: "/help/quote-export.webp",
   },
   {
     icon: ClipboardCheck,
     key: "proDocumentAnalysis",
-    src: "/help/pro-document-analysis.webp",
   },
 ] as const;
 
@@ -401,18 +392,13 @@ function GuideMediaGrid() {
         <h2 className="text-xl font-semibold tracking-tight text-deep-twilight-950">
           {t("title")}
         </h2>
-        <p className="mt-1 max-w-3xl text-sm leading-6 text-deep-twilight-700">
-          {t("description")}
-        </p>
       </div>
       <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {guideMediaCards.map((card) => (
           <GuideMediaCard
             icon={card.icon}
             key={card.key}
-            src={card.src}
             title={t(`items.${card.key}.title`)}
-            alt={t(`items.${card.key}.alt`)}
           />
         ))}
       </div>
@@ -421,42 +407,21 @@ function GuideMediaGrid() {
 }
 
 type GuideMediaCardProps = {
-  alt: string;
   icon: LucideIcon;
-  src: string;
   title: string;
 };
 
-function GuideMediaCard({ alt, icon: Icon, src, title }: GuideMediaCardProps) {
-  const hasImage = guideImageExists(src);
-
+function GuideMediaCard({ icon: Icon, title }: GuideMediaCardProps) {
   return (
     <article className="overflow-hidden rounded-md border border-frosted-blue-200 bg-frosted-blue-50">
       <div className="relative aspect-4/3 bg-white">
-        {hasImage ? (
-          <NextImage
-            alt={alt}
-            className="object-cover"
-            fill
-            sizes="(min-width: 1280px) 220px, (min-width: 768px) 50vw, 100vw"
-            src={src}
-          />
-        ) : (
-          // TODO: Add real guide screenshots under public/help when available.
-          <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,212,255,0.16),transparent_12rem),linear-gradient(180deg,#ffffff_0%,#eef7fb_100%)] text-bright-teal-blue-700">
-            <Icon aria-hidden="true" className="h-10 w-10" />
-          </div>
-        )}
+        <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,212,255,0.16),transparent_12rem),linear-gradient(180deg,#ffffff_0%,#eef7fb_100%)] text-bright-teal-blue-700">
+          <Icon aria-hidden="true" className="h-10 w-10" />
+        </div>
       </div>
       <div className="p-3">
         <h3 className="text-sm font-semibold text-deep-twilight-950">{title}</h3>
       </div>
     </article>
   );
-}
-
-function guideImageExists(src: string): boolean {
-  const publicPath = join(process.cwd(), "public", src.replace(/^\//, ""));
-
-  return existsSync(publicPath);
 }

@@ -22,15 +22,18 @@ function flattenKeys(value, prefix = "") {
   );
 }
 
-test("dashboard guide route, nav item, and image fallback exist", () => {
+test("dashboard guide route, nav item, and media placeholders exist", () => {
   const page = readSource("src/app/[locale]/dashboard/guide/page.tsx");
   const navigation = readSource("src/components/dashboard/dashboard-navigation.ts");
   const shell = readSource("src/components/dashboard/dashboard-shell.tsx");
 
   assert.match(page, /useTranslations\("Guide"\)/);
-  assert.match(page, /NextImage/);
-  assert.match(page, /existsSync/);
-  assert.match(page, /TODO: Add real guide screenshots/);
+  assert.doesNotMatch(page, /NextImage/);
+  assert.doesNotMatch(page, /existsSync/);
+  assert.doesNotMatch(page, /guideImageExists/);
+  assert.doesNotMatch(page, /TODO: Add real guide screenshots/);
+  assert.match(page, /guideMediaCards/);
+  assert.match(page, /<GuideMediaCard/);
   assert.match(page, /href: "\/dashboard\/projects"/);
   assert.match(page, /href: "\/dashboard\/billing"/);
   assert.match(page, /href: "\/contact"/);

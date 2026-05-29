@@ -117,12 +117,12 @@
     "delete": "Izbriši",
     "exportExcel": "Izvozi Excel",
     "exportExcelFailed": "Izvoz Excela ni uspel.",
-    "exportPdf": "Izvozi PDF",
+    "exportPdf": "Izvozi",
     "generate": "Ustvari",
     "generateQuote": "Ustvari ponudbo",
     "newProject": "Nov projekt",
     "open": "Odpri",
-    "openQuote": "Odpri ponudbo",
+    "openQuote": "Odpri",
     "openReview": "Odpri pregled",
     "openRoomReview": "Odpri pregled prostorov",
     "openProject": "Odpri projekt",
@@ -302,27 +302,21 @@
     },
     "media": {
       "title": "Vizualni vodnik",
-      "description": "Posnetke zaslona lahko dodate pozneje. Do takrat vsaka kartica označuje glavno področje poteka dela.",
       "items": {
         "createProject": {
-          "title": "Ustvarjanje projekta",
-          "alt": "Zaslon za ustvarjanje projekta v PloroAI"
+          "title": "Ustvarjanje projekta"
         },
         "uploadFloorPlan": {
-          "title": "Nalaganje tlorisa",
-          "alt": "Zaslon za nalaganje tlorisa v PloroAI"
+          "title": "Nalaganje tlorisa"
         },
         "reviewRooms": {
-          "title": "Pregled prostorov",
-          "alt": "Zaslon za pregled prostorov v PloroAI"
+          "title": "Pregled prostorov"
         },
         "quoteExport": {
-          "title": "Izvoz ponudbe",
-          "alt": "Zaslon za izvoz ponudbe v PloroAI"
+          "title": "Izvoz ponudbe"
         },
         "proDocumentAnalysis": {
-          "title": "Pro analiza dokumentacije",
-          "alt": "Zaslon za analizo projektne dokumentacije v PloroAI"
+          "title": "Pro analiza dokumentacije"
         }
       }
     },
@@ -1296,7 +1290,7 @@
     "proBadge": "Pro",
     "projectDocumentAi": "AI projektne dokumentacije",
     "proPlanRequired": "Potreben je paket Pro.",
-    "openQuote": "Odpri ponudbo",
+    "openQuote": "Odpri",
     "quoteLimitReached": "Omejitev ponudb je dosežena. Nadgradite paket za ustvarjanje dodatnih ponudb.",
     "readyForFutureAnalysis": "Pripravljeno za prihodnjo analizo",
     "reject": "Zavrni",

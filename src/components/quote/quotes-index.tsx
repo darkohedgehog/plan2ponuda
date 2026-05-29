@@ -105,16 +105,17 @@ function QuoteIndexRow({ quote }: QuoteIndexRowProps) {
 
       <div className="flex flex-col gap-2 sm:flex-row xl:justify-end">
         <Link
-          className="inline-flex h-10 items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
+          className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
           href={`/dashboard/projects/${quote.project.id}/quote`}
         >
+          <FileText aria-hidden="true" className="h-4 w-4 shrink-0" />
           {tActions("openQuote")}
         </Link>
         <a
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
+          className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2"
           href={`/api/pdf/${quote.project.id}?locale=${locale}`}
         >
-          <Download aria-hidden="true" className="h-4 w-4" />
+          <Download aria-hidden="true" className="h-4 w-4 shrink-0" />
           {tActions("exportPdf")}
         </a>
       </div>

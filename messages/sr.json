@@ -117,12 +117,12 @@
     "delete": "Izbriši",
     "exportExcel": "Izvezi Excel",
     "exportExcelFailed": "Izvoz Excela nije uspeo.",
-    "exportPdf": "Izvezi PDF",
+    "exportPdf": "Izvezi",
     "generate": "Generiši",
     "generateQuote": "Generiši ponudu",
     "newProject": "Novi projekat",
     "open": "Otvori",
-    "openQuote": "Otvori ponudu",
+    "openQuote": "Otvori",
     "openReview": "Otvori pregled",
     "openRoomReview": "Otvori pregled prostorija",
     "openProject": "Otvori projekat",
@@ -302,27 +302,21 @@
     },
     "media": {
       "title": "Vizuelno uputstvo",
-      "description": "Snimci ekrana mogu se dodati kasnije. Do tada svaka kartica oznacava glavno podrucje toka rada.",
       "items": {
         "createProject": {
-          "title": "Kreiranje projekta",
-          "alt": "Ekran za kreiranje projekta u PloroAI"
+          "title": "Kreiranje projekta"
         },
         "uploadFloorPlan": {
-          "title": "Ucitavanje tlocrta",
-          "alt": "Ekran za ucitavanje tlocrta u PloroAI"
+          "title": "Ucitavanje tlocrta"
         },
         "reviewRooms": {
-          "title": "Pregled prostorija",
-          "alt": "Ekran za pregled prostorija u PloroAI"
+          "title": "Pregled prostorija"
         },
         "quoteExport": {
-          "title": "Izvoz ponude",
-          "alt": "Ekran za izvoz ponude u PloroAI"
+          "title": "Izvoz ponude"
         },
         "proDocumentAnalysis": {
-          "title": "Pro analiza dokumentacije",
-          "alt": "Ekran za analizu projektne dokumentacije u PloroAI"
+          "title": "Pro analiza dokumentacije"
         }
       }
     },
@@ -1296,7 +1290,7 @@
     "proBadge": "Pro",
     "projectDocumentAi": "AI projektne dokumentacije",
     "proPlanRequired": "Potreban je Pro plan.",
-    "openQuote": "Otvori ponudu",
+    "openQuote": "Otvori",
     "quoteLimitReached": "Dostignuto je ograničenje ponuda. Nadogradite plan za izradu dodatnih ponuda.",
     "readyForFutureAnalysis": "Spremno za buduću analizu",
     "reject": "Odbij",

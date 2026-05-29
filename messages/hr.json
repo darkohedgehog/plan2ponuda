@@ -117,12 +117,12 @@
     "delete": "Izbriši",
     "exportExcel": "Izvezi Excel",
     "exportExcelFailed": "Izvoz Excela nije uspio.",
-    "exportPdf": "Izvezi PDF",
+    "exportPdf": "Izvezi",
     "generate": "Generiraj",
     "generateQuote": "Generiraj ponudu",
     "newProject": "Novi projekt",
     "open": "Otvori",
-    "openQuote": "Otvori ponudu",
+    "openQuote": "Otvori",
     "openReview": "Otvori pregled",
     "openRoomReview": "Otvori pregled prostorija",
     "openProject": "Otvori projekt",
@@ -302,27 +302,21 @@
     },
     "media": {
       "title": "Vizualno uputstvo",
-      "description": "Snimke zaslona mogu se dodati kasnije. Do tada svaka kartica označava glavno područje tijeka rada.",
       "items": {
         "createProject": {
-          "title": "Kreiranje projekta",
-          "alt": "Zaslon za kreiranje projekta u PloroAI"
+          "title": "Kreiranje projekta"
         },
         "uploadFloorPlan": {
-          "title": "Učitavanje tlocrta",
-          "alt": "Zaslon za učitavanje tlocrta u PloroAI"
+          "title": "Učitavanje tlocrta"
         },
         "reviewRooms": {
-          "title": "Pregled prostorija",
-          "alt": "Zaslon za pregled prostorija u PloroAI"
+          "title": "Pregled prostorija"
         },
         "quoteExport": {
-          "title": "Izvoz ponude",
-          "alt": "Zaslon za izvoz ponude u PloroAI"
+          "title": "Izvoz ponude"
         },
         "proDocumentAnalysis": {
-          "title": "Pro analiza dokumentacije",
-          "alt": "Zaslon za analizu projektne dokumentacije u PloroAI"
+          "title": "Pro analiza dokumentacije"
         }
       }
     },
@@ -1296,7 +1290,7 @@
     "proBadge": "Pro",
     "projectDocumentAi": "AI projektne dokumentacije",
     "proPlanRequired": "Potreban je Pro plan.",
-    "openQuote": "Otvori ponudu",
+    "openQuote": "Otvori",
     "quoteLimitReached": "Dosegnuto je ograničenje ponuda. Nadogradite plan za izradu dodatnih ponuda.",
     "readyForFutureAnalysis": "Spremno za buduću analizu",
     "reject": "Odbij",

@@ -117,12 +117,12 @@
     "delete": "Löschen",
     "exportExcel": "Excel exportieren",
     "exportExcelFailed": "Excel-Export fehlgeschlagen.",
-    "exportPdf": "PDF exportieren",
+    "exportPdf": "Exportieren",
     "generate": "Erstellen",
     "generateQuote": "Angebot erstellen",
     "newProject": "Neues Projekt",
     "open": "Öffnen",
-    "openQuote": "Angebot öffnen",
+    "openQuote": "Öffnen",
     "openReview": "Prüfung öffnen",
     "openRoomReview": "Raumprüfung öffnen",
     "openProject": "Projekt öffnen",
@@ -302,27 +302,21 @@
     },
     "media": {
       "title": "Visuelle Anleitung",
-      "description": "Screenshots können später hier ergänzt werden. Bis dahin markiert jede Karte einen Hauptbereich des Workflows.",
       "items": {
         "createProject": {
-          "title": "Projekt erstellen",
-          "alt": "Bildschirm zum Erstellen eines Projekts in PloroAI"
+          "title": "Projekt erstellen"
         },
         "uploadFloorPlan": {
-          "title": "Grundriss hochladen",
-          "alt": "Bildschirm zum Hochladen eines Grundrisses in PloroAI"
+          "title": "Grundriss hochladen"
         },
         "reviewRooms": {
-          "title": "Räume prüfen",
-          "alt": "Bildschirm zur Raumprüfung in PloroAI"
+          "title": "Räume prüfen"
         },
         "quoteExport": {
-          "title": "Angebot exportieren",
-          "alt": "Bildschirm zum Angebotsexport in PloroAI"
+          "title": "Angebot exportieren"
         },
         "proDocumentAnalysis": {
-          "title": "Pro-Dokumentanalyse",
-          "alt": "Bildschirm zur Projektdokumentationsanalyse in PloroAI"
+          "title": "Pro-Dokumentanalyse"
         }
       }
     },
@@ -1296,7 +1290,7 @@
     "proBadge": "Pro",
     "projectDocumentAi": "Projektdokument-KI",
     "proPlanRequired": "Pro-Plan erforderlich.",
-    "openQuote": "Angebot öffnen",
+    "openQuote": "Öffnen",
     "quoteLimitReached": "Angebotslimit erreicht. Aktualisieren Sie Ihren Plan, um weitere Angebote zu erstellen.",
     "readyForFutureAnalysis": "Bereit für zukünftige Analyse",
     "reject": "Ablehnen",
