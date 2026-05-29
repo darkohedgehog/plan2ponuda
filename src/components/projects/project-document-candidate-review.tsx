@@ -565,9 +565,9 @@ export function ProjectDocumentCandidateReview({
               <span>{tDocs("allChangesSaved")}</span>
             )}
           </div>
-          <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:flex xl:items-center">
+          <div className="grid min-w-0 gap-2">
             <Button
-              className="h-auto min-h-10 w-full whitespace-normal text-center"
+              className="h-auto min-h-10 w-full min-w-0 whitespace-normal px-3 py-2 text-center leading-snug"
               disabled={
                 isLoading ||
                 isSaving ||
@@ -577,11 +577,13 @@ export function ProjectDocumentCandidateReview({
               onClick={saveReview}
               type="button"
             >
-              <Save aria-hidden="true" className="h-4 w-4" />
-              {isSaving ? tDocs("savingReview") : tDocs("saveVisibleChanges")}
+              <Save aria-hidden="true" className="h-4 w-4 shrink-0" />
+              <span className="min-w-0 whitespace-normal">
+                {isSaving ? tDocs("savingReview") : tDocs("saveVisibleChanges")}
+              </span>
             </Button>
             <Button
-              className="h-auto min-h-10 w-full whitespace-normal text-center"
+              className="h-auto min-h-10 w-full min-w-0 whitespace-normal px-3 py-2 text-center leading-snug"
               disabled={
                 isLoading ||
                 isSaving ||
@@ -593,18 +595,23 @@ export function ProjectDocumentCandidateReview({
               type="button"
               variant="secondary"
             >
-              <Upload aria-hidden="true" className="h-4 w-4" />
-              {isImporting
-                ? tDocs("importing")
-                : tDocs("importAcceptedItemsToQuote")}
+              <Upload aria-hidden="true" className="h-4 w-4 shrink-0" />
+              <span className="min-w-0 whitespace-normal">
+                {isImporting
+                  ? tDocs("importing")
+                  : tDocs("importAcceptedItemsToQuote")}
+              </span>
             </Button>
             {importSummary || hasAcceptedMaterialsAlreadyImported || hasImportedQuoteMaterials ? (
               <a
-                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-4 py-2 text-center text-sm font-semibold text-deep-twilight-800 outline-none transition-colors hover:bg-frosted-blue-50 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 sm:col-span-2 xl:col-span-auto"
+                className="inline-flex min-h-10 w-full min-w-0 items-center justify-center gap-2 rounded-md border border-frosted-blue-200 bg-white px-3 py-2 text-center text-sm font-semibold leading-snug text-deep-twilight-800 outline-none transition-colors hover:bg-frosted-blue-50 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100"
                 href={quoteUrl}
               >
-                {tDocs("openQuote")}
-                <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                <span className="min-w-0 whitespace-normal flex items-center gap-1.5 justify-center">
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0" />
+                  {tDocs("openQuote")}
+                </span>
+                
               </a>
             ) : null}
           </div>
