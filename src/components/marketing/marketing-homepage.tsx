@@ -1,4 +1,5 @@
 import { CtaSection } from "@/components/marketing/cta-section";
+import { FaqSection } from "@/components/marketing/faq-section";
 import { FeaturesSection } from "@/components/marketing/features-section";
 import { HeroSection } from "@/components/marketing/hero-section";
 import { PlanCtaSection } from "@/components/marketing/plan-cta-section";
@@ -17,6 +18,7 @@ export function MarketingHomepage({ isAuthenticated }: MarketingHomepageProps) {
       <FeaturesSection />
       <ProductDepthSection />
       <PlanCtaSection isAuthenticated={isAuthenticated} />
+      <FaqSection />
       <CtaSection isAuthenticated={isAuthenticated} />
     </main>
   );

@@ -983,6 +983,69 @@
           "cta": "Kreni sa Pro beta"
         }
       }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Pitanja pre nego što počnete sa PloroAI",
+      "titleAccent": "pre nego što počnete",
+      "description": "Jasni odgovori o planovima, AI pregledu, otkazivanju, plaćanjima, računima i beta ograničenjima pre kreiranja naloga.",
+      "items": {
+        "whatIs": {
+          "question": "Šta je PloroAI?",
+          "answer": "PloroAI pomaže električarima i elektro izvođačima da pripreme ponude iz tlocrta i projektne dokumentacije uz AI pomoć."
+        },
+        "aiReview": {
+          "question": "Da li AI rezultate treba pregledati?",
+          "answer": "Da. AI predlozi mogu da se uređuju i korisnik mora da ih pregleda pre slanja ponude, naručivanja materijala ili oslanjanja na količine."
+        },
+        "free": {
+          "question": "Šta mogu da uradim na Free planu?",
+          "answer": "Free omogućava 1 tlocrt i 1 ponudu i namenjen je isprobavanju aplikacije."
+        },
+        "basic": {
+          "question": "Šta uključuje Basic?",
+          "answer": "Basic uključuje do 10 tlocrta i 10 ponuda po obračunskom periodu, AI analizu tlocrta i PDF/Excel izvoz."
+        },
+        "pro": {
+          "question": "Šta uključuje Pro?",
+          "answer": "Pro uključuje do 20 tlocrta, 20 ponuda i 3 AI analize PDF projektne dokumentacije tokom bete, uz pregled kandidata i uvoz u ponude."
+        },
+        "cancel": {
+          "question": "Da li mogu da otkažem pretplatu?",
+          "answer": "Da. Plaćene pretplate se upravljaju kroz Stripe Customer Portal i tamo mogu da se otkažu. Pristup obično ostaje dostupan do kraja trenutnog plaćenog perioda kada je otkazivanje zakazano za kraj perioda."
+        },
+        "payments": {
+          "question": "Kako se obrađuju plaćanja?",
+          "answer": "Plaćanja su samo kartična i bezbedno se obrađuju kroz Stripe. PloroAI ne čuva podatke o kartici."
+        },
+        "invoices": {
+          "question": "Kako se obrađuju računi?",
+          "answer": "Potvrda Stripe plaćanja je odvojena od lokalnog/zakonskog izdavanja računa. Računi se obrađuju ručno prema profilu za naplatu i vrsti kupca, uz računovodstveni/Synesis tok rada operatora gde je primenljivo."
+        },
+        "refund": {
+          "question": "Da li mogu da dobijem povrat ili imam 14 dana za odustajanje?",
+          "answer": "Za potrošače se pravo na odustajanje od ugovora na daljinu u roku od 14 dana može primenjivati prema EU/hrvatskim pravilima zaštite potrošača, uz zakonske izuzetke za digitalne usluge/sadržaj i u zavisnosti od toga da li je usluga već započela ili korišćena. Zahteve za povrat ili odustajanje pošaljite na contact@ploroai.io sa e-poštom naloga, brojem računa ako je izdat, Stripe ID-jem transakcije/plaćanja/računa ako je dostupan i kratkim objašnjenjem. Konačni tekst o povratu/odustajanju mora pregledati advokat/računovođa pre produkcije."
+        },
+        "storage": {
+          "question": "Gde se čuvaju projektne datoteke?",
+          "answer": "Projektni podaci i učitane datoteke namenjeni su čuvanju na EU-hostovanoj infrastrukturi gde je tako konfigurisao operator. Konačne regione hostinga i skladištenja treba proveriti pre produkcijskog lansiranja."
+        },
+        "projectPdf": {
+          "question": "Da li mogu da analiziram velike PDF-ove projektne dokumentacije?",
+          "answer": "Da, na Pro planu. Analiza projektnih PDF-ova trenutno je beta funkcija. AI izvlači kandidate materijala/rada, a korisnik ih pregleda pre nego što se prihvaćeni kandidati materijala mogu uvesti u ponudu."
+        },
+        "contact": {
+          "question": "Kome mogu da se javim?",
+          "answer": "Pišite na contact@ploroai.io za pitanja o proizvodu, naplati, povratu/odustajanju ili projektnoj dokumentaciji. Stranice Kontakt i Pritužbe sadrže javni put za podršku."
+        }
+      },
+      "links": {
+        "ariaLabel": "Povezane FAQ stranice",
+        "pricing": "Cene",
+        "terms": "Uslovi",
+        "contact": "Kontakt",
+        "complaints": "Pritužbe"
+      }
     }
   },
   "MaterialCategories": {
@@ -1502,6 +1565,22 @@
     "title": "Excel izvoz"
   },
   "Settings": {
+    "dangerZone": {
+      "accountDeleted": "Nalog je izbrisan.",
+      "activeSubscription": "Pre brisanja naloga otkažite pretplatu na stranici Naplata.",
+      "adminBlocked": "Administratorski nalozi ne mogu se izbrisati kroz samostalna podešavanja.",
+      "cannotBeUndone": "Ova radnja se ne može opozvati.",
+      "confirmPermanentDeletion": "Razumem da je ova radnja trajna.",
+      "deleteAccount": "Izbriši nalog",
+      "deleteFailed": "Nije moguće izbrisati nalog.",
+      "deletePermanently": "Trajno izbriši",
+      "deleting": "Brisanje...",
+      "description": "Brisanjem naloga trajno se uklanjaju projekti, učitane datoteke, AI analize, ponude i podaci aplikacije.",
+      "goToBilling": "Idi na naplatu",
+      "legalRetention": "Zapisi o naplati i računima mogu se zadržati gde je to zakonski potrebno.",
+      "title": "Opasna zona",
+      "typeEmailToConfirm": "Za potvrdu upišite svoju e-poštu: {email}"
+    },
     "errors": {
       "saveFailed": "Čuvanje podešavanja nije uspelo."
     },

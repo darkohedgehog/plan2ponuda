@@ -983,6 +983,69 @@
           "cta": "Pro Beta starten"
         }
       }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Fragen vor dem Start mit PloroAI",
+      "titleAccent": "vor dem Start",
+      "description": "Klare Antworten zu Plänen, KI-Prüfung, Kündigung, Zahlungen, Rechnungen und Beta-Limits vor der Kontoerstellung.",
+      "items": {
+        "whatIs": {
+          "question": "Was ist PloroAI?",
+          "answer": "PloroAI hilft Elektrikern und Elektrofachbetrieben, Angebote aus Grundrissen und Projektdokumentation mit KI-Unterstützung vorzubereiten."
+        },
+        "aiReview": {
+          "question": "Müssen KI-Ergebnisse geprüft werden?",
+          "answer": "Ja. KI-Vorschläge sind bearbeitbar und müssen vom Nutzer geprüft werden, bevor ein Angebot gesendet, Material bestellt oder Mengen übernommen werden."
+        },
+        "free": {
+          "question": "Was kann ich im Free-Plan tun?",
+          "answer": "Free erlaubt 1 Grundriss und 1 Angebot und ist zum Ausprobieren der App gedacht."
+        },
+        "basic": {
+          "question": "Was ist in Basic enthalten?",
+          "answer": "Basic enthält bis zu 10 Grundrisse und 10 Angebote pro Abrechnungszeitraum, KI-Grundrissanalyse sowie PDF/Excel-Export."
+        },
+        "pro": {
+          "question": "Was ist in Pro enthalten?",
+          "answer": "Pro enthält während der Beta bis zu 20 Grundrisse, 20 Angebote und 3 PDF-Analysen von Projektdokumentation sowie Kandidatenprüfung und Import in Angebote."
+        },
+        "cancel": {
+          "question": "Kann ich mein Abonnement kündigen?",
+          "answer": "Ja. Bezahlte Abonnements werden im Stripe Customer Portal verwaltet und können dort gekündigt werden. Der Zugriff bleibt normalerweise bis zum Ende des aktuellen bezahlten Zeitraums bestehen, wenn die Kündigung zum Periodenende geplant ist."
+        },
+        "payments": {
+          "question": "Wie werden Zahlungen abgewickelt?",
+          "answer": "Zahlungen sind nur per Karte möglich und werden sicher über Stripe verarbeitet. PloroAI speichert keine Kartendaten."
+        },
+        "invoices": {
+          "question": "Wie werden Rechnungen bearbeitet?",
+          "answer": "Die Stripe-Zahlungsbestätigung ist von der lokalen/rechtlichen Rechnungsausstellung getrennt. Rechnungen werden manuell anhand des Abrechnungsprofils und Kundentyps verarbeitet, wo anwendbar über den Buchhaltungs-/Synesis-Ablauf des Betreibers."
+        },
+        "refund": {
+          "question": "Kann ich eine Erstattung erhalten oder habe ich 14 Tage Widerrufsrecht?",
+          "answer": "Für Verbraucher kann nach EU-/kroatischen Verbraucherregeln ein Recht zum Widerruf eines Fernabsatzvertrags innerhalb von 14 Tagen gelten, vorbehaltlich gesetzlicher Ausnahmen für digitale Dienste/Inhalte und abhängig davon, ob der Dienst bereits begonnen oder genutzt wurde. Erstattungs- oder Widerrufsanfragen sollten an contact@ploroai.io gesendet werden, mit Konto-E-Mail, Rechnungsnummer falls vorhanden, Stripe-Transaktions-/Zahlungs-/Rechnungs-ID falls verfügbar und kurzer Erklärung. Die endgültige Erstattungs-/Widerrufsformulierung muss vor Produktion durch Anwalt/Buchhalter geprüft werden."
+        },
+        "storage": {
+          "question": "Wo werden Projektdateien gespeichert?",
+          "answer": "Projektdaten und hochgeladene Dateien sollen auf EU-gehosteter Infrastruktur gespeichert werden, soweit dies vom Betreiber konfiguriert ist. Endgültige Hosting- und Speicherregionen sollten vor dem Produktionsstart geprüft werden."
+        },
+        "projectPdf": {
+          "question": "Kann ich große PDF-Projektdokumentation analysieren?",
+          "answer": "Ja, mit Pro. Die Projekt-PDF-Analyse ist derzeit eine Beta-Funktion. KI extrahiert Material-/Arbeitskandidaten, die der Nutzer prüft, bevor akzeptierte Materialkandidaten in ein Angebot importiert werden können."
+        },
+        "contact": {
+          "question": "Wen kann ich kontaktieren?",
+          "answer": "Schreiben Sie an contact@ploroai.io bei Fragen zu Produkt, Abrechnung, Erstattung/Widerruf oder Projektdokumentation. Die Kontakt- und Beschwerdeseiten zeigen den öffentlichen Supportweg."
+        }
+      },
+      "links": {
+        "ariaLabel": "Verwandte FAQ-Seiten",
+        "pricing": "Preise",
+        "terms": "Bedingungen",
+        "contact": "Kontakt",
+        "complaints": "Beschwerden"
+      }
     }
   },
   "MaterialCategories": {
@@ -1502,6 +1565,22 @@
     "title": "Excel-Export"
   },
   "Settings": {
+    "dangerZone": {
+      "accountDeleted": "Konto gelöscht.",
+      "activeSubscription": "Bitte kündigen Sie Ihr Abonnement unter Abrechnung, bevor Sie Ihr Konto löschen.",
+      "adminBlocked": "Admin-Konten können nicht über die Self-Service-Einstellungen gelöscht werden.",
+      "cannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirmPermanentDeletion": "Ich verstehe, dass diese Aktion dauerhaft ist.",
+      "deleteAccount": "Konto löschen",
+      "deleteFailed": "Konto konnte nicht gelöscht werden.",
+      "deletePermanently": "Dauerhaft löschen",
+      "deleting": "Wird gelöscht...",
+      "description": "Beim Löschen des Kontos werden Projekte, hochgeladene Dateien, KI-Analysen, Angebote und App-Daten dauerhaft entfernt.",
+      "goToBilling": "Zur Abrechnung",
+      "legalRetention": "Abrechnungs- und Rechnungsdaten können aufbewahrt werden, soweit dies gesetzlich erforderlich ist.",
+      "title": "Gefahrenzone",
+      "typeEmailToConfirm": "Geben Sie zur Bestätigung Ihre E-Mail-Adresse ein: {email}"
+    },
     "errors": {
       "saveFailed": "Einstellungen konnten nicht gespeichert werden."
     },

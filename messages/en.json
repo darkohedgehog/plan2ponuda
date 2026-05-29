@@ -983,6 +983,69 @@
           "cta": "Start Pro beta"
         }
       }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions before you start with PloroAI",
+      "titleAccent": "before you start",
+      "description": "Straight answers about plans, AI review, cancellation, payments, invoices, and beta limits before you create an account.",
+      "items": {
+        "whatIs": {
+          "question": "What is PloroAI?",
+          "answer": "PloroAI helps electricians and electrical contractors prepare quotes from floor plans and project documentation with AI assistance."
+        },
+        "aiReview": {
+          "question": "Do AI results need to be reviewed?",
+          "answer": "Yes. AI suggestions are editable and must be reviewed by the user before sending a quote, ordering materials, or relying on quantities."
+        },
+        "free": {
+          "question": "What can I do on the Free plan?",
+          "answer": "Free allows 1 floor plan and 1 quote, intended for trying the app."
+        },
+        "basic": {
+          "question": "What is included in Basic?",
+          "answer": "Basic includes up to 10 floor plans and 10 quotes per billing period, AI floor plan analysis, and PDF/Excel export."
+        },
+        "pro": {
+          "question": "What is included in Pro?",
+          "answer": "Pro includes up to 20 floor plans, 20 quotes, and 3 project documentation PDF analyses during beta, plus candidate review/import into quotes."
+        },
+        "cancel": {
+          "question": "Can I cancel my subscription?",
+          "answer": "Yes. Paid subscriptions are managed through Stripe Customer Portal and can be canceled there. Access normally remains available until the end of the current paid period when cancellation is scheduled at period end."
+        },
+        "payments": {
+          "question": "How are payments handled?",
+          "answer": "Payments are card-only and processed securely through Stripe. PloroAI does not store card data."
+        },
+        "invoices": {
+          "question": "How are invoices handled?",
+          "answer": "Stripe payment confirmation is separate from local/legal invoice issuance. Invoices are processed manually according to billing profile and customer type, using the operator's accounting/Synesis workflow where applicable."
+        },
+        "refund": {
+          "question": "Can I get a refund or do I have 14 days to withdraw?",
+          "answer": "For consumers, the right to withdraw from a distance contract within 14 days may apply under EU/Croatian consumer rules, subject to legal exceptions for digital services/content and depending on whether the service has already started or been used. Refund or withdrawal requests should be sent to contact@ploroai.io with account email, invoice number if issued, Stripe transaction/payment/invoice ID if available, and a short explanation. Final refund wording must be reviewed by lawyer/accountant before production."
+        },
+        "storage": {
+          "question": "Where are project files stored?",
+          "answer": "Project data and uploaded files are intended to be stored using EU-hosted infrastructure where configured by the operator. Final hosting and storage regions should be verified before production launch."
+        },
+        "projectPdf": {
+          "question": "Can I analyze large PDF project documentation?",
+          "answer": "Yes, on Pro. Project PDF analysis is currently a beta feature. AI extracts material/labor candidates, and the user reviews them before accepted material candidates can be imported into a quote."
+        },
+        "contact": {
+          "question": "Who can I contact?",
+          "answer": "Contact contact@ploroai.io for product, billing, refund/withdrawal, or project documentation questions. The Contact and Complaints pages include the public support path."
+        }
+      },
+      "links": {
+        "ariaLabel": "FAQ related pages",
+        "pricing": "Pricing",
+        "terms": "Terms",
+        "contact": "Contact",
+        "complaints": "Complaints"
+      }
     }
   },
   "MaterialCategories": {
@@ -1502,6 +1565,22 @@
     "title": "Excel export"
   },
   "Settings": {
+    "dangerZone": {
+      "accountDeleted": "Account deleted.",
+      "activeSubscription": "Please cancel your subscription in Billing before deleting your account.",
+      "adminBlocked": "Admin accounts cannot be deleted from self-service settings.",
+      "cannotBeUndone": "This action cannot be undone.",
+      "confirmPermanentDeletion": "I understand this action is permanent.",
+      "deleteAccount": "Delete account",
+      "deleteFailed": "Could not delete account.",
+      "deletePermanently": "Delete permanently",
+      "deleting": "Deleting...",
+      "description": "Deleting the account permanently removes projects, uploaded files, AI analyses, quotes, and app data.",
+      "goToBilling": "Go to billing",
+      "legalRetention": "Billing and invoice records may be retained where legally required.",
+      "title": "Danger zone",
+      "typeEmailToConfirm": "To confirm, type your email address: {email}"
+    },
     "errors": {
       "saveFailed": "Failed to save settings."
     },

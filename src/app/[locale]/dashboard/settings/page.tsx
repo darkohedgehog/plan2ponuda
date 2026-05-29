@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
+import { DeleteAccountDangerZone } from "@/components/settings/delete-account-danger-zone";
 import { SettingsForm } from "@/components/settings/settings-form";
 import { redirect } from "@/i18n/navigation";
 import { resolveLocale } from "@/i18n/routing";
 import { getCurrentUser } from "@/lib/auth/session";
+import { getAccountDeletionStatus } from "@/server/services/account-deletion-service";
 import { getUserSettings } from "@/server/services/settings-service";
 
 type SettingsPageProps = {
@@ -22,10 +24,13 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
     return redirect({ href: "/sign-in", locale });
   }
 
-  const settings = await getUserSettings(user.id);
+  const [settings, accountDeletionStatus] = await Promise.all([
+    getUserSettings(user.id),
+    getAccountDeletionStatus(user.id),
+  ]);
   const tSettings = await getTranslations("Settings");
 
-  if (!settings) {
+  if (!settings || !accountDeletionStatus) {
     notFound();
   }
 
@@ -44,6 +49,10 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
       </section>
 
       <SettingsForm initialSettings={settings} />
+      <DeleteAccountDangerZone
+        blockedReason={accountDeletionStatus.blockedReason}
+        email={settings.email}
+      />
     </main>
   );
 }
