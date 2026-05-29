@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { LegalPageContent } from "@/components/marketing/legal-page-content";
 import { resolveLocale } from "@/i18n/routing";
+import { buildPublicPageMetadata } from "@/lib/seo/metadata";
 
 const termsSectionKeys = [
   "provider",
@@ -35,10 +36,12 @@ export async function generateMetadata({
     namespace: "Terms.metadata",
   });
 
-  return {
+  return buildPublicPageMetadata({
     description: tMetadata("description"),
+    locale,
+    slug: "terms",
     title: tMetadata("title"),
-  };
+  });
 }
 
 export default function TermsPage() {

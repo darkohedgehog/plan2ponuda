@@ -15,6 +15,7 @@ const legalLinks = [
   { href: "/privacy", labelKey: "privacy" },
   { href: "/cookies", labelKey: "cookies" },
   { href: "/complaints", labelKey: "complaints" },
+  { href: "/sitemap.xml", labelKey: "sitemap", isLocalized: false },
 ] as const;
 
 const accountLinks = [
@@ -108,6 +109,7 @@ export function PublicFooter() {
 
 type FooterLink = {
   href: string;
+  isLocalized?: boolean;
   labelKey: string;
 };
 
@@ -133,9 +135,15 @@ function FooterLinkGroup<TLink extends FooterLink>({
       <ul className="mt-4 grid gap-3">
         {links.map((link) => (
           <li className="min-w-0" key={link.href}>
-            <Link className={footerLinkClass} href={link.href}>
-              {translateLabel(link.labelKey)}
-            </Link>
+            {link.isLocalized === false ? (
+              <a className={footerLinkClass} href={link.href}>
+                {translateLabel(link.labelKey)}
+              </a>
+            ) : (
+              <Link className={footerLinkClass} href={link.href}>
+                {translateLabel(link.labelKey)}
+              </Link>
+            )}
           </li>
         ))}
       </ul>

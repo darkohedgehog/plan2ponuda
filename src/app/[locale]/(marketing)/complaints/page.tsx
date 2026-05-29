@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { LegalPageContent } from "@/components/marketing/legal-page-content";
 import { resolveLocale } from "@/i18n/routing";
+import { buildPublicPageMetadata } from "@/lib/seo/metadata";
 
 const complaintsSectionKeys = [
   "emailProcess",
@@ -28,10 +29,12 @@ export async function generateMetadata({
     namespace: "Complaints.metadata",
   });
 
-  return {
+  return buildPublicPageMetadata({
     description: tMetadata("description"),
+    locale,
+    slug: "complaints",
     title: tMetadata("title"),
-  };
+  });
 }
 
 export default function ComplaintsPage() {

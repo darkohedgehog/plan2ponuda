@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { PricingPageContent } from "@/components/marketing/pricing-page-content";
 import { resolveLocale } from "@/i18n/routing";
 import { getOptionalCurrentUser } from "@/lib/auth/session";
+import { buildPublicPageMetadata } from "@/lib/seo/metadata";
 
 type PricingPageProps = {
   params: Promise<{
@@ -23,10 +24,12 @@ export async function generateMetadata({
     namespace: "Pricing.metadata",
   });
 
-  return {
+  return buildPublicPageMetadata({
     description: tMetadata("description"),
+    locale,
+    slug: "pricing",
     title: tMetadata("title"),
-  };
+  });
 }
 
 export default async function PricingPage() {

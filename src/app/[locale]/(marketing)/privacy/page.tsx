@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { LegalPageContent } from "@/components/marketing/legal-page-content";
 import { resolveLocale } from "@/i18n/routing";
+import { buildPublicPageMetadata } from "@/lib/seo/metadata";
 
 const privacySectionKeys = [
   "controller",
@@ -33,10 +34,12 @@ export async function generateMetadata({
     namespace: "Privacy.metadata",
   });
 
-  return {
+  return buildPublicPageMetadata({
     description: tMetadata("description"),
+    locale,
+    slug: "privacy",
     title: tMetadata("title"),
-  };
+  });
 }
 
 export default function PrivacyPage() {

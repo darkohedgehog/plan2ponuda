@@ -7,3 +7,5 @@ dist
 .env.*.local
 coverage
 *.tsbuildinfo
+public/robots.txt
+public/sitemap*.xml

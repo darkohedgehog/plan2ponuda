@@ -17,8 +17,8 @@ Use `.env.example` as the source of required keys.
 
 Required groups:
 
-- App: `NEXT_PUBLIC_APP_URL`; `NODE_ENV` is runtime-managed and normally not
-  manually set in production.
+- App: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SITE_URL`; `NODE_ENV` is
+  runtime-managed and normally not manually set in production.
 - Database: `DATABASE_URL`.
 - Auth: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`.
 - Supabase: `NEXT_PUBLIC_SUPABASE_URL`,
@@ -223,16 +223,34 @@ SMTP_FROM_NAME="Ploro AI"
 - SMTP, Stripe, Supabase, OpenAI, and database secrets do not appear in client
   bundles or logs.
 
-## 11. Pre-Release Verification Commands
+## 11. SEO, Sitemap, And Robots
+
+- Confirm `NEXT_PUBLIC_SITE_URL` is the absolute production URL with `https://`
+  and no localhost/staging value.
+- Run `npm run build` and confirm the `postbuild` sitemap generation completes.
+- Check `/sitemap.xml` and `/robots.txt` on the deployed domain.
+- Confirm `/sitemap.xml` includes only localized public marketing/legal pages:
+  `/hr`, `/en`, `/sr`, `/de`, `/sl` and their `/pricing`, `/privacy`,
+  `/terms`, `/cookies`, `/complaints`, and `/contact` variants.
+- Confirm `/sitemap.xml` excludes `/api/*`, dashboard routes, auth pages,
+  admin/billing pages, and private project/quote/document routes.
+- Confirm `/robots.txt` disallows private app/API/auth areas and points to the
+  absolute production sitemap URL.
+- Confirm canonical and hreflang tags render correctly for `/hr`, `/hr/pricing`,
+  and `/en/pricing`.
+- Submit the production sitemap in Google Search Console after deployment.
+
+## 12. Pre-Release Verification Commands
 
 ```bash
 npm run typecheck
 npm run lint
 npm run build
+npm run postbuild
 npm audit
 ```
 
-## 12. Known TODOs
+## 13. Known TODOs
 
 - Add a dedicated, audited admin-promotion script or admin management flow.
 - Add an operational runbook for rotating SMTP, Stripe, Supabase, OpenAI, and
