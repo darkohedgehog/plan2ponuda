@@ -63,11 +63,11 @@ export function PublicNavbar({ isAuthenticated }: PublicNavbarProps) {
         >
           <Image
             alt={tCommon("logoAlt")}
-            className="h-16 w-29.5 object-fill"
+            className="h-16 w-24 object-contain"
             height={64}
             priority
             src="/logo-transparent.png"
-            width={118}
+            width={96}
           />
         </Link>
 

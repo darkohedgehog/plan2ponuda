@@ -54,10 +54,10 @@ export function PublicFooter() {
             >
               <Image
                 alt={tCommon("logoAlt")}
-                className="h-16 w-29.5 object-fill"
+                className="h-16 w-24 object-contain"
                 height={64}
                 src="/logo-transparent.png"
-                width={118}
+                width={96}
               />
             </Link>
             <p className="mt-5 text-sm leading-6 text-deep-twilight-100/76">
