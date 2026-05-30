@@ -166,6 +166,7 @@ test("app manifest uses existing public icons and locale-neutral app metadata", 
   const expectedIconPaths = [
     "/icon/android-chrome-192x192.png",
     "/icon/android-chrome-512x512.png",
+    "/icon/maskable-512x512.png",
   ];
 
   assert.match(manifest, /MetadataRoute\.Manifest/);
@@ -198,6 +199,10 @@ test("app manifest uses existing public icons and locale-neutral app metadata", 
   assert.match(manifest, /sizes:\s*"192x192"/);
   assert.match(manifest, /sizes:\s*"512x512"/);
   assert.match(manifest, /purpose:\s*"any"/);
+  assert.match(
+    manifest,
+    /src:\s*"\/icon\/maskable-512x512\.png"[\s\S]*sizes:\s*"512x512"[\s\S]*type:\s*"image\/png"[\s\S]*purpose:\s*"maskable"/,
+  );
   assert.match(localeLayout, /manifest:\s*"\/manifest\.webmanifest"/);
   assert.match(localeLayout, /apple:\s*"\/icon\/apple-touch-icon\.png"/);
   assert.match(localeLayout, /\/icon\/favicon-16x16\.png/);
