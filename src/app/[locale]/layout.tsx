@@ -39,6 +39,22 @@ export async function generateMetadata({
 
   return {
     description: tHero("description"),
+    icons: {
+      apple: "/icon/apple-touch-icon.png",
+      icon: [
+        {
+          url: "/icon/favicon-16x16.png",
+          sizes: "16x16",
+          type: "image/png",
+        },
+        {
+          url: "/icon/favicon-32x32.png",
+          sizes: "32x32",
+          type: "image/png",
+        },
+      ],
+    },
+    manifest: "/manifest.webmanifest",
     title: `${tCommon("appName")} - ${tHero("title")}`,
   };
 }

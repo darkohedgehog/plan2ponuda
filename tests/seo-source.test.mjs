@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import test from "node:test";
 
@@ -136,6 +136,20 @@ test("public metadata helper uses site URL, canonical, hreflang, Open Graph, and
   assert.match(helper, /"x-default"/);
   assert.match(helper, /openGraph/);
   assert.match(helper, /twitter/);
+  assert.match(helper, /\/og-image\.png/);
+  assert.match(
+    helper,
+    /imageUrl\s*=\s*getAbsoluteUrl\(DEFAULT_OG_IMAGE_PATH,\s*siteUrl\)/,
+  );
+  assert.match(helper, /width:\s*1200/);
+  assert.match(helper, /height:\s*630/);
+  assert.match(
+    helper,
+    /DEFAULT_OG_IMAGE_ALT\s*=\s*"PloroAI - AI electrical quote software"/,
+  );
+  assert.match(helper, /alt:\s*DEFAULT_OG_IMAGE_ALT/);
+  assert.match(helper, /openGraph:\s*{[\s\S]*images:/);
+  assert.match(helper, /twitter:\s*{[\s\S]*images:/);
 
   for (const page of publicPages) {
     assert.match(
@@ -144,6 +158,50 @@ test("public metadata helper uses site URL, canonical, hreflang, Open Graph, and
       `${page} should use the shared public metadata helper`,
     );
   }
+});
+
+test("app manifest uses existing public icons and locale-neutral app metadata", () => {
+  const manifest = readSource("src/app/manifest.ts");
+  const localeLayout = readSource("src/app/[locale]/layout.tsx");
+  const expectedIconPaths = [
+    "/icon/android-chrome-192x192.png",
+    "/icon/android-chrome-512x512.png",
+  ];
+
+  assert.match(manifest, /MetadataRoute\.Manifest/);
+  assert.match(manifest, /name:\s*"PloroAI"/);
+  assert.match(manifest, /short_name:\s*"PloroAI"/);
+  assert.match(
+    manifest,
+    /description:\s*"AI-assisted electrical quotes from floor plans and project documentation\."/,
+  );
+  assert.match(manifest, /start_url:\s*"\/hr"/);
+  assert.match(manifest, /scope:\s*"\/"/);
+  assert.match(manifest, /display:\s*"standalone"/);
+  assert.match(manifest, /background_color:\s*"#010223"/);
+  assert.match(manifest, /theme_color:\s*"#080cf7"/);
+  assert.match(manifest, /categories:\s*\[/);
+  assert.match(manifest, /"business"/);
+  assert.match(manifest, /"productivity"/);
+  assert.match(manifest, /"utilities"/);
+  assert.doesNotMatch(manifest, /serviceWorker|sw\.js|offline/i);
+
+  for (const iconPath of expectedIconPaths) {
+    assert.match(manifest, new RegExp(`src:\\s*"${iconPath}"`));
+    assert.equal(
+      existsSync(new URL(`../public${iconPath}`, import.meta.url)),
+      true,
+      `${iconPath} should exist`,
+    );
+  }
+
+  assert.match(manifest, /sizes:\s*"192x192"/);
+  assert.match(manifest, /sizes:\s*"512x512"/);
+  assert.match(manifest, /purpose:\s*"any"/);
+  assert.match(localeLayout, /manifest:\s*"\/manifest\.webmanifest"/);
+  assert.match(localeLayout, /apple:\s*"\/icon\/apple-touch-icon\.png"/);
+  assert.match(localeLayout, /\/icon\/favicon-16x16\.png/);
+  assert.match(localeLayout, /\/icon\/favicon-32x32\.png/);
 });
 
 test("footer exposes root sitemap link and translations are present in every locale", () => {

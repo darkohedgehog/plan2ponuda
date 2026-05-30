@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { defaultLocale, locales, type Locale } from "@/i18n/routing";
 
 const LOCAL_SITE_URL = "http://localhost:3000";
+const DEFAULT_OG_IMAGE_ALT = "PloroAI - AI electrical quote software";
+const DEFAULT_OG_IMAGE_PATH = "/og-image.png";
 
 const openGraphLocales = {
   de: "de_DE",
@@ -92,6 +94,13 @@ export function buildPublicPageMetadata({
   const siteUrl = getSiteUrl();
   const canonicalPath = getLocalizedPublicPath(locale, slug);
   const canonicalUrl = getAbsoluteUrl(canonicalPath, siteUrl);
+  const imageUrl = getAbsoluteUrl(DEFAULT_OG_IMAGE_PATH, siteUrl);
+  const defaultSocialImage = {
+    alt: DEFAULT_OG_IMAGE_ALT,
+    height: 630,
+    url: imageUrl,
+    width: 1200,
+  };
 
   return {
     metadataBase: new URL(siteUrl),
@@ -111,11 +120,13 @@ export function buildPublicPageMetadata({
       siteName: "Ploro AI",
       type: "website",
       url: canonicalUrl,
+      images: [defaultSocialImage],
     },
     twitter: {
       card: "summary",
       title,
       description,
+      images: [defaultSocialImage],
     },
   };
 }
