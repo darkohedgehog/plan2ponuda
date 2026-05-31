@@ -49,12 +49,13 @@ test("candidate service initializes once, enforces ownership, and avoids quote w
   assert.doesNotMatch(source, /\.quote\./);
 });
 
-test("candidate review route is authenticated, validated, and thin", () => {
+test("candidate review route requires verified email, validates input, and stays thin", () => {
   const source = readSource(
     "src/app/api/projects/[projectId]/documents/[documentId]/analysis/[analysisId]/candidates/route.ts",
   );
 
-  assert.match(source, /requireApiUser/);
+  assert.match(source, /requireApiVerifiedUser/);
+  assert.doesNotMatch(source, /requireApiUser\(\)/);
   assert.match(source, /saveProjectDocumentCandidateReviewSchema/);
   assert.match(source, /getDocumentCandidates/);
   assert.match(source, /saveDocumentCandidateReview/);

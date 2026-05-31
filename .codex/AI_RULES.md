@@ -291,9 +291,13 @@ Prisma migrations.
 
 Never write raw SQL migrations manually unless explicitly requested.
 
-Command:
+Local development command:
 
 npx prisma migrate dev
+
+Staging/production deployment command:
+
+npx prisma migrate deploy
 
 ---
 

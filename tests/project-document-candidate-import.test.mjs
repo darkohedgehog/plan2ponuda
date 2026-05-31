@@ -142,12 +142,13 @@ test("document candidate import recalculates quote in the write transaction and 
   assert.match(source, /getNoImportableMaterialsResult\([\s\S]*prisma/);
 });
 
-test("document candidate import route is authenticated and delegates to the service", () => {
+test("document candidate import route requires verified email and delegates to the service", () => {
   const source = readSource(
     "src/app/api/projects/[projectId]/documents/[documentId]/analysis/[analysisId]/import/route.ts",
   );
 
-  assert.match(source, /requireApiUser/);
+  assert.match(source, /requireApiVerifiedUser/);
+  assert.doesNotMatch(source, /requireApiUser\(\)/);
   assert.match(source, /importAcceptedDocumentCandidatesToQuote/);
   assert.match(source, /export async function POST/);
   assert.doesNotMatch(source, /prisma\./);

@@ -140,12 +140,14 @@ test("email verification schema and verification mail flow exist", () => {
   assert.match(mailMessage, /buildEmailVerificationEmailMessage/);
 });
 
-test("AI, upload, and quote mutations require verified email", () => {
+test("AI, upload, quote, export, and document review mutations require verified email", () => {
   const protectedRoutes = [
     "src/app/api/analysis/[projectId]/route.ts",
     "src/app/api/projects/[projectId]/upload/route.ts",
     "src/app/api/projects/[projectId]/documents/upload/route.ts",
     "src/app/api/projects/[projectId]/documents/[documentId]/analyze/route.ts",
+    "src/app/api/projects/[projectId]/documents/[documentId]/analysis/[analysisId]/candidates/route.ts",
+    "src/app/api/projects/[projectId]/documents/[documentId]/analysis/[analysisId]/import/route.ts",
     "src/app/api/quotes/[projectId]/route.ts",
     "src/app/api/pdf/[projectId]/route.ts",
     "src/app/api/excel/[projectId]/route.ts",

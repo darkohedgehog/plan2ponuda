@@ -639,7 +639,7 @@ function CandidateSection({
   return (
     <section className="min-w-0 rounded-md border border-frosted-blue-200 bg-frosted-blue-50/70 p-3">
       <div className="flex min-w-0 items-center justify-between gap-3">
-        <h5 className="wrap-break-word text-sm font-semibold text-deep-twilight-950">
+        <h5 className="wrap-break-word break-words text-sm font-semibold text-deep-twilight-950">
           {title}
         </h5>
         <span className="shrink-0 rounded-md bg-white px-2 py-1 text-xs font-semibold text-deep-twilight-700 ring-1 ring-frosted-blue-200">
@@ -1078,7 +1078,7 @@ function CandidateMeta({ label, value }: { label: string; value: string }) {
       <span className="block text-xs font-semibold uppercase tracking-wide text-deep-twilight-700/55">
         {label}
       </span>
-      <span className="mt-1 block wrap-break-word font-medium text-deep-twilight-900">
+      <span className="mt-1 block wrap-break-word break-words font-medium text-deep-twilight-900">
         {value}
       </span>
     </div>

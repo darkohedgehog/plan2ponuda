@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireApiUser } from "@/lib/auth/guards";
+import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { saveProjectDocumentCandidateReviewSchema } from "@/lib/validations/project-document-candidate.schema";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import {
@@ -59,7 +59,7 @@ export async function GET(
   _request: Request,
   context: ProjectDocumentCandidateRouteContext,
 ) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;
@@ -116,7 +116,7 @@ export async function PUT(
   request: Request,
   context: ProjectDocumentCandidateRouteContext,
 ) {
-  const auth = await requireApiUser();
+  const auth = await requireApiVerifiedUser();
 
   if (!auth.ok) {
     return auth.response;

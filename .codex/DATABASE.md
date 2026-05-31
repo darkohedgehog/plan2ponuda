@@ -248,9 +248,13 @@ Schema changes must go through:
 
 Prisma migrations
 
-Command:
+Local development command:
 
 npx prisma migrate dev
+
+Staging/production deployment command:
+
+npx prisma migrate deploy
 
 Never modify production schema manually.
 
