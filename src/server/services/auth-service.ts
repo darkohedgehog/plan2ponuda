@@ -3,6 +3,10 @@ import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "../../../generated/prisma/client";
 
 import { normalizeEmail } from "@/lib/auth/email";
+import {
+  buildEmailVerificationUrl,
+  buildResetUrl,
+} from "@/lib/auth/localized-auth-links";
 import { hashPassword } from "@/lib/auth/password";
 import { prisma } from "@/lib/db/prisma";
 import { hasCompleteSmtpServerEnv } from "@/lib/utils/smtp-env";
@@ -46,23 +50,10 @@ function hashPasswordResetToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
 }
 
-function buildEmailVerificationUrl(baseUrl: string, token: string): string {
-  const verificationUrl = new URL("/verify-email", baseUrl);
-  verificationUrl.searchParams.set("token", token);
-
-  return verificationUrl.toString();
-}
-
-function buildResetUrl(baseUrl: string, token: string): string {
-  const resetUrl = new URL("/reset-password", baseUrl);
-  resetUrl.searchParams.set("token", token);
-
-  return resetUrl.toString();
-}
-
 export async function createUserWithPassword(
   input: SignUpInput,
   baseUrl?: string,
+  locale?: string | null,
 ): Promise<SignUpResponse> {
   const email = normalizeEmail(input.email);
   const existingUser = await prisma.user.findUnique({
@@ -98,6 +89,7 @@ export async function createUserWithPassword(
     const devVerificationUrl = await prepareEmailVerification({
       baseUrl,
       email: user.email,
+      locale,
       userId: user.id,
     });
     const response: SignUpResponse = {
@@ -132,7 +124,7 @@ async function prepareEmailVerification(params: {
   baseUrl?: string;
   email: string;
   exposeDevVerificationUrl?: boolean;
-  logDevVerificationUrl?: boolean;
+  locale?: string | null;
   userId: string;
 }): Promise<string | undefined> {
   const rawToken = createEmailVerificationToken();
@@ -153,14 +145,13 @@ async function prepareEmailVerification(params: {
     return undefined;
   }
 
-  const verificationUrl = buildEmailVerificationUrl(params.baseUrl, rawToken);
+  const verificationUrl = buildEmailVerificationUrl(
+    params.baseUrl,
+    rawToken,
+    params.locale,
+  );
 
   const exposeDevVerificationUrl = params.exposeDevVerificationUrl ?? true;
-  const logDevVerificationUrl = params.logDevVerificationUrl ?? true;
-
-  if (process.env.NODE_ENV !== "production" && logDevVerificationUrl) {
-    console.info("Development email verification URL", verificationUrl);
-  }
 
   if (shouldSendEmailVerificationEmail()) {
     const { sendEmailVerificationEmail } = await import(
@@ -196,6 +187,7 @@ export type ResendVerificationEmailResult =
 
 export async function resendVerificationEmailForUser(params: {
   baseUrl?: string;
+  locale?: string | null;
   userId: string;
 }): Promise<ResendVerificationEmailResult> {
   const user = await prisma.user.findUnique({
@@ -249,7 +241,7 @@ export async function resendVerificationEmailForUser(params: {
     baseUrl: params.baseUrl,
     email: user.email,
     exposeDevVerificationUrl: false,
-    logDevVerificationUrl: false,
+    locale: params.locale,
     userId: user.id,
   });
 
@@ -348,6 +340,7 @@ export async function requestPasswordReset(
   input: ForgotPasswordInput,
   ipAddress: string,
   baseUrl?: string,
+  locale?: string | null,
 ): Promise<RequestPasswordResetResult> {
   const email = normalizeEmail(input.email);
   const rateLimitKey = createCompositeRateLimitKey([
@@ -416,11 +409,7 @@ export async function requestPasswordReset(
     return result;
   }
 
-  const devResetUrl = buildResetUrl(baseUrl, rawToken);
-
-  if (process.env.NODE_ENV !== "production") {
-    console.info("Development password reset URL", devResetUrl);
-  }
+  const devResetUrl = buildResetUrl(baseUrl, rawToken, locale);
 
   if (shouldSendPasswordResetEmail()) {
     await sendPasswordResetEmail({

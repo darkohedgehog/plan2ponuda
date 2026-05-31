@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { type ComponentProps, useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ type ForgotPasswordFormProps = {
 export function ForgotPasswordForm({
   turnstileEnabled,
 }: ForgotPasswordFormProps) {
+  const locale = useLocale();
   const tActions = useTranslations("Actions");
   const tAuth = useTranslations("Auth");
   const tValidation = useTranslations("Validation");
@@ -49,6 +50,7 @@ export function ForgotPasswordForm({
     const response = await fetch("/api/auth/forgot-password", {
       body: JSON.stringify({
         email,
+        locale,
         ...(turnstileEnabled ? { turnstileToken } : {}),
       }),
       headers: {

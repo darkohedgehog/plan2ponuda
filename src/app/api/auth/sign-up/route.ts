@@ -72,6 +72,7 @@ export async function POST(request: Request) {
 
     const body = await request.json().catch((): unknown => null);
     const input = signUpSchema.parse(body);
+    const locale = getStringProperty(body, "locale");
     const turnstileToken = getStringProperty(body, "turnstileToken");
     const turnstile = await verifyTurnstileToken({
       action: "sign-up",
@@ -83,7 +84,11 @@ export async function POST(request: Request) {
       return NextResponse.json(turnstileFailedResponse, { status: 403 });
     }
 
-    const result = await createUserWithPassword(input, getBaseUrl(request));
+    const result = await createUserWithPassword(
+      input,
+      getBaseUrl(request),
+      locale,
+    );
 
     if (!result.ok) {
       return NextResponse.json(result, { status: 409 });

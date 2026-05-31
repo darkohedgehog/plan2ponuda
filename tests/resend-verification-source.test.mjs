@@ -47,7 +47,9 @@ test("resend verification service reuses verification token flow and rate limits
   assert.match(authService, /createUserRateLimitKey\(\{\s*userId/s);
   assert.match(authService, /prepareEmailVerification\(\{/);
   assert.match(authService, /exposeDevVerificationUrl:\s*false/);
-  assert.match(authService, /logDevVerificationUrl:\s*false/);
+  assert.match(authService, /locale:\s*params\.locale/);
+  assert.doesNotMatch(authService, /logDevVerificationUrl/);
+  assert.doesNotMatch(authService, /Development email verification URL/);
 
   const verifiedCheckIndex = authService.indexOf("emailVerifiedAt");
   const rateLimitIndex = authService.indexOf("RATE_LIMIT_SCOPES.resendEmailVerification");

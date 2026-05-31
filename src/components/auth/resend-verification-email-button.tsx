@@ -1,7 +1,7 @@
 "use client";
 
 import { MailCheck } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ async function readResendResponse(
 }
 
 export function ResendVerificationEmailButton() {
+  const locale = useLocale();
   const t = useTranslations("EmailVerification");
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<ResendMessage | null>(null);
@@ -37,6 +38,12 @@ export function ResendVerificationEmailButton() {
 
     try {
       const response = await fetch("/api/auth/resend-verification", {
+        body: JSON.stringify({
+          locale,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
         method: "POST",
       });
       const payload = await readResendResponse(response);

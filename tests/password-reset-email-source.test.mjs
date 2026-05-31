@@ -20,7 +20,7 @@ test("forgot-password flow sends email without breaking neutral responses", () =
   const source = readSource("src/server/services/auth-service.ts");
 
   assert.match(source, /sendPasswordResetEmail/);
-  assert.match(source, /buildResetUrl\(baseUrl, rawToken\)/);
+  assert.match(source, /buildResetUrl\(baseUrl, rawToken, locale\)/);
   assert.match(source, /Password reset email delivery failed/);
   assert.match(source, /return result/);
   assert.match(

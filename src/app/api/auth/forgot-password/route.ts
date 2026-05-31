@@ -68,10 +68,12 @@ export async function POST(request: Request) {
     return NextResponse.json(turnstileFailedResponse, { status: 403 });
   }
 
+  const locale = getStringProperty(body, "locale");
   const result = await requestPasswordReset(
     parsedInput.data,
     ipAddress,
     getBaseUrl(request),
+    locale,
   ).catch((error: unknown) => {
     console.error("Password reset request failed", error);
 

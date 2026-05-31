@@ -3,6 +3,7 @@ import createMiddleware from "next-intl/middleware";
 import { getToken } from "next-auth/jwt";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getLegacyAuthRedirectUrl } from "@/lib/auth/localized-auth-links";
 import { routing, type Locale } from "@/i18n/routing";
 
 const handleI18nRouting = createMiddleware(routing);
@@ -50,6 +51,12 @@ function getCallbackUrl(request: NextRequest, locale: Locale): string {
 }
 
 export async function proxy(request: NextRequest) {
+  const legacyAuthRedirectUrl = getLegacyAuthRedirectUrl(request.url);
+
+  if (legacyAuthRedirectUrl) {
+    return NextResponse.redirect(legacyAuthRedirectUrl);
+  }
+
   const response = handleI18nRouting(request);
 
   if (isRedirectResponse(response) || !isDashboardPath(request.nextUrl.pathname)) {

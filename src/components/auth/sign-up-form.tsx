@@ -63,6 +63,7 @@ export function SignUpForm({ turnstileEnabled }: SignUpFormProps) {
       body: JSON.stringify({
         fullName: fullName.trim() || undefined,
         email,
+        locale,
         password,
         ...(turnstileEnabled ? { turnstileToken } : {}),
       }),

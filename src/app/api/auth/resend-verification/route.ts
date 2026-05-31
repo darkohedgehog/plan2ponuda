@@ -22,6 +22,16 @@ function getBaseUrl(request: Request): string {
   return new URL(request.url).origin;
 }
 
+function getStringProperty(input: unknown, property: string): string | null {
+  if (!input || typeof input !== "object" || !(property in input)) {
+    return null;
+  }
+
+  const value = (input as Record<string, unknown>)[property];
+
+  return typeof value === "string" ? value : null;
+}
+
 export async function POST(request: Request) {
   const auth = await requireApiUser();
 
@@ -29,8 +39,11 @@ export async function POST(request: Request) {
     return auth.response;
   }
 
+  const body = await request.json().catch((): unknown => null);
+  const locale = getStringProperty(body, "locale");
   const result = await resendVerificationEmailForUser({
     baseUrl: getBaseUrl(request),
+    locale,
     userId: auth.user.id,
   }).catch((error: unknown) => {
     console.error("Email verification resend failed", error);
