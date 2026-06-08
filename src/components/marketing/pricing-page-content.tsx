@@ -106,7 +106,6 @@ export function PricingPageContent({
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {planKeys.map((planKey) => {
             const isRecommended = planKey === "basic";
-            const isBeta = planKey === "pro";
             const cta = getPlanCta(planKey);
 
             return (
@@ -138,14 +137,9 @@ export function PricingPageContent({
                       {tPricing(`plans.${planKey}.description`)}
                     </p>
                   </div>
-                  {isRecommended || isBeta ? (
+                  {isRecommended ? (
                     <span
-                      className={cn(
-                        "shrink-0 self-start rounded-full px-2.5 py-1 text-xs font-semibold",
-                        isRecommended
-                          ? "bg-deep-twilight-950 text-white"
-                          : "border border-bright-teal-blue-200 bg-bright-teal-blue-50 text-bright-teal-blue-800",
-                      )}
+                      className="shrink-0 self-start rounded-full bg-deep-twilight-950 px-2.5 py-1 text-xs font-semibold text-white"
                     >
                       {tPricing(`plans.${planKey}.badge`)}
                     </span>

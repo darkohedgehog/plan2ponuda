@@ -124,12 +124,8 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
   const tReview = useTranslations("Review");
 
   if (preview.kind === "image") {
-    const expiresIn = tReview("floorPlan.preview.expiresInMinutes", {
-      minutes: getExpiryMinutes(preview.expiresInSeconds),
-    });
-
     return (
-      <figure className="border-t border-frosted-blue-200 bg-white p-4">
+      <div className="border-t border-frosted-blue-200 bg-white p-4">
         {/* Native img keeps short-lived signed Supabase URLs out of Next image config. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -139,21 +135,11 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
           className="max-h-140 w-full rounded-md border border-frosted-blue-200 object-contain"
           src={preview.url}
         />
-        <figcaption className="mt-3 text-xs text-deep-twilight-700/70">
-          {tReview("floorPlan.preview.imageCaption", {
-            expiresIn,
-            fileName: preview.fileName,
-          })}
-        </figcaption>
-      </figure>
+      </div>
     );
   }
 
   if (preview.kind === "pdf") {
-    const expiresIn = tReview("floorPlan.preview.expiresInMinutes", {
-      minutes: getExpiryMinutes(preview.expiresInSeconds),
-    });
-
     return (
       <div className="border-t border-frosted-blue-200 bg-white p-5">
         <div className="rounded-md border border-frosted-blue-200 bg-frosted-blue-50 p-4">
@@ -161,7 +147,7 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
             {tReview("floorPlan.preview.pdfTitle")}
           </p>
           <p className="mt-2 text-sm leading-6 text-deep-twilight-700">
-            {tReview("floorPlan.preview.pdfDescription", { expiresIn })}
+            {tReview("floorPlan.preview.pdfDescription")}
           </p>
           <a
             className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-frosted-blue-200 bg-white px-4 text-sm font-semibold text-deep-twilight-800 shadow-sm outline-none transition-colors hover:bg-frosted-blue-100 hover:text-deep-twilight-950 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 sm:w-auto"
@@ -199,10 +185,6 @@ function FloorPlanPreviewContent({ preview }: FloorPlanPreviewContentProps) {
       </div>
     </div>
   );
-}
-
-function getExpiryMinutes(expiresInSeconds: number): number {
-  return Math.max(1, Math.round(expiresInSeconds / 60));
 }
 
 type PreviewUnavailableMessageKey =

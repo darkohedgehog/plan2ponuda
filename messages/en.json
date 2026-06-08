@@ -354,7 +354,7 @@
     "plans": {
       "title": "Plan guide",
       "description": "Plans define how many floor plans, quotes, and Pro document analyses you can use in the current billing period.",
-      "beta": "Beta",
+      "beta": "Pro",
       "free": {
         "title": "Free",
         "description": "Best for testing the app with a small project.",
@@ -598,7 +598,7 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "30 EUR / month (Beta)"
+      "price": "30 EUR / month"
     }
   },
   "Usage": {
@@ -856,7 +856,7 @@
         "title": "Contact"
       },
       "pricing": {
-        "body": "Pricing details will be added as the quoting workflow moves closer to production billing.",
+        "body": "Pricing details are shown on the Pricing page and can be managed through the billing workflow after sign-up.",
         "subtitle": "Simple subscription packaging for electrical contractors and small estimating teams.",
         "title": "Pricing"
       },
@@ -960,7 +960,7 @@
       "eyebrow": "Choose your workflow",
       "title": "Start simple, upgrade when projects grow",
       "titleAccent": "projects grow",
-      "description": "Use Free to try one project, Basic for recurring floor-plan quotes, or Pro beta when project PDFs become part of estimating.",
+      "description": "Use Free to try one project, Basic for recurring floor-plan quotes, or Pro when project PDFs become part of estimating.",
       "reviewNote": "Every plan keeps AI suggestions editable and reviewable before client-ready quotes leave your team.",
       "primaryCta": "Start free",
       "primaryCtaAuthenticated": "Manage billing",
@@ -977,10 +977,10 @@
           "cta": "Start Basic"
         },
         "pro": {
-          "title": "Documentation beta",
+          "title": "Project documentation",
           "description": "For projects where PDF documentation and candidate review matter.",
-          "badge": "Beta",
-          "cta": "Start Pro beta"
+          "badge": "Pro",
+          "cta": "Start Pro"
         }
       }
     },
@@ -988,7 +988,7 @@
       "eyebrow": "FAQ",
       "title": "Questions before you start with PloroAI",
       "titleAccent": "before you start",
-      "description": "Straight answers about plans, AI review, cancellation, payments, invoices, and beta limits before you create an account.",
+      "description": "Straight answers about plans, AI review, cancellation, payments, and invoices before you create an account.",
       "items": {
         "whatIs": {
           "question": "What is PloroAI?",
@@ -1008,7 +1008,7 @@
         },
         "pro": {
           "question": "What is included in Pro?",
-          "answer": "Pro includes up to 20 floor plans, 20 quotes, and 3 project documentation PDF analyses during beta, plus candidate review/import into quotes."
+          "answer": "Pro includes up to 20 floor plans, 20 quotes, and 3 project documentation PDF analyses, plus candidate review/import into quotes."
         },
         "cancel": {
           "question": "Can I cancel my subscription?",
@@ -1020,19 +1020,19 @@
         },
         "invoices": {
           "question": "How are invoices handled?",
-          "answer": "Stripe payment confirmation is separate from local/legal invoice issuance. Invoices are processed manually according to billing profile and customer type, using the operator's accounting/Synesis workflow where applicable."
+          "answer": "Stripe payment confirmation is separate from local/legal invoice issuance. Invoices are processed according to billing profile and customer type through the operator's accounting process where applicable."
         },
         "refund": {
           "question": "Can I get a refund or do I have 14 days to withdraw?",
-          "answer": "For consumers, the right to withdraw from a distance contract within 14 days may apply under EU/Croatian consumer rules, subject to legal exceptions for digital services/content and depending on whether the service has already started or been used. Refund or withdrawal requests should be sent to contact@ploroai.io with account email, invoice number if issued, Stripe transaction/payment/invoice ID if available, and a short explanation. Final refund wording must be reviewed by lawyer/accountant before production."
+          "answer": "For consumers, the right to withdraw from a distance contract within 14 days may apply under EU/Croatian consumer rules, subject to legal exceptions for digital services/content and depending on whether the service has already started or been used. Refund or withdrawal requests should be sent to contact@ploroai.io with account email, invoice number if issued, Stripe transaction/payment/invoice ID if available, and a short explanation."
         },
         "storage": {
           "question": "Where are project files stored?",
-          "answer": "Project data and uploaded files are intended to be stored using EU-hosted infrastructure where configured by the operator. Final hosting and storage regions should be verified before production launch."
+          "answer": "Project data and uploaded files are stored on cloud infrastructure configured for the application, with security and access controls applied. More information about data processing is available in the Privacy Policy."
         },
         "projectPdf": {
           "question": "Can I analyze large PDF project documentation?",
-          "answer": "Yes, on Pro. Project PDF analysis is currently a beta feature. AI extracts material/labor candidates, and the user reviews them before accepted material candidates can be imported into a quote."
+          "answer": "Yes, on Pro. AI extracts material/labor candidates, and the user reviews them before accepted material candidates can be imported into a quote."
         },
         "contact": {
           "question": "Who can I contact?",
@@ -1253,7 +1253,7 @@
     "analyzingDocument": "Analyzing document...",
     "assumptions": "Assumptions",
     "availableOnPro": "Available on Pro.",
-    "betaFeature": "Beta feature",
+    "betaFeature": "Available on Pro.",
     "bulk": {
       "acceptAllLabor": "Accept all labor",
       "acceptAllMaterials": "Accept all materials",
@@ -1608,7 +1608,8 @@
       "messages": {
         "existingRooms": "This project already has detected rooms. Review or edit them before generating the quote.",
         "noRoomsDetected": "Analysis completed, but no rooms were detected. You can add rooms manually.",
-        "success": "Analysis complete. Detected {count} rooms."
+        "success": "Analysis complete. Detected {count} rooms.",
+        "patienceNotice": "AI analysis can take a few minutes. Please wait until processing is complete."
       }
     },
     "errors": {
@@ -1622,11 +1623,9 @@
       "description": "Use the uploaded floor plan as the reference for room review.",
       "preview": {
         "alt": "Floor plan preview for {fileName}",
-        "expiresInMinutes": "{minutes} min",
         "fileLabel": "File: {fileName}",
-        "imageCaption": "Signed preview for {fileName}. The URL expires in {expiresIn}.",
         "openPdfPreview": "Open PDF preview",
-        "pdfDescription": "Open the signed PDF preview in a new tab. The URL expires in {expiresIn}.",
+        "pdfDescription": "Open the PDF preview in a new tab.",
         "pdfTitle": "PDF floor plan available",
         "unavailable": {
           "missingFile": "Upload a floor plan before reviewing the visual preview.",
@@ -1800,9 +1799,8 @@
       "eyebrow": "Pricing",
       "title": "Plans for every stage of electrical quoting",
       "titleAccent": "electrical quoting",
-      "description": "Start free, upgrade for recurring floor-plan work, or use Pro beta when project documentation PDFs become part of your estimating flow."
+      "description": "Start free, upgrade for recurring floor-plan work, or use Pro when project documentation PDFs become part of your estimating flow."
     },
-    "beta": "Beta",
     "viewPlan": "View plan",
     "cta": {
       "startFree": "Start free",
@@ -1856,8 +1854,8 @@
       "pro": {
         "name": "Pro",
         "price": "30 EUR / month",
-        "badge": "Beta",
-        "fit": "Beta plan for larger project documentation.",
+        "badge": "Pro",
+        "fit": "For larger project documentation.",
         "description": "Adds project documentation PDF analysis and reviewed material candidate import.",
         "features": {
           "floorPlans": "Up to 20 floor plans",
@@ -1872,8 +1870,6 @@
   },
   "Legal": {
     "eyebrow": "Legal information",
-    "draftNoticeTitle": "Beta release legal-review notice",
-    "draftNoticeDescription": "This page is release-prep information, not final legal advice. A lawyer and, where billing or invoices are mentioned, an accountant must review this text before production launch.",
     "contactTitle": "Questions about these terms?",
     "contactDescription": "Use the contact email for privacy requests, written complaints, billing questions, or legal/informational page corrections.",
     "operator": {
@@ -1890,7 +1886,7 @@
   },
   "Privacy": {
     "title": "Privacy Policy",
-    "description": "Beta-release overview of how PloroAI processes account, billing, project, uploaded file, AI, payment, and support data.",
+    "description": "Overview of how PloroAI processes account, billing, project, uploaded file, AI, payment, and support data.",
     "metadata": {
       "title": "Privacy Policy - PloroAI",
       "description": "Privacy information for PloroAI account data, billing profiles, uploads, AI processing, Stripe payments, email, and cloud infrastructure."
@@ -1898,7 +1894,7 @@
     "sections": {
       "controller": {
         "title": "Controller",
-        "body": "The controller for this beta service is Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Privacy requests can be sent to contact@ploroai.io.",
+        "body": "The controller for this service is Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Privacy requests can be sent to contact@ploroai.io.",
         "items": [
           "Product name: PloroAI",
           "Service type: SaaS application for AI-assisted electrical quote preparation",
@@ -1928,24 +1924,24 @@
           "AI analysis of uploaded floor plans and project documentation",
           "Candidate review and accepted material import into quotes",
           "Billing, subscription management, and Stripe payment handling",
-          "Manual invoice processing and Synesis/accounting workflow where applicable",
-          "Support, contact, complaints, and beta feedback",
+          "Manual invoice processing and accounting workflow where applicable",
+          "Support, contact, complaints, and product feedback",
           "Security, abuse prevention, rate limiting, troubleshooting, and legal/accounting obligations"
         ]
       },
       "legalBases": {
         "title": "Legal bases",
-        "body": "The intended legal bases may include contract performance, legal obligations, legitimate interests, and consent where applicable. Final legal-basis wording must be reviewed before production launch.",
+        "body": "The legal bases may include contract performance, legal obligations, legitimate interests, and consent where applicable.",
         "items": [
           "Contract performance for account access, SaaS functionality, subscriptions, and support",
           "Legal obligations for billing, accounting, tax, and invoicing records",
-          "Legitimate interest for security, abuse prevention, service improvement, and beta support",
+          "Legitimate interest for security, abuse prevention, service improvement, and support",
           "Consent where optional cookies, future analytics, or similar optional processing are introduced"
         ]
       },
       "processors": {
         "title": "Processors and subprocessors",
-        "body": "The service may use third-party processors for infrastructure, payments, AI analysis, and email. The final processor list and data-processing agreements must be verified before production launch.",
+        "body": "The service uses or may use third-party processors for infrastructure, payments, AI analysis, and email.",
         "items": [
           "Hosting, database, and storage provider, including Supabase or equivalent configured infrastructure",
           "Stripe for card payments, checkout, subscriptions, and customer portal",
@@ -1956,22 +1952,21 @@
       },
       "storage": {
         "title": "Storage and infrastructure region",
-        "body": "Project data is intended to be stored in EU-hosted infrastructure where configured by the operator. Final hosting, database, and storage regions must be verified before production launch.",
+        "body": "Project data and uploaded files are stored on cloud infrastructure configured for the application, with access controls and provider safeguards.",
         "items": [
-          "Uploaded project files and generated data are stored using configured cloud infrastructure",
-          "Do not rely on this page as a final EU-only storage guarantee until deployment configuration is verified",
-          "AI and payment providers may process data under their own infrastructure and safeguards"
+          "Uploaded project files and generated data are stored through configured cloud infrastructure",
+          "Infrastructure regions depend on the configured hosting, database, storage, AI, and payment providers",
+          "AI and payment providers may process data through their own infrastructure and safeguards"
         ]
       },
       "retention": {
         "title": "Data retention",
-        "body": "Retention periods are beta placeholders and must be finalized. Data is generally kept only as long as needed for the service, legal/accounting duties, security, backups, and support.",
+        "body": "Data is generally kept only as long as needed for the service, legal/accounting duties, security, backups, and support.",
         "items": [
-          "Account data while the account exists or as needed for legitimate support/security needs",
-          "Billing and invoice records according to applicable legal/accounting retention rules",
-          "Project data until deleted by the user or account closure, subject to backups and legal obligations",
-          "Rate-limit, security, and operational logs for a limited operational period",
-          "TODO: final retention periods must be defined before production launch"
+          "Account data while the account exists or while needed for legitimate support/security needs",
+          "Billing and accounting records according to applicable legal and accounting retention periods",
+          "Project data until user deletion or account closure, subject to backups and legal obligations",
+          "Rate-limit, security, and operational logs for a limited operational period"
         ]
       },
       "rights": {
@@ -1992,8 +1987,8 @@
         "title": "International transfers",
         "body": "Some providers, including AI or payment providers, may process data outside the EU/EEA under appropriate safeguards where applicable. This must be verified in final processor documentation.",
         "items": [
-          "Do not treat this beta notice as a guarantee that every processing activity is EU-only",
-          "Provider safeguards and transfer mechanisms must be reviewed before production launch"
+          "Some processing may depend on provider infrastructure outside the EU/EEA",
+          "Provider safeguards and transfer mechanisms depend on the applicable processor terms"
         ]
       },
       "privacyContact": {
@@ -2008,10 +2003,10 @@
   },
   "Terms": {
     "title": "Terms of Service",
-    "description": "Beta-release terms for using PloroAI, an AI-assisted SaaS application for preparing electrical quotes from floor plans and project documentation.",
+    "description": "Terms for using PloroAI, an AI-assisted SaaS application for preparing electrical quotes from floor plans and project documentation.",
     "metadata": {
       "title": "Terms of Service - PloroAI",
-      "description": "Terms for PloroAI beta use, AI review responsibility, subscriptions, usage limits, uploaded content, and Croatian-law placeholders."
+      "description": "Terms for PloroAI use, AI review responsibility, subscriptions, usage limits, uploaded content, and Croatian law."
     },
     "sections": {
       "provider": {
@@ -2024,10 +2019,10 @@
       },
       "service": {
         "title": "Description of service",
-        "body": "PloroAI helps users prepare electrical quotes from floor plans and, for Pro beta users, project documentation PDFs. The product supports project setup, AI analysis, room review, material suggestions, quote generation, and PDF/Excel exports.",
+        "body": "PloroAI helps users prepare electrical quotes from floor plans and, for Pro users, project documentation PDFs. The product supports project setup, AI analysis, room review, material suggestions, quote generation, and PDF/Excel exports.",
         "items": [
           "Free and Basic focus on the floor-plan-to-quote workflow",
-          "Pro beta includes project documentation PDF analysis and reviewed material candidate import"
+          "Pro includes project documentation PDF analysis and reviewed material candidate import"
         ]
       },
       "account": {
@@ -2055,17 +2050,17 @@
           "Access may continue until the current paid period ends depending on Stripe subscription status",
           "Stripe payment confirmation is not the same as Croatian legal invoice issuance",
           "Invoices/local fiscal documents are handled separately and manually based on billing profile and customer type",
-          "Where applicable, local invoicing is issued or processed through the operator's accounting workflow/Synesis",
+          "Where applicable, local invoicing is issued or processed through the operator's accounting workflow",
           "The app does not promise automatic fiscalization or e-invoice generation"
         ]
       },
       "usageLimits": {
         "title": "Usage limits",
-        "body": "The beta plan limits currently implemented in the application are listed below. Limits may change with notice for future plans or after beta.",
+        "body": "The plan limits currently implemented in the application are listed below. Limits may change with notice for future plans.",
         "items": [
           "Free: 1 floor plan, 1 quote, 0 project PDF analyses",
           "Basic: 10 floor plans, 10 quotes, 0 project PDF analyses",
-          "Pro beta: 20 floor plans, 20 quotes, 3 project PDF analyses"
+          "Pro: 20 floor plans, 20 quotes, 3 project PDF analyses"
         ]
       },
       "uploadedContent": {
@@ -2078,8 +2073,8 @@
         ]
       },
       "proBeta": {
-        "title": "Pro documentation beta",
-        "body": "Project documentation PDF analysis is a beta feature. Extracted material and labor candidates require review, acceptance, rejection, and editing by the user.",
+        "title": "Pro documentation",
+        "body": "Project documentation PDF analysis is available on Pro. Extracted material and labor candidates require review, acceptance, rejection, and editing by the user.",
         "items": [
           "Accepted material candidates can be imported into the quote workflow",
           "Labor candidates are reviewed but not imported into quote totals yet",
@@ -2103,27 +2098,29 @@
         ]
       },
       "disclaimer": {
-        "title": "Limitation and disclaimer placeholder",
-        "body": "The service is provided as beta software and may contain errors or availability interruptions. Final warranty, liability, limitation, refund, consumer, and business-customer wording must be reviewed by legal counsel before production launch.",
+        "title": "Limitation and disclaimer",
+        "body": "PloroAI provides tools for preparing and reviewing estimates, but does not guarantee that AI suggestions are complete or error-free. The user is responsible for checking data, quantities, prices, and quote content before sending it to a client or ordering materials.",
         "items": [
-          "This section intentionally remains conservative and unfinished until legal review"
+          "The service may be unavailable or interrupted from time to time",
+          "To the extent permitted by applicable law, liability is limited for indirect loss, lost profit, data loss, or decisions made without user review"
         ]
       },
       "governingLaw": {
-        "title": "Governing law placeholder",
-        "body": "These beta terms are intended to be governed by the laws of the Republic of Croatia, subject to mandatory consumer protection rules where applicable. This wording requires final legal review.",
+        "title": "Governing law",
+        "body": "These terms are governed by the laws of the Republic of Croatia, subject to mandatory consumer protection rules where applicable.",
         "items": [
-          "TODO: confirm jurisdiction, consumer rights wording, and B2B/B2C distinctions with a lawyer"
+          "Consumer rights apply where required by mandatory law",
+          "Business users remain responsible for professional review of quotes and project assumptions"
         ]
       }
     }
   },
   "Cookies": {
     "title": "Cookie Policy",
-    "description": "Beta-release overview of cookies and similar technologies used for PloroAI sessions, locale preferences, security, Stripe checkout, and future analytics planning.",
+    "description": "Overview of cookies and similar technologies used for PloroAI sessions, locale preferences, security, Stripe checkout, and optional analytics settings.",
     "metadata": {
       "title": "Cookie Policy - PloroAI",
-      "description": "Cookie information for PloroAI authentication, language preferences, Stripe checkout and portal, and analytics placeholders."
+      "description": "Cookie information for PloroAI authentication, locale preferences, Stripe checkout and portal, and optional analytics settings."
     },
     "sections": {
       "essential": {
@@ -2154,9 +2151,9 @@
       },
       "analytics": {
         "title": "Analytics and tracking",
-        "body": "No analytics or invasive tracking cookies are currently described for this beta notice. If analytics are added later, this page and any consent flow must be updated before production launch.",
+        "body": "No optional analytics or invasive tracking cookies are currently used. If optional analytics are introduced, this page and consent settings will be updated.",
         "items": [
-          "TODO: confirm final analytics status before production launch"
+          "Optional analytics and marketing cookies are currently not used"
         ]
       },
       "control": {
@@ -2176,7 +2173,7 @@
       },
       "contact": {
         "title": "Cookie questions",
-        "body": "For cookie questions or corrections to this beta cookie notice, contact contact@ploroai.io.",
+        "body": "For cookie questions or corrections to this cookie notice, contact contact@ploroai.io.",
         "items": [
           "Do not send passwords or access tokens by email"
         ]
@@ -2185,7 +2182,7 @@
   },
   "Complaints": {
     "title": "Written complaints",
-    "description": "Users may submit written complaints by email. This beta page explains what information to include so the operator can identify the account, payment, subscription, and invoice status.",
+    "description": "Users may submit written complaints by email. This page explains what information to include so the operator can identify the account, payment, subscription, and invoice status.",
     "metadata": {
       "title": "Written complaints - PloroAI",
       "description": "How to submit written complaints for PloroAI subscriptions, payments, invoices, and account issues."
@@ -2223,17 +2220,17 @@
       },
       "pendingInvoice": {
         "title": "If an invoice is pending",
-        "body": "If a local invoice has not yet been issued manually or a Synesis/accounting task is pending, include Stripe transaction details and billing profile data anyway.",
+        "body": "If a local invoice has not yet been issued or an accounting task is pending, include Stripe transaction details and billing profile data anyway.",
         "items": [
           "Stripe payment confirmation is not the same as local Croatian legal invoice issuance",
           "Manual invoice review depends on customer type and billing profile data"
         ]
       },
       "legalReview": {
-        "title": "Legal-review note",
-        "body": "This page is informational beta-release content and must be legally reviewed before production launch.",
+        "title": "Scope of this page",
+        "body": "This page explains email-based complaint handling for PloroAI. It does not provide an automated complaint form.",
         "items": [
-          "No form or automated complaint workflow is implemented on this page"
+          "There is no complaint form or automated complaint workflow on this page"
         ]
       }
     }
@@ -2244,10 +2241,10 @@
     "description": "Have a question about AI-powered electrical quotes, billing, or project documentation analysis? Send us an email and we'll get back to you.",
     "metadata": {
       "title": "Contact - PloroAI",
-      "description": "Contact PloroAI for product questions, billing, project documentation analysis, and beta feedback."
+      "description": "Contact PloroAI for product questions, billing, project documentation analysis, and product feedback."
     },
     "emailLabel": "Email",
-    "emailDescription": "For support, product questions, billing, or beta feedback.",
+    "emailDescription": "For support, product questions, billing, or product feedback.",
     "emailAddress": "contact@ploroai.io",
     "companyTitle": "Company details",
     "companyName": "Živić Elektro j.d.o.o.",
@@ -2264,7 +2261,7 @@
         "description": "Send questions about plans, billing profiles, Stripe subscriptions, or invoices."
       },
       "feedback": {
-        "title": "Beta feedback",
+        "title": "Product feedback",
         "description": "Share what works, what is unclear, and what would help your quoting workflow."
       }
     },

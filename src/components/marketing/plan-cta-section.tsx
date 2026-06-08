@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/navigation";
@@ -86,7 +86,6 @@ export function PlanCtaSection({ isAuthenticated }: PlanCtaSectionProps) {
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {planKeys.map((planKey) => {
             const isRecommended = planKey === "basic";
-            const isBeta = planKey === "pro";
 
             return (
               <article
@@ -114,21 +113,9 @@ export function PlanCtaSection({ isAuthenticated }: PlanCtaSectionProps) {
                       {tPricing(`plans.${planKey}.name`)}
                     </h3>
                   </div>
-                  {isRecommended || isBeta ? (
-                    <span
-                      className={cn(
-                        "inline-flex shrink-0 items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-xs font-semibold",
-                        isRecommended
-                          ? "bg-deep-twilight-950 text-white"
-                          : "border border-bright-teal-blue-200 bg-bright-teal-blue-50 text-bright-teal-blue-800",
-                      )}
-                    >
-                      {isBeta ? (
-                        <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
-                      ) : null}
-                      {isRecommended
-                        ? tPricing("plans.basic.badge")
-                        : tPlanCta("plans.pro.badge")}
+                  {isRecommended ? (
+                    <span className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full bg-deep-twilight-950 px-2.5 py-1 text-xs font-semibold text-white">
+                      {tPricing("plans.basic.badge")}
                     </span>
                   ) : null}
                 </div>

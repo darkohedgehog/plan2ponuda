@@ -354,7 +354,7 @@
     "plans": {
       "title": "Planübersicht",
       "description": "Pläne definieren, wie viele Grundrisse, Angebote und Pro-Dokumentanalysen du im aktuellen Abrechnungszeitraum verwenden kannst.",
-      "beta": "Beta",
+      "beta": "Pro",
       "free": {
         "title": "Free",
         "description": "Ideal, um die App mit einem kleinen Projekt zu testen.",
@@ -598,7 +598,7 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "30 EUR / Monat (Beta)"
+      "price": "30 EUR / Monat"
     }
   },
   "Usage": {
@@ -856,7 +856,7 @@
         "title": "Kontakt"
       },
       "pricing": {
-        "body": "Preisinformationen werden ergänzt, sobald der Angebotsablauf näher an die produktive Abrechnung rückt.",
+        "body": "Preisdetails stehen auf der Preisseite und können nach der Registrierung im Abrechnungsbereich verwaltet werden.",
         "subtitle": "Einfache Abo-Pakete für Elektrofachbetriebe und kleine Schätzteams.",
         "title": "Preise"
       },
@@ -895,7 +895,7 @@
     },
     "capabilities": {
       "title": "KI-Unterstützung dort, wo sie Zeit spart; Prüfung dort, wo sie zählt.",
-      "description": "Kontakt zu Ploro AI für Support, Beta-Feedback, Elektro-Schätzworkflows und Kontohilfe.",
+      "description": "Kontakt zu Ploro AI für Support, Produktfeedback, Elektro-Schätzworkflows und Kontohilfe.",
       "safetyTitle": "Vor dem Senden prüfen",
       "safetyDescription": "Prüfen Sie Mengen, Preise, Annahmen und Quellen, bevor Sie ein Angebot mit Kunden teilen.",
       "items": {
@@ -960,7 +960,7 @@
       "eyebrow": "Workflow wählen",
       "title": "Einfach starten und bei mehr Projekten upgraden",
       "titleAccent": "mehr Projekten",
-      "description": "Nutzen Sie Free für ein Testprojekt, Basic für regelmäßige Grundriss-Angebote oder Pro Beta, wenn Projekt-PDFs Teil der Schätzung werden.",
+      "description": "Nutzen Sie Free für ein Testprojekt, Basic für regelmäßige Grundriss-Angebote oder Pro, wenn Projekt-PDFs Teil der Schätzung werden.",
       "reviewNote": "In jedem Plan bleiben KI-Vorschläge bearbeitbar und prüfbar, bevor kundenfertige Angebote versendet werden.",
       "primaryCta": "Kostenlos starten",
       "primaryCtaAuthenticated": "Abrechnung verwalten",
@@ -977,10 +977,10 @@
           "cta": "Basic starten"
         },
         "pro": {
-          "title": "Dokumentation Beta",
+          "title": "Projektdokumentation",
           "description": "Für Projekte, bei denen PDF-Dokumentation und Kandidatenprüfung wichtig sind.",
-          "badge": "Beta",
-          "cta": "Pro Beta starten"
+          "badge": "Pro",
+          "cta": "Pro starten"
         }
       }
     },
@@ -988,7 +988,7 @@
       "eyebrow": "FAQ",
       "title": "Fragen vor dem Start mit PloroAI",
       "titleAccent": "vor dem Start",
-      "description": "Klare Antworten zu Plänen, KI-Prüfung, Kündigung, Zahlungen, Rechnungen und Beta-Limits vor der Kontoerstellung.",
+      "description": "Klare Antworten zu Plänen, KI-Prüfung, Kündigung, Zahlungen und Rechnungen vor der Kontoerstellung.",
       "items": {
         "whatIs": {
           "question": "Was ist PloroAI?",
@@ -1008,7 +1008,7 @@
         },
         "pro": {
           "question": "Was ist in Pro enthalten?",
-          "answer": "Pro enthält während der Beta bis zu 20 Grundrisse, 20 Angebote und 3 PDF-Analysen von Projektdokumentation sowie Kandidatenprüfung und Import in Angebote."
+          "answer": "Pro enthält bis zu 20 Grundrisse, 20 Angebote und 3 PDF-Analysen von Projektdokumentation sowie Kandidatenprüfung und Import in Angebote."
         },
         "cancel": {
           "question": "Kann ich mein Abonnement kündigen?",
@@ -1020,19 +1020,19 @@
         },
         "invoices": {
           "question": "Wie werden Rechnungen bearbeitet?",
-          "answer": "Die Stripe-Zahlungsbestätigung ist von der lokalen/rechtlichen Rechnungsausstellung getrennt. Rechnungen werden manuell anhand des Abrechnungsprofils und Kundentyps verarbeitet, wo anwendbar über den Buchhaltungs-/Synesis-Ablauf des Betreibers."
+          "answer": "Die Stripe-Zahlungsbestätigung ist von der lokalen/rechtlichen Rechnungsausstellung getrennt. Rechnungen werden anhand des Abrechnungsprofils und Kundentyps verarbeitet, wo anwendbar über den Buchhaltungsprozess des Betreibers."
         },
         "refund": {
           "question": "Kann ich eine Erstattung erhalten oder habe ich 14 Tage Widerrufsrecht?",
-          "answer": "Für Verbraucher kann nach EU-/kroatischen Verbraucherregeln ein Recht zum Widerruf eines Fernabsatzvertrags innerhalb von 14 Tagen gelten, vorbehaltlich gesetzlicher Ausnahmen für digitale Dienste/Inhalte und abhängig davon, ob der Dienst bereits begonnen oder genutzt wurde. Erstattungs- oder Widerrufsanfragen sollten an contact@ploroai.io gesendet werden, mit Konto-E-Mail, Rechnungsnummer falls vorhanden, Stripe-Transaktions-/Zahlungs-/Rechnungs-ID falls verfügbar und kurzer Erklärung. Die endgültige Erstattungs-/Widerrufsformulierung muss vor Produktion durch Anwalt/Buchhalter geprüft werden."
+          "answer": "Für Verbraucher kann das Recht gelten, innerhalb von 14 Tagen von einem Fernabsatzvertrag zurückzutreten, nach EU-/kroatischen Verbraucherschutzregeln, vorbehaltlich gesetzlicher Ausnahmen für digitale Dienste/Inhalte und abhängig davon, ob die Leistung bereits begonnen hat oder genutzt wurde. Senden Sie Erstattungs- oder Rücktrittsanfragen an contact@ploroai.io mit Konto-E-Mail, Rechnungsnummer falls ausgestellt, Stripe-Transaktions-/Zahlungs-/Rechnungs-ID falls verfügbar und einer kurzen Erklärung."
         },
         "storage": {
           "question": "Wo werden Projektdateien gespeichert?",
-          "answer": "Projektdaten und hochgeladene Dateien sollen auf EU-gehosteter Infrastruktur gespeichert werden, soweit dies vom Betreiber konfiguriert ist. Endgültige Hosting- und Speicherregionen sollten vor dem Produktionsstart geprüft werden."
+          "answer": "Projektdaten und hochgeladene Dateien werden auf Cloud-Infrastruktur gespeichert, die für den Betrieb der Anwendung konfiguriert ist, mit Sicherheits- und Zugriffsbeschränkungen. Weitere Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."
         },
         "projectPdf": {
           "question": "Kann ich große PDF-Projektdokumentation analysieren?",
-          "answer": "Ja, mit Pro. Die Projekt-PDF-Analyse ist derzeit eine Beta-Funktion. KI extrahiert Material-/Arbeitskandidaten, die der Nutzer prüft, bevor akzeptierte Materialkandidaten in ein Angebot importiert werden können."
+          "answer": "Ja, mit Pro. Die KI extrahiert Material-/Arbeitskandidaten, die der Nutzer prüft, bevor akzeptierte Materialkandidaten in ein Angebot importiert werden können."
         },
         "contact": {
           "question": "Wen kann ich kontaktieren?",
@@ -1253,7 +1253,7 @@
     "analyzingDocument": "Dokument wird analysiert...",
     "assumptions": "Annahmen",
     "availableOnPro": "Verfügbar im Pro-Plan.",
-    "betaFeature": "Beta-Funktion",
+    "betaFeature": "Verfügbar im Pro-Plan.",
     "bulk": {
       "acceptAllLabor": "Alle Arbeitspositionen akzeptieren",
       "acceptAllMaterials": "Alle Materialien akzeptieren",
@@ -1608,7 +1608,8 @@
       "messages": {
         "existingRooms": "Dieses Projekt hat bereits erkannte Räume. Prüfen oder bearbeiten Sie sie, bevor Sie das Angebot erstellen.",
         "noRoomsDetected": "Die Analyse wurde abgeschlossen, aber es wurden keine Räume erkannt. Sie können Räume manuell hinzufügen.",
-        "success": "Analyse abgeschlossen. Erkannte Räume: {count}."
+        "success": "Analyse abgeschlossen. Erkannte Räume: {count}.",
+        "patienceNotice": "Die KI-Analyse kann einige Minuten dauern. Bitte warten Sie, bis die Verarbeitung abgeschlossen ist."
       }
     },
     "errors": {
@@ -1622,11 +1623,9 @@
       "description": "Nutzen Sie den hochgeladenen Grundriss als Referenz für die Raumprüfung.",
       "preview": {
         "alt": "Grundrissvorschau für {fileName}",
-        "expiresInMinutes": "{minutes} Min.",
         "fileLabel": "Datei: {fileName}",
-        "imageCaption": "Signierte Vorschau für {fileName}. Die URL läuft in {expiresIn} ab.",
         "openPdfPreview": "PDF-Vorschau öffnen",
-        "pdfDescription": "Öffnen Sie die signierte PDF-Vorschau in einem neuen Tab. Die URL läuft in {expiresIn} ab.",
+        "pdfDescription": "Öffnen Sie die PDF-Vorschau in einem neuen Tab.",
         "pdfTitle": "PDF-Grundriss verfügbar",
         "unavailable": {
           "missingFile": "Laden Sie einen Grundriss hoch, bevor Sie die visuelle Vorschau prüfen.",
@@ -1800,9 +1799,8 @@
       "eyebrow": "Preise",
       "title": "Pläne für professionelle Elektroangebote",
       "titleAccent": "Elektroangebote",
-      "description": "Starten Sie kostenlos, wechseln Sie für regelmäßige Grundrissarbeit zu Basic oder nutzen Sie Pro Beta, wenn Projekt-PDFs Teil Ihrer Schätzung werden."
+      "description": "Starten Sie kostenlos, wechseln Sie für regelmäßige Grundrissarbeit zu Basic oder nutzen Sie Pro, wenn Projekt-PDFs Teil Ihrer Schätzung werden."
     },
-    "beta": "Beta",
     "viewPlan": "Plan ansehen",
     "cta": {
       "startFree": "Kostenlos starten",
@@ -1856,8 +1854,8 @@
       "pro": {
         "name": "Pro",
         "price": "30 EUR / Monat",
-        "badge": "Beta",
-        "fit": "Beta-Plan für größere Projektdokumentation.",
+        "badge": "Pro",
+        "fit": "Für größere Projektdokumentation.",
         "description": "Ergänzt Projekt-PDF-Analyse und Import geprüfter Materialkandidaten.",
         "features": {
           "floorPlans": "Bis zu 20 Grundrisse",
@@ -1872,8 +1870,6 @@
   },
   "Legal": {
     "eyebrow": "Rechtliche Informationen",
-    "draftNoticeTitle": "Hinweis zur Beta und Rechtsprüfung",
-    "draftNoticeDescription": "Diese Seite enthält Informationen zur Release-Vorbereitung und ist keine finale Rechtsberatung. Der Text muss vor dem Produktionsstart von einem Anwalt und bei Abrechnung oder Rechnungen auch von einem Steuer-/Buchhaltungsexperten geprüft werden.",
     "contactTitle": "Fragen zu diesen Informationen?",
     "contactDescription": "Nutzen Sie die Kontaktadresse für Datenschutzanfragen, schriftliche Beschwerden, Abrechnungsfragen oder Korrekturen dieser Informationsseiten.",
     "operator": {
@@ -1890,7 +1886,7 @@
   },
   "Privacy": {
     "title": "Datenschutzerklärung",
-    "description": "Beta-Überblick darüber, wie PloroAI Konto-, Abrechnungs-, Projekt-, Upload-, KI-, Zahlungs- und Supportdaten verarbeitet.",
+    "description": "Überblick darüber, wie PloroAI Konto-, Abrechnungs-, Projekt-, Upload-, KI-, Zahlungs- und Supportdaten verarbeitet.",
     "metadata": {
       "title": "Datenschutzerklärung - PloroAI",
       "description": "Datenschutzinformationen für PloroAI-Konten, Abrechnungsprofile, Uploads, KI-Verarbeitung, Stripe-Zahlungen, E-Mail und Cloud-Infrastruktur."
@@ -1898,7 +1894,7 @@
     "sections": {
       "controller": {
         "title": "Verantwortlicher",
-        "body": "Verantwortlicher für diesen Beta-Dienst ist Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Datenschutzanfragen können an contact@ploroai.io gesendet werden.",
+        "body": "Verantwortlicher für diesen Dienst ist Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Datenschutzanfragen können an contact@ploroai.io gesendet werden.",
         "items": [
           "Produktname: PloroAI",
           "Art der Dienstleistung: SaaS-Anwendung zur KI-unterstützten Vorbereitung von Elektroangeboten",
@@ -1928,24 +1924,24 @@
           "KI-Analyse hochgeladener Grundrisse und Projektdokumentation",
           "Kandidatenprüfung und Import akzeptierter Materialien in Angebote",
           "Abrechnung, Abo-Verwaltung und Stripe-Zahlungsabwicklung",
-          "Manuelle Rechnungsverarbeitung und Synesis/Buchhaltungsworkflow soweit anwendbar",
-          "Support, Kontakt, Beschwerden und Beta-Feedback",
+          "Manuelle Rechnungsverarbeitung und Buchhaltungsworkflow soweit anwendbar",
+          "Support, Kontakt, Beschwerden und Produktfeedback",
           "Sicherheit, Missbrauchsprävention, Rate Limiting, Fehlerbehebung und rechtliche/buchhalterische Pflichten"
         ]
       },
       "legalBases": {
         "title": "Rechtsgrundlagen",
-        "body": "Vorgesehene Rechtsgrundlagen können Vertragserfüllung, rechtliche Pflichten, berechtigte Interessen und Einwilligung umfassen. Der finale Wortlaut muss vor Produktion rechtlich geprüft werden.",
+        "body": "Die Rechtsgrundlagen können Vertragserfüllung, gesetzliche Pflichten, berechtigte Interessen und Einwilligung umfassen, soweit anwendbar.",
         "items": [
           "Vertragserfüllung für Konto, SaaS-Funktionen, Abonnements und Support",
           "Rechtliche Pflichten für Abrechnung, Buchhaltung, Steuern und Rechnungen",
-          "Berechtigtes Interesse für Sicherheit, Missbrauchsprävention, Serviceverbesserung und Beta-Support",
+          "Berechtigtes Interesse für Sicherheit, Missbrauchsprävention, Serviceverbesserung und Support",
           "Einwilligung, wenn optionale Cookies, künftige Analytics oder ähnliche optionale Verarbeitung eingeführt werden"
         ]
       },
       "processors": {
         "title": "Auftragsverarbeiter und Unterauftragsverarbeiter",
-        "body": "Der Dienst kann Dritte für Infrastruktur, Zahlungen, KI-Analyse und E-Mail nutzen. Die finale Prozessorliste und Datenverarbeitungsverträge müssen vor Produktion geprüft werden.",
+        "body": "Der Dienst nutzt oder kann Drittanbieter für Infrastruktur, Zahlungen, KI-Analyse und E-Mail nutzen.",
         "items": [
           "Hosting-, Datenbank- und Speicheranbieter, einschließlich Supabase oder gleichwertig konfigurierter Infrastruktur",
           "Stripe für Kartenzahlungen, Checkout, Abonnements und Kundenportal",
@@ -1956,22 +1952,21 @@
       },
       "storage": {
         "title": "Speicherung und Infrastrukturregion",
-        "body": "Projektdaten sollen in EU-gehosteter Infrastruktur gespeichert werden, soweit dies vom Betreiber konfiguriert ist. Finale Hosting-, Datenbank- und Speicherregionen müssen vor Produktionsstart verifiziert werden.",
+        "body": "Projektdaten und hochgeladene Dateien werden auf Cloud-Infrastruktur gespeichert, die für den Betrieb der Anwendung konfiguriert ist, mit Zugriffskontrollen und Schutzmaßnahmen der Anbieter.",
         "items": [
           "Hochgeladene Projektdateien und generierte Daten werden über konfigurierte Cloud-Infrastruktur gespeichert",
-          "Diese Seite ist keine finale Garantie für ausschließlich EU-basierte Speicherung, solange die Deployment-Konfiguration nicht verifiziert wurde",
-          "KI- und Zahlungsanbieter können Daten über eigene Infrastruktur und Schutzmaßnahmen verarbeiten"
+          "Infrastrukturregionen hängen von den konfigurierten Hosting-, Datenbank-, Speicher-, KI- und Zahlungsanbietern ab",
+          "KI- und Zahlungsanbieter können Daten über ihre eigene Infrastruktur und Schutzmaßnahmen verarbeiten"
         ]
       },
       "retention": {
         "title": "Speicherdauer",
-        "body": "Speicherfristen sind Beta-Platzhalter und müssen finalisiert werden. Daten werden grundsätzlich nur so lange gespeichert, wie es für Dienst, Recht/Buchhaltung, Sicherheit, Backups und Support nötig ist.",
+        "body": "Daten werden grundsätzlich nur so lange gespeichert, wie es für Dienst, Recht/Buchhaltung, Sicherheit, Backups und Support nötig ist.",
         "items": [
-          "Kontodaten solange das Konto besteht oder für legitime Support-/Sicherheitszwecke nötig ist",
-          "Abrechnungs- und Rechnungsunterlagen gemäß anwendbaren rechtlichen/buchhalterischen Aufbewahrungspflichten",
-          "Projektdaten bis zur Löschung durch den Nutzer oder Kontoschließung, vorbehaltlich Backups und rechtlicher Pflichten",
-          "Rate-Limit-, Sicherheits- und Betriebslogs für einen begrenzten betrieblichen Zeitraum",
-          "TODO: finale Speicherfristen vor Produktionsstart festlegen"
+          "Kontodaten, solange das Konto besteht oder solange sie für berechtigte Support-/Sicherheitszwecke benötigt werden",
+          "Abrechnungs- und Buchhaltungsdaten nach anwendbaren gesetzlichen und buchhalterischen Aufbewahrungsfristen",
+          "Projektdaten bis zur Löschung durch den Nutzer oder Kontoschließung, vorbehaltlich Backups und gesetzlicher Pflichten",
+          "Rate-Limit-, Sicherheits- und Betriebsprotokolle für einen begrenzten Betriebszeitraum"
         ]
       },
       "rights": {
@@ -1992,8 +1987,8 @@
         "title": "Internationale Übermittlungen",
         "body": "Einige Anbieter, einschließlich KI- oder Zahlungsanbieter, können Daten außerhalb der EU/des EWR unter geeigneten Schutzmaßnahmen verarbeiten. Dies muss in der finalen Prozessor-Dokumentation geprüft werden.",
         "items": [
-          "Diese Beta-Information ist keine Garantie, dass jede Verarbeitung ausschließlich in der EU stattfindet",
-          "Schutzmaßnahmen und Übermittlungsmechanismen der Anbieter müssen vor Produktionsstart geprüft werden"
+          "Ein Teil der Verarbeitung kann von Anbieterinfrastruktur außerhalb der EU/des EWR abhängen",
+          "Schutzmaßnahmen und Übermittlungsmechanismen der Anbieter richten sich nach den jeweiligen Auftragsverarbeitungsbedingungen"
         ]
       },
       "privacyContact": {
@@ -2008,10 +2003,10 @@
   },
   "Terms": {
     "title": "Nutzungsbedingungen",
-    "description": "Beta-Nutzungsbedingungen für PloroAI, eine SaaS-Anwendung zur KI-unterstützten Erstellung von Elektroangeboten aus Grundrissen und Projektdokumentation.",
+    "description": "Nutzungsbedingungen für PloroAI, eine KI-gestützte SaaS-Anwendung zur Erstellung von Elektroangeboten aus Grundrissen und Projektdokumentation.",
     "metadata": {
       "title": "Nutzungsbedingungen - PloroAI",
-      "description": "Bedingungen für PloroAI-Beta, KI-Prüfpflicht, Abonnements, Nutzungslimits, Uploads und kroatisches Recht."
+      "description": "Bedingungen für die Nutzung von PloroAI, Verantwortung für KI-Prüfung, Abos, Nutzungslimits, hochgeladene Inhalte und kroatisches Recht."
     },
     "sections": {
       "provider": {
@@ -2024,10 +2019,10 @@
       },
       "service": {
         "title": "Beschreibung des Dienstes",
-        "body": "PloroAI hilft Nutzern, Elektroangebote aus Grundrissen und für Pro-Beta-Nutzer aus Projekt-PDFs vorzubereiten. Das Produkt unterstützt Projekterstellung, KI-Analyse, Raumprüfung, Materialvorschläge, Angebotserstellung und PDF/Excel-Export.",
+        "body": "PloroAI hilft Nutzern, Elektroangebote aus Grundrissen und, für Pro-Nutzer, Projekt-PDF-Dokumenten vorzubereiten. Das Produkt unterstützt Projekterstellung, KI-Analyse, Raumprüfung, Materialvorschläge, Angebotserstellung und PDF/Excel-Export.",
         "items": [
           "Free und Basic konzentrieren sich auf den Grundriss-zu-Angebot-Workflow",
-          "Pro Beta enthält Projekt-PDF-Analyse und Import geprüfter Materialkandidaten"
+          "Pro enthält KI-Analyse von Projekt-PDFs und Import geprüfter Materialkandidaten"
         ]
       },
       "account": {
@@ -2055,17 +2050,17 @@
           "Der Zugriff kann je nach Stripe-Abo-Status bis zum Ende des bezahlten Zeitraums bestehen bleiben",
           "Eine Stripe-Zahlungsbestätigung ist nicht gleichbedeutend mit einer kroatischen gesetzlichen Rechnung",
           "Rechnungen/lokale Fiskaldokumente werden separat und manuell anhand von Abrechnungsprofil und Kundentyp bearbeitet",
-          "Soweit anwendbar werden lokale Rechnungen über den Buchhaltungsworkflow/Synesis des Betreibers ausgestellt oder verarbeitet",
+          "Wo anwendbar, werden lokale Rechnungen über den Buchhaltungsablauf des Betreibers ausgestellt oder verarbeitet",
           "Die App verspricht keine automatische Fiskalisierung oder E-Rechnungserstellung"
         ]
       },
       "usageLimits": {
         "title": "Nutzungslimits",
-        "body": "Die aktuell implementierten Beta-Limits sind unten aufgeführt. Limits können sich mit Hinweis für künftige Pläne oder nach der Beta ändern.",
+        "body": "Die aktuell in der Anwendung implementierten Planlimits sind unten aufgeführt. Limits können sich mit Hinweis für künftige Pläne ändern.",
         "items": [
           "Free: 1 Grundriss, 1 Angebot, 0 Projekt-PDF-Analysen",
           "Basic: 10 Grundrisse, 10 Angebote, 0 Projekt-PDF-Analysen",
-          "Pro Beta: 20 Grundrisse, 20 Angebote, 3 Projekt-PDF-Analysen"
+          "Pro: 20 Grundrisse, 20 Angebote, 3 Projekt-PDF-Analysen"
         ]
       },
       "uploadedContent": {
@@ -2078,8 +2073,8 @@
         ]
       },
       "proBeta": {
-        "title": "Pro-Dokumentation Beta",
-        "body": "Die Analyse von Projekt-PDFs ist eine Beta-Funktion. Extrahierte Material- und Arbeitskandidaten müssen vom Nutzer geprüft, akzeptiert, abgelehnt oder bearbeitet werden.",
+        "title": "Pro-Dokumentation",
+        "body": "Die Analyse von Projekt-PDFs ist in Pro verfügbar. Extrahierte Material- und Arbeitskandidaten erfordern Prüfung, Annahme, Ablehnung und Bearbeitung durch den Nutzer.",
         "items": [
           "Akzeptierte Materialkandidaten können in den Angebotsworkflow importiert werden",
           "Arbeitskandidaten werden geprüft, aber noch nicht in Angebotssummen importiert",
@@ -2103,27 +2098,29 @@
         ]
       },
       "disclaimer": {
-        "title": "Haftungs- und Disclaimer-Platzhalter",
-        "body": "Der Dienst wird als Beta-Software bereitgestellt und kann Fehler oder Unterbrechungen enthalten. Finale Aussagen zu Gewährleistung, Haftung, Rückerstattung, Verbraucher- und Geschäftskundenbedingungen müssen vor Produktion rechtlich geprüft werden.",
+        "title": "Haftungsbeschränkung und Hinweis",
+        "body": "PloroAI stellt Werkzeuge zur Vorbereitung und Prüfung von Schätzungen bereit, garantiert aber nicht, dass KI-Vorschläge vollständig oder fehlerfrei sind. Der Nutzer ist dafür verantwortlich, Daten, Mengen, Preise und Angebotsinhalte vor dem Senden an Kunden oder dem Bestellen von Material zu prüfen.",
         "items": [
-          "Dieser Abschnitt bleibt bis zur Rechtsprüfung bewusst konservativ und unvollständig"
+          "Der Dienst kann zeitweise nicht verfügbar oder unterbrochen sein",
+          "Soweit gesetzlich zulässig, ist die Haftung für mittelbare Schäden, entgangenen Gewinn, Datenverlust oder Entscheidungen ohne Nutzerprüfung beschränkt"
         ]
       },
       "governingLaw": {
         "title": "Anwendbares Recht",
-        "body": "Diese Beta-Bedingungen sollen dem Recht der Republik Kroatien unterliegen, vorbehaltlich zwingender Verbraucherschutzregeln. Der Wortlaut erfordert finale Rechtsprüfung.",
+        "body": "Für diese Bedingungen gilt das Recht der Republik Kroatien, vorbehaltlich zwingender Verbraucherschutzvorschriften, wo anwendbar.",
         "items": [
-          "TODO: Gerichtsstand, Verbraucherrechte und B2B/B2C-Abgrenzung anwaltlich bestätigen"
+          "Verbraucherrechte gelten, wo zwingendes Recht dies verlangt",
+          "Geschäftskunden bleiben für die fachliche Prüfung von Angeboten und Projektannahmen verantwortlich"
         ]
       }
     }
   },
   "Cookies": {
     "title": "Cookie-Richtlinie",
-    "description": "Beta-Überblick über Cookies und ähnliche Technologien für PloroAI-Sitzungen, Spracheinstellungen, Sicherheit, Stripe Checkout und künftige Analytics.",
+    "description": "Überblick über Cookies und ähnliche Technologien für PloroAI-Sitzungen, Spracheinstellungen, Sicherheit, Stripe Checkout und optionale Analytikeinstellungen.",
     "metadata": {
       "title": "Cookie-Richtlinie - PloroAI",
-      "description": "Cookie-Informationen für PloroAI-Authentifizierung, Spracheinstellungen, Stripe Checkout und Portal sowie Analytics-Platzhalter."
+      "description": "Cookie-Informationen für PloroAI-Authentifizierung, Spracheinstellungen, Stripe Checkout und Portal sowie optionale Analytikeinstellungen."
     },
     "sections": {
       "essential": {
@@ -2154,9 +2151,9 @@
       },
       "analytics": {
         "title": "Analytics und Tracking",
-        "body": "Für diese Beta-Information sind derzeit keine Analytics- oder invasiven Tracking-Cookies beschrieben. Wenn Analytics später ergänzt wird, müssen diese Seite und etwaige Einwilligungsabläufe vor Produktionsstart aktualisiert werden.",
+        "body": "Optionale Analyse- oder invasive Tracking-Cookies werden derzeit nicht verwendet. Wenn optionale Analytik eingeführt wird, werden diese Seite und die Einwilligungseinstellungen aktualisiert.",
         "items": [
-          "TODO: finalen Analytics-Status vor Produktionsstart bestätigen"
+          "Optionale Analyse- und Marketing-Cookies werden derzeit nicht verwendet"
         ]
       },
       "control": {
@@ -2176,7 +2173,7 @@
       },
       "contact": {
         "title": "Fragen zu Cookies",
-        "body": "Für Fragen zu Cookies oder Korrekturen dieser Beta-Information kontaktieren Sie contact@ploroai.io.",
+        "body": "Bei Fragen zu Cookies oder Korrekturen dieses Cookie-Hinweises kontaktieren Sie contact@ploroai.io.",
         "items": [
           "Senden Sie keine Passwörter oder Zugriffstoken per E-Mail"
         ]
@@ -2185,7 +2182,7 @@
   },
   "Complaints": {
     "title": "Schriftliche Beschwerden",
-    "description": "Nutzer können schriftliche Beschwerden per E-Mail einreichen. Diese Beta-Seite erklärt, welche Angaben benötigt werden, damit der Betreiber Konto, Zahlung, Abo und Rechnungsstatus identifizieren kann.",
+    "description": "Nutzer können schriftliche Beschwerden per E-Mail einreichen. Diese Seite erklärt, welche Angaben der Betreiber benötigt, um Konto, Zahlung, Abo und Rechnungsstatus zu identifizieren.",
     "metadata": {
       "title": "Schriftliche Beschwerden - PloroAI",
       "description": "So reichen Sie schriftliche Beschwerden zu PloroAI-Abonnements, Zahlungen, Rechnungen und Kontoanliegen ein."
@@ -2223,17 +2220,17 @@
       },
       "pendingInvoice": {
         "title": "Wenn eine Rechnung noch aussteht",
-        "body": "Wenn eine lokale Rechnung noch nicht manuell ausgestellt wurde oder eine Synesis/Buchhaltungsaufgabe aussteht, geben Sie trotzdem Stripe-Transaktionsdaten und Abrechnungsprofildaten an.",
+        "body": "Wenn eine lokale Rechnung noch nicht ausgestellt wurde oder eine Buchhaltungsaufgabe aussteht, geben Sie dennoch Stripe-Transaktionsdaten und Abrechnungsprofildaten an.",
         "items": [
           "Eine Stripe-Zahlungsbestätigung ist nicht gleichbedeutend mit einer kroatischen gesetzlichen Rechnung",
           "Die manuelle Rechnungsprüfung hängt von Kundentyp und Abrechnungsprofil ab"
         ]
       },
       "legalReview": {
-        "title": "Hinweis zur Rechtsprüfung",
-        "body": "Diese Seite ist Informationsinhalt für die Beta und muss vor dem Produktionsstart rechtlich geprüft werden.",
+        "title": "Umfang dieser Seite",
+        "body": "Diese Seite erklärt die beschwerdebezogene E-Mail-Kommunikation für PloroAI. Sie stellt kein automatisiertes Beschwerdeformular bereit.",
         "items": [
-          "Auf dieser Seite ist kein Formular und kein automatisierter Beschwerdeworkflow implementiert"
+          "Auf dieser Seite gibt es kein Formular oder automatisierten Beschwerdeablauf"
         ]
       }
     }
@@ -2244,10 +2241,10 @@
     "description": "Haben Sie eine Frage zu KI-gestützten Elektroangeboten, Abrechnung oder Projektdokumentanalyse? Schreiben Sie uns per E-Mail, wir melden uns.",
     "metadata": {
       "title": "Kontakt - PloroAI",
-      "description": "Kontaktieren Sie PloroAI zu Produktfragen, Abrechnung, Projektdokumentanalyse und Beta-Feedback."
+      "description": "Kontaktieren Sie PloroAI zu Produktfragen, Abrechnung, Projektdokumentanalyse und Produktfeedback."
     },
     "emailLabel": "E-Mail",
-    "emailDescription": "Für Support, Produktfragen, Abrechnung oder Beta-Feedback.",
+    "emailDescription": "Für Support, Produktfragen, Abrechnung oder Produktfeedback.",
     "emailAddress": "contact@ploroai.io",
     "companyTitle": "Betreiberangaben",
     "companyName": "Živić Elektro j.d.o.o.",
@@ -2264,7 +2261,7 @@
         "description": "Senden Sie Fragen zu Plänen, Abrechnungsprofilen, Stripe-Abos oder Rechnungen."
       },
       "feedback": {
-        "title": "Beta-Feedback",
+        "title": "Produktfeedback",
         "description": "Teilen Sie, was gut funktioniert, was unklar ist und was Ihrem Angebotsprozess helfen würde."
       }
     },

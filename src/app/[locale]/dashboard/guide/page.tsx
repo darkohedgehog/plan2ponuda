@@ -336,11 +336,6 @@ function PlanCard({ planKey }: PlanCardProps) {
             {t(`plans.${planKey}.description`)}
           </p>
         </div>
-        {isPro ? (
-          <span className="rounded-full border border-turquoise-surf-300/30 bg-white/10 px-2.5 py-1 text-xs font-semibold text-turquoise-surf-300">
-            {t("plans.beta")}
-          </span>
-        ) : null}
       </div>
       <ul className="mt-4 grid gap-2">
         {planFeatureKeys[planKey].map((featureKey) => (

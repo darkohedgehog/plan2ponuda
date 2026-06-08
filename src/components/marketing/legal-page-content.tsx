@@ -1,4 +1,4 @@
-import { Building2, Mail, ShieldCheck } from "lucide-react";
+import { Building2, Mail } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type LegalPageContentProps = {
@@ -86,21 +86,6 @@ export function LegalPageContent({
             </dl>
           </aside>
         </div>
-
-        <section className="mt-8 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50/92 p-5 text-sm leading-6 text-amber-950 shadow-sm">
-          <div className="flex gap-3">
-            <ShieldCheck
-              aria-hidden="true"
-              className="mt-0.5 h-5 w-5 shrink-0 text-amber-700"
-            />
-            <div className="min-w-0">
-              <p className="font-semibold">{tLegal("draftNoticeTitle")}</p>
-              <p className="mt-1 break-words">
-                {tLegal("draftNoticeDescription")}
-              </p>
-            </div>
-          </div>
-        </section>
 
         <section className="mt-8 grid gap-4">
           {sectionKeys.map((sectionKey) => {

@@ -354,7 +354,7 @@
     "plans": {
       "title": "Vodič kroz planove",
       "description": "Planovi određuju koliko tlocrta, ponuda i Pro analiza dokumentacije možete koristiti u trenutnom obračunskom razdoblju.",
-      "beta": "Beta",
+      "beta": "Pro",
       "free": {
         "title": "Free",
         "description": "Najbolje za testiranje aplikacije na manjem projektu.",
@@ -598,7 +598,7 @@
     },
     "pro": {
       "name": "Pro",
-      "price": "30 EUR / mjesec (Beta)"
+      "price": "30 EUR / mjesec"
     }
   },
   "Usage": {
@@ -856,7 +856,7 @@
         "title": "Kontakt"
       },
       "pricing": {
-        "body": "Detalji cijena bit će dodani kako se tijek izrade ponuda približi produkcijskoj naplati.",
+        "body": "Detalji cijena prikazani su na stranici Cijene i mogu se upravljati kroz tijek naplate nakon registracije.",
         "subtitle": "Jednostavni paketi pretplate za elektroinstalatere i male timove za procjene.",
         "title": "Cijene"
       },
@@ -960,7 +960,7 @@
       "eyebrow": "Odaberi tijek rada",
       "title": "Kreni jednostavno i nadogradi kada projekti rastu",
       "titleAccent": "projekti rastu",
-      "description": "Koristite Free za probu jednog projekta, Basic za redovite ponude iz tlocrta ili Pro beta kada projektni PDF-ovi postanu dio procjene.",
+      "description": "Koristite Free za probu jednog projekta, Basic za redovite ponude iz tlocrta ili Pro kada projektni PDF-ovi postanu dio procjene.",
       "reviewNote": "Svaki plan zadržava AI prijedloge uredljivima i pregledljivima prije nego ponude izađu prema klijentu.",
       "primaryCta": "Kreni besplatno",
       "primaryCtaAuthenticated": "Upravljaj naplatom",
@@ -977,10 +977,10 @@
           "cta": "Kreni s Basic"
         },
         "pro": {
-          "title": "Dokumentacija beta",
+          "title": "Projektna dokumentacija",
           "description": "Za projekte u kojima su važni projektni PDF-ovi i pregled kandidata.",
-          "badge": "Beta",
-          "cta": "Kreni s Pro beta"
+          "badge": "Pro",
+          "cta": "Kreni s Pro"
         }
       }
     },
@@ -988,7 +988,7 @@
       "eyebrow": "FAQ",
       "title": "Pitanja prije nego počnete s PloroAI",
       "titleAccent": "prije nego počnete",
-      "description": "Jasni odgovori o planovima, AI provjeri, otkazivanju, plaćanjima, računima i beta ograničenjima prije kreiranja računa.",
+      "description": "Jasni odgovori o planovima, AI provjeri, otkazivanju, plaćanjima i računima prije kreiranja računa.",
       "items": {
         "whatIs": {
           "question": "Što je PloroAI?",
@@ -1008,7 +1008,7 @@
         },
         "pro": {
           "question": "Što uključuje Pro?",
-          "answer": "Pro uključuje do 20 tlocrta, 20 ponuda i 3 AI analize PDF projektne dokumentacije tijekom bete, uz pregled kandidata i uvoz u ponude."
+          "answer": "Pro uključuje do 20 tlocrta, 20 ponuda i 3 AI analize PDF projektne dokumentacije te pregled kandidata i uvoz u ponude."
         },
         "cancel": {
           "question": "Mogu li otkazati pretplatu?",
@@ -1020,19 +1020,19 @@
         },
         "invoices": {
           "question": "Kako se obrađuju računi?",
-          "answer": "Potvrda Stripe plaćanja odvojena je od lokalnog/zakonskog izdavanja računa. Računi se obrađuju ručno prema profilu za naplatu i vrsti kupca, uz računovodstveni/Synesis tijek rada operatora gdje je primjenjivo."
+          "answer": "Potvrda Stripe plaćanja odvojena je od lokalnog/zakonskog izdavanja računa. Računi se obrađuju prema profilu za naplatu i vrsti kupca, kroz računovodstveni postupak operatora gdje je primjenjivo."
         },
         "refund": {
           "question": "Mogu li dobiti povrat ili imam li 14 dana za odustajanje?",
-          "answer": "Za potrošače se pravo na odustajanje od ugovora na daljinu u roku od 14 dana može primjenjivati prema EU/hrvatskim pravilima zaštite potrošača, uz zakonske iznimke za digitalne usluge/sadržaj i ovisno o tome je li usluga već započela ili korištena. Zahtjeve za povrat ili odustajanje pošaljite na contact@ploroai.io s e-poštom računa, brojem računa ako je izdan, Stripe ID-jem transakcije/plaćanja/računa ako je dostupan i kratkim objašnjenjem. Konačni tekst o povratu/odustajanju mora pregledati odvjetnik/računovođa prije produkcije."
+          "answer": "Za potrošače se pravo na odustajanje od ugovora na daljinu u roku od 14 dana može primjenjivati prema EU/hrvatskim pravilima zaštite potrošača, uz zakonske iznimke za digitalne usluge/sadržaj i ovisno o tome je li usluga već započela ili korištena. Zahtjeve za povrat ili odustajanje pošaljite na contact@ploroai.io s e-poštom računa, brojem računa ako je izdan, Stripe ID-jem transakcije/plaćanja/računa ako je dostupan i kratkim objašnjenjem."
         },
         "storage": {
           "question": "Gdje se pohranjuju projektne datoteke?",
-          "answer": "Projektni podaci i učitane datoteke namijenjeni su pohrani na EU-hostanoj infrastrukturi gdje je tako konfigurirao operator. Konačne regije hostinga i pohrane treba provjeriti prije produkcijskog lansiranja."
+          "answer": "Projektni podaci i učitane datoteke pohranjuju se na cloud infrastrukturi konfiguriranoj za potrebe rada aplikacije, uz primjenu sigurnosnih i pristupnih ograničenja. Dodatne informacije o obradi podataka dostupne su u Politici privatnosti."
         },
         "projectPdf": {
           "question": "Mogu li analizirati velike PDF-ove projektne dokumentacije?",
-          "answer": "Da, na Pro planu. Analiza projektnih PDF-ova trenutačno je beta značajka. AI izvlači kandidate materijala/rada, a korisnik ih pregledava prije nego što se prihvaćeni kandidati materijala mogu uvesti u ponudu."
+          "answer": "Da, na Pro planu. AI izvlači kandidate materijala/rada, a korisnik ih pregledava prije nego što se prihvaćeni kandidati materijala mogu uvesti u ponudu."
         },
         "contact": {
           "question": "Kome se mogu javiti?",
@@ -1253,7 +1253,7 @@
     "analyzingDocument": "Analiza dokumenta...",
     "assumptions": "Pretpostavke",
     "availableOnPro": "Dostupno na Pro planu.",
-    "betaFeature": "Beta značajka",
+    "betaFeature": "Dostupno na Pro planu.",
     "bulk": {
       "acceptAllLabor": "Prihvati sve stavke rada",
       "acceptAllMaterials": "Prihvati sve materijale",
@@ -1608,7 +1608,8 @@
       "messages": {
         "existingRooms": "Ovaj projekt već ima prepoznate prostorije. Pregledajte ih ili uredite prije izrade ponude.",
         "noRoomsDetected": "Analiza je dovršena, ali nije prepoznata nijedna prostorija. Prostorije možete dodati ručno.",
-        "success": "Analiza je dovršena. Prepoznato prostorija: {count}."
+        "success": "Analiza je dovršena. Prepoznato prostorija: {count}.",
+        "patienceNotice": "AI analiza može potrajati nekoliko minuta. Molimo pričekajte dok se obrada ne završi."
       }
     },
     "errors": {
@@ -1622,11 +1623,9 @@
       "description": "Koristite učitani tlocrt kao referencu za pregled prostorija.",
       "preview": {
         "alt": "Pregled tlocrta za {fileName}",
-        "expiresInMinutes": "{minutes} min",
         "fileLabel": "Datoteka: {fileName}",
-        "imageCaption": "Potpisani pregled za {fileName}. URL istječe za {expiresIn}.",
         "openPdfPreview": "Otvori PDF pregled",
-        "pdfDescription": "Otvorite potpisani PDF pregled u novoj kartici. URL istječe za {expiresIn}.",
+        "pdfDescription": "Otvorite PDF pregled u novoj kartici.",
         "pdfTitle": "PDF tlocrt je dostupan",
         "unavailable": {
           "missingFile": "Učitajte tlocrt prije pregleda vizualnog prikaza.",
@@ -1800,9 +1799,8 @@
       "eyebrow": "Cijene",
       "title": "Planovi za svaki korak elektro ponuda",
       "titleAccent": "elektro ponuda",
-      "description": "Krenite besplatno, nadogradite za redoviti rad s tlocrtima ili koristite Pro beta kada projektni PDF-ovi postanu dio procjene."
+      "description": "Krenite besplatno, nadogradite za redoviti rad s tlocrtima ili koristite Pro kada projektni PDF-ovi postanu dio procjene."
     },
-    "beta": "Beta",
     "viewPlan": "Pogledaj plan",
     "cta": {
       "startFree": "Kreni besplatno",
@@ -1856,8 +1854,8 @@
       "pro": {
         "name": "Pro",
         "price": "30 EUR / mjesec",
-        "badge": "Beta",
-        "fit": "Beta plan za veću projektnu dokumentaciju.",
+        "badge": "Pro",
+        "fit": "Za veću projektnu dokumentaciju.",
         "description": "Dodaje AI analizu projektnih PDF-ova i uvoz pregledanih materijalnih kandidata.",
         "features": {
           "floorPlans": "Do 20 tlocrta",
@@ -1872,8 +1870,6 @@
   },
   "Legal": {
     "eyebrow": "Pravne informacije",
-    "draftNoticeTitle": "Napomena za beta izdanje i pravni pregled",
-    "draftNoticeDescription": "Ova stranica je informativni tekst za pripremu izdanja, ne konačni pravni savjet. Tekst mora pregledati odvjetnik i, gdje se spominju naplata ili računi, računovođa prije produkcijskog lansiranja.",
     "contactTitle": "Pitanja o ovim informacijama?",
     "contactDescription": "Kontakt email koristite za zahtjeve privatnosti, pisane prigovore, pitanja o naplati ili ispravke pravno-informativnih stranica.",
     "operator": {
@@ -1890,7 +1886,7 @@
   },
   "Privacy": {
     "title": "Pravila privatnosti",
-    "description": "Beta pregled obrade podataka računa, naplate, projekata, uploadanih datoteka, AI analize, plaćanja i podrške u PloroAI.",
+    "description": "Pregled obrade podataka računa, naplate, projekata, učitanih datoteka, AI analize, plaćanja i podrške u PloroAI.",
     "metadata": {
       "title": "Pravila privatnosti - PloroAI",
       "description": "Informacije o privatnosti za PloroAI račune, naplatne profile, uploade, AI obradu, Stripe plaćanja, email i cloud infrastrukturu."
@@ -1898,7 +1894,7 @@
     "sections": {
       "controller": {
         "title": "Voditelj obrade",
-        "body": "Voditelj obrade za ovu beta uslugu je Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Zahtjevi vezani uz privatnost mogu se poslati na contact@ploroai.io.",
+        "body": "Voditelj obrade za ovu uslugu je Živić Elektro j.d.o.o., OIB/VAT ID HR90344764519, 204. vukovarske brigade 39, 32000 Vukovar, Hrvatska. Zahtjevi vezani uz privatnost mogu se poslati na contact@ploroai.io.",
         "items": [
           "Naziv proizvoda: PloroAI",
           "Vrsta usluge: SaaS aplikacija za AI-potpomognutu pripremu elektro ponuda",
@@ -1928,24 +1924,24 @@
           "AI analiza uploadanih tlocrta i projektne dokumentacije",
           "Pregled kandidata i uvoz prihvaćenih materijala u ponude",
           "Naplata, upravljanje pretplatama i Stripe obrada plaćanja",
-          "Ručna obrada računa i Synesis/računovodstveni workflow gdje je primjenjivo",
-          "Podrška, kontakt, prigovori i beta povratne informacije",
+          "Ručna obrada računa i računovodstveni workflow gdje je primjenjivo",
+          "Podrška, kontakt, prigovori i povratne informacije",
           "Sigurnost, sprječavanje zlouporabe, rate limiting, otklanjanje problema i pravne/računovodstvene obveze"
         ]
       },
       "legalBases": {
         "title": "Pravne osnove",
-        "body": "Predviđene pravne osnove mogu uključivati izvršenje ugovora, zakonske obveze, legitimni interes i privolu gdje je primjenjivo. Konačan tekst pravnih osnova mora se pravno pregledati prije produkcije.",
+        "body": "Pravne osnove mogu uključivati izvršenje ugovora, zakonske obveze, legitimne interese i privolu gdje je primjenjivo.",
         "items": [
           "Izvršenje ugovora za pristup računu, SaaS funkcionalnost, pretplate i podršku",
           "Zakonske obveze za naplatu, računovodstvo, poreze i račune",
-          "Legitimni interes za sigurnost, sprječavanje zlouporabe, poboljšanje usluge i beta podršku",
+          "Legitimni interes za sigurnost, sprječavanje zlouporabe, poboljšanje usluge i podršku",
           "Privola gdje se uvedu opcionalni kolačići, buduća analitika ili slična opcionalna obrada"
         ]
       },
       "processors": {
         "title": "Izvršitelji obrade i podizvršitelji",
-        "body": "Usluga može koristiti treće strane za infrastrukturu, plaćanja, AI analizu i email. Konačan popis izvršitelja i ugovori o obradi podataka moraju se provjeriti prije produkcije.",
+        "body": "Usluga koristi ili može koristiti treće izvršitelje obrade za infrastrukturu, plaćanja, AI analizu i email.",
         "items": [
           "Pružatelj hostinga, baze i pohrane, uključujući Supabase ili ekvivalentno konfiguriranu infrastrukturu",
           "Stripe za kartična plaćanja, checkout, pretplate i korisnički portal",
@@ -1956,22 +1952,21 @@
       },
       "storage": {
         "title": "Pohrana i regija infrastrukture",
-        "body": "Projektni podaci namijenjeni su pohrani u EU-hostanoj infrastrukturi gdje je tako konfigurirao operator. Konačne regije hostinga, baze i pohrane moraju se provjeriti prije produkcijskog lansiranja.",
+        "body": "Projektni podaci i učitane datoteke pohranjuju se na cloud infrastrukturi konfiguriranoj za potrebe rada aplikacije, uz kontrole pristupa i zaštitne mjere pružatelja.",
         "items": [
-          "Uploadane projektne datoteke i generirani podaci pohranjuju se kroz konfiguriranu cloud infrastrukturu",
-          "Ovu stranicu ne treba smatrati konačnim jamstvom EU-only pohrane dok se ne provjeri deployment konfiguracija",
+          "Učitane projektne datoteke i generirani podaci pohranjuju se kroz konfiguriranu cloud infrastrukturu",
+          "Regije infrastrukture ovise o konfiguriranim pružateljima hostinga, baze, pohrane, AI usluga i plaćanja",
           "AI i pružatelji plaćanja mogu obrađivati podatke kroz vlastitu infrastrukturu i zaštitne mjere"
         ]
       },
       "retention": {
         "title": "Rokovi čuvanja",
-        "body": "Rokovi čuvanja su beta placeholderi i moraju se finalizirati. Podaci se općenito čuvaju onoliko koliko je potrebno za uslugu, pravne/računovodstvene obveze, sigurnost, sigurnosne kopije i podršku.",
+        "body": "Podaci se općenito čuvaju onoliko koliko je potrebno za uslugu, pravne/računovodstvene obveze, sigurnost, sigurnosne kopije i podršku.",
         "items": [
           "Podaci računa dok račun postoji ili dok su potrebni za legitimnu podršku/sigurnost",
-          "Naplatni i računovodstveni zapisi prema primjenjivim pravnim i računovodstvenim rokovima",
-          "Projektni podaci do brisanja od korisnika ili zatvaranja računa, uz sigurnosne kopije i zakonske obveze",
-          "Rate-limit, sigurnosni i operativni logovi kroz ograničeno operativno razdoblje",
-          "TODO: konačne rokove čuvanja treba definirati prije produkcijskog lansiranja"
+          "Podaci naplate i računovodstva prema primjenjivim pravnim i računovodstvenim rokovima čuvanja",
+          "Projektni podaci do brisanja od strane korisnika ili zatvaranja računa, uz sigurnosne kopije i zakonske obveze",
+          "Rate-limit, sigurnosni i operativni zapisi kroz ograničeno operativno razdoblje"
         ]
       },
       "rights": {
@@ -1992,8 +1987,8 @@
         "title": "Međunarodni prijenosi",
         "body": "Neki pružatelji, uključujući AI ili pružatelje plaćanja, mogu obrađivati podatke izvan EU/EEA uz odgovarajuće zaštitne mjere gdje je primjenjivo. To se mora provjeriti u finalnoj dokumentaciji izvršitelja.",
         "items": [
-          "Ova beta obavijest nije jamstvo da je svaka obrada isključivo u EU",
-          "Zaštitne mjere i mehanizmi prijenosa pružatelja moraju se pregledati prije produkcije"
+          "Dio obrade može ovisiti o infrastrukturi pružatelja izvan EU/EEA",
+          "Zaštitne mjere i mehanizmi prijenosa ovise o primjenjivim uvjetima izvršitelja obrade"
         ]
       },
       "privacyContact": {
@@ -2008,10 +2003,10 @@
   },
   "Terms": {
     "title": "Uvjeti korištenja",
-    "description": "Beta uvjeti korištenja PloroAI, SaaS aplikacije za AI-potpomognutu pripremu elektro ponuda iz tlocrta i projektne dokumentacije.",
+    "description": "Uvjeti korištenja PloroAI, SaaS aplikacije za AI-potpomognutu pripremu elektro ponuda iz tlocrta i projektne dokumentacije.",
     "metadata": {
       "title": "Uvjeti korištenja - PloroAI",
-      "description": "Uvjeti za beta korištenje PloroAI, odgovornost za AI provjeru, pretplate, limite, uploadani sadržaj i hrvatsko pravo."
+      "description": "Uvjeti za korištenje PloroAI, odgovornost za AI provjeru, pretplate, limite, učitani sadržaj i hrvatsko pravo."
     },
     "sections": {
       "provider": {
@@ -2024,10 +2019,10 @@
       },
       "service": {
         "title": "Opis usluge",
-        "body": "PloroAI pomaže korisnicima pripremati elektro ponude iz tlocrta i, za Pro beta korisnike, projektnih PDF dokumenata. Proizvod podržava izradu projekata, AI analizu, pregled prostorija, prijedloge materijala, izradu ponuda i PDF/Excel izvoz.",
+        "body": "PloroAI pomaže korisnicima pripremati elektro ponude iz tlocrta i, za Pro korisnike, projektnih PDF dokumenata. Proizvod podržava izradu projekata, AI analizu, pregled prostorija, prijedloge materijala, izradu ponuda i PDF/Excel izvoz.",
         "items": [
           "Free i Basic fokusirani su na workflow od tlocrta do ponude",
-          "Pro beta uključuje AI analizu projektnih PDF-ova i uvoz pregledanih materijalnih kandidata"
+          "Pro uključuje AI analizu projektnih PDF-ova i uvoz pregledanih materijalnih kandidata"
         ]
       },
       "account": {
@@ -2055,17 +2050,17 @@
           "Pristup može trajati do kraja tekućeg plaćenog razdoblja ovisno o Stripe statusu pretplate",
           "Stripe potvrda plaćanja nije isto što i izdavanje hrvatskog pravnog računa",
           "Računi/lokalni fiskalni dokumenti obrađuju se odvojeno i ručno prema naplatnom profilu i tipu kupca",
-          "Gdje je primjenjivo, lokalni računi izdaju se ili obrađuju kroz računovodstveni workflow/Synesis operatora",
+          "Gdje je primjenjivo, lokalni računi izdaju se ili obrađuju kroz računovodstveni workflow operatora",
           "Aplikacija ne obećava automatsku fiskalizaciju ili generiranje e-računa"
         ]
       },
       "usageLimits": {
         "title": "Limiti korištenja",
-        "body": "Trenutno implementirani beta limiti planova navedeni su u nastavku. Limiti se mogu promijeniti uz obavijest za buduće planove ili nakon beta faze.",
+        "body": "Trenutno implementirani limiti planova navedeni su u nastavku. Limiti se mogu promijeniti uz obavijest za buduće planove.",
         "items": [
           "Free: 1 tlocrt, 1 ponuda, 0 analiza projektnih PDF-ova",
           "Basic: 10 tlocrta, 10 ponuda, 0 analiza projektnih PDF-ova",
-          "Pro beta: 20 tlocrta, 20 ponuda, 3 analize projektnih PDF-ova"
+          "Pro: 20 tlocrta, 20 ponuda, 3 analize projektnih PDF-ova"
         ]
       },
       "uploadedContent": {
@@ -2078,8 +2073,8 @@
         ]
       },
       "proBeta": {
-        "title": "Pro dokumentacija beta",
-        "body": "AI analiza projektnih PDF-ova je beta značajka. Izdvojeni materijalni i radni kandidati zahtijevaju pregled, prihvaćanje, odbijanje i uređivanje od korisnika.",
+        "title": "Pro dokumentacija",
+        "body": "AI analiza projektnih PDF-ova dostupna je na Pro planu. Izdvojeni materijalni i radni kandidati zahtijevaju pregled, prihvaćanje, odbijanje i uređivanje od korisnika.",
         "items": [
           "Prihvaćeni materijalni kandidati mogu se uvesti u workflow ponude",
           "Radni kandidati se pregledavaju, ali se još ne uvoze u ukupne iznose ponude",
@@ -2103,27 +2098,29 @@
         ]
       },
       "disclaimer": {
-        "title": "Ograničenje i disclaimer",
-        "body": "Usluga se pruža kao beta softver i može sadržavati pogreške ili prekide dostupnosti. Konačni tekst jamstava, odgovornosti, ograničenja, povrata, potrošačkih i poslovnih uvjeta mora pregledati odvjetnik prije produkcijskog lansiranja.",
+        "title": "Ograničenje i izjava o odgovornosti",
+        "body": "PloroAI pruža alate za pripremu i pregled procjena, ali ne jamči da su AI prijedlozi potpuni ili bez pogreške. Korisnik je odgovoran za provjeru podataka, količina, cijena i sadržaja ponude prije slanja klijentu ili naručivanja materijala.",
         "items": [
-          "Ovaj odjeljak namjerno ostaje konzervativan i nedovršen do pravnog pregleda"
+          "Usluga povremeno može biti nedostupna ili prekinuta",
+          "U mjeri dopuštenoj primjenjivim pravom, odgovornost je ograničena za neizravnu štetu, izgubljenu dobit, gubitak podataka ili odluke donesene bez korisničke provjere"
         ]
       },
       "governingLaw": {
         "title": "Mjerodavno pravo",
-        "body": "Ovi beta uvjeti namijenjeni su primjeni prava Republike Hrvatske, uz obvezna pravila zaštite potrošača gdje je primjenjivo. Tekst zahtijeva završni pravni pregled.",
+        "body": "Na ove uvjete primjenjuje se pravo Republike Hrvatske, uz obvezna pravila zaštite potrošača gdje je primjenjivo.",
         "items": [
-          "TODO: odvjetnik treba potvrditi nadležnost, tekst prava potrošača i B2B/B2C razlike"
+          "Prava potrošača primjenjuju se gdje to zahtijeva obvezno pravo",
+          "Poslovni korisnici ostaju odgovorni za stručni pregled ponuda i projektnih pretpostavki"
         ]
       }
     }
   },
   "Cookies": {
     "title": "Pravila o kolačićima",
-    "description": "Beta pregled kolačića i sličnih tehnologija za PloroAI sesije, jezične postavke, sigurnost, Stripe checkout i buduću analitiku.",
+    "description": "Pregled kolačića i sličnih tehnologija za PloroAI sesije, jezične postavke, sigurnost, Stripe checkout i opcijske postavke analitike.",
     "metadata": {
       "title": "Pravila o kolačićima - PloroAI",
-      "description": "Informacije o kolačićima za PloroAI autentikaciju, jezične postavke, Stripe checkout i portal te placeholder analitike."
+      "description": "Informacije o kolačićima za PloroAI autentikaciju, jezične postavke, Stripe checkout i portal te opcijske postavke analitike."
     },
     "sections": {
       "essential": {
@@ -2154,9 +2151,9 @@
       },
       "analytics": {
         "title": "Analitika i praćenje",
-        "body": "Za ovu beta obavijest trenutno nije opisana analitika ili invazivni kolačići za praćenje. Ako se analitika doda kasnije, ova stranica i eventualni consent flow moraju se ažurirati prije produkcije.",
+        "body": "Opcijski analitički ili invazivni kolačići za praćenje trenutno se ne koriste. Ako se uvede opcijska analitika, ova stranica i postavke privole bit će ažurirane.",
         "items": [
-          "TODO: potvrditi konačni status analitike prije produkcijskog lansiranja"
+          "Opcijski analitički i marketinški kolačići trenutno se ne koriste"
         ]
       },
       "control": {
@@ -2176,7 +2173,7 @@
       },
       "contact": {
         "title": "Pitanja o kolačićima",
-        "body": "Za pitanja o kolačićima ili ispravke ove beta obavijesti kontaktirajte contact@ploroai.io.",
+        "body": "Za pitanja o kolačićima ili ispravke ove obavijesti o kolačićima kontaktirajte contact@ploroai.io.",
         "items": [
           "Ne šaljite lozinke ili pristupne tokene emailom"
         ]
@@ -2185,7 +2182,7 @@
   },
   "Complaints": {
     "title": "Pisani prigovori",
-    "description": "Korisnici mogu podnijeti pisani prigovor emailom. Ova beta stranica objašnjava koje podatke uključiti kako bi operator mogao identificirati račun, plaćanje, pretplatu i status izdavanja računa.",
+    "description": "Korisnici mogu podnijeti pisani prigovor emailom. Ova stranica objašnjava koje podatke uključiti kako bi operator mogao identificirati račun, plaćanje, pretplatu i status izdavanja računa.",
     "metadata": {
       "title": "Pisani prigovori - PloroAI",
       "description": "Kako podnijeti pisani prigovor za PloroAI pretplate, plaćanja, račune i pitanja korisničkog računa."
@@ -2223,17 +2220,17 @@
       },
       "pendingInvoice": {
         "title": "Ako račun još nije izdan",
-        "body": "Ako lokalni račun još nije ručno izdan ili je Synesis/računovodstveni zadatak u tijeku, svejedno uključite Stripe podatke transakcije i podatke naplatnog profila.",
+        "body": "Ako lokalni račun još nije izdan ili je računovodstveni zadatak u tijeku, svejedno uključite Stripe podatke transakcije i podatke naplatnog profila.",
         "items": [
           "Stripe potvrda plaćanja nije isto što i izdavanje hrvatskog pravnog računa",
           "Ručni pregled računa ovisi o tipu kupca i podacima naplatnog profila"
         ]
       },
       "legalReview": {
-        "title": "Napomena o pravnom pregledu",
-        "body": "Ova stranica je informativni beta sadržaj i mora biti pravno pregledana prije produkcijskog lansiranja.",
+        "title": "Opseg ove stranice",
+        "body": "Ova stranica objašnjava podnošenje prigovora emailom za PloroAI. Na stranici nije implementiran automatizirani obrazac za prigovore.",
         "items": [
-          "Na ovoj stranici nije implementirana forma ni automatizirani workflow prigovora"
+          "Na ovoj stranici nema obrasca niti automatiziranog tijeka prigovora"
         ]
       }
     }
@@ -2244,10 +2241,10 @@
     "description": "Imate pitanje o AI elektro ponudama, naplati ili analizi projektne dokumentacije? Pošaljite nam email i javit ćemo se.",
     "metadata": {
       "title": "Kontakt - PloroAI",
-      "description": "Kontaktirajte PloroAI za pitanja o proizvodu, naplati, analizi projektne dokumentacije i beta povratne informacije."
+      "description": "Kontaktirajte PloroAI za pitanja o proizvodu, naplati, analizi projektne dokumentacije i povratne informacije."
     },
     "emailLabel": "Email",
-    "emailDescription": "Za podršku, pitanja o proizvodu, naplati ili beta povratne informacije.",
+    "emailDescription": "Za podršku, pitanja o proizvodu, naplati ili povratne informacije.",
     "emailAddress": "contact@ploroai.io",
     "companyTitle": "Podaci o tvrtki",
     "companyName": "Živić Elektro j.d.o.o.",
@@ -2264,7 +2261,7 @@
         "description": "Pošaljite pitanja o planovima, naplatnim profilima, Stripe pretplatama ili računima."
       },
       "feedback": {
-        "title": "Beta povratne informacije",
+        "title": "Povratne informacije",
         "description": "Podijelite što radi dobro, što je nejasno i što bi pomoglo vašem procesu ponuda."
       }
     },

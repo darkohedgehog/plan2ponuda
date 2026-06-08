@@ -86,12 +86,16 @@ test("marketing FAQ translations exist with matching locale keys and required co
     }
   }
 
-  assert.match(
+  assert.doesNotMatch(
     readMessages("en").Marketing.faq.items.refund.answer,
     /must be reviewed by lawyer\/accountant before production/i,
   );
   assert.match(readMessages("en").Marketing.faq.items.payments.answer, /Stripe/);
-  assert.match(readMessages("en").Marketing.faq.items.invoices.answer, /Synesis/);
+  assert.doesNotMatch(
+    readMessages("en").Marketing.faq.items.invoices.answer,
+    /Synesis/,
+  );
+  assert.doesNotMatch(readMessages("en").Marketing.faq.description, /beta/i);
   assert.doesNotMatch(
     JSON.stringify(readMessages("sr").Marketing.faq),
     /[\u0400-\u04ff]/,

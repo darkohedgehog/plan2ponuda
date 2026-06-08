@@ -56,6 +56,39 @@ type StripeBillingPriceEnv = {
   stripeProPriceId: string;
 };
 
+const EU_VAT_COUNTRY_CODES = new Set([
+  "AT",
+  "BE",
+  "BG",
+  "CY",
+  "CZ",
+  "DE",
+  "DK",
+  "EE",
+  "EL",
+  "ES",
+  "FI",
+  "FR",
+  "GR",
+  "HR",
+  "HU",
+  "IE",
+  "IT",
+  "LT",
+  "LU",
+  "LV",
+  "MT",
+  "NL",
+  "PL",
+  "PT",
+  "RO",
+  "SE",
+  "SI",
+  "SK",
+]);
+const EU_VAT_ID_PATTERN = /^[A-Z]{2}[A-Z0-9]{2,18}$/;
+const STRIPE_TAX_ID_LIST_LIMIT = 100;
+
 type StripeCustomerResult =
   | {
       ok: true;
@@ -186,7 +219,7 @@ function getStripeCustomerAddress(
   };
 }
 
-function getStripeCustomerParams(
+export function getStripeCustomerCreateParams(
   userId: string,
   profile: BillingProfileInput,
 ): Stripe.CustomerCreateParams {
@@ -199,6 +232,170 @@ function getStripeCustomerParams(
     name: profile.billingName,
     phone: profile.phone ?? undefined,
   };
+}
+
+export function getStripeCustomerUpdateParams(
+  userId: string,
+  profile: BillingProfileInput,
+): Stripe.CustomerUpdateParams {
+  return {
+    address: getStripeCustomerAddress(profile),
+    email: profile.billingEmail,
+    metadata: {
+      userId,
+    },
+    name: profile.billingName,
+    phone: profile.phone ?? undefined,
+  };
+}
+
+function normalizeTaxIdentifier(value: string | null): string | null {
+  const normalized = value?.replace(/[\s.-]/g, "").toUpperCase() ?? "";
+
+  return normalized.length > 0 ? normalized : null;
+}
+
+function normalizeCroatianOib(value: string | null): string | null {
+  const normalized = value?.replace(/[\s-]/g, "") ?? "";
+
+  return normalized.length > 0 ? normalized : null;
+}
+
+function isLikelyEuVatId(value: string): boolean {
+  return (
+    EU_VAT_ID_PATTERN.test(value) &&
+    EU_VAT_COUNTRY_CODES.has(value.slice(0, 2))
+  );
+}
+
+function isValidCroatianOib(value: string): boolean {
+  if (!/^\d{11}$/.test(value)) {
+    return false;
+  }
+
+  let remainder = 10;
+
+  for (let index = 0; index < 10; index += 1) {
+    remainder = (remainder + Number(value[index])) % 10;
+
+    if (remainder === 0) {
+      remainder = 10;
+    }
+
+    remainder = (remainder * 2) % 11;
+  }
+
+  const checkDigit = 11 - remainder;
+  const expectedDigit = checkDigit === 10 ? 0 : checkDigit;
+
+  return expectedDigit === Number(value[10]);
+}
+
+function shouldForwardCroatianOib(profile: BillingProfileInput): boolean {
+  return (
+    profile.customerType === "croatian_business_b2b" ||
+    profile.customerType === "croatian_b2g"
+  );
+}
+
+export function getStripeCustomerTaxIdParams(
+  profile: BillingProfileInput,
+): Stripe.CustomerCreateTaxIdParams | null {
+  const vatId = normalizeTaxIdentifier(profile.vatId);
+
+  if (vatId && isLikelyEuVatId(vatId)) {
+    return {
+      type: "eu_vat",
+      value: vatId,
+    };
+  }
+
+  const oib = normalizeCroatianOib(profile.oib);
+
+  if (oib && shouldForwardCroatianOib(profile) && isValidCroatianOib(oib)) {
+    return {
+      type: "hr_oib",
+      value: oib,
+    };
+  }
+
+  return null;
+}
+
+function getComparableStripeTaxIdValue(
+  type: Stripe.CustomerCreateTaxIdParams.Type,
+  value: string,
+): string {
+  return type === "hr_oib"
+    ? (normalizeCroatianOib(value) ?? value)
+    : (normalizeTaxIdentifier(value) ?? value);
+}
+
+function stripeTaxIdMatches(
+  taxId: Stripe.TaxId,
+  taxIdParams: Stripe.CustomerCreateTaxIdParams,
+): boolean {
+  return (
+    taxId.type === taxIdParams.type &&
+    getComparableStripeTaxIdValue(taxIdParams.type, taxId.value) ===
+      getComparableStripeTaxIdValue(taxIdParams.type, taxIdParams.value)
+  );
+}
+
+function getLoggableStripeTaxIdSyncError(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      name: error.name,
+    };
+  }
+
+  return {
+    message: "Unknown Stripe tax ID sync error.",
+  };
+}
+
+async function syncStripeCustomerTaxId(
+  stripeCustomerId: string,
+  profile: BillingProfileInput,
+): Promise<void> {
+  const taxIdParams = getStripeCustomerTaxIdParams(profile);
+
+  if (!taxIdParams) {
+    return;
+  }
+
+  try {
+    const stripe = getStripeClient();
+    const taxIds = await stripe.customers.listTaxIds(stripeCustomerId, {
+      limit: STRIPE_TAX_ID_LIST_LIMIT,
+    });
+
+    if (taxIds.data.some((taxId) => stripeTaxIdMatches(taxId, taxIdParams))) {
+      return;
+    }
+
+    // Supplemental Stripe tax IDs do not replace the local Croatian invoice flow.
+    await stripe.customers.createTaxId(stripeCustomerId, taxIdParams);
+  } catch (error: unknown) {
+    console.warn("Stripe customer tax ID sync failed", {
+      error: getLoggableStripeTaxIdSyncError(error),
+      stripeCustomerId,
+      taxIdType: taxIdParams.type,
+    });
+  }
+}
+
+async function syncStripeCustomerBillingDetails(
+  stripeCustomerId: string,
+  userId: string,
+  profile: BillingProfileInput,
+): Promise<void> {
+  await getStripeClient().customers.update(
+    stripeCustomerId,
+    getStripeCustomerUpdateParams(userId, profile),
+  );
+  await syncStripeCustomerTaxId(stripeCustomerId, profile);
 }
 
 function subscriptionHasPaidAccess(
@@ -360,6 +557,18 @@ export async function getOrCreateStripeCustomerForUser(
   const existingStripeCustomerId = user.subscription?.stripeCustomerId;
 
   if (existingStripeCustomerId) {
+    const parsedProfile = user.billingProfile
+      ? billingProfileSchema.safeParse(user.billingProfile)
+      : null;
+
+    if (parsedProfile?.success) {
+      await syncStripeCustomerBillingDetails(
+        existingStripeCustomerId,
+        userId,
+        parsedProfile.data,
+      );
+    }
+
     return {
       ok: true,
       stripeCustomerId: existingStripeCustomerId,
@@ -384,8 +593,9 @@ export async function getOrCreateStripeCustomerForUser(
   }
 
   const customer = await getStripeClient().customers.create(
-    getStripeCustomerParams(userId, parsedProfile.data),
+    getStripeCustomerCreateParams(userId, parsedProfile.data),
   );
+  await syncStripeCustomerTaxId(customer.id, parsedProfile.data);
   await updateSubscriptionStripeCustomerId(userId, customer.id);
 
   return {

@@ -114,15 +114,20 @@ export function AnalyzeFloorPlanButton({
   return (
     <div className="mt-4 border-t border-frosted-blue-200 pt-4">
       {uiState.button.visible ? (
-        <button
-          className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-          disabled={uiState.button.disabled}
-          onClick={analyzeFloorPlan}
-          type="button"
-        >
-          <Sparkles aria-hidden="true" className="h-4 w-4" />
-          {tActions(uiState.button.labelKey)}
-        </button>
+        <>
+          <button
+            className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-deep-twilight-600 px-4 text-sm font-semibold text-white shadow-sm outline-none transition-colors hover:bg-deep-twilight-700 focus-visible:ring-2 focus-visible:ring-bright-teal-blue-100 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            disabled={uiState.button.disabled}
+            onClick={analyzeFloorPlan}
+            type="button"
+          >
+            <Sparkles aria-hidden="true" className="h-4 w-4" />
+            {tActions(uiState.button.labelKey)}
+          </button>
+          <p className="mt-3 max-w-xl text-xs leading-5 text-deep-twilight-700/70">
+            {tReview("analysis.messages.patienceNotice")}
+          </p>
+        </>
       ) : null}
 
       {uiState.feedback?.kind === "existingRooms" ? (
