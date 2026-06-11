@@ -2,12 +2,15 @@ import { NextResponse } from "next/server";
 
 import { forgotPasswordSchema } from "@/lib/validations/auth.schema";
 import { requestPasswordReset } from "@/server/services/auth-service";
-import { getClientIpAddress } from "@/server/services/rate-limit-service";
+import {
+  getClientIpAddress,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import { verifyTurnstileToken } from "@/server/services/turnstile-service";
 import type { ForgotPasswordResponse } from "@/types/auth";
 
 const safeSuccessMessage =
-  "If an account exists for this email, password reset instructions will be sent.";
+  "If the account exists, password reset instructions have been sent.";
 
 const invalidInputResponse: ForgotPasswordResponse = {
   error: {
@@ -96,12 +99,15 @@ export async function POST(request: Request) {
     const response: ForgotPasswordResponse = {
       error: {
         code: "rate_limited",
-        message: "Too many requests. Please try again later.",
+        message: "Too many attempts. Please try again later.",
       },
       ok: false,
     };
 
-    return NextResponse.json(response, { status: 429 });
+    return NextResponse.json(response, {
+      headers: getRateLimitHeaders(result.rateLimitStatus),
+      status: 429,
+    });
   }
 
   const response: ForgotPasswordResponse = {
@@ -109,7 +115,7 @@ export async function POST(request: Request) {
     ok: true,
   };
 
-  if (process.env.NODE_ENV !== "production" && result.devResetUrl) {
+  if (process.env.NODE_ENV === "development" && result.devResetUrl) {
     return NextResponse.json({
       ...response,
       devResetUrl: result.devResetUrl,

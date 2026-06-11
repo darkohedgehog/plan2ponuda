@@ -50,7 +50,7 @@
       "emailVerificationInvalid": "Link za potvrdu e-pošte nije važeći ili je istekao.",
       "emailVerificationSuccess": "E-pošta je potvrđena. Sada možete koristiti učitavanja, AI analizu i ponude.",
       "passwordResetSuccess": "Lozinka je resetovana. Sada se možete prijaviti novom lozinkom.",
-      "resetInstructionsPrepared": "Ako nalog postoji, uputstva za resetovanje lozinke su pripremljena."
+      "resetInstructionsPrepared": "Ako nalog postoji, uputstva za resetovanje lozinke su poslata."
     },
     "newPassword": "Nova lozinka",
     "pages": {
@@ -169,7 +169,7 @@
     "laborFactorPositive": "Faktor rada mora biti pozitivan broj.",
     "missingResetToken": "Ovom linku za resetovanje lozinke nedostaje token.",
     "passwordResetInvalidOrExpired": "Ovaj link za resetovanje lozinke nije važeći ili je istekao.",
-    "passwordResetRateLimited": "Previše zahteva. Pokušajte ponovo kasnije.",
+    "passwordResetRateLimited": "Previše pokušaja. Pokušajte ponovo kasnije.",
     "passwordsDoNotMatch": "Lozinke se ne podudaraju.",
     "tooManyAttempts": "Previše pokušaja. Sačekajte i pokušajte ponovo.",
     "tooManyRequests": "Previše zahteva. Pokušajte ponovo kasnije.",

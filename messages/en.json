@@ -50,7 +50,7 @@
       "emailVerificationInvalid": "This email verification link is invalid or expired.",
       "emailVerificationSuccess": "Email verified. You can now use uploads, AI analysis, and quotes.",
       "passwordResetSuccess": "Password reset. You can now sign in with your new password.",
-      "resetInstructionsPrepared": "If an account exists, password reset instructions have been prepared."
+      "resetInstructionsPrepared": "If the account exists, password reset instructions have been sent."
     },
     "newPassword": "New password",
     "pages": {
@@ -169,7 +169,7 @@
     "laborFactorPositive": "Labor factor must be a positive number.",
     "missingResetToken": "This password reset link is missing a token.",
     "passwordResetInvalidOrExpired": "This password reset link is invalid or expired.",
-    "passwordResetRateLimited": "Too many requests. Please try again later.",
+    "passwordResetRateLimited": "Too many attempts. Please try again later.",
     "passwordsDoNotMatch": "Passwords do not match.",
     "tooManyAttempts": "Too many attempts. Please wait and try again.",
     "tooManyRequests": "Too many requests. Please try again later.",

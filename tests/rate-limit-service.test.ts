@@ -10,6 +10,7 @@ import {
   computeRateLimitWindowStart,
   createAiRateLimitKey,
   createCompositeRateLimitKey,
+  getClientIpAddress,
   getRateLimitHeaders,
   hashRateLimitKey,
   type RateLimitBucketRow,
@@ -136,6 +137,40 @@ test("returns safe rate limit headers", () => {
   assert.equal(headers["X-RateLimit-Reset"], "1779358080");
 });
 
+test("prefers a valid Cloudflare client IP over other forwarded headers", () => {
+  const request = new Request("https://example.com/api/auth/forgot-password", {
+    headers: {
+      "cf-connecting-ip": "203.0.113.10",
+      "x-forwarded-for": "198.51.100.5, 198.51.100.6",
+      "x-real-ip": "192.0.2.10",
+    },
+  });
+
+  assert.equal(getClientIpAddress(request), "203.0.113.10");
+});
+
+test("falls back to the first valid forwarded IP or unknown", () => {
+  const request = new Request("https://example.com/api/auth/forgot-password", {
+    headers: {
+      "cf-connecting-ip": "not-an-ip",
+      "x-forwarded-for": "also-invalid, 198.51.100.42",
+      "x-real-ip": "192.0.2.10",
+    },
+  });
+  const unknownRequest = new Request(
+    "https://example.com/api/auth/forgot-password",
+    {
+      headers: {
+        "x-forwarded-for": "not-an-ip",
+        "x-real-ip": "",
+      },
+    },
+  );
+
+  assert.equal(getClientIpAddress(request), "198.51.100.42");
+  assert.equal(getClientIpAddress(unknownRequest), "unknown");
+});
+
 test("hashes sensitive rate limit key material", () => {
   const email = "User.Name+test@example.com";
   const ipAddress = "203.0.113.42";
@@ -162,4 +197,18 @@ test("defines the AI policy and user-scoped AI key", () => {
   assert.equal(RATE_LIMIT_POLICIES.aiAnalysis.limit, 10);
   assert.equal(RATE_LIMIT_POLICIES.aiAnalysis.windowSeconds, 60);
   assert.equal(createAiRateLimitKey({ userId: "user_123" }), "user:user_123");
+});
+
+test("defines layered forgot-password policies", () => {
+  assert.equal(RATE_LIMIT_SCOPES.forgotPassword, "forgot_password");
+  assert.equal(RATE_LIMIT_POLICIES.forgotPassword.limit, 3);
+  assert.equal(RATE_LIMIT_POLICIES.forgotPassword.windowSeconds, 15 * 60);
+
+  assert.equal(RATE_LIMIT_SCOPES.forgotPasswordEmail, "forgot_password_email");
+  assert.equal(RATE_LIMIT_POLICIES.forgotPasswordEmail.limit, 5);
+  assert.equal(RATE_LIMIT_POLICIES.forgotPasswordEmail.windowSeconds, 60 * 60);
+
+  assert.equal(RATE_LIMIT_SCOPES.forgotPasswordIp, "forgot_password_ip");
+  assert.equal(RATE_LIMIT_POLICIES.forgotPasswordIp.limit, 10);
+  assert.equal(RATE_LIMIT_POLICIES.forgotPasswordIp.windowSeconds, 15 * 60);
 });

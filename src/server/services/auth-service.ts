@@ -23,12 +23,14 @@ import {
   createCompositeRateLimitKey,
   createUserRateLimitKey,
   type RateLimitExceededStatus,
+  type RateLimitScope,
+  type RateLimitStatus,
 } from "@/server/services/rate-limit-service";
 import { sendPasswordResetEmail } from "@/server/services/mail-service";
 import type { SignUpResponse } from "@/types/auth";
 
 const PASSWORD_RESET_SUCCESS_MESSAGE =
-  "If an account exists for this email, password reset instructions will be sent.";
+  "If the account exists, password reset instructions have been sent.";
 const EMAIL_VERIFICATION_TOKEN_BYTES = 32;
 const EMAIL_VERIFICATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 const PASSWORD_RESET_TOKEN_BYTES = 32;
@@ -332,6 +334,7 @@ export type RequestPasswordResetResult =
       ok: true;
     }
   | {
+      rateLimitStatus: RateLimitExceededStatus;
       ok: false;
       reason: "rate_limited";
     };
@@ -343,7 +346,7 @@ export async function requestPasswordReset(
   locale?: string | null,
 ): Promise<RequestPasswordResetResult> {
   const email = normalizeEmail(input.email);
-  const rateLimitKey = createCompositeRateLimitKey([
+  const emailIpRateLimitKey = createCompositeRateLimitKey([
     {
       kind: "email",
       value: email,
@@ -353,21 +356,41 @@ export async function requestPasswordReset(
       value: ipAddress,
     },
   ]);
+  const emailRateLimitKey = createCompositeRateLimitKey([
+    {
+      kind: "email",
+      value: email,
+    },
+  ]);
+  const ipRateLimitKey = createCompositeRateLimitKey([
+    {
+      kind: "ip",
+      value: ipAddress,
+    },
+  ]);
 
-  const rateLimit = await checkRateLimitOrThrow({
-    key: rateLimitKey,
-    scope: RATE_LIMIT_SCOPES.forgotPassword,
-    ...RATE_LIMIT_POLICIES.forgotPassword,
-  }).catch((error: unknown) => {
-    if (error instanceof RateLimitExceededError) {
-      return null;
-    }
+  const rateLimits = [
+    await checkPasswordResetRateLimit({
+      key: emailIpRateLimitKey,
+      policy: RATE_LIMIT_POLICIES.forgotPassword,
+      scope: RATE_LIMIT_SCOPES.forgotPassword,
+    }),
+    await checkPasswordResetRateLimit({
+      key: emailRateLimitKey,
+      policy: RATE_LIMIT_POLICIES.forgotPasswordEmail,
+      scope: RATE_LIMIT_SCOPES.forgotPasswordEmail,
+    }),
+    await checkPasswordResetRateLimit({
+      key: ipRateLimitKey,
+      policy: RATE_LIMIT_POLICIES.forgotPasswordIp,
+      scope: RATE_LIMIT_SCOPES.forgotPasswordIp,
+    }),
+  ];
+  const rateLimit = getExceededRateLimitStatus(rateLimits);
 
-    throw error;
-  });
-
-  if (!rateLimit) {
+  if (rateLimit) {
     return {
+      rateLimitStatus: rateLimit,
       ok: false,
       reason: "rate_limited",
     };
@@ -423,7 +446,7 @@ export async function requestPasswordReset(
     });
   }
 
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV === "development") {
     return {
       ...result,
       devResetUrl,
@@ -431,6 +454,45 @@ export async function requestPasswordReset(
   }
 
   return result;
+}
+
+async function checkPasswordResetRateLimit(params: {
+  key: string;
+  policy: {
+    limit: number;
+    windowSeconds: number;
+  };
+  scope: RateLimitScope;
+}): Promise<RateLimitStatus> {
+  return checkRateLimitOrThrow({
+    key: params.key,
+    scope: params.scope,
+    ...params.policy,
+  }).catch((error: unknown) => {
+    if (error instanceof RateLimitExceededError) {
+      return error.status;
+    }
+
+    throw error;
+  });
+}
+
+function getExceededRateLimitStatus(
+  statuses: RateLimitStatus[],
+): RateLimitExceededStatus | null {
+  const exceededStatuses = statuses.filter(
+    (status): status is RateLimitExceededStatus => !status.ok,
+  );
+
+  if (exceededStatuses.length === 0) {
+    return null;
+  }
+
+  return exceededStatuses.reduce((selectedStatus, status) =>
+    status.retryAfterSeconds > selectedStatus.retryAfterSeconds
+      ? status
+      : selectedStatus,
+  );
 }
 
 export type ResetPasswordResult =

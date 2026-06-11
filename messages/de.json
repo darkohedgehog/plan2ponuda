@@ -50,7 +50,7 @@
       "emailVerificationInvalid": "Dieser E-Mail-Bestätigungslink ist ungültig oder abgelaufen.",
       "emailVerificationSuccess": "E-Mail bestätigt. Sie können jetzt Uploads, KI-Analyse und Angebote nutzen.",
       "passwordResetSuccess": "Das Passwort wurde zurückgesetzt. Sie können sich jetzt mit dem neuen Passwort anmelden.",
-      "resetInstructionsPrepared": "Wenn ein Konto existiert, wurden Anweisungen zum Zurücksetzen des Passworts vorbereitet."
+      "resetInstructionsPrepared": "Wenn das Konto existiert, wurden Anweisungen zum Zurücksetzen des Passworts gesendet."
     },
     "newPassword": "Neues Passwort",
     "pages": {
@@ -169,7 +169,7 @@
     "laborFactorPositive": "Der Arbeitsfaktor muss eine positive Zahl sein.",
     "missingResetToken": "Diesem Link zum Zurücksetzen des Passworts fehlt ein Token.",
     "passwordResetInvalidOrExpired": "Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.",
-    "passwordResetRateLimited": "Zu viele Anfragen. Bitte versuchen Sie es später erneut.",
+    "passwordResetRateLimited": "Zu viele Versuche. Bitte versuchen Sie es später erneut.",
     "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
     "tooManyAttempts": "Zu viele Versuche. Bitte warten Sie und versuchen Sie es erneut.",
     "tooManyRequests": "Zu viele Anfragen. Bitte versuchen Sie es später erneut.",

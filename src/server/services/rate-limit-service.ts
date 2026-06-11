@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
+import { isIP } from "node:net";
 
 import { Prisma } from "../../../generated/prisma/client";
 
@@ -8,6 +9,8 @@ export const RATE_LIMIT_SCOPES = {
   aiAnalysis: "ai_analysis",
   floorPlanUpload: "floor_plan_upload",
   forgotPassword: "forgot_password",
+  forgotPasswordEmail: "forgot_password_email",
+  forgotPasswordIp: "forgot_password_ip",
   projectCreate: "project_create",
   projectDocumentAnalysis: "project_document_analysis",
   projectDocumentDelete: "project_document_delete",
@@ -25,6 +28,14 @@ export const RATE_LIMIT_POLICIES = {
   },
   forgotPassword: {
     limit: 3,
+    windowSeconds: 15 * 60,
+  },
+  forgotPasswordEmail: {
+    limit: 5,
+    windowSeconds: 60 * 60,
+  },
+  forgotPasswordIp: {
+    limit: 10,
     windowSeconds: 15 * 60,
   },
   floorPlanUpload: {
@@ -153,21 +164,21 @@ export function createUserRateLimitKey(params: { userId: string }): string {
 }
 
 export function getClientIpAddress(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const forwardedIp = forwardedFor
-    ?.split(",")
-    .map((value) => value.trim())
-    .find((value) => value.length > 0);
+  const cloudflareIp = getValidIpHeader(request, "cf-connecting-ip");
+
+  if (cloudflareIp) {
+    return cloudflareIp;
+  }
+
+  const forwardedIp = getFirstValidForwardedIp(
+    request.headers.get("x-forwarded-for"),
+  );
 
   if (forwardedIp) {
     return forwardedIp;
   }
 
-  return (
-    request.headers.get("x-real-ip")?.trim() ||
-    request.headers.get("cf-connecting-ip")?.trim() ||
-    "unknown"
-  );
+  return getValidIpHeader(request, "x-real-ip") ?? "unknown";
 }
 
 export async function checkRateLimitOrThrow(
@@ -292,6 +303,29 @@ function normalizeRateLimitKeyValue(value: string): string {
   const normalizedValue = value.trim().toLowerCase();
 
   return normalizedValue.length > 0 ? normalizedValue : "unknown";
+}
+
+function getValidIpHeader(request: Request, headerName: string): string | null {
+  return normalizeIpAddress(request.headers.get(headerName));
+}
+
+function getFirstValidForwardedIp(value: string | null): string | null {
+  return (
+    value
+      ?.split(",")
+      .map((part) => normalizeIpAddress(part))
+      .find((part): part is string => Boolean(part)) ?? null
+  );
+}
+
+function normalizeIpAddress(value: string | null): string | null {
+  const trimmedValue = value?.trim();
+
+  if (!trimmedValue || isIP(trimmedValue) === 0) {
+    return null;
+  }
+
+  return trimmedValue;
 }
 
 function validateRateLimitOptions(options: RateLimitOptions): void {

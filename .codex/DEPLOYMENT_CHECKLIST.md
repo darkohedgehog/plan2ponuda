@@ -103,6 +103,20 @@ Staging/production setup:
 - Confirm an invalid or missing Turnstile token is rejected on sign-up,
   sign-in, and forgot-password.
 
+Cloudflare WAF/rate-limit notes:
+
+- Keep app-level Turnstile and DB-backed rate limits enabled for auth forms;
+  Cloudflare is defense in depth, not the only protection.
+- The app enforces layered forgot-password limits before user lookup or email:
+  3 requests per 15 minutes per normalized email/client IP pair, 5 requests per
+  hour per normalized email, and 10 requests per 15 minutes per client IP.
+- Add a low-threshold Cloudflare rate-limit rule for
+  `POST /api/auth/forgot-password`.
+- Allow normal browsers through and avoid exposing the origin port directly.
+- Do not apply Turnstile, managed challenges, or bot challenges to
+  `/api/stripe/webhook`; Stripe webhooks must reach the app for signature
+  verification.
+
 Staging smoke checklist:
 
 - Test sign-up with Turnstile enabled.

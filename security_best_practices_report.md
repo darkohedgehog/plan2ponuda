@@ -25,6 +25,15 @@ Configure these in Cloudflare at the zone/domain level, outside the repo:
   `http.request.uri.path in {"/api/auth/sign-up" "/api/auth/forgot-password" "/api/auth/callback/credentials"} and http.request.method eq "POST"`
 - Add Cloudflare rate limiting rules for auth endpoints:
   `/api/auth/sign-up`, `/api/auth/forgot-password`, `/api/auth/callback/credentials`.
+- Use a low threshold for `POST /api/auth/forgot-password` to reduce reset
+  email abuse, while keeping the origin-side DB rate limit as the source of
+  truth for bypass and direct-origin scenarios.
+- The origin app enforces layered DB-backed forgot-password limits:
+  3 requests per 15 minutes per normalized email/client IP pair, 5 requests per
+  hour per normalized email, and 10 requests per 15 minutes per client IP.
 - Add Cloudflare rate limiting rules for expensive app endpoints:
   `/api/analysis/*`, `/api/projects/*/upload`, `/api/projects/*/documents/upload`, `/api/projects/*/documents/*/analyze`, `/api/quotes/*`.
 - Keep origin-side DB rate limits enabled. Cloudflare limits reduce edge abuse; origin limits still protect authenticated-user quotas and bypass scenarios.
+- Do not apply Turnstile, managed challenges, or bot challenges to
+  `/api/stripe/webhook`; Stripe webhooks must remain machine-callable and are
+  protected by signature verification in the app.

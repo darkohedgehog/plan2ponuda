@@ -50,7 +50,7 @@
       "emailVerificationInvalid": "Povezava za potrditev e-pošte ni veljavna ali je potekla.",
       "emailVerificationSuccess": "E-pošta je potrjena. Zdaj lahko uporabljate nalaganja, AI analizo in ponudbe.",
       "passwordResetSuccess": "Geslo je ponastavljeno. Zdaj se lahko prijavite z novim geslom.",
-      "resetInstructionsPrepared": "Če račun obstaja, so navodila za ponastavitev gesla pripravljena."
+      "resetInstructionsPrepared": "Če račun obstaja, so bila navodila za ponastavitev gesla poslana."
     },
     "newPassword": "Novo geslo",
     "pages": {
@@ -169,7 +169,7 @@
     "laborFactorPositive": "Faktor dela mora biti pozitivno število.",
     "missingResetToken": "Tej povezavi za ponastavitev gesla manjka žeton.",
     "passwordResetInvalidOrExpired": "Ta povezava za ponastavitev gesla ni veljavna ali je potekla.",
-    "passwordResetRateLimited": "Preveč zahtev. Poskusite znova pozneje.",
+    "passwordResetRateLimited": "Preveč poskusov. Poskusite znova pozneje.",
     "passwordsDoNotMatch": "Gesli se ne ujemata.",
     "tooManyAttempts": "Preveč poskusov. Počakajte in poskusite znova.",
     "tooManyRequests": "Preveč zahtev. Poskusite znova pozneje.",
