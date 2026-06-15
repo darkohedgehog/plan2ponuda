@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 
 import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import {
+  MAX_FLOOR_PLAN_UPLOAD_BODY_SIZE_BYTES,
   isFileInput,
   projectIdSchema,
   uploadFloorPlanSchema,
   validateFloorPlanFile,
 } from "@/lib/validations/project.schema";
+import { isUploadBodyTooLarge } from "@/lib/validations/upload-request";
 import { uploadFloorPlan } from "@/server/services/project-service";
 import {
   RATE_LIMIT_POLICIES,
@@ -111,6 +113,23 @@ export async function POST(
     };
 
     return NextResponse.json(response, { status: 400 });
+  }
+
+  if (
+    isUploadBodyTooLarge(
+      request.headers,
+      MAX_FLOOR_PLAN_UPLOAD_BODY_SIZE_BYTES,
+    )
+  ) {
+    const response: UploadFloorPlanResponse = {
+      ok: false,
+      error: {
+        code: "file_too_large",
+        message: "Floor plan files must be 10MB or smaller.",
+      },
+    };
+
+    return NextResponse.json(response, { status: 413 });
   }
 
   const formData = await request.formData().catch((): FormData | null => null);

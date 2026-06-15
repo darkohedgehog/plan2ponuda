@@ -140,6 +140,7 @@ function getPublicErrorCode(
   reason: AnalyzeProjectFailureReason,
 ): AnalysisErrorCode {
   switch (reason) {
+    case "analysis_in_progress":
     case "missing_floor_plan":
     case "not_found":
     case "rooms_already_exist":
@@ -162,6 +163,7 @@ function getErrorStatus(code: AnalysisErrorCode): number {
     case "not_found":
       return 404;
     case "missing_floor_plan":
+    case "analysis_in_progress":
     case "rooms_already_exist":
     case "unsupported_file_type":
       return 409;
@@ -177,6 +179,8 @@ function getSafeErrorMessage(code: AnalysisErrorCode): AnalysisError["message"] 
   switch (code) {
     case "invalid_input":
       return "Invalid project.";
+    case "analysis_in_progress":
+      return "This floor plan is already being analyzed.";
     case "missing_floor_plan":
       return "Upload a floor plan before running analysis.";
     case "not_found":

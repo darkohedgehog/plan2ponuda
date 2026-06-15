@@ -1596,6 +1596,7 @@
   "Review": {
     "analysis": {
       "errors": {
+        "analysisInProgress": "Ta tloris se že analizira.",
         "aiFailed": "Tega tlorisa ni mogoče analizirati.",
         "invalidInput": "Projekt ni veljaven.",
         "missingFloorPlan": "Naložite tloris pred zagonom analize.",

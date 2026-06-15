@@ -477,6 +477,45 @@ async function processInvoicePaymentFailed(
   await syncSubscriptionFromStripeSubscription(subscription);
 }
 
+function getInvoiceIdFromInvoicePayment(
+  invoicePayment: Stripe.InvoicePayment,
+): string | null {
+  const invoice = invoicePayment.invoice as unknown;
+
+  if (typeof invoice === "string" && invoice.trim().length > 0) {
+    return invoice;
+  }
+
+  if (
+    typeof invoice === "object" &&
+    invoice !== null &&
+    "id" in invoice &&
+    typeof invoice.id === "string" &&
+    invoice.id.trim().length > 0
+  ) {
+    return invoice.id;
+  }
+
+  return null;
+}
+
+async function processInvoicePaymentPaid(
+  invoicePayment: Stripe.InvoicePayment,
+  eventId: string,
+): Promise<void> {
+  const invoiceId = getInvoiceIdFromInvoicePayment(invoicePayment);
+
+  if (!invoiceId) {
+    throw new Error(
+      `Stripe invoice_payment ${invoicePayment.id} missing invoice id`,
+    );
+  }
+
+  const invoice = await getStripeClient().invoices.retrieve(invoiceId);
+
+  await createInvoiceTaskFromPaidInvoice(invoice, eventId);
+}
+
 async function processStripeEventByType(event: Stripe.Event): Promise<void> {
   switch (event.type) {
     case "checkout.session.completed":
@@ -494,6 +533,12 @@ async function processStripeEventByType(event: Stripe.Event): Promise<void> {
     case "invoice.paid":
       await createInvoiceTaskFromPaidInvoice(
         event.data.object as Stripe.Invoice,
+        event.id,
+      );
+      return;
+    case "invoice_payment.paid":
+      await processInvoicePaymentPaid(
+        event.data.object as Stripe.InvoicePayment,
         event.id,
       );
       return;

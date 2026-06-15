@@ -27,21 +27,24 @@ test("document analysis logs only safe PDF payload metadata", () => {
   assert.doesNotMatch(source, /console\.(?:info|log|error)\([^)]*file_data/s);
 });
 
-test("failed documents may retry and usage is consumed only after success", () => {
+test("failed documents may retry and reserved usage is refunded on failure", () => {
   const source = readSource(
     "src/server/services/project-document-analysis-service.ts",
   );
 
   assert.match(source, /in:\s*\["analysis_pending", "failed", "uploaded"\]/);
 
-  const consumeIndex = source.indexOf("consumeUsageOrThrow");
-  const persistIndex = source.indexOf("persistSuccessfulProjectDocumentAnalysis");
-  const failedIndex = source.indexOf("markProjectDocumentAnalysisFailed");
-
-  assert.ok(consumeIndex > persistIndex);
-  assert.ok(failedIndex > -1);
-  assert.doesNotMatch(
-    source.slice(failedIndex, failedIndex + 900),
-    /consumeUsageOrThrow/,
+  const reserveCallIndex = source.indexOf(
+    "await createPendingProjectDocumentAnalysisWithUsageReservation",
   );
+  const providerIndex = source.indexOf(
+    "const aiAnalysis = await runProjectDocumentAnalysis",
+  );
+  const failedIndex = source.indexOf("failReservedProjectDocumentAnalysis");
+
+  assert.ok(reserveCallIndex > -1);
+  assert.ok(providerIndex > -1);
+  assert.ok(reserveCallIndex < providerIndex);
+  assert.ok(failedIndex > -1);
+  assert.match(source, /refundUsageReservation/);
 });

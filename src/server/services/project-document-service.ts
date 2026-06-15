@@ -11,7 +11,7 @@ import { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "@/lib/db/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 import { projectDocumentAnalysisOutputSchema } from "@/lib/validations/project-document-analysis.schema";
-import { validateProjectDocumentFile } from "@/lib/validations/project-document.schema";
+import { validateProjectDocumentFileUpload } from "@/lib/validations/project-document.schema";
 import { getEffectivePlan } from "@/server/services/billing-service";
 import {
   assertProjectOwnedStoragePath,
@@ -173,12 +173,12 @@ export async function uploadProjectDocument({
   projectId,
   userId,
 }: UploadProjectDocumentInput): Promise<ProjectDocumentResult> {
-  const fileValidationError = validateProjectDocumentFile(file);
+  const validatedFile = await validateProjectDocumentFileUpload(file);
 
-  if (fileValidationError) {
+  if (!validatedFile.ok) {
     return {
       ok: false,
-      error: fileValidationError,
+      error: validatedFile.error,
     };
   }
 
@@ -221,7 +221,7 @@ export async function uploadProjectDocument({
       fileName: getSafeDisplayFileName(file.name),
       filePath,
       id: documentId,
-      mimeType: file.type,
+      mimeType: validatedFile.mimeType,
       projectId: project.id,
       sizeBytes: file.size,
       status: "uploaded",
@@ -232,7 +232,7 @@ export async function uploadProjectDocument({
   const { error: uploadError } = await supabase.storage
     .from(PROJECT_FILES_BUCKET)
     .upload(filePath, file, {
-      contentType: file.type,
+      contentType: validatedFile.mimeType,
       upsert: false,
     });
 

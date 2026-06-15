@@ -878,4 +878,36 @@ export async function consumeUsageOrThrow(
   };
 }
 
+export async function refundUsageReservation(
+  db: UsageCounterWriteClient,
+  userId: string,
+  type: UsageCounterTypeValue,
+): Promise<void> {
+  const subscription = await db.subscription.findUnique({
+    where: {
+      userId,
+    },
+  });
+  const plan = getEffectivePlanFromSubscription(subscription);
+  const period = getUsagePeriod(subscription, plan);
+
+  await db.usageCounter.updateMany({
+    data: {
+      count: {
+        decrement: 1,
+      },
+      periodEnd: period.periodEnd,
+      periodStart: period.periodStart,
+    },
+    where: {
+      count: {
+        gt: 0,
+      },
+      periodKey: period.key,
+      type,
+      userId,
+    },
+  });
+}
+
 export { getUsageCounterTypeForFeature };

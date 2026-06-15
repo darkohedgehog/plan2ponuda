@@ -1596,6 +1596,7 @@
   "Review": {
     "analysis": {
       "errors": {
+        "analysisInProgress": "Dieser Grundriss wird bereits analysiert.",
         "aiFailed": "Dieser Grundriss konnte nicht analysiert werden.",
         "invalidInput": "Ungültiges Projekt.",
         "missingFloorPlan": "Laden Sie einen Grundriss hoch, bevor Sie die Analyse starten.",

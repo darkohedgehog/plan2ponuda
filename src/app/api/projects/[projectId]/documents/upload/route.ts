@@ -3,9 +3,11 @@ import { NextResponse } from "next/server";
 import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import {
+  MAX_PROJECT_DOCUMENT_UPLOAD_BODY_SIZE_BYTES,
   uploadProjectDocumentSchema,
   validateProjectDocumentFile,
 } from "@/lib/validations/project-document.schema";
+import { isUploadBodyTooLarge } from "@/lib/validations/upload-request";
 import { uploadProjectDocument } from "@/server/services/project-document-service";
 import {
   RATE_LIMIT_POLICIES,
@@ -119,6 +121,23 @@ export async function POST(
     };
 
     return NextResponse.json(response, { status: 400 });
+  }
+
+  if (
+    isUploadBodyTooLarge(
+      request.headers,
+      MAX_PROJECT_DOCUMENT_UPLOAD_BODY_SIZE_BYTES,
+    )
+  ) {
+    const response: UploadProjectDocumentResponse = {
+      ok: false,
+      error: {
+        code: "file_too_large",
+        message: "Project documentation PDFs must be 20MB or smaller.",
+      },
+    };
+
+    return NextResponse.json(response, { status: 413 });
   }
 
   const formData = await request.formData().catch((): FormData | null => null);

@@ -1596,6 +1596,7 @@
   "Review": {
     "analysis": {
       "errors": {
+        "analysisInProgress": "Analiza ovog tlocrta je već u toku.",
         "aiFailed": "Nije moguće analizirati ovaj tlocrt.",
         "invalidInput": "Projekat nije važeći.",
         "missingFloorPlan": "Učitajte tlocrt pre pokretanja analize.",

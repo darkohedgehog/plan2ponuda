@@ -1,4 +1,5 @@
 export type AnalysisFeedbackKey =
+  | "analysis.errors.analysisInProgress"
   | "analysis.errors.aiFailed"
   | "analysis.errors.invalidInput"
   | "analysis.errors.missingFloorPlan"

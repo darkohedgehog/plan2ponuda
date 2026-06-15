@@ -124,18 +124,11 @@ async function persistSuccessfulProjectDocumentAnalysis(params: {
   projectId: string;
   provider: string;
   rawResponseJson: unknown;
-  userId: string;
 }): Promise<{
   analysis: ProjectDocumentAnalysis;
   document: ProjectDocument;
 }> {
   const completed = await prisma.$transaction(async (transaction) => {
-    await billingService.consumeUsageOrThrow(
-      transaction,
-      params.userId,
-      "large_pdf_analyses_used",
-    );
-
     const analysis = await transaction.projectDocumentAnalysis.update({
       data: {
         errorMessage: null,
@@ -220,6 +213,31 @@ async function markProjectDocumentAnalysisFailed(
   ]);
 }
 
+async function refundProjectDocumentAnalysisUsage(userId: string): Promise<void> {
+  await billingService
+    .refundUsageReservation(prisma, userId, "large_pdf_analyses_used")
+    .catch((error: unknown) => {
+      console.error("Project document analysis usage refund failed", error);
+    });
+}
+
+async function failReservedProjectDocumentAnalysis(params: {
+  analysisId: string;
+  documentId: string;
+  reason: Exclude<
+    AnalyzeProjectDocumentFailureReason,
+    "analysis_in_progress" | "not_found" | "pro_plan_required"
+  >;
+  userId: string;
+}): Promise<void> {
+  await refundProjectDocumentAnalysisUsage(params.userId);
+  await markProjectDocumentAnalysisFailed(
+    params.analysisId,
+    params.documentId,
+    params.reason,
+  );
+}
+
 export async function analyzeProjectDocument(
   projectId: string,
   documentId: string,
@@ -269,27 +287,24 @@ export async function analyzeProjectDocument(
     };
   }
 
-  const access = await billingService.canUseFeature(userId, "largePdfAnalyses");
+  const pendingAnalysis =
+    await createPendingProjectDocumentAnalysisWithUsageReservation(
+      document.id,
+      userId,
+    ).catch((error: unknown) => {
+      if (error instanceof billingService.UsageLimitExceededError) {
+        return "analysis_limit_reached" as const;
+      }
 
-  if (!access.allowed) {
+      throw error;
+    });
+
+  if (pendingAnalysis === "analysis_limit_reached") {
     return {
       ok: false,
       reason: "analysis_limit_reached",
     };
   }
-
-  const pdf = await readProjectDocumentPdfFromStorage(document);
-
-  if (!pdf.ok) {
-    return {
-      ok: false,
-      reason: pdf.reason,
-    };
-  }
-
-  const pendingAnalysis = await createPendingProjectDocumentAnalysis(
-    document.id,
-  );
 
   if (!pendingAnalysis) {
     const refreshedDocument = await getDocumentForAnalysis(
@@ -318,6 +333,22 @@ export async function analyzeProjectDocument(
     };
   }
 
+  const pdf = await readProjectDocumentPdfFromStorage(document);
+
+  if (!pdf.ok) {
+    await failReservedProjectDocumentAnalysis({
+      analysisId: pendingAnalysis.id,
+      documentId: document.id,
+      reason: pdf.reason,
+      userId,
+    });
+
+    return {
+      ok: false,
+      reason: pdf.reason,
+    };
+  }
+
   const aiAnalysis = await runProjectDocumentAnalysis({
     document: pdf.file,
     documentId: document.id,
@@ -328,11 +359,12 @@ export async function analyzeProjectDocument(
   if (!aiAnalysis.ok) {
     const failureReason = getFailureReasonForAiResult(aiAnalysis);
 
-    await markProjectDocumentAnalysisFailed(
-      pendingAnalysis.id,
-      document.id,
-      failureReason,
-    );
+    await failReservedProjectDocumentAnalysis({
+      analysisId: pendingAnalysis.id,
+      documentId: document.id,
+      reason: failureReason,
+      userId,
+    });
 
     return {
       ok: false,
@@ -351,11 +383,12 @@ export async function analyzeProjectDocument(
       issues: parsedResponse.error.issues,
       projectId: document.projectId,
     });
-    await markProjectDocumentAnalysisFailed(
-      pendingAnalysis.id,
-      document.id,
-      "ai_failed",
-    );
+    await failReservedProjectDocumentAnalysis({
+      analysisId: pendingAnalysis.id,
+      documentId: document.id,
+      reason: "ai_failed",
+      userId,
+    });
 
     return {
       ok: false,
@@ -372,7 +405,6 @@ export async function analyzeProjectDocument(
       projectId: document.projectId,
       provider: aiAnalysis.provider,
       rawResponseJson: aiAnalysis.rawResponseJson,
-      userId,
     });
 
     return {
@@ -381,25 +413,13 @@ export async function analyzeProjectDocument(
       reusedExisting: false,
     };
   } catch (error) {
-    if (error instanceof billingService.UsageLimitExceededError) {
-      await markProjectDocumentAnalysisFailed(
-        pendingAnalysis.id,
-        document.id,
-        "analysis_limit_reached",
-      );
-
-      return {
-        ok: false,
-        reason: "analysis_limit_reached",
-      };
-    }
-
     console.error("Persisting project document analysis failed", error);
-    await markProjectDocumentAnalysisFailed(
-      pendingAnalysis.id,
-      document.id,
-      "server_error",
-    );
+    await failReservedProjectDocumentAnalysis({
+      analysisId: pendingAnalysis.id,
+      documentId: document.id,
+      reason: "server_error",
+      userId,
+    });
 
     return {
       ok: false,
@@ -482,8 +502,9 @@ async function getDocumentForAnalysis(
   });
 }
 
-async function createPendingProjectDocumentAnalysis(
+async function createPendingProjectDocumentAnalysisWithUsageReservation(
   documentId: string,
+  userId: string,
 ): Promise<{ id: string } | null> {
   return prisma.$transaction(async (transaction) => {
     const statusUpdate = await transaction.projectDocument.updateMany({
@@ -501,6 +522,12 @@ async function createPendingProjectDocumentAnalysis(
     if (statusUpdate.count !== 1) {
       return null;
     }
+
+    await billingService.consumeUsageOrThrow(
+      transaction,
+      userId,
+      "large_pdf_analyses_used",
+    );
 
     return transaction.projectDocumentAnalysis.create({
       data: {

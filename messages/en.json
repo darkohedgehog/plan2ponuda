@@ -1596,6 +1596,7 @@
   "Review": {
     "analysis": {
       "errors": {
+        "analysisInProgress": "This floor plan is already being analyzed.",
         "aiFailed": "Unable to analyze this floor plan.",
         "invalidInput": "Invalid project.",
         "missingFloorPlan": "Upload a floor plan before running analysis.",

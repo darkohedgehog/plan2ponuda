@@ -63,6 +63,10 @@ project-files
 - Confirm `SUPABASE_SECRET_KEY` is configured server-side only.
 - Confirm `NEXT_PUBLIC_SUPABASE_URL` and the publishable/anon key are safe for
   browser use.
+- If an Nginx or equivalent reverse proxy sits in front of the app, set upload
+  body limits no lower than the app route limits: `client_max_body_size 11m`
+  for floor-plan uploads and `client_max_body_size 21m` for project-document
+  uploads. These match the 10MB and 20MB file limits plus multipart overhead.
 
 ## 4. Auth And Admin Access
 
@@ -184,7 +188,7 @@ https://your-production-domain.example/api/stripe/webhook
 - Select at least these events:
   `checkout.session.completed`, `customer.subscription.created`,
   `customer.subscription.updated`, `customer.subscription.deleted`,
-  `invoice.paid`, `invoice.payment_failed`.
+  `invoice.paid`, `invoice_payment.paid`, `invoice.payment_failed`.
 - Copy the production endpoint signing secret into production
   `STRIPE_WEBHOOK_SECRET`.
 - Confirm webhook signatures are verified and duplicate events are idempotent.
@@ -220,8 +224,8 @@ SMTP_FROM_NAME="Ploro AI"
 - Treat Stripe as the source of truth for payment/subscription state.
 - Treat Synesis/manual work as the local legal invoice workflow.
 - Do not create Synesis invoices automatically from code.
-- After `invoice.paid`, check that an `InvoiceTask` exists for cases requiring
-  manual invoice review.
+- After `invoice.paid` or `invoice_payment.paid`, check that an `InvoiceTask`
+  exists for cases requiring manual invoice review.
 - In the admin billing dashboard, review customer type, billing snapshot,
   amount, currency, Stripe invoice ID, and billing period.
 - Issue the invoice manually in Synesis when required.

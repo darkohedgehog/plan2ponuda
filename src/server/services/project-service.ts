@@ -6,9 +6,7 @@ import { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "@/lib/db/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 import {
-  getFloorPlanFileExtension,
-  isAllowedFloorPlanMimeType,
-  validateFloorPlanFile,
+  validateFloorPlanFileUpload,
   type CreateProjectInput,
 } from "@/lib/validations/project.schema";
 import type {
@@ -410,22 +408,12 @@ export async function uploadFloorPlan({
   userId,
   file,
 }: UploadFloorPlanInput): Promise<UploadFloorPlanResponse> {
-  const fileValidationError = validateFloorPlanFile(file);
+  const validatedFile = await validateFloorPlanFileUpload(file);
 
-  if (fileValidationError) {
+  if (!validatedFile.ok) {
     return {
       ok: false,
-      error: fileValidationError,
-    };
-  }
-
-  if (!isAllowedFloorPlanMimeType(file.type)) {
-    return {
-      ok: false,
-      error: {
-        code: "unsupported_file_type",
-        message: "Upload a PDF, PNG, JPG, or JPEG floor plan.",
-      },
+      error: validatedFile.error,
     };
   }
 
@@ -449,7 +437,7 @@ export async function uploadFloorPlan({
     };
   }
 
-  const extension = getFloorPlanFileExtension(file.type);
+  const extension = validatedFile.extension;
   const filePath = assertProjectOwnedStoragePath(
     project.id,
     `projects/${project.id}/floor-plan.${extension}`,
@@ -458,7 +446,7 @@ export async function uploadFloorPlan({
   const { error: uploadError } = await supabase.storage
     .from(PROJECT_FILES_BUCKET)
     .upload(filePath, file, {
-      contentType: file.type,
+      contentType: validatedFile.mimeType,
       upsert: true,
     });
 

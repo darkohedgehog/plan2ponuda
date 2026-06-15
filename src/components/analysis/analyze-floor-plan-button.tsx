@@ -23,6 +23,7 @@ type AnalyzeFloorPlanButtonProps = {
 
 const analysisErrorKeysByCode: Record<AnalysisErrorCode, AnalysisFeedbackKey> =
   {
+    analysis_in_progress: "analysis.errors.analysisInProgress",
     ai_failed: "analysis.errors.aiFailed",
     invalid_input: "analysis.errors.invalidInput",
     missing_floor_plan: "analysis.errors.missingFloorPlan",

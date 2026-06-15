@@ -4,6 +4,7 @@ export type AnalysisStatus = "pending" | "success" | "failed";
 
 export type AnalysisErrorCode =
   | "ai_failed"
+  | "analysis_in_progress"
   | "invalid_input"
   | "missing_floor_plan"
   | "not_found"

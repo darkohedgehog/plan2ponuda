@@ -31,7 +31,10 @@ import type {
 
 const PROJECT_FILES_BUCKET = "project-files";
 const SAFE_ANALYSIS_ERROR_MESSAGES: Record<
-  Exclude<AnalyzeProjectFailureReason, "not_found" | "rooms_already_exist">,
+  Exclude<
+    AnalyzeProjectFailureReason,
+    "analysis_in_progress" | "not_found" | "rooms_already_exist"
+  >,
   string
 > = {
   malformed_ai_response: "The AI response could not be validated.",
@@ -58,6 +61,7 @@ type DbRoomWithSuggestion = DbRoom & {
 };
 
 type AnalyzeProjectFailureReason =
+  | "analysis_in_progress"
   | "malformed_ai_response"
   | "missing_api_key"
   | "missing_floor_plan"
@@ -86,7 +90,11 @@ export type AnalyzeProjectPreflightResult =
     }
   | {
       ok: false;
-      reason: "missing_floor_plan" | "not_found" | "rooms_already_exist";
+      reason:
+        | "analysis_in_progress"
+        | "missing_floor_plan"
+        | "not_found"
+        | "rooms_already_exist";
     };
 
 type FloorPlanStorageFile = {
@@ -103,6 +111,23 @@ type FloorPlanStorageReadResult =
   | {
       ok: false;
       reason: "storage_download_failed" | "unsupported_file_type";
+    };
+
+type ClaimedProjectAnalysis =
+  | {
+      analysisId: string;
+      projectId: string;
+      sourceFilePath: string;
+      ok: true;
+    }
+  | {
+      ok: false;
+      reason:
+        | "analysis_in_progress"
+        | "missing_floor_plan"
+        | "not_found"
+        | "rooms_already_exist"
+        | "server_error";
     };
 
 function mapRoom(room: DbRoom): Room {
@@ -201,6 +226,13 @@ export async function getAnalyzeProjectPreflight(
     };
   }
 
+  if (project.status === "analyzing") {
+    return {
+      ok: false,
+      reason: "analysis_in_progress",
+    };
+  }
+
   // MVP safety: AI analysis only seeds rooms for empty projects so manual
   // room edits are never overwritten by a later analysis run.
   if (project._count.rooms > 0) {
@@ -219,82 +251,22 @@ export async function analyzeProject(
   projectId: string,
   userId: string,
 ): Promise<AnalyzeProjectResult> {
-  const project = await prisma.project.findFirst({
-    where: {
-      id: projectId,
-      userId,
-    },
-    include: {
-      _count: {
-        select: {
-          rooms: true,
-        },
-      },
-    },
-  });
+  const claim = await claimProjectForAnalysis(projectId, userId);
 
-  if (!project) {
+  if (!claim.ok) {
     return {
       ok: false,
-      reason: "not_found",
+      reason: claim.reason,
     };
   }
-
-  if (!project.sourceFilePath) {
-    return {
-      ok: false,
-      reason: "missing_floor_plan",
-    };
-  }
-
-  if (!isProjectOwnedStoragePath(project.id, project.sourceFilePath)) {
-    warnInvalidStoredProjectPath("analysis", project.id);
-
-    return {
-      ok: false,
-      reason: "missing_floor_plan",
-    };
-  }
-
-  // Re-check after route preflight to avoid overwriting rooms created meanwhile.
-  if (project._count.rooms > 0) {
-    return {
-      ok: false,
-      reason: "rooms_already_exist",
-    };
-  }
-
-  const analysis = await prisma.$transaction(async (transaction) => {
-    const createdAnalysis = await transaction.analysis.create({
-      data: {
-        projectId: project.id,
-        provider: "openai",
-        status: "pending",
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    await transaction.project.update({
-      where: {
-        id: project.id,
-      },
-      data: {
-        status: "analyzing",
-      },
-    });
-
-    return createdAnalysis;
-  });
 
   const floorPlan = await readFloorPlanFromStorage(
-    project.id,
-    project.sourceFilePath,
+    claim.projectId,
+    claim.sourceFilePath,
   );
 
   if (!floorPlan.ok) {
-    await markAnalysisFailed(analysis.id, project.id, floorPlan.reason);
+    await markAnalysisFailed(claim.analysisId, claim.projectId, floorPlan.reason);
 
     return {
       ok: false,
@@ -304,11 +276,11 @@ export async function analyzeProject(
 
   const aiAnalysis = await runFloorPlanAnalysis({
     floorPlan: floorPlan.file,
-    projectId: project.id,
+    projectId: claim.projectId,
   });
 
   if (!aiAnalysis.ok) {
-    await markAnalysisFailed(analysis.id, project.id, aiAnalysis.reason);
+    await markAnalysisFailed(claim.analysisId, claim.projectId, aiAnalysis.reason);
 
     return aiAnalysis;
   }
@@ -319,11 +291,15 @@ export async function analyzeProject(
 
   if (!parsedResponse.success) {
     console.error("Validated AI response failed final room schema", {
-      analysisId: analysis.id,
+      analysisId: claim.analysisId,
       issues: parsedResponse.error.issues,
-      projectId: project.id,
+      projectId: claim.projectId,
     });
-    await markAnalysisFailed(analysis.id, project.id, "malformed_ai_response");
+    await markAnalysisFailed(
+      claim.analysisId,
+      claim.projectId,
+      "malformed_ai_response",
+    );
 
     return {
       ok: false,
@@ -333,27 +309,159 @@ export async function analyzeProject(
 
   try {
     const rooms = await persistSuccessfulAnalysis({
-      analysisId: analysis.id,
+      analysisId: claim.analysisId,
       parsedResponse: parsedResponse.data,
-      projectId: project.id,
+      projectId: claim.projectId,
       rawResponseJson: aiAnalysis.rawResponseJson,
     });
 
     return {
-      analysisId: analysis.id,
+      analysisId: claim.analysisId,
       ok: true,
       roomCount: rooms.length,
       rooms,
     };
   } catch (error) {
     console.error("Persisting floor plan analysis failed", error);
-    await markAnalysisFailed(analysis.id, project.id, "server_error");
+    await markAnalysisFailed(claim.analysisId, claim.projectId, "server_error");
 
     return {
       ok: false,
       reason: "server_error",
     };
   }
+}
+
+async function claimProjectForAnalysis(
+  projectId: string,
+  userId: string,
+): Promise<ClaimedProjectAnalysis> {
+  return prisma.$transaction(async (transaction) => {
+    const claim = await transaction.project.updateMany({
+      data: {
+        status: "analyzing",
+      },
+      where: {
+        id: projectId,
+        rooms: {
+          none: {},
+        },
+        sourceFilePath: {
+          not: null,
+        },
+        status: {
+          not: "analyzing",
+        },
+        userId,
+      },
+    });
+
+    if (claim.count !== 1) {
+      const project = await transaction.project.findFirst({
+        include: {
+          _count: {
+            select: {
+              rooms: true,
+            },
+          },
+        },
+        where: {
+          id: projectId,
+          userId,
+        },
+      });
+
+      if (!project) {
+        return {
+          ok: false,
+          reason: "not_found",
+        };
+      }
+
+      if (project.status === "analyzing") {
+        return {
+          ok: false,
+          reason: "analysis_in_progress",
+        };
+      }
+
+      if (
+        !project.sourceFilePath ||
+        !isProjectOwnedStoragePath(project.id, project.sourceFilePath)
+      ) {
+        return {
+          ok: false,
+          reason: "missing_floor_plan",
+        };
+      }
+
+      if (project._count.rooms > 0) {
+        return {
+          ok: false,
+          reason: "rooms_already_exist",
+        };
+      }
+
+      return {
+        ok: false,
+        reason: "server_error",
+      };
+    }
+
+    const project = await transaction.project.findFirst({
+      select: {
+        id: true,
+        sourceFilePath: true,
+      },
+      where: {
+        id: projectId,
+        userId,
+      },
+    });
+
+    if (!project?.sourceFilePath) {
+      return {
+        ok: false,
+        reason: "server_error",
+      };
+    }
+
+    if (!isProjectOwnedStoragePath(project.id, project.sourceFilePath)) {
+      warnInvalidStoredProjectPath("analysis_claim", project.id);
+
+      await transaction.project.update({
+        data: {
+          status: "failed",
+        },
+        where: {
+          id: project.id,
+        },
+      });
+
+      return {
+        ok: false,
+        reason: "missing_floor_plan",
+      };
+    }
+
+    const analysis = await transaction.analysis.create({
+      data: {
+        projectId: project.id,
+        provider: "openai",
+        status: "pending",
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return {
+      analysisId: analysis.id,
+      ok: true,
+      projectId: project.id,
+      sourceFilePath: project.sourceFilePath,
+    };
+  });
 }
 
 async function persistSuccessfulAnalysis(params: {
@@ -417,7 +525,10 @@ async function persistSuccessfulAnalysis(params: {
 async function markAnalysisFailed(
   analysisId: string,
   projectId: string,
-  reason: Exclude<AnalyzeProjectFailureReason, "not_found" | "rooms_already_exist">,
+  reason: Exclude<
+    AnalyzeProjectFailureReason,
+    "analysis_in_progress" | "not_found" | "rooms_already_exist"
+  >,
 ): Promise<void> {
   await prisma.$transaction([
     prisma.analysis.update({
