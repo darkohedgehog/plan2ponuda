@@ -16,7 +16,7 @@ test("sign-up flow sends the current locale into localized verification links", 
   assert.match(signUpRoute, /getStringProperty\(body, "locale"\)/);
   assert.match(
     signUpRoute,
-    /createUserWithPassword\(\s*input,\s*getBaseUrl\(request\),\s*locale,\s*\)/s,
+    /createUserWithPassword\(\s*input,\s*authEmailOrigin,\s*locale,\s*\)/s,
   );
   assert.match(
     authService,
@@ -58,7 +58,7 @@ test("forgot-password flow sends the current locale into localized reset links",
   assert.match(forgotPasswordRoute, /getStringProperty\(body, "locale"\)/);
   assert.match(
     forgotPasswordRoute,
-    /requestPasswordReset\(\s*parsedInput\.data,\s*ipAddress,\s*getBaseUrl\(request\),\s*locale,\s*\)/s,
+    /requestPasswordReset\(\s*parsedInput\.data,\s*ipAddress,\s*authEmailOrigin,\s*locale,\s*\)/s,
   );
   assert.match(authService, /buildResetUrl\(baseUrl, rawToken, locale\)/);
 });

@@ -171,7 +171,7 @@ async function prepareEmailVerification(params: {
     });
   }
 
-  return process.env.NODE_ENV !== "production" && exposeDevVerificationUrl
+  return process.env.NODE_ENV === "development" && exposeDevVerificationUrl
     ? verificationUrl
     : undefined;
 }
@@ -414,16 +414,29 @@ export async function requestPasswordReset(
     return result;
   }
 
+  const now = new Date();
   const rawToken = createPasswordResetToken();
   const tokenHash = hashPasswordResetToken(rawToken);
-  const expiresAt = new Date(Date.now() + PASSWORD_RESET_TOKEN_TTL_MS);
+  const expiresAt = new Date(now.getTime() + PASSWORD_RESET_TOKEN_TTL_MS);
 
-  await prisma.passwordResetToken.create({
-    data: {
-      expiresAt,
-      tokenHash,
-      userId: user.id,
-    },
+  await prisma.$transaction(async (transaction) => {
+    await transaction.passwordResetToken.updateMany({
+      data: {
+        usedAt: now,
+      },
+      where: {
+        userId: user.id,
+        usedAt: null,
+      },
+    });
+
+    await transaction.passwordResetToken.create({
+      data: {
+        expiresAt,
+        tokenHash,
+        userId: user.id,
+      },
+    });
   });
 
   if (!baseUrl) {
@@ -511,23 +524,40 @@ export async function resetPassword(
   const now = new Date();
 
   return prisma.$transaction(async (transaction) => {
-    const resetToken = await transaction.passwordResetToken.findUnique({
-      where: {
-        tokenHash,
+    const claimResult = await transaction.passwordResetToken.updateMany({
+      data: {
+        usedAt: now,
       },
-      select: {
-        expiresAt: true,
-        id: true,
-        usedAt: true,
-        userId: true,
+      where: {
+        expiresAt: {
+          gt: now,
+        },
+        tokenHash,
+        usedAt: null,
       },
     });
 
-    if (
-      !resetToken ||
-      resetToken.usedAt ||
-      resetToken.expiresAt.getTime() <= now.getTime()
-    ) {
+    if (claimResult.count !== 1) {
+      return {
+        ok: false,
+        reason: "invalid_or_expired_token",
+      };
+    }
+
+    const resetToken = await transaction.passwordResetToken.findUnique({
+      include: {
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+      where: {
+        tokenHash,
+      },
+    });
+
+    if (!resetToken) {
       return {
         ok: false,
         reason: "invalid_or_expired_token",
@@ -538,7 +568,7 @@ export async function resetPassword(
 
     await transaction.user.update({
       where: {
-        id: resetToken.userId,
+        id: resetToken.user.id,
       },
       data: {
         passwordHash,
@@ -556,10 +586,7 @@ export async function resetPassword(
 
     await transaction.passwordResetToken.updateMany({
       where: {
-        id: {
-          not: resetToken.id,
-        },
-        userId: resetToken.userId,
+        userId: resetToken.user.id,
         usedAt: null,
       },
       data: {

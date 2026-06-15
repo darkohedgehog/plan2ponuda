@@ -17,7 +17,8 @@ Use `.env.example` as the source of required keys.
 
 Required groups:
 
-- App: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SITE_URL`; `NODE_ENV` is
+- App: `APP_ORIGIN`, `AUTH_EMAIL_ALLOWED_ORIGINS`,
+  `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SITE_URL`; `NODE_ENV` is
   runtime-managed and normally not manually set in production.
 - Database: `DATABASE_URL`.
 - Auth: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`.
@@ -30,7 +31,8 @@ Required groups:
 - SMTP: `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`,
   `SMTP_PASSWORD`, `SMTP_FROM_EMAIL`, `SMTP_FROM_NAME`.
 - Cloudflare Turnstile: `TURNSTILE_ENABLED`,
-  `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`.
+  `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`,
+  `TURNSTILE_ALLOWED_HOSTNAMES`.
 
 ## 2. Database And Prisma
 
@@ -64,6 +66,12 @@ project-files
 
 ## 4. Auth And Admin Access
 
+- Set `APP_ORIGIN` to the canonical HTTPS staging/production app origin used
+  in password-reset and email-verification links.
+- Set `AUTH_EMAIL_ALLOWED_ORIGINS` to the explicit staging/production
+  hostnames or HTTPS origins allowed for auth email links.
+- Confirm auth email links do not fall back to request `Host` headers outside
+  local development.
 - Generate a strong `NEXTAUTH_SECRET`.
 - Set `NEXTAUTH_URL` to the production app URL.
 - Register the initial owner/admin account through the normal sign-up flow.
@@ -98,10 +106,13 @@ Staging/production setup:
 - Set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` from Cloudflare Turnstile. This key is
   browser-safe.
 - Set `TURNSTILE_SECRET_KEY` from Cloudflare Turnstile. This key is server-only.
+- Set `TURNSTILE_ALLOWED_HOSTNAMES` to the exact staging and production
+  hostnames that Cloudflare Turnstile may return.
 - Add the staging and production domains to the Cloudflare Turnstile allowed
   hostnames list before testing auth.
 - Confirm an invalid or missing Turnstile token is rejected on sign-up,
   sign-in, and forgot-password.
+- Confirm a Turnstile token issued for an unlisted hostname is rejected.
 
 Cloudflare WAF/rate-limit notes:
 
@@ -110,8 +121,14 @@ Cloudflare WAF/rate-limit notes:
 - The app enforces layered forgot-password limits before user lookup or email:
   3 requests per 15 minutes per normalized email/client IP pair, 5 requests per
   hour per normalized email, and 10 requests per 15 minutes per client IP.
+- The app enforces layered sign-in limits before password verification:
+  10 requests per 10 minutes per normalized email/client IP pair, 10 requests
+  per 15 minutes per normalized email, and 30 requests per 15 minutes per
+  client IP.
+- The app enforces password-reset completion limits: 10 requests per
+  15 minutes per client IP.
 - Add a low-threshold Cloudflare rate-limit rule for
-  `POST /api/auth/forgot-password`.
+  `POST /api/auth/forgot-password` and `POST /api/auth/reset-password`.
 - Allow normal browsers through and avoid exposing the origin port directly.
 - Do not apply Turnstile, managed challenges, or bot challenges to
   `/api/stripe/webhook`; Stripe webhooks must reach the app for signature
@@ -193,6 +210,7 @@ SMTP_FROM_NAME="Ploro AI"
 - Submit forgot-password for an unknown email and confirm the response remains
   neutral.
 - Confirm reset links expire and cannot be reused.
+- Confirm requesting a new reset link invalidates older unused reset links.
 - Submit sign-up for a new account and confirm verification email delivery.
 - Confirm verification links set `User.emailVerifiedAt`, expire safely, and
   cannot be reused.

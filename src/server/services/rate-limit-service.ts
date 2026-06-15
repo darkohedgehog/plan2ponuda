@@ -17,7 +17,11 @@ export const RATE_LIMIT_SCOPES = {
   projectDocumentUpload: "project_document_upload",
   quoteUpdate: "quote_update",
   resendEmailVerification: "resend_email_verification",
+  resetPassword: "reset_password",
   signIn: "sign_in",
+  signInEmail: "sign_in_email",
+  signInEmailIp: "sign_in_email_ip",
+  signInIp: "sign_in_ip",
   signUp: "sign_up",
 } as const;
 
@@ -66,9 +70,25 @@ export const RATE_LIMIT_POLICIES = {
     limit: 3,
     windowSeconds: 15 * 60,
   },
+  resetPassword: {
+    limit: 10,
+    windowSeconds: 15 * 60,
+  },
   signIn: {
     limit: 10,
     windowSeconds: 10 * 60,
+  },
+  signInEmail: {
+    limit: 10,
+    windowSeconds: 15 * 60,
+  },
+  signInEmailIp: {
+    limit: 10,
+    windowSeconds: 10 * 60,
+  },
+  signInIp: {
+    limit: 30,
+    windowSeconds: 15 * 60,
   },
   signUp: {
     limit: 5,

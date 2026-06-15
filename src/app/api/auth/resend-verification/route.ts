@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { getAuthEmailOrigin } from "@/lib/auth/auth-email-origin";
 import { requireApiUser } from "@/lib/auth/guards";
 import { resendVerificationEmailForUser } from "@/server/services/auth-service";
 import { getRateLimitHeaders } from "@/server/services/rate-limit-service";
@@ -7,20 +8,6 @@ import type { ResendEmailVerificationResponse } from "@/types/auth";
 
 const alreadyVerifiedMessage = "Your email is already verified.";
 const safeSentMessage = "If verification is needed, a new email has been sent.";
-
-function getBaseUrl(request: Request): string {
-  const configuredUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
-
-  if (configuredUrl) {
-    try {
-      return new URL(configuredUrl).origin;
-    } catch {
-      console.error("Ignoring invalid NEXT_PUBLIC_APP_URL for email verification.");
-    }
-  }
-
-  return new URL(request.url).origin;
-}
 
 function getStringProperty(input: unknown, property: string): string | null {
   if (!input || typeof input !== "object" || !(property in input)) {
@@ -41,8 +28,24 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch((): unknown => null);
   const locale = getStringProperty(body, "locale");
+  const authEmailOrigin = getAuthEmailOrigin({ request });
+
+  if (!authEmailOrigin) {
+    console.error("Email verification origin is not configured.");
+
+    const response: ResendEmailVerificationResponse = {
+      error: {
+        code: "server_error",
+        message: "Could not send verification email.",
+      },
+      ok: false,
+    };
+
+    return NextResponse.json(response, { status: 500 });
+  }
+
   const result = await resendVerificationEmailForUser({
-    baseUrl: getBaseUrl(request),
+    baseUrl: authEmailOrigin,
     locale,
     userId: auth.user.id,
   }).catch((error: unknown) => {

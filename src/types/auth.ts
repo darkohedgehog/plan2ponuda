@@ -50,6 +50,7 @@ export type ForgotPasswordResponse =
 export type ResetPasswordErrorCode =
   | "invalid_input"
   | "invalid_or_expired_token"
+  | "rate_limited"
   | "server_error";
 
 export type ResetPasswordResponse =

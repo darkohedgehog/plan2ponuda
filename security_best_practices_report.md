@@ -4,6 +4,19 @@
 
 No unsafe raw SQL or SQL-injection issue was found in the audited application code. The repository now also has source-level regression coverage for raw SQL usage, Turnstile auth protection, verified-email gating, and endpoint rate limits.
 
+## Auth Email Origin And Token Handling
+
+- Configure `APP_ORIGIN` to the canonical HTTPS app origin in staging and
+  production. Auth email links must not fall back to request `Host` headers
+  outside local development.
+- Configure `AUTH_EMAIL_ALLOWED_ORIGINS` with explicit staging/production
+  hostnames or HTTPS origins so reset and verification links are deterministic.
+- Debug reset and verification URLs are only returned by API responses when
+  `NODE_ENV === "development"`.
+- Password reset requests revoke older unused reset tokens before issuing a new
+  token, and reset completion atomically claims a valid unused token before
+  updating the password.
+
 ## Raw SQL / Injection Audit
 
 ### Finding SQL-001
@@ -31,6 +44,15 @@ Configure these in Cloudflare at the zone/domain level, outside the repo:
 - The origin app enforces layered DB-backed forgot-password limits:
   3 requests per 15 minutes per normalized email/client IP pair, 5 requests per
   hour per normalized email, and 10 requests per 15 minutes per client IP.
+- The origin app enforces layered DB-backed sign-in limits:
+  10 requests per 10 minutes per normalized email/client IP pair, 10 requests
+  per 15 minutes per normalized email, and 30 requests per 15 minutes per
+  client IP.
+- The origin app rate-limits password-reset completion:
+  10 requests per 15 minutes per client IP.
+- Configure `TURNSTILE_ALLOWED_HOSTNAMES` with exact staging and production
+  hostnames. In non-development environments, Turnstile verification fails
+  closed when config is missing or the returned hostname is not allowed.
 - Add Cloudflare rate limiting rules for expensive app endpoints:
   `/api/analysis/*`, `/api/projects/*/upload`, `/api/projects/*/documents/upload`, `/api/projects/*/documents/*/analyze`, `/api/quotes/*`.
 - Keep origin-side DB rate limits enabled. Cloudflare limits reduce edge abuse; origin limits still protect authenticated-user quotas and bypass scenarios.

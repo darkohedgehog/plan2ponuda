@@ -5,6 +5,7 @@ import { randomUUID } from "node:crypto";
 const TURNSTILE_SITEVERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const TURNSTILE_TOKEN_MAX_LENGTH = 2048;
+const TURNSTILE_ALLOWED_HOSTNAMES_ENV = "TURNSTILE_ALLOWED_HOSTNAMES";
 
 export type TurnstileAction = "forgot-password" | "sign-in" | "sign-up";
 
@@ -28,14 +29,27 @@ export type VerifyTurnstileTokenResult =
   | {
       ok: false;
       reason:
+        | "hostname_mismatch"
         | "invalid_token"
         | "missing_secret"
         | "service_error"
         | "unexpected_action";
     };
 
-export function isTurnstileEnabled(): boolean {
-  return process.env.TURNSTILE_ENABLED?.trim().toLowerCase() === "true";
+export function isTurnstileEnabled(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  if (!isLocalDevelopment(env)) {
+    return true;
+  }
+
+  return env.TURNSTILE_ENABLED?.trim().toLowerCase() === "true";
+}
+
+export function isLocalDevelopment(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return env.NODE_ENV === "development";
 }
 
 export async function verifyTurnstileToken({
@@ -106,6 +120,13 @@ export async function verifyTurnstileToken({
       };
     }
 
+    if (!isAllowedHostname(result.hostname)) {
+      return {
+        ok: false,
+        reason: "hostname_mismatch",
+      };
+    }
+
     return {
       ok: true,
     };
@@ -114,5 +135,36 @@ export async function verifyTurnstileToken({
       ok: false,
       reason: "service_error",
     };
+  }
+}
+
+function isAllowedHostname(hostname: string | undefined): boolean {
+  const allowedHostnames = getAllowedHostnames();
+
+  if (allowedHostnames.size === 0) {
+    return isLocalDevelopment();
+  }
+
+  if (!hostname) {
+    return false;
+  }
+
+  return allowedHostnames.has(hostname.toLowerCase());
+}
+
+function getAllowedHostnames(): Set<string> {
+  return new Set(
+    process.env[TURNSTILE_ALLOWED_HOSTNAMES_ENV]
+      ?.split(",")
+      .map((hostname) => normalizeAllowedHostname(hostname.trim()))
+      .filter(Boolean) ?? [],
+  );
+}
+
+function normalizeAllowedHostname(hostname: string): string {
+  try {
+    return new URL(hostname).hostname.toLowerCase();
+  } catch {
+    return hostname.toLowerCase();
   }
 }

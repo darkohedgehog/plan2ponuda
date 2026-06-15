@@ -107,12 +107,13 @@ test("Turnstile enabled mode rejects missing tokens safely", () => {
   }
 });
 
-test("auth redirects and app base URLs fall back safely", () => {
+test("auth redirects and email origins are constrained safely", () => {
   const signInForm = readSource("src/components/auth/sign-in-form.tsx");
   const signUpRoute = readSource("src/app/api/auth/sign-up/route.ts");
   const forgotPasswordRoute = readSource(
     "src/app/api/auth/forgot-password/route.ts",
   );
+  const authEmailOrigin = readSource("src/lib/auth/auth-email-origin.ts");
 
   assert.match(signInForm, /getSafeCallbackUrl\(result\.url, callbackUrl\)/);
   assert.doesNotMatch(signInForm, /router\.push\(result\.url \?\? callbackUrl\)/);
@@ -120,10 +121,14 @@ test("auth redirects and app base URLs fall back safely", () => {
   assert.match(signInForm, /new URL\(value, "http:\/\/localhost"\)/);
 
   for (const source of [signUpRoute, forgotPasswordRoute]) {
-    assert.match(source, /process\.env\.NEXT_PUBLIC_APP_URL\?\.trim\(\)/);
-    assert.match(source, /new URL\(configuredUrl\)\.origin/);
-    assert.match(source, /return new URL\(request\.url\)\.origin/);
+    assert.match(source, /getAuthEmailOrigin\(\{\s*request\s*\}\)/);
+    assert.doesNotMatch(source, /return new URL\(request\.url\)\.origin/);
   }
+
+  assert.match(authEmailOrigin, /APP_ORIGIN/);
+  assert.match(authEmailOrigin, /AUTH_EMAIL_ALLOWED_ORIGINS/);
+  assert.match(authEmailOrigin, /NODE_ENV === "development"/);
+  assert.match(authEmailOrigin, /url\.protocol !== "https:"/);
 });
 
 test("email verification schema and verification mail flow exist", () => {

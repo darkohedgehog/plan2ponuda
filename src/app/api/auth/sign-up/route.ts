@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { getAuthEmailOrigin } from "@/lib/auth/auth-email-origin";
 import { signUpSchema } from "@/lib/validations/auth.schema";
 import { createUserWithPassword } from "@/server/services/auth-service";
 import { verifyTurnstileToken } from "@/server/services/turnstile-service";
@@ -30,20 +31,6 @@ const turnstileFailedResponse: SignUpResponse = {
     message: "Security verification failed. Please try again.",
   },
 };
-
-function getBaseUrl(request: Request): string {
-  const configuredUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
-
-  if (configuredUrl) {
-    try {
-      return new URL(configuredUrl).origin;
-    } catch {
-      console.error("Ignoring invalid NEXT_PUBLIC_APP_URL for sign-up.");
-    }
-  }
-
-  return new URL(request.url).origin;
-}
 
 function getStringProperty(input: unknown, property: string): string | null {
   if (!input || typeof input !== "object" || !(property in input)) {
@@ -84,9 +71,25 @@ export async function POST(request: Request) {
       return NextResponse.json(turnstileFailedResponse, { status: 403 });
     }
 
+    const authEmailOrigin = getAuthEmailOrigin({ request });
+
+    if (!authEmailOrigin) {
+      console.error("Sign-up email origin is not configured.");
+
+      const response: SignUpResponse = {
+        ok: false,
+        error: {
+          code: "server_error",
+          message: "Unable to create account.",
+        },
+      };
+
+      return NextResponse.json(response, { status: 500 });
+    }
+
     const result = await createUserWithPassword(
       input,
-      getBaseUrl(request),
+      authEmailOrigin,
       locale,
     );
 

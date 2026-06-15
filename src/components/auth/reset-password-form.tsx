@@ -75,6 +75,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       const resetPasswordErrorMessages = {
         invalid_input: tValidation("invalidResetRequest"),
         invalid_or_expired_token: tValidation("passwordResetInvalidOrExpired"),
+        rate_limited: tValidation("passwordResetRateLimited"),
         server_error: tValidation("unableResetPassword"),
       } satisfies Record<ResetPasswordErrorCode, string>;
       setError(

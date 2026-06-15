@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { getAuthEmailOrigin } from "@/lib/auth/auth-email-origin";
 import { forgotPasswordSchema } from "@/lib/validations/auth.schema";
 import { requestPasswordReset } from "@/server/services/auth-service";
 import {
@@ -27,20 +28,6 @@ const turnstileFailedResponse: ForgotPasswordResponse = {
   },
   ok: false,
 };
-
-function getBaseUrl(request: Request): string {
-  const configuredUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
-
-  if (configuredUrl) {
-    try {
-      return new URL(configuredUrl).origin;
-    } catch {
-      console.error("Ignoring invalid NEXT_PUBLIC_APP_URL for password reset.");
-    }
-  }
-
-  return new URL(request.url).origin;
-}
 
 function getStringProperty(input: unknown, property: string): string | null {
   if (!input || typeof input !== "object" || !(property in input)) {
@@ -72,10 +59,26 @@ export async function POST(request: Request) {
   }
 
   const locale = getStringProperty(body, "locale");
+  const authEmailOrigin = getAuthEmailOrigin({ request });
+
+  if (!authEmailOrigin) {
+    console.error("Password reset email origin is not configured.");
+
+    const response: ForgotPasswordResponse = {
+      error: {
+        code: "server_error",
+        message: "Unable to process password reset request.",
+      },
+      ok: false,
+    };
+
+    return NextResponse.json(response, { status: 500 });
+  }
+
   const result = await requestPasswordReset(
     parsedInput.data,
     ipAddress,
-    getBaseUrl(request),
+    authEmailOrigin,
     locale,
   ).catch((error: unknown) => {
     console.error("Password reset request failed", error);

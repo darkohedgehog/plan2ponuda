@@ -212,3 +212,21 @@ test("defines layered forgot-password policies", () => {
   assert.equal(RATE_LIMIT_POLICIES.forgotPasswordIp.limit, 10);
   assert.equal(RATE_LIMIT_POLICIES.forgotPasswordIp.windowSeconds, 15 * 60);
 });
+
+test("defines layered sign-in and reset-password policies", () => {
+  assert.equal(RATE_LIMIT_SCOPES.signInEmailIp, "sign_in_email_ip");
+  assert.equal(RATE_LIMIT_POLICIES.signInEmailIp.limit, 10);
+  assert.equal(RATE_LIMIT_POLICIES.signInEmailIp.windowSeconds, 10 * 60);
+
+  assert.equal(RATE_LIMIT_SCOPES.signInEmail, "sign_in_email");
+  assert.equal(RATE_LIMIT_POLICIES.signInEmail.limit, 10);
+  assert.equal(RATE_LIMIT_POLICIES.signInEmail.windowSeconds, 15 * 60);
+
+  assert.equal(RATE_LIMIT_SCOPES.signInIp, "sign_in_ip");
+  assert.equal(RATE_LIMIT_POLICIES.signInIp.limit, 30);
+  assert.equal(RATE_LIMIT_POLICIES.signInIp.windowSeconds, 15 * 60);
+
+  assert.equal(RATE_LIMIT_SCOPES.resetPassword, "reset_password");
+  assert.equal(RATE_LIMIT_POLICIES.resetPassword.limit, 10);
+  assert.equal(RATE_LIMIT_POLICIES.resetPassword.windowSeconds, 15 * 60);
+});

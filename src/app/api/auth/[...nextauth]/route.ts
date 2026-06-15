@@ -12,6 +12,9 @@ import {
   createCompositeRateLimitKey,
   getClientIpAddress,
   getRateLimitHeaders,
+  type RateLimitExceededStatus,
+  type RateLimitScope,
+  type RateLimitStatus,
 } from "@/server/services/rate-limit-service";
 
 const handler = NextAuth(authOptions);
@@ -30,33 +33,23 @@ export async function POST(request: Request, context: AuthRouteContext) {
     const ipAddress = getClientIpAddress(request);
 
     try {
-      await checkRateLimitOrThrow({
-        key: createCompositeRateLimitKey([
-          {
-            kind: "email",
-            value: email ?? "unknown",
-          },
-          {
-            kind: "ip",
-            value: ipAddress,
-          },
-        ]),
-        scope: RATE_LIMIT_SCOPES.signIn,
-        ...RATE_LIMIT_POLICIES.signIn,
+      const rateLimit = await checkSignInRateLimit({
+        email: email ?? "unknown",
+        ipAddress,
       });
-    } catch (error: unknown) {
-      if (error instanceof RateLimitExceededError) {
+
+      if (rateLimit) {
         return NextResponse.json(
           {
             error: "Too many attempts. Please wait and try again.",
           },
           {
-            headers: getRateLimitHeaders(error.status),
+            headers: getRateLimitHeaders(rateLimit),
             status: 429,
           },
         );
       }
-
+    } catch (error: unknown) {
       console.error("Sign-in rate limit failed", error);
 
       return NextResponse.json(
@@ -89,6 +82,92 @@ export async function POST(request: Request, context: AuthRouteContext) {
   }
 
   return handler(request, context);
+}
+
+async function checkSignInRateLimit(params: {
+  email: string;
+  ipAddress: string;
+}): Promise<RateLimitExceededStatus | null> {
+  const emailIpRateLimitKey = createCompositeRateLimitKey([
+    {
+      kind: "email",
+      value: params.email,
+    },
+    {
+      kind: "ip",
+      value: params.ipAddress,
+    },
+  ]);
+  const emailRateLimitKey = createCompositeRateLimitKey([
+    {
+      kind: "email",
+      value: params.email,
+    },
+  ]);
+  const ipRateLimitKey = createCompositeRateLimitKey([
+    {
+      kind: "ip",
+      value: params.ipAddress,
+    },
+  ]);
+  const rateLimits = [
+    await checkCredentialRateLimit({
+      key: emailIpRateLimitKey,
+      policy: RATE_LIMIT_POLICIES.signInEmailIp,
+      scope: RATE_LIMIT_SCOPES.signInEmailIp,
+    }),
+    await checkCredentialRateLimit({
+      key: emailRateLimitKey,
+      policy: RATE_LIMIT_POLICIES.signInEmail,
+      scope: RATE_LIMIT_SCOPES.signInEmail,
+    }),
+    await checkCredentialRateLimit({
+      key: ipRateLimitKey,
+      policy: RATE_LIMIT_POLICIES.signInIp,
+      scope: RATE_LIMIT_SCOPES.signInIp,
+    }),
+  ];
+
+  return getExceededRateLimitStatus(rateLimits);
+}
+
+async function checkCredentialRateLimit(params: {
+  key: string;
+  policy: {
+    limit: number;
+    windowSeconds: number;
+  };
+  scope: RateLimitScope;
+}): Promise<RateLimitStatus> {
+  return checkRateLimitOrThrow({
+    key: params.key,
+    scope: params.scope,
+    ...params.policy,
+  }).catch((error: unknown) => {
+    if (error instanceof RateLimitExceededError) {
+      return error.status;
+    }
+
+    throw error;
+  });
+}
+
+function getExceededRateLimitStatus(
+  statuses: RateLimitStatus[],
+): RateLimitExceededStatus | null {
+  const exceededStatuses = statuses.filter(
+    (status): status is RateLimitExceededStatus => !status.ok,
+  );
+
+  if (exceededStatuses.length === 0) {
+    return null;
+  }
+
+  return exceededStatuses.reduce((selectedStatus, status) =>
+    status.retryAfterSeconds > selectedStatus.retryAfterSeconds
+      ? status
+      : selectedStatus,
+  );
 }
 
 function isCredentialsCallback(request: Request): boolean {
