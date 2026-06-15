@@ -4,6 +4,14 @@ import { getLocaleFromRequest } from "@/i18n/request-locale";
 import { requireApiUser } from "@/lib/auth/guards";
 import { createBillingCheckoutSessionSchema } from "@/lib/validations/billing.schema";
 import { createBillingCheckoutSession } from "@/server/services/billing-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import type { BillingCheckoutResponse } from "@/types/billing";
 
 const invalidInputResponse: BillingCheckoutResponse = {
@@ -19,6 +27,43 @@ export async function POST(request: Request) {
 
   if (!auth.ok) {
     return auth.response;
+  }
+
+  try {
+    await checkRateLimitOrThrow({
+      key: createUserRateLimitKey({
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.billingCheckout,
+      ...RATE_LIMIT_POLICIES.billingCheckout,
+    });
+  } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      const response: BillingCheckoutResponse = {
+        error: {
+          code: "rate_limited",
+          message: "Too many checkout requests. Please try again later.",
+        },
+        ok: false,
+      };
+
+      return NextResponse.json(response, {
+        headers: getRateLimitHeaders(error.status),
+        status: 429,
+      });
+    }
+
+    console.error("Billing checkout rate limit failed", error);
+
+    const response: BillingCheckoutResponse = {
+      error: {
+        code: "server_error",
+        message: "Unable to start checkout.",
+      },
+      ok: false,
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 
   const body = await request.json().catch((): unknown => null);

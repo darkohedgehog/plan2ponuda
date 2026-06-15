@@ -60,6 +60,12 @@ project-files
 ```
 
 - Keep the bucket private and use server-controlled upload/download flows.
+- Bucket `project-files` must be private; anon reads/writes must fail when
+  tested with the publishable/anon key.
+- Only the server/service role should write objects to `project-files`.
+- Project previews must use signed URLs, not public bucket URLs.
+- The service role key must never be exposed client-side or through
+  `NEXT_PUBLIC_*`.
 - Confirm `SUPABASE_SECRET_KEY` is configured server-side only.
 - Confirm `NEXT_PUBLIC_SUPABASE_URL` and the publishable/anon key are safe for
   browser use.
@@ -67,6 +73,18 @@ project-files
   body limits no lower than the app route limits: `client_max_body_size 11m`
   for floor-plan uploads and `client_max_body_size 21m` for project-document
   uploads. These match the 10MB and 20MB file limits plus multipart overhead.
+
+Security headers and CSP:
+
+- Confirm `X-Content-Type-Options`, `Referrer-Policy`,
+  `Permissions-Policy`, and clickjacking protection are present on public and
+  dashboard routes.
+- Confirm `Strict-Transport-Security` is present only on production HTTPS
+  responses and matches the final HSTS policy for the deployed domain.
+- Do not enforce a strict `Content-Security-Policy` until it has been tested in
+  staging. Start with report-only if needed, and allow app assets, Stripe
+  (`https://js.stripe.com` and Stripe checkout/API domains), Cloudflare
+  Turnstile (`https://challenges.cloudflare.com`), and required fonts/images.
 
 ## 4. Auth And Admin Access
 

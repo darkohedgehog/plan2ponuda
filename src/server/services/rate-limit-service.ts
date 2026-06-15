@@ -7,11 +7,15 @@ import { prisma } from "@/lib/db/prisma";
 
 export const RATE_LIMIT_SCOPES = {
   aiAnalysis: "ai_analysis",
+  billingCheckout: "billing_checkout",
+  billingPortal: "billing_portal",
   floorPlanUpload: "floor_plan_upload",
   forgotPassword: "forgot_password",
   forgotPasswordEmail: "forgot_password_email",
   forgotPasswordIp: "forgot_password_ip",
   projectCreate: "project_create",
+  projectDocumentCandidateImport: "project_document_candidate_import",
+  projectDocumentCandidateReview: "project_document_candidate_review",
   projectDocumentAnalysis: "project_document_analysis",
   projectDocumentDelete: "project_document_delete",
   projectDocumentUpload: "project_document_upload",
@@ -29,6 +33,14 @@ export const RATE_LIMIT_POLICIES = {
   aiAnalysis: {
     limit: 10,
     windowSeconds: 60,
+  },
+  billingCheckout: {
+    limit: 5,
+    windowSeconds: 10 * 60,
+  },
+  billingPortal: {
+    limit: 10,
+    windowSeconds: 10 * 60,
   },
   forgotPassword: {
     limit: 3,
@@ -49,6 +61,14 @@ export const RATE_LIMIT_POLICIES = {
   projectCreate: {
     limit: 20,
     windowSeconds: 60 * 60,
+  },
+  projectDocumentCandidateImport: {
+    limit: 10,
+    windowSeconds: 10 * 60,
+  },
+  projectDocumentCandidateReview: {
+    limit: 30,
+    windowSeconds: 5 * 60,
   },
   projectDocumentAnalysis: {
     limit: 3,

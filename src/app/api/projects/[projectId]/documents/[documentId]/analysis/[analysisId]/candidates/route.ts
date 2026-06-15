@@ -7,6 +7,14 @@ import {
   getDocumentCandidates,
   saveDocumentCandidateReview,
 } from "@/server/services/project-document-candidate-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import type {
   ProjectDocumentCandidatesResponse,
   ProjectDocumentError,
@@ -53,6 +61,18 @@ function createCandidateRouteError(reason: string): ProjectDocumentError {
         message: "Unable to load project document candidates.",
       };
   }
+}
+
+function createCandidateReviewRateLimitKey({
+  analysisId,
+  projectId,
+  userId,
+}: {
+  analysisId: string;
+  projectId: string;
+  userId: string;
+}): string {
+  return `${createUserRateLimitKey({ userId })}:project:${projectId}:analysis:${analysisId}`;
 }
 
 export async function GET(
@@ -136,6 +156,45 @@ export async function PUT(
     };
 
     return NextResponse.json(response, { status: 400 });
+  }
+
+  try {
+    await checkRateLimitOrThrow({
+      key: createCandidateReviewRateLimitKey({
+        analysisId: parsedParams.data.analysisId,
+        projectId: parsedParams.data.projectId,
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.projectDocumentCandidateReview,
+      ...RATE_LIMIT_POLICIES.projectDocumentCandidateReview,
+    });
+  } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      const response: ProjectDocumentCandidatesResponse = {
+        error: {
+          code: "rate_limited",
+          message: "Too many candidate review requests. Please try again later.",
+        },
+        ok: false,
+      };
+
+      return NextResponse.json(response, {
+        headers: getRateLimitHeaders(error.status),
+        status: 429,
+      });
+    }
+
+    console.error("Project document candidate review rate limit failed", error);
+
+    const response: ProjectDocumentCandidatesResponse = {
+      error: {
+        code: "server_error",
+        message: "Unable to save project document candidates.",
+      },
+      ok: false,
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 
   const body = await request.json().catch((): unknown => null);

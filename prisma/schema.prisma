@@ -406,6 +406,8 @@ model Subscription {
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique
   stripePriceId        String?
+  stripeLatestEventId      String?
+  stripeLatestEventCreated DateTime?
   currentPeriodStart   DateTime?
   currentPeriodEnd     DateTime?
   cancelAtPeriodEnd    Boolean            @default(false)
@@ -419,6 +421,7 @@ model Subscription {
   @@index([plan])
   @@index([status])
   @@index([currentPeriodEnd])
+  @@index([stripeLatestEventCreated])
 }
 
 model BillingProfile {

@@ -29,6 +29,30 @@ No unsafe raw SQL or SQL-injection issue was found in the audited application co
 - Mitigation: Keep `tests/raw-sql-security-audit.test.mjs` in place to reject `$queryRawUnsafe`, `$executeRawUnsafe`, direct `pg` clients, and string-built SQL.
 - False positive notes: This review covered app-owned raw SQL sinks found by source search. Generated Prisma client code and migration SQL were not treated as request-facing injection sinks.
 
+## Supabase Storage Bucket Privacy
+
+- Bucket `project-files` must be private; anon reads/writes must fail when
+  tested with the publishable/anon key.
+- Only the server/service role should write objects to `project-files`.
+- Project file previews should use signed URLs. The app uses server-side
+  signing for floor-plan previews instead of public bucket URLs.
+- The service role key must never be exposed client-side or through
+  `NEXT_PUBLIC_*`.
+- Do not add automatic bucket mutation in the app runtime. Verify bucket
+  privacy during deployment and keep storage writes behind server-side code.
+
+## Security Headers And CSP
+
+- The app sets centralized baseline browser security headers in `next.config.ts`:
+  `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
+  `X-Frame-Options`, and production-only `Strict-Transport-Security`.
+- Do not enforce a strict `Content-Security-Policy` without staging validation.
+  Use report-only first if needed, and allow app assets, Stripe
+  (`https://js.stripe.com` and Stripe checkout/API domains), Cloudflare
+  Turnstile (`https://challenges.cloudflare.com`), and required fonts/images.
+- Confirm HSTS is only served over production HTTPS and matches the final
+  domain/subdomain policy before launch.
+
 ## Cloudflare WAF Rules To Configure
 
 Configure these in Cloudflare at the zone/domain level, outside the repo:

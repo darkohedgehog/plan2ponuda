@@ -141,6 +141,7 @@ export type BillingCheckoutResponse =
           | "billing_profile_incomplete"
           | "billing_profile_required"
           | "invalid_input"
+          | "rate_limited"
           | "server_error";
         message: string;
         missingFields?: BillingProfileFieldKey[];
@@ -155,7 +156,7 @@ export type BillingPortalResponse =
     }
   | {
       error: {
-        code: "server_error" | "stripe_customer_required";
+        code: "rate_limited" | "server_error" | "stripe_customer_required";
         message: string;
       };
       ok: false;

@@ -66,3 +66,39 @@ test("sign-in and sign-up endpoints are rate limited", () => {
   assert.match(signUpRouteSource, /checkRateLimitOrThrow/);
   assert.match(signUpRouteSource, /status:\s*429/);
 });
+
+test("candidate review/import and billing session endpoints have scoped DB policies", () => {
+  const serviceSource = readSource("src/server/services/rate-limit-service.ts");
+
+  const expectedPolicies = [
+    {
+      limit: 30,
+      scope: "projectDocumentCandidateReview",
+      windowPattern: /windowSeconds:\s*5 \* 60/,
+    },
+    {
+      limit: 10,
+      scope: "projectDocumentCandidateImport",
+      windowPattern: /windowSeconds:\s*10 \* 60/,
+    },
+    {
+      limit: 5,
+      scope: "billingCheckout",
+      windowPattern: /windowSeconds:\s*10 \* 60/,
+    },
+    {
+      limit: 10,
+      scope: "billingPortal",
+      windowPattern: /windowSeconds:\s*10 \* 60/,
+    },
+  ];
+
+  for (const policy of expectedPolicies) {
+    assert.match(serviceSource, new RegExp(`${policy.scope}:\\s*"`));
+    assert.match(
+      serviceSource,
+      new RegExp(`${policy.scope}:\\s*\\{[\\s\\S]*?limit:\\s*${policy.limit}`),
+    );
+    assert.match(serviceSource, policy.windowPattern);
+  }
+});

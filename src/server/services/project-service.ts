@@ -382,6 +382,24 @@ async function removeProjectStorageFiles(filePaths: string[]): Promise<void> {
   }
 }
 
+async function removeReplacedFloorPlanFile(
+  projectId: string,
+  previousSourceFilePath: string | null,
+  nextSourceFilePath: string,
+): Promise<void> {
+  if (!previousSourceFilePath || previousSourceFilePath === nextSourceFilePath) {
+    return;
+  }
+
+  if (!isProjectOwnedStoragePath(projectId, previousSourceFilePath)) {
+    warnInvalidStoredProjectPath("replacement_cleanup", projectId);
+
+    return;
+  }
+
+  await removeProjectStorageFiles([previousSourceFilePath]);
+}
+
 async function findAndLockProjectForFloorPlanUpload(
   db: ProjectUploadWriteClient,
   projectId: string,
@@ -509,6 +527,7 @@ export async function uploadFloorPlan({
 
       return {
         ok: true as const,
+        previousSourceFilePath: currentProject.sourceFilePath,
         project: nextProject,
       };
     })
@@ -546,6 +565,12 @@ export async function uploadFloorPlan({
       },
     };
   }
+
+  await removeReplacedFloorPlanFile(
+    project.id,
+    updateResult.previousSourceFilePath,
+    filePath,
+  );
 
   return {
     ok: true,

@@ -3,6 +3,14 @@ import { NextResponse } from "next/server";
 import { requireApiVerifiedUser } from "@/lib/auth/guards";
 import { projectIdSchema } from "@/lib/validations/project.schema";
 import { importAcceptedDocumentCandidatesToQuote } from "@/server/services/project-document-candidate-import-service";
+import {
+  RATE_LIMIT_POLICIES,
+  RATE_LIMIT_SCOPES,
+  RateLimitExceededError,
+  checkRateLimitOrThrow,
+  createUserRateLimitKey,
+  getRateLimitHeaders,
+} from "@/server/services/rate-limit-service";
 import type {
   ImportProjectDocumentCandidatesResponse,
   ProjectDocumentError,
@@ -65,6 +73,18 @@ function createImportRouteError(reason: string): ProjectDocumentError {
   }
 }
 
+function createCandidateImportRateLimitKey({
+  analysisId,
+  projectId,
+  userId,
+}: {
+  analysisId: string;
+  projectId: string;
+  userId: string;
+}): string {
+  return `${createUserRateLimitKey({ userId })}:project:${projectId}:analysis:${analysisId}`;
+}
+
 export async function POST(
   _request: Request,
   context: ProjectDocumentCandidateImportRouteContext,
@@ -89,6 +109,45 @@ export async function POST(
     };
 
     return NextResponse.json(response, { status: 400 });
+  }
+
+  try {
+    await checkRateLimitOrThrow({
+      key: createCandidateImportRateLimitKey({
+        analysisId: parsedParams.data.analysisId,
+        projectId: parsedParams.data.projectId,
+        userId: auth.user.id,
+      }),
+      scope: RATE_LIMIT_SCOPES.projectDocumentCandidateImport,
+      ...RATE_LIMIT_POLICIES.projectDocumentCandidateImport,
+    });
+  } catch (error: unknown) {
+    if (error instanceof RateLimitExceededError) {
+      const response: ImportProjectDocumentCandidatesResponse = {
+        error: {
+          code: "rate_limited",
+          message: "Too many candidate import requests. Please try again later.",
+        },
+        ok: false,
+      };
+
+      return NextResponse.json(response, {
+        headers: getRateLimitHeaders(error.status),
+        status: 429,
+      });
+    }
+
+    console.error("Project document candidate import rate limit failed", error);
+
+    const response: ImportProjectDocumentCandidatesResponse = {
+      error: {
+        code: "server_error",
+        message: "Unable to import document candidates.",
+      },
+      ok: false,
+    };
+
+    return NextResponse.json(response, { status: 500 });
   }
 
   const result = await importAcceptedDocumentCandidatesToQuote(

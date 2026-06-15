@@ -36,12 +36,29 @@ type ProcessStripeWebhookEventResult = {
 };
 
 type SyncedSubscriptionResult = {
+  ignored: boolean;
   plan: BillingPlanValue;
   status: SubscriptionStatus;
   stripeCustomerId: string;
   stripePriceId: string | null;
   stripeSubscriptionId: string;
   userId: string;
+};
+
+type StripeSubscriptionEventMetadata = {
+  created: number;
+  id: string;
+};
+
+type SubscriptionEventStateRow = {
+  id: string;
+  stripeLatestEventCreated: Date | null;
+  stripeLatestEventId: string | null;
+};
+
+type SubscriptionSyncTransactionResult = {
+  stale: boolean;
+  subscription: DbSubscription;
 };
 
 type InvoiceTaskPreparation = {
@@ -55,6 +72,27 @@ const MAX_PROCESSING_ERROR_LENGTH = 2000;
 
 export function stripeTimestampToDate(value: number | null): Date | null {
   return value === null ? null : new Date(value * 1000);
+}
+
+function getStripeSubscriptionEventCreatedAt(
+  eventMetadata: StripeSubscriptionEventMetadata,
+): Date {
+  return new Date(eventMetadata.created * 1000);
+}
+
+function isStripeSubscriptionEventStale(
+  currentEventState: SubscriptionEventStateRow,
+  eventMetadata: StripeSubscriptionEventMetadata,
+): boolean {
+  const currentCreatedAt = currentEventState.stripeLatestEventCreated;
+
+  if (!currentCreatedAt) {
+    return false;
+  }
+
+  const incomingCreatedAt = getStripeSubscriptionEventCreatedAt(eventMetadata);
+
+  return incomingCreatedAt.getTime() <= currentCreatedAt.getTime();
 }
 
 export function mapStripePriceToBillingPlan(
@@ -328,9 +366,37 @@ async function retrieveCheckoutSubscription(
   return session.subscription;
 }
 
+async function getSubscriptionEventStateForUpdate(
+  transaction: Prisma.TransactionClient,
+  userId: string,
+): Promise<SubscriptionEventStateRow | null> {
+  const rows = await transaction.$queryRaw<SubscriptionEventStateRow[]>`
+    SELECT id, "stripeLatestEventId", "stripeLatestEventCreated"
+    FROM "Subscription"
+    WHERE "userId" = ${userId}
+    FOR UPDATE
+  `;
+
+  return rows[0] ?? null;
+}
+
+async function setSubscriptionEventState(
+  transaction: Prisma.TransactionClient,
+  subscriptionId: string,
+  eventMetadata: StripeSubscriptionEventMetadata,
+): Promise<void> {
+  await transaction.$executeRaw`
+    UPDATE "Subscription"
+    SET "stripeLatestEventId" = ${eventMetadata.id},
+        "stripeLatestEventCreated" = ${getStripeSubscriptionEventCreatedAt(eventMetadata)}
+    WHERE id = ${subscriptionId}
+  `;
+}
+
 export async function syncSubscriptionFromStripeSubscription(
   subscription: Stripe.Subscription,
   userIdHint?: string | null,
+  eventMetadata?: StripeSubscriptionEventMetadata,
 ): Promise<SyncedSubscriptionResult> {
   const env = getStripeBillingEnv();
   const stripeCustomerId = getStripeObjectId(subscription.customer);
@@ -347,51 +413,94 @@ export async function syncSubscriptionFromStripeSubscription(
     throw new Error(`No local user found for Stripe subscription ${subscription.id}`);
   }
 
-  const syncedSubscription: DbSubscription = await prisma.subscription.upsert({
-    create: {
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
-      canceledAt: stripeTimestampToDate(subscription.canceled_at),
-      currentPeriodEnd: stripeTimestampToDate(
-        subscriptionItem?.current_period_end ?? null,
-      ),
-      currentPeriodStart: stripeTimestampToDate(
-        subscriptionItem?.current_period_start ?? null,
-      ),
-      plan,
-      status: mapStripeSubscriptionStatus(subscription.status),
-      stripeCustomerId,
-      stripePriceId,
-      stripeSubscriptionId: subscription.id,
-      trialEndsAt: stripeTimestampToDate(subscription.trial_end),
-      userId,
-    },
-    update: {
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
-      canceledAt: stripeTimestampToDate(subscription.canceled_at),
-      currentPeriodEnd: stripeTimestampToDate(
-        subscriptionItem?.current_period_end ?? null,
-      ),
-      currentPeriodStart: stripeTimestampToDate(
-        subscriptionItem?.current_period_start ?? null,
-      ),
-      plan,
-      status: mapStripeSubscriptionStatus(subscription.status),
-      stripeCustomerId,
-      stripePriceId,
-      stripeSubscriptionId: subscription.id,
-      trialEndsAt: stripeTimestampToDate(subscription.trial_end),
-    },
-    where: {
-      userId,
-    },
-  });
+  const syncedSubscription: SubscriptionSyncTransactionResult =
+    await prisma.$transaction(async (transaction) => {
+      const existingSubscriptionEventState = eventMetadata
+        ? await getSubscriptionEventStateForUpdate(transaction, userId)
+        : null;
+
+      if (
+        eventMetadata &&
+        existingSubscriptionEventState &&
+        isStripeSubscriptionEventStale(
+          existingSubscriptionEventState,
+          eventMetadata,
+        )
+      ) {
+        const currentSubscription =
+          await transaction.subscription.findUniqueOrThrow({
+            where: {
+              userId,
+            },
+          });
+
+        return {
+          stale: true,
+          subscription: currentSubscription,
+        };
+      }
+
+      const nextSubscription = await transaction.subscription.upsert({
+        create: {
+          cancelAtPeriodEnd: subscription.cancel_at_period_end,
+          canceledAt: stripeTimestampToDate(subscription.canceled_at),
+          currentPeriodEnd: stripeTimestampToDate(
+            subscriptionItem?.current_period_end ?? null,
+          ),
+          currentPeriodStart: stripeTimestampToDate(
+            subscriptionItem?.current_period_start ?? null,
+          ),
+          plan,
+          status: mapStripeSubscriptionStatus(subscription.status),
+          stripeCustomerId,
+          stripePriceId,
+          stripeSubscriptionId: subscription.id,
+          trialEndsAt: stripeTimestampToDate(subscription.trial_end),
+          userId,
+        },
+        update: {
+          cancelAtPeriodEnd: subscription.cancel_at_period_end,
+          canceledAt: stripeTimestampToDate(subscription.canceled_at),
+          currentPeriodEnd: stripeTimestampToDate(
+            subscriptionItem?.current_period_end ?? null,
+          ),
+          currentPeriodStart: stripeTimestampToDate(
+            subscriptionItem?.current_period_start ?? null,
+          ),
+          plan,
+          status: mapStripeSubscriptionStatus(subscription.status),
+          stripeCustomerId,
+          stripePriceId,
+          stripeSubscriptionId: subscription.id,
+          trialEndsAt: stripeTimestampToDate(subscription.trial_end),
+        },
+        where: {
+          userId,
+        },
+      });
+
+      if (eventMetadata) {
+        await setSubscriptionEventState(
+          transaction,
+          nextSubscription.id,
+          eventMetadata,
+        );
+      }
+
+      return {
+        stale: false,
+        subscription: nextSubscription,
+      };
+    });
+  const subscriptionRow = syncedSubscription.subscription;
 
   return {
-    plan: syncedSubscription.plan,
-    status: syncedSubscription.status,
-    stripeCustomerId,
-    stripePriceId,
-    stripeSubscriptionId: syncedSubscription.stripeSubscriptionId ?? subscription.id,
+    ignored: syncedSubscription.stale,
+    plan: subscriptionRow.plan,
+    status: subscriptionRow.status,
+    stripeCustomerId: subscriptionRow.stripeCustomerId ?? stripeCustomerId,
+    stripePriceId: subscriptionRow.stripePriceId,
+    stripeSubscriptionId: subscriptionRow.stripeSubscriptionId ?? subscription.id,
     userId,
   };
 }
@@ -528,6 +637,11 @@ async function processStripeEventByType(event: Stripe.Event): Promise<void> {
     case "customer.subscription.deleted":
       await syncSubscriptionFromStripeSubscription(
         event.data.object as Stripe.Subscription,
+        undefined,
+        {
+          created: event.created,
+          id: event.id,
+        },
       );
       return;
     case "invoice.paid":
