@@ -9,3 +9,7 @@ coverage
 *.tsbuildinfo
 public/robots.txt
 public/sitemap*.xml
+
+# Environment files
+.env.*
+!.env.example
