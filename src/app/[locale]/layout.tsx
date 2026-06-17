@@ -7,6 +7,8 @@ import type { ReactNode } from "react";
 import "@/app/globals.css";
 import { routing } from "@/i18n/routing";
 
+const GOOGLE_SITE_VERIFICATION = "XGgN0Lc6ektEZwIlkAk3S78s-FXU3HPnBc7bUKyfCPY";
+
 type RootLayoutProps = {
   children: ReactNode;
   params: Promise<{
@@ -55,6 +57,9 @@ export async function generateMetadata({
       ],
     },
     manifest: "/manifest.webmanifest",
+    verification: {
+      google: GOOGLE_SITE_VERIFICATION,
+    },
     title: `${tCommon("appName")} - ${tHero("title")}`,
   };
 }

@@ -15,6 +15,8 @@ const publicSlugs = [
   "complaints",
   "contact",
 ];
+const googleSiteVerificationToken =
+  "XGgN0Lc6ektEZwIlkAk3S78s-FXU3HPnBc7bUKyfCPY";
 
 const expectedPublicRoutes = locales
   .flatMap((locale) =>
@@ -158,6 +160,21 @@ test("public metadata helper uses site URL, canonical, hreflang, Open Graph, and
       `${page} should use the shared public metadata helper`,
     );
   }
+});
+
+test("locale layout includes Google Search Console verification metadata", () => {
+  const localeLayout = readSource("src/app/[locale]/layout.tsx");
+
+  assert.match(
+    localeLayout,
+    new RegExp(
+      `const\\s+GOOGLE_SITE_VERIFICATION\\s*=\\s*"${googleSiteVerificationToken}"`,
+    ),
+  );
+  assert.match(
+    localeLayout,
+    /verification:\s*{[\s\S]*google:\s*GOOGLE_SITE_VERIFICATION/,
+  );
 });
 
 test("app manifest uses existing public icons and locale-neutral app metadata", () => {
