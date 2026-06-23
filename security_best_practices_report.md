@@ -41,6 +41,17 @@ No unsafe raw SQL or SQL-injection issue was found in the audited application co
 - Do not add automatic bucket mutation in the app runtime. Verify bucket
   privacy during deployment and keep storage writes behind server-side code.
 
+## Supabase Database RLS
+
+- Row level security is enabled on all public Prisma-managed application
+  tables through Prisma migrations.
+- No public `anon` or `authenticated` policies are added for these tables. The
+  application accesses Postgres through server-side Prisma instead of direct
+  Supabase browser table APIs.
+- Supabase anon/browser access to application tables should remain blocked.
+  During deployment, verify the publishable/anon key cannot read or write these
+  tables directly.
+
 ## Security Headers And CSP
 
 - The app sets centralized baseline browser security headers in `next.config.ts`:

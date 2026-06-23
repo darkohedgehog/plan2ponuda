@@ -37,8 +37,10 @@ Suggested config:
 - Enable pgcrypto if needed
 - Create app tables via Prisma migrations
 - Do not create duplicate auth tables manually
-- Add RLS policies only if using Supabase APIs directly for app tables
-- If Prisma is the only DB access layer, RLS can be deferred at first, but add it before scale
+- Keep RLS enabled on all public Prisma-managed application tables
+- Do not add public anon/authenticated policies while Prisma is the only app
+  table access layer
+- Supabase anon/browser access to app tables should remain blocked
 
 ## 7. Recommended environment variables
 NEXT_PUBLIC_SUPABASE_URL=

@@ -49,6 +49,11 @@ npx prisma generate
 - Do not edit production schema manually.
 - Confirm the `RateLimitBucket` migration is applied before running production
   traffic across multiple instances.
+- Row level security is enabled on all public Prisma-managed application
+  tables through the Prisma migration history.
+- Do not add public `anon` or `authenticated` policies for application tables.
+  The app accesses Postgres through server-side Prisma, so Supabase
+  anon/browser table access should remain blocked.
 
 ## 3. Supabase
 
@@ -69,6 +74,9 @@ project-files
 - Confirm `SUPABASE_SECRET_KEY` is configured server-side only.
 - Confirm `NEXT_PUBLIC_SUPABASE_URL` and the publishable/anon key are safe for
   browser use.
+- Verify the publishable/anon key cannot read or write public application
+  tables directly. RLS should block browser access because no public policies
+  are defined for those tables.
 - If an Nginx or equivalent reverse proxy sits in front of the app, set upload
   body limits no lower than the app route limits: `client_max_body_size 11m`
   for floor-plan uploads and `client_max_body_size 21m` for project-document

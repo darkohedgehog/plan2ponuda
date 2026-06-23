@@ -2,7 +2,7 @@
 import { PrismaClient } from "../../../generated/prisma/client";
 
 const PRISMA_CLIENT_SCHEMA_VERSION =
-  "20260615090000_add_stripe_subscription_event_tracking";
+  "20260623090000_enable_rls_on_public_app_tables";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
