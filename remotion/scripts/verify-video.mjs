@@ -2,7 +2,8 @@ import {spawnSync} from 'node:child_process';
 import {statSync} from 'node:fs';
 import ffprobeStatic from 'ffprobe-static';
 
-const videoPath = 'out/ploroai-demo.mp4';
+const videoPath = process.argv[2] ?? 'out/ploroai-demo.mp4';
+const expectsAudio = videoPath.includes('voiceover');
 const result = spawnSync(
   ffprobeStatic.path,
   [
@@ -41,7 +42,9 @@ const assertions = [
   ['30 FPS', video?.r_frame_rate === '30/1'],
   ['660 frames', frames === 660],
   ['22 seconds', Math.abs(duration - 22) < 0.001],
-  ['no audio stream', audioStreams.length === 0],
+  expectsAudio
+    ? ['one audio stream', audioStreams.length === 1]
+    : ['no audio stream', audioStreams.length === 0],
 ];
 
 const failed = assertions.filter(([, passed]) => !passed);
@@ -58,6 +61,7 @@ console.log(
       frames,
       codec: video?.codec_name,
       audioStreams: audioStreams.length,
+      audioCodec: audioStreams[0]?.codec_name ?? null,
       format: metadata.format.format_name,
       assertions: Object.fromEntries(assertions),
     },

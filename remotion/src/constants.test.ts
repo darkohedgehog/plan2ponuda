@@ -33,6 +33,7 @@ describe('video contract', () => {
       materials: 'assets/ploroai-demo3.png',
       offers: 'assets/ploroai-demo4.png',
       poster: 'assets/PloroAI2.png',
+      voiceover: 'audio/ploroai-english-voiceover.mp3',
     });
   });
 });

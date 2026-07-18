@@ -1,5 +1,5 @@
-import {AbsoluteFill, Sequence} from 'remotion';
-import {COLORS, SCENE_BY_ID} from './constants';
+import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
+import {ASSETS, COLORS, SCENE_BY_ID} from './constants';
 import {FinalScene} from './scenes/FinalScene';
 import {FloorPlanScene} from './scenes/FloorPlanScene';
 import {LogoScene} from './scenes/LogoScene';
@@ -14,6 +14,7 @@ const duration = (id: keyof typeof SCENE_BY_ID) =>
 
 export const PloroDemo = () => (
   <AbsoluteFill style={{backgroundColor: COLORS.black}}>
+    <Audio src={staticFile(ASSETS.voiceover)} />
     <Sequence
       name="LogoScene"
       from={SCENE_BY_ID.logo.from}

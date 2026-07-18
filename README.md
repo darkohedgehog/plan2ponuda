@@ -103,6 +103,14 @@ npm run build
 ## Remotion Product Demo
 
 The repository contains an isolated Remotion project used to generate the promotional product video.
+The demo includes an English narration source asset generated for this video
+using the OpenAI Audio Speech API with model `gpt-4o-mini-tts` and voice
+`cedar`.
+
+Codex implemented the Remotion video, narration synchronization, rendering,
+and media verification. The OpenAI TTS usage applies only to the submitted
+product-demo narration; runtime Ploro AI users do not interact with the TTS
+model. No API key or secret is stored in the repository.
 
 Render:
 
@@ -110,6 +118,7 @@ Render:
 cd remotion
 npm install
 npm run render
+npm run render:voiceover
 ```
 
 The rendered video is intentionally excluded from Git and can be regenerated at any time from the committed source.
