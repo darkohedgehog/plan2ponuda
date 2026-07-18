@@ -53,17 +53,17 @@ The existing `FONT_FAMILY`, `COLORS`, `AnimatedText`, and scene framing are reus
 
 Primary copy:
 
-> Built with OpenAI
-
-Secondary headline:
-
-> GPT-5.6 + Codex
+> Built with OpenAI GPT-5.6 & Codex
 
 Supporting copy:
 
-> Used throughout planning,  
-> implementation,  
-> testing and documentation.
+```text
+Used throughout planning,
+development,
+testing,
+documentation
+and product design.
+```
 
 The copy fades in without bounce and remains within the established portrait safe area.
 
@@ -93,7 +93,7 @@ A separate appended narration asset is generated with the same OpenAI configurat
 
 Narration text:
 
-> Ploro AI was planned, developed, tested and documented with GPT-5.6 and Codex.
+> Ploro AI was designed, developed, tested and documented using OpenAI GPT-5.6 and Codex.
 
 The new sentence begins after frame `660` and is timed to finish before the final logo fade. Its loudness is matched to the existing narration, targeting approximately `-16.3 LUFS` integrated loudness with no sample or true-peak clipping.
 
@@ -144,4 +144,3 @@ Before completion:
    - true peak below `0 dBTP`;
    - loudness consistent with the existing narration;
    - no dropped or duplicated video frames.
-
