@@ -1,0 +1,30 @@
+{
+  "name": "ploroai-remotion-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "compositions": "remotion compositions src/index.ts",
+    "render:stills": "node scripts/render-stills.mjs",
+    "render": "remotion render src/index.ts PloroAIDemo out/ploroai-demo.mp4 --codec=h264 --pixel-format=yuv420p --muted",
+    "verify": "node scripts/verify-video.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.490",
+    "@remotion/renderer": "4.0.490",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "remotion": "4.0.490"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "ffprobe-static": "^3.1.0",
+    "typescript": "^6.0.3",
+    "vitest": "^3.2.4"
+  }
+}
