@@ -3,7 +3,10 @@ import {statSync} from 'node:fs';
 import ffprobeStatic from 'ffprobe-static';
 
 const videoPath = process.argv[2] ?? 'out/ploroai-demo.mp4';
-const expectsAudio = videoPath.includes('voiceover');
+const isBuildWeek = videoPath.includes('buildweek');
+const expectsAudio = videoPath.includes('voiceover') || isBuildWeek;
+const expectedFrames = isBuildWeek ? 810 : 660;
+const expectedDuration = isBuildWeek ? 27 : 22;
 const result = spawnSync(
   ffprobeStatic.path,
   [
@@ -40,8 +43,8 @@ const assertions = [
   ['H.264 codec', video?.codec_name === 'h264'],
   ['1080x1920 resolution', video?.width === 1080 && video?.height === 1920],
   ['30 FPS', video?.r_frame_rate === '30/1'],
-  ['660 frames', frames === 660],
-  ['22 seconds', Math.abs(duration - 22) < 0.001],
+  [`${expectedFrames} frames`, frames === expectedFrames],
+  [`${expectedDuration} seconds`, Math.abs(duration - expectedDuration) < 0.001],
   expectsAudio
     ? ['one audio stream', audioStreams.length === 1]
     : ['no audio stream', audioStreams.length === 0],

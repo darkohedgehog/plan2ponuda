@@ -11,6 +11,7 @@
     "render:stills": "node scripts/render-stills.mjs",
     "render": "remotion render src/index.ts PloroAIDemo out/ploroai-demo.mp4 --codec=h264 --pixel-format=yuv420p --muted",
     "render:voiceover": "remotion render src/index.ts PloroAIDemo /tmp/ploroai-demo-voiceover-untrimmed.mp4 --codec=h264 --pixel-format=yuv420p && DYLD_LIBRARY_PATH=./node_modules/@remotion/compositor-darwin-arm64 ./node_modules/@remotion/compositor-darwin-arm64/ffmpeg -y -hide_banner -i /tmp/ploroai-demo-voiceover-untrimmed.mp4 -t 22 -map 0:v:0 -map 0:a:0 -c:v copy -c:a aac -b:a 256k out/ploroai-demo-voiceover.mp4",
+    "render:buildweek": "remotion render src/index.ts PloroAIDemo /tmp/ploroai-demo-buildweek-untrimmed.mp4 --codec=h264 --pixel-format=yuv420p && DYLD_LIBRARY_PATH=./node_modules/@remotion/compositor-darwin-arm64 ./node_modules/@remotion/compositor-darwin-arm64/ffmpeg -y -hide_banner -i /tmp/ploroai-demo-buildweek-untrimmed.mp4 -t 27 -map 0:v:0 -map 0:a:0 -c:v copy -c:a aac -b:a 256k out/ploroai-demo-buildweek.mp4",
     "verify": "node scripts/verify-video.mjs"
   },
   "dependencies": {

@@ -8,13 +8,22 @@ import {OffersScene} from './scenes/OffersScene';
 import {PosterScene} from './scenes/PosterScene';
 import {ProblemScene} from './scenes/ProblemScene';
 import {RoomDetectionScene} from './scenes/RoomDetectionScene';
+import {CodexBuildWeekScene} from './scenes/CodexBuildWeekScene';
 
 const duration = (id: keyof typeof SCENE_BY_ID) =>
   SCENE_BY_ID[id].to - SCENE_BY_ID[id].from;
 
 export const PloroDemo = () => (
   <AbsoluteFill style={{backgroundColor: COLORS.black}}>
-    <Audio src={staticFile(ASSETS.voiceover)} />
+    <Sequence from={0} durationInFrames={660}>
+      <Audio src={staticFile(ASSETS.voiceover)} />
+    </Sequence>
+    <Sequence
+      from={SCENE_BY_ID.codexBuildWeek.from}
+      durationInFrames={duration('codexBuildWeek')}
+    >
+      <Audio src={staticFile(ASSETS.buildWeekVoiceover)} />
+    </Sequence>
     <Sequence
       name="LogoScene"
       from={SCENE_BY_ID.logo.from}
@@ -70,6 +79,13 @@ export const PloroDemo = () => (
       durationInFrames={duration('final')}
     >
       <FinalScene />
+    </Sequence>
+    <Sequence
+      name="CodexBuildWeekScene"
+      from={SCENE_BY_ID.codexBuildWeek.from}
+      durationInFrames={duration('codexBuildWeek')}
+    >
+      <CodexBuildWeekScene />
     </Sequence>
   </AbsoluteFill>
 );

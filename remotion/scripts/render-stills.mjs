@@ -8,6 +8,8 @@ const stills = [
   ['materials', 432],
   ['offers', 500],
   ['final', 630],
+  ['buildweek-codex', 720],
+  ['buildweek-logo', 790],
 ];
 
 mkdirSync('stills', {recursive: true});

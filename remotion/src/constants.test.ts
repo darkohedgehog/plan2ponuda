@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {ASSETS, SCENES, VIDEO} from './constants';
+import {ASSETS, BUILD_WEEK_COPY, SCENES, VIDEO} from './constants';
 
 describe('video contract', () => {
   it('uses the requested portrait render metadata', () => {
@@ -7,7 +7,7 @@ describe('video contract', () => {
       width: 1080,
       height: 1920,
       fps: 30,
-      durationInFrames: 660,
+      durationInFrames: 810,
     });
   });
 
@@ -20,7 +20,7 @@ describe('video contract', () => {
     }
 
     expect(SCENES.map(({from, to}) => to - from)).toEqual([
-      60, 75, 105, 120, 90, 90, 60, 60,
+      60, 75, 105, 120, 90, 90, 60, 60, 150,
     ]);
   });
 
@@ -34,6 +34,21 @@ describe('video contract', () => {
       offers: 'assets/ploroai-demo4.png',
       poster: 'assets/PloroAI2.png',
       voiceover: 'audio/ploroai-english-voiceover.mp3',
+      codexBuildWeek: 'assets/codex-buildweek.png',
+      buildWeekVoiceover: 'audio/ploroai-buildweek-ending.mp3',
+    });
+  });
+
+  it('keeps the approved Build Week attribution copy exact', () => {
+    expect(BUILD_WEEK_COPY).toEqual({
+      headline: 'Built with OpenAI GPT-5.6 & Codex',
+      supporting: [
+        'Used throughout planning,',
+        'development,',
+        'testing,',
+        'documentation',
+        'and product design.',
+      ],
     });
   });
 });

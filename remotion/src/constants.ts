@@ -2,7 +2,7 @@ export const VIDEO = {
   width: 1080,
   height: 1920,
   fps: 30,
-  durationInFrames: 660,
+  durationInFrames: 810,
 } as const;
 
 export const SCENES = [
@@ -14,6 +14,7 @@ export const SCENES = [
   {id: 'offers', from: 450, to: 540},
   {id: 'poster', from: 540, to: 600},
   {id: 'final', from: 600, to: 660},
+  {id: 'codexBuildWeek', from: 660, to: 810},
 ] as const;
 
 export type SceneId = (typeof SCENES)[number]['id'];
@@ -31,6 +32,8 @@ export const ASSETS = {
   offers: 'assets/ploroai-demo4.png',
   poster: 'assets/PloroAI2.png',
   voiceover: 'audio/ploroai-english-voiceover.mp3',
+  codexBuildWeek: 'assets/codex-buildweek.png',
+  buildWeekVoiceover: 'audio/ploroai-buildweek-ending.mp3',
 } as const;
 
 export const COLORS = {
@@ -45,3 +48,14 @@ export const COLORS = {
 
 export const FONT_FAMILY =
   'Inter, SF Pro Display, SF Pro Text, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
+
+export const BUILD_WEEK_COPY = {
+  headline: 'Built with OpenAI GPT-5.6 & Codex',
+  supporting: [
+    'Used throughout planning,',
+    'development,',
+    'testing,',
+    'documentation',
+    'and product design.',
+  ],
+} as const;
